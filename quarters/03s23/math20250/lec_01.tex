@@ -1,0 +1,181 @@
+\lecture{1}{21 Mar 2023 20:10}{Abelian Group, Field, Equivalence}
+\begin{goal}
+    Vector spaces and maps between vector spaces (linear transformations)
+\end{goal}
+\subsection{Abelian Group}
+\begin{definition} [Abelian Group]
+    A pair \((A, *)\) is an \textbf{Abelian group} if \(A\) is a set and \(*\) is a map: \(A \times A \mapsto A\) (closure is implied) with the following properties:
+    \begin{enumerate}
+        \item (Additive Associativity) \[
+                  (x * y) * z = x * (y * z), \forall x, y, z \in A
+              \]
+        \item (Additive Commutativity) \[
+                  x * y = y * x, \forall x, y \in A
+              \]
+        \item (Additive Identity) \[
+                  \exists 0 \in A: 0 * x = x * 0 = x, \forall x \in A
+              \]
+        \item (Additive Inverse) \[
+                  \forall x \in A, \exists (-x) \in A: x * (-x) = (-x) * x = 0
+              \]
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    (\(*\) is just a symbol, soon to be \(+\)). Typically write as \((A, +)\) or simply \(A\)
+\end{remark}
+
+\begin{example}
+    \hfill
+    \begin{enumerate}
+        \item \((\bbz, +)\) is an Abelian group
+        \item \((\bbq, +\)) is an Abelian group
+        \item \((\bbz, \times)\) is \textbf{NOT} an Abelian group (because identity = 1, and 0 does not have a multiplicative inverse)
+        \item \((\bbq, \times)\) is also not an Abelian group (0 does not have a multiplicative inverse)
+        \item \((\bbq\backslash\{0\}, \times)\) is an Abelian group (identity is 1)
+        \item \((\bbn, \times)\) is NOT a group
+    \end{enumerate}
+\end{example}
+\begin{remark}
+    A crucial difference between \(\bbz\) and \(\bbq\backslash\{0\}\) is that \(\bbq\backslash\{0\}\) has both \(+\) and \(\times\) while \(\bbz\) only has \(+\). This gives us inspiration for the definition of a field!
+\end{remark}
+
+\begin{definition} [Field]
+    A \textbf{field} is a triple \((F, +, \cdot)\) \st
+    \begin{enumerate}
+        \item \((F, +)\) is an Abelian group with identity 0
+        \item (Multiplicative Associativity) \[
+                  (x \cdot y) \cdot z = x \cdot (y \cdot z), \forall x, y, z \in F
+              \]
+        \item (Multiplicative Commutativity) \[
+                  x \cdot y = y \cdot x, \forall x, y \in F
+              \]
+        \item (Distributivity) (\(+\) and \(\cdot\) talking in the following way) \[
+                  x \cdot (y + z) = (x \cdot y) + (x \cdot z), \forall x, y, z \in F
+              \]
+        \item (Multiplicative Identity) \[\exists 1 \in F: 1 \cdot x = x, \forall x \in F\]
+        \item (Multiplicative Inverse) \[\forall x \in F\backslash\{0\}, \exists y \in F: x \cdot y = 1\]
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    In a field \((F, +, \cdot)\), assume that \(1\neq 0\)
+\end{remark}
+\begin{example}
+    \hfill
+    \begin{enumerate}
+        \item \((\bbz, +, \cdot)\) is not a field (because property 6 failed)
+        \item  \((\bbq, +, \cdot)\) is a field
+        \item \((\bbr, +, \cdot)\) and \((\bbc, +, \cdot)\) are fields.
+    \end{enumerate}
+\end{example}
+
+\subsection{Finite Fields}
+\begin{recall}
+    \(p\in \bbz\) is a prime if \(\forall m\in \bbn: m | p \implies m = 1 \:\text{or}\:  m = p\)
+\end{recall}
+\begin{definition} [\(\bbf_p\) for p prime]
+    \[
+        \bbf_p = \{[0], [1], \dots, [p-1]\}
+    \]
+    Then define the operations for \([a], [b] \in \bbf_p\)
+    \[
+        [a] + [b] = [a + b \mod p]; [a] \cdot [b] = [a \cdot b \mod p]
+    \]
+    Then \(\bbf_p\) is a field, but this is not trivial.
+\end{definition}
+
+\begin{lemma}
+    \hfill
+    \begin{enumerate}
+        \item \((\bbf_p, +)\) is an Abelian group
+        \item \((\bbf_p, +, \cdot)\) is a field
+    \end{enumerate}
+\end{lemma}
+
+\begin{example}
+    \(\bbf_5 = \{[0], [1], [2], [3], [4]\}\)
+    \[
+        [1] + [2] = [3], [2] + [4] = [1], [4] + [4] = [3], [2] + [3] = [0]
+    \]
+    Then it is trivial that \([0]\) is additive identity, and every element has additive inverse. \([1]\) is multiplicative identity, and every element except \([0]\) has multiplicative inverse. Therefore \(\bbf_5\) is indeed a field.
+\end{example}
+\subsection{Vector Spaces in brief}
+\begin{intuition}
+    The motivation for vector spaces and maps between them (linear transformations) is essentially to solve linear equations. Let \((\bbk, +, \cdot)\) be a field. We are then interested in systems of linear equations / \(\bbk\); if there are solutions, and if there are how many.
+\end{intuition}
+We then inspect a system of linear equations of \(n\) unknowns, \(m\) relations:
+\begin{align*}
+    a_{11}x_1 + a_{12}x_2 + \cdots + a_{1n}x_n & = b_1    \\
+    a_{21}x_1 + a_{22}x_2 + \cdots + a_{2n}x_n & = b_2    \\
+    \cdots                                     & = \cdots \\
+    a_{m1}x_1 + a_{m2}x_2 + \cdots + a_{mn}x_n & = b_m    \\
+\end{align*}
+where \(a_{ij}, b_k \in \bbk\).
+\begin{example}
+    \begin{align}
+        2x_1 - x_2 + x_3  & = 0 \label{eq:1.1} \\
+        x_1 + 3x_2 + 4x_3 & = 0 \label{eq:1.2}
+    \end{align}
+    over some field \(\bbk\).
+\end{example}
+\begin{explanation}
+    Then, \(3 \times\eqref{eq:1.1} +\eqref{eq:1.2}\) (carrying out the operations in \(\bbk\)) yields
+    \begin{equation} \label{eq:1.3}
+        \begin{split}
+            7x_1 + 7x_3 &= 0 \\
+            7 \cdot (x_1 + x_3) &= 0
+        \end{split}
+    \end{equation}
+    Then, we have 2 cases.
+
+    \textbf{Case 1:} \(7 \neq 0\) in \(\bbk\), then \(\exists 7^{-1} \in \bbk: 7^{-1}\cdot 7 = 1\).
+
+    Then \eqref{eq:1.3} \(\implies 7^{-1} \cdot (7 \cdot (x_1+x_3)) = 0\)
+    \begin{align*}
+        ((7^{-1})\cdot 7) \cdot (x_1 + x_3) & = 0    \\
+        1 \cdot (x_1 + x_3)                 & = 0    \\
+        \implies x_1 + x_3                  & = 0    \\
+        \implies x_1                        & = -x_3
+    \end{align*}
+
+    Let \(x_3=a \implies x_1 = -a \implies x_2 = 2x_1 + x_3 = -a\).
+
+    \(\implies \{(-a, -a, a) | a \in \bbk\}\) are solutions.
+
+    \hfill
+
+    \textbf{Case 2:} \(7 = 0 \) in \(\bbk\) (e.g. in \(\bbf_7\)) then \eqref{eq:1.3} is automatically true.
+
+    Let \(x_1 = a, x_3 = b \implies x_2 = 2x_1 + x_3= 2a+b\)
+
+    \(\implies \{(a, 2a+b, b) | a, b \in \bbk\}\) are solutions.
+\end{explanation}
+
+\begin{remark}
+    When doing \(3 \times \eqref{eq:1.1} + \eqref{eq:1.2}\), how do we know if we're gaining or losing information? e.g in \(\bbf_7\) we can just multiply by 7 and get nothing new! Therefore some kind of ``equivalence'' concept must be introduced!
+\end{remark}
+
+\begin{definition} [Linear combination]
+    Suppose \(S = \{\Sigma a_{ij}x_j = b_i\}_{1 \leq i \leq m, 1\leq j \leq n}\) is a system of linear equations over \(\bbk\). \(S' = \{\Sigma a'_{ij}x_j = b_i\}_{1 \leq i \leq m, 1\leq j \leq n}\) is another system of linear equations (not too important how many equations there are in \(S'\)). Then, \(S'\) is a \textbf{linear combination} of \(S\) if every linear equations \(\Sigma a'_{ij}x_j = b_i\) in \(S'\) can be obtained as linear combinations of equations in \(S\), i.e. \(\Sigma a'_{ij}x_j = b'_i\) is obtained through \[
+        \Sigma c_i(\Sigma a_{ij}x_j) = \Sigma c_i b_i, 1 \leq i \leq m,\:\text{for some}\: c_i \in \bbk
+    \]
+\end{definition}
+
+\begin{definition} [Equivalance]
+    2 systems \(S, S'\) are \textbf{equivalent} if \(S'\) is a linear combination of \(S\) and vice versa. Denote \(\mathbf{S \sim S'}\)
+\end{definition}
+\begin{example}
+    In previous example, \(S = \{\eqref{eq:1.1}, \eqref{eq:1.2}\}, S' = \{\eqref{eq:1.1}, \eqref{eq:1.3}\}, S'' = \{\eqref{eq:1.2}, \eqref{eq:1.3}\}, S''' = \{\eqref{eq:1.3}\}\).
+
+    Then, \(S \not\sim S'', S \sim S' \:\text{always}\:, S \sim S'' \:\text{only if 3 is invertible}\: \)
+\end{example}
+\begin{explanation}
+    \hfill
+
+    From \(S'\), \eqref{eq:1.1} = \eqref{eq:1.1}, \eqref{eq:1.2} = \eqref{eq:1.3} - 3 \(\cdot\) \eqref{eq:1.1}. Therefore \(S\) is a linear combination of \(S'\). \(\implies S \sim S'\).
+
+    From \(S''\), \eqref{eq:1.2} = \eqref{eq:1.2}, 3 \(\cdot\) \eqref{eq:1.1} = \eqref{eq:1.3} - \eqref{eq:1.2}. If \(3^{-1} \in \bbk (\text{i.e.}\: 3 \neq 0)\) then \eqref{eq:1.1} = \(3^{-1}\)(\eqref{eq:1.3} - \eqref{eq:1.2}) is thus recoverable from \(S''\), then \(S \sim S''\). Otherwise, no.
+\end{explanation}
+
+
+
