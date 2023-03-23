@@ -16,8 +16,13 @@ pip install --editable .
 <!-- https://click.palletsprojects.com/en/8.1.x/setuptools/ -->
 Afterwards, the command `texify` should be available in the terminal!
 
-# `texify`
-Uses:
+# Getting started on a clean slate
+1. Clear all quarters and courses in `quarters/`, unless you want to keep my notes! It is crucial that you don't delete the folder, unless you want to rename `quarters` into `semesters` then that is fine too, but make sure to find other path variables that depend on that  (e.g. in `scripts/config.py`)
+2. Appropriately modify the `WORKSPACE_PATH` in `scripts/config.py`
+3. Appropriately modify files in `scripts/templates/` to your liking (with YOUR identifiers!)
+
+# How to use the CLI `texify`
+## Overview
 - `texify quarter ...`
 - `texify course ...`
 - `texify lecture ...`
@@ -31,9 +36,9 @@ Help | `texify quarter --help`
 
 CLI Parameter | Info
 --- | ---
--a, --all | View flag
--i, --id | Quarter ID
---help | For help
+`-a, --all` | View flag
+`-i, --id` | Quarter ID
+`--help` | For help
 
 ## Course commands
 All course commands are under `texify course`
@@ -48,11 +53,11 @@ Help | `texify course --help`
 
 CLI Parameter | Info
 --- | ---
--a, --all | View flag
--i, --id | Course ID
--q, --quarter | Quarter ID
--n, --n | Number of most recent lectures to be compiled
---help | For help
+`-a, --all` | View flag
+`-i, --id` | Course ID
+`-q, --quarter` | Quarter ID
+`-n, --n` | Number of most recent lectures to be compiled
+`--help` | For help
 
 ## Lecture commands
 All lecture commands are under `texify lecture`
@@ -65,7 +70,7 @@ Help | `texify lecture --help`
 
 CLI Parameter | Info
 --- | ---
--a, --all | View flag
--c, --course | Course ID
---help | For help
+`-a, --all` | View flag
+`-c, --course` | Course ID
+`--help` | For help
 
