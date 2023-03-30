@@ -1,0 +1,164 @@
+\lecture{2}{28 Mar 2023}{Matrices}
+
+\begin{proposition}
+    If 2 systems of linear equations are equivalent, \(S \sim S'\) then they have the same set of solutions
+\end{proposition}
+\begin{remark}
+    Why is this important? This becomes important if we have a complicated system and want to transform into a simpler system to solve.
+\end{remark}
+
+\begin{proof}
+    If \((x_1 = \alpha_1, x_2 = \alpha_2, \dots, x_n = \alpha_n)\) is a solution ot \(S\) then we claim that it's also a solution of \(S'\) and vice versa. This is trivial because \(S \sim S'\).
+\end{proof}
+
+\begin{definition} [Matrix]
+    Let \(\bbk\) be a field. Then an \(\mathbf{m \times n}\) \textbf{matrix} with coefficients in \(\bbk\), is an ordered tuple of elements in \(\bbk\), typically written as \[
+        \left[
+            \begin{array}{cccc}
+                a_{11} & a_{12} & \cdots & a_{1n} \\
+                a_{21} & a_{22} & \cdots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{m1} & a_{m2} & \cdots & a_{mn} \\
+            \end{array}
+            \right] \in \bbm_{m\times n}(\bbk)
+    \]
+\end{definition}
+
+\begin{definition} [Matrix Multiplication]
+    If \(T_1 \in \bbm_{m\times n}(\bbk), T_2 \in \bbm_{n\times l}(\bbk)\) then \(T_1 \cdot T_2 \in \bbm_{m\times l}(\bbk)\) (where \(m, n, l \in \bbn\)). Specifically, \[
+        \left[
+            \begin{array}{ccccc}
+                a_{11} & a_{12} & \cdots & \cdots & a_{1n} \\
+                a_{21} & a_{22} & \cdots & \cdots & a_{2n} \\
+                \vdots & \vdots & \ddots & \cdots & \vdots \\
+                a_{m1} & a_{m2} & \cdots & \cdots & a_{mn} \\
+            \end{array}
+            \right] \cdot
+        \left[
+            \begin{array}{cccc}
+                b_{11} & b_{12} & \cdots & b_{1l} \\
+                b_{21} & b_{22} & \cdots & b_{2l} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                b_{n1} & b_{n2} & \cdots & b_{nl} \\
+            \end{array}
+            \right] =
+        \left[
+            \begin{array}{ccccc}
+                c_{11} & c_{12} & \cdots & \cdots & c_{1l} \\
+                c_{21} & c_{22} & \cdots & \cdots & c_{2l} \\
+                \vdots & \vdots & \ddots & \cdots & \vdots \\
+                c_{m1} & c_{m2} & \cdots & \cdots & c_{ml} \\
+            \end{array}
+            \right]
+    \]
+    where
+    \begin{align*}
+        c_{ij} & = \:\text{the ``inner product'' of i-th row of \(T_1\) and j-th row of \(T_2\)}\: \\
+               & = \sum_{t=1}^n a_{it}b_{tj}                                                       \\
+               & \forall (i, j), 1 \leq i \leq m, 1 \leq j \leq l
+    \end{align*}
+\end{definition}
+
+In particular, if \(T_1, T_2 \in \bbm_n \coloneqq \bbm_{n\times n}(\bbk) \) then \(T_1 \cdot T_2\) and \(T_2 \cdot T_1\) are both valid. In general, they're often not equal.
+
+\begin{observe}
+    We can write system of linear equations as \[
+        T \cdot \left[
+            \begin{array}{c}
+                x_1 \\ x_2 \\ \vdots \\ x_n
+            \end{array}
+            \right] = \left[
+            \begin{array}{c}
+                b_1 \\ b_2 \\ \vdots \\ b_m
+            \end{array}
+            \right]
+    \] where \[
+        T \in \bbm_{m\times n}(\bbk), \left[
+            \begin{array}{c}
+                x_1 \\ x_2 \\ \vdots \\ x_n
+            \end{array}
+            \right] \in \bbm_{n \times 1}(\text{indeterminants}), \left[
+            \begin{array}{c}
+                b_1 \\ b_2 \\ \vdots \\ b_m
+            \end{array}
+            \right] \in \bbm_{m \times 1}(\bbk)
+    \]
+
+    Then, finding solutions to \(S\) is equivalent to finding \((\alpha_1, \alpha_2, \dots, \alpha_n) \in \bbk\) \st \[T \cdot \left[
+            \begin{array}{c}
+                \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n
+            \end{array}
+            \right] = \left[
+            \begin{array}{c}
+                b_1 \\ b_2 \\ \vdots \\ b_m
+            \end{array}
+            \right]\]
+\end{observe}
+
+\begin{exercise}
+    If \(T_1, T_2, T_3 \in \bbm_n(\bbk)\) then \((T_1 \cdot T_2) \cdot T_3 = T_1 \cdot (T_2 \cdot T_3)\). This is by no means obvious.
+\end{exercise}
+
+\begin{definition} [Identity Matrix]
+    \[
+        I_n = id_n = \left[
+            \begin{array}{cccccc}
+                1      & 0      & 0      & \cdots & 0      & 0      \\
+                0      & 1      & 0      & \cdots & 0      & 0      \\
+                0      & 0      & 1      & \ddots & 0      & 0      \\
+                \vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\
+                0      & \vdots & 0      & \ddots & 1      & 0      \\
+                0      & 0      & 0      & \cdots & 0      & 1      \\
+            \end{array}
+            \right] \in \bbm_n(\bbk)
+    \]
+\end{definition}
+
+\begin{observe}
+    \[
+        I_n \cdot T = T \cdot I_n, \forall T \in \bbm_n(\bbk)
+    \]
+    Thus, \((\bbm_n(\bbk), \cdot)\) is ``trying'' to be a group, but it's not.
+\end{observe}
+
+\begin{definition} [Invertible Matrix]
+    A matrix \(T \bbm_n(\bbk)\) is \textbf{invertible} if \(\exists T' \in \bbm_n(\bbk)\) \st \(T \cdot T' = I_n\)
+\end{definition}
+\begin{exercise}
+    If \(T \cdot T' = I_n \implies T' \cdot T = I_n\)
+\end{exercise}
+
+\begin{definition} [General Linear Group \(GL_n(\bbk)\)]
+    \[GL_n(\bbk) = \{T\in \bbm_n(\bbk) \mid T \:\text{is invertible}\}\]
+\end{definition}
+
+\begin{remark}
+    Then \(GL_n(\bbk)\) is a group.
+\end{remark}
+
+\begin{definition} [Elementary Row operations]
+    Let \(S\) be the system of equations:
+    \begin{align}
+        \sum a_{1j}x_j & = b_1 \tag{1}     \\
+        \sum a_{2j}x_j & = b_2  \tag{2}    \\
+        \vdots         & =\vdots \nonumber \\
+        \sum a_{mj}x_j & = b_m \tag{m}
+    \end{align}
+    then there are 3 \textbf{elementary row operations}:
+    \begin{enumerate}
+        \item Switching 2 of the equations
+        \item Replace \(\mathrm{(i)}\) with \(c \cdot \mathrm{(i)}\) where \(c \neq 0\)
+        \item Replace \(\mathrm{(i)}\) by \(\mathrm{(i) + d(j)}\) where \(i\neq j\)
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    If \(S'\) can be obtained from \(S\) via a finite sequence of elementary row operations then \(S \sim S'\). 
+\end{proposition}
+
+\begin{corollary}
+    \(S\) can also be obtained from \(S'\) via a finite sequence of elementary row operations.
+\end{corollary}
+\begin{corollary}
+    If \(S'\) can be obtained from \(S\) via a finite sequence of elementary row operations then they have the same solutions.
+\end{corollary}
