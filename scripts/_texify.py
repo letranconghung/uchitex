@@ -48,8 +48,8 @@ def new_course(c_id, q_id):
     (c_path / 'intro.tex').touch()
     (c_path / 'intro.tex').write_text(un_template(INTRO_TEMPLATE, []))
 
-    (c_path / f"master_{c_id}.tex").touch()
-    (c_path / f"master_{c_id}.tex").write_text(un_template(MASTER_TEMPLATE, []))
+    (c_path / f"{c_id}.tex").touch()
+    (c_path / f"{c_id}.tex").write_text(un_template(MASTER_TEMPLATE, []))
 
     return f"Success: Course {c_id} created in quarter {q_id}!"
 

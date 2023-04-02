@@ -80,7 +80,7 @@ class Course:
         self.c_id = self.info['id']
         self.lectures = self._init_lectures()
         self.psets = self._init_psets()
-        self.master_file_path = self.c_path / f'master_{self.c_id}.tex'
+        self.master_file_path = self.c_path / f'{self.c_id}.tex'
 
     def _init_lectures(self):
         """

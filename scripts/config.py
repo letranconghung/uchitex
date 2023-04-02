@@ -3,7 +3,7 @@ User config
 """
 from pathlib import Path
 
-DATE_FORMAT = '%d %b %Y %H:%M'
+DATE_FORMAT = '%d %b %Y'
 TEX_WORKSPACE = Path('/Users/hung/Desktop/macmaindata/tex/uchicago_tex/')
 ROOT =  TEX_WORKSPACE / 'quarters'
 TEMPLATES_PATH = TEX_WORKSPACE / 'scripts' / 'templates'
