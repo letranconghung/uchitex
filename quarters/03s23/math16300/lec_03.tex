@@ -1,0 +1,33 @@
+\lecture{3}{24 Mar 2023}{Uniform Convergence}
+
+\begin{motivation}
+    We want to elevate the concept of ``convergence'' to beyond sequences (which are essentially maps of \(\bbn \to \bbr\)) to a higher level of abstraction: \[
+        f: \bbn \to \mathcal{F} = \{g: A \to \bbr\}
+    \]
+
+    \(f(1) = f_1, f(2) = f_2, \dots\) then become functions \(A \to \bbr\).
+\end{motivation}
+
+
+Convergence can be explained via \textbf{``measuring closeness''}. For reals, this is intuitive and trivial: \[
+    d(a, b) = \abs{a-b}
+\]
+
+However, for functions, this is not clear.
+\begin{example}
+    For \(\bbr^2\), one way to measure distance between \(x=(a, b), y=(c, d)\) is \[
+    d(x, y) = \sqrt{(a-c)^2 + (b-d)^2}
+    \]
+    But this is not the only way! One might also measure distance via the Manhattan Distance \[
+    d(x, y) = \abs{a-c} + \abs{b-d}
+    \]
+
+    Therefore we must be very careful about ``distance'' and ``closeness''.
+\end{example}
+
+\begin{recall}
+    \(a_n \to a\) if \(\forall \epsilon > 0, \exists N \in \bbn \st n > N \implies \abs{a_n - a} < \epsilon\).
+\end{recall}
+
+More generally and abstractly, the condition can be written as \(d(a_n, a) = \abs{a_n-a} < \epsilon\).
+

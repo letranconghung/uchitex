@@ -1,0 +1,56 @@
+\lecture{2}{22 Mar 2023}{Real numbers}
+
+\subsection{Sequences}
+Mostly trivial things from Math 16200.
+
+It is important to keep in mind the concept of ``dominating terms''
+\begin{itemize}
+    \item \(\sqrt{n+1} -\sqrt{n}\), then \(n\) dominates 1 \(\implies \rightarrow 0\)
+    \item \(e^n >> n^\alpha\), exponential grows faster than any polynomial, i.e. \[
+              \lim_{n\to\infty} \dfrac{e^n}{n^\alpha} = 0
+          \]
+    \item For \(\alpha > 0, n^\alpha >> \log n\), polynomials grow faster than logarithms, e.g. \[
+              \sqrt{n + \log n} - \sqrt{n} \rightarrow 0
+          \]
+\end{itemize}
+
+\subsection{Real Numbers}
+\begin{definition} [Cauchy Sequences]
+    A sequence \(\{a_n\}\) is \textbf{Cauchy} if \[
+        \forall \epsilon > 0, \exists N \in \bbn \st \forall m, n > N, \abs{a_m - a_n} < \epsilon
+    \]
+\end{definition}
+
+\begin{motivation}
+    To apply in real world examples. In reality, we don't know whether sequences converges, and there's often no information about the value of the limit.
+\end{motivation}
+
+\begin{theorem} [Convergence of Cauchy sequences]
+    Any Cauchy sequence converges.
+\end{theorem}
+
+\begin{remark}
+    This theorem is crucially based on the LUB property in \(\bbr\). \(\bbr\) satisfies that every bounded subset of \(\bbr\) has the LUB (that \(\in \bbr\) itself) which is the smallest upper bound of the set.
+
+    e.g. \(\bbq\) doesn't satisfy the LUB property with the following counter-example. \[
+        \sup\{1, 1.4, 1.41, 1.414, \dots\} = \sqrt{2} \;\text{but}\: \sqrt{2} \not \in \bbq
+    \]
+    Therefore \(\bbq\) doesn't have the LUB property.
+\end{remark}
+
+One might first draw the ``number line'' as a representation of \(\bbr\), but from a rather empirical perspective, this ``line'' is simply a collection of discrete atoms, separated by fixed lengths. Therefore, the line shall be considered more of a representation of \(\bbn\). Then, \(\bbq\) can be understood as the ratio of these ``natural numbers''. Construct \(\bbq = \{(n, m) | n, m \in \bbz\}\), with a notion of an \textbf{equivalent relation} \(\sim\) defined as: \[
+    (n_1, m_1) \sim (n_2, m_2) \:\text{if}\: n_1 \cdot m_2 = m_1 \cdot n_2
+\]
+
+Then, think about \(\bbq\) as consisting of \textbf{equivalent classes}: \[
+[(n, m)] = \{(n', m') | (n', m') \sim (n, m)\}
+\]
+
+Then all \([(n, m)]\) represents \(\bbq\).
+
+For \(\bbr\), by the same token but with a clever use of Cauchy sequences, \(\bbr\) can be constructed as \(\bbr = \{\text{Cauchy sequences in}\: \bbq\}\) with the equivalent relation \(\sim\) defined as: \[
+a_n \sim b_n \:\text{if}\: (b_n - a_n) \rightarrow 0
+\]
+
+In other words, each collection of equivalent Cauchy sequences represents 1 real number.
+
