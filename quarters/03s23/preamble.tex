@@ -29,6 +29,7 @@
 
 \usepackage{setspace}
 \usepackage[margin=1in, headsep=12pt]{geometry}
+\usepackage{wrapfig}
 \def\class{article}
 
 
@@ -44,7 +45,6 @@
 \let\impliedby\Leftarrow
 \let\iff\Leftrightarrow
 \let\epsilon\varepsilon
-
 %%%%%%%%%%%%
 %  Tables  %
 %%%%%%%%%%%%
@@ -80,7 +80,7 @@
 %%%%%%%%%%%%%%%
 
 \usepackage{pgfplots}
-\pgfplotsset{compat=newest}
+\pgfplotsset{width=10cm, compat=newest}
 
 %%%%%%%%%%%%%%%%%%%%%%%
 %  Center Title Page  %
@@ -215,6 +215,8 @@
 % 2. Time and date of lecture.
 % 3. Lecture Title.
 \def\@lecture{}
+\def\@lectitle{}
+\def\@leccount{}
 \newcommand\lecture[3]{
     %   % Add 1 to the lecture counter.
     %   \addtocounter{lecturecounter}{1}
@@ -227,22 +229,32 @@
     \resetcounters
 
     % Check if user passed the lecture title or not.
+    \def\@leccount{Lecture #1}
     \ifthenelse{\isempty{#3}}{
         \def\@lecture{Lecture #1}
     }{
         \def\@lecture{Lecture #1: #3}
+        \def\@lectitle{#3}
     }
 
     % Display the information like the following:
     %                                                  Oct 17 2022 Mon (08:49:10)
     % ---------------------------------------------------------------------------
     % Lecture 1: Lecture Title
-    \vspace*{0.5cm}
-    \hfill\small{#2}
-    \vspace*{0.1cm}
-    \hrule
-    \vspace*{-0.3cm}
-    \section*{\@lecture}
+    \newpage
+    \begin{mdframed}
+        % \section*{\@lecture}
+        \begin{center}
+            \Large \textbf{\@leccount}
+
+            \vspace*{0.2cm}
+
+            \large\@lectitle
+
+            \vspace*{0.2cm}
+            \normalsize #2
+        \end{center}
+    \end{mdframed}
     \addcontentsline{toc}{section}{\@lecture}
 }
 
@@ -369,31 +381,31 @@
 %  Todo Commands  %
 %%%%%%%%%%%%%%%%%%%
 
-\usepackage{xargs}
-\usepackage[colorinlistoftodos]{todonotes}
+% \usepackage{xargs}
+% \usepackage[colorinlistoftodos]{todonotes}
 
-\makeatletter
+% \makeatletter
 
-\@ifclasswith\class{working}{
-    \newcommandx\unsure[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-    \newcommandx\change[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-    \newcommandx\info[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
-    \newcommandx\improvement[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+% \@ifclasswith\class{working}{
+%     \newcommandx\unsure[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%     \newcommandx\change[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+%     \newcommandx\info[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+%     \newcommandx\improvement[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 
-    \newcommand\listnotes{
-        \newpage
-        \listoftodos[Notes]
-    }
-}{
-    \newcommandx\unsure[2][1=]{}
-    \newcommandx\change[2][1=]{}
-    \newcommandx\info[2][1=]{}
-    \newcommandx\improvement[2][1=]{}
+%     \newcommand\listnotes{
+%         \newpage
+%         \listoftodos[Notes]
+%     }
+% }{
+%     \newcommandx\unsure[2][1=]{}
+%     \newcommandx\change[2][1=]{}
+%     \newcommandx\info[2][1=]{}
+%     \newcommandx\improvement[2][1=]{}
 
-    \newcommand\listnotes{}
-}
+%     \newcommand\listnotes{}
+% }
 
-\makeatother
+% \makeatother
 
 %%%%%%%%%%%%%
 %  Correct  %
@@ -558,7 +570,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Create the Environments  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\declaretheorem[numberwithin=section, style=thmdefinitionbox,     name=Definition]{definition}
+\declaretheorem[numberwithin=section, style=thmdefinitionbox,     name=Definition]{definition0}
 \declaretheorem[numberwithin=section, style=thmtheorembox,     name=Theorem]{theorem}
 \declaretheorem[numbered=no,          style=thmexamplebox,     name=Example]{example}
 \declaretheorem[numberwithin=section, style=thmclaimbox,       name=Claim]{claim}
@@ -734,6 +746,18 @@
     \begin{replacementproof} [#2]
 }{\end{replacementproof}}
 
+\newenvironment{definition}[1]{
+    \begin{definition0}[#1]
+
+    \hfill
+        
+    \vspace{0.2cm}
+
+}{
+
+    \vspace{0.2cm}
+    \end{definition0}
+}
 
 
 \theoremstyle{definition}
@@ -763,6 +787,11 @@
 \newcommand{\bbm}{\mathbb{M}}
 \renewcommand{\phi}{\varphi}
 \newcommand{\st}{\;\text{such that}\;}
+
+
+% MATH 20250 %
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\im}{\mathrm{im}}
 
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
 \let\oldforall\forall

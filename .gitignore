@@ -8,3 +8,5 @@
 *.log
 .pylintrc
 references/
+**/*.md5
+**/*.auxlock
