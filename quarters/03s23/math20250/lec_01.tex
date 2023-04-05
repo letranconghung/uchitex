@@ -3,7 +3,7 @@
     Vector spaces and maps between vector spaces (linear transformations)
 \end{goal}
 \subsection{Abelian Group}
-\begin{definition} [Abelian Group]
+\begin{definition} {Abelian Group}
     A pair \((A, *)\) is an \textbf{Abelian group} if \(A\) is a set and \(*\) is a map: \(A \times A \mapsto A\) (closure is implied) with the following properties:
     \begin{enumerate}
         \item (Additive Associativity) \[
@@ -40,7 +40,7 @@
     A crucial difference between \(\bbz\) and \(\bbq\backslash\{0\}\) is that \(\bbq\backslash\{0\}\) has both \(+\) and \(\times\) while \(\bbz\) only has \(+\). This gives us inspiration for the definition of a field!
 \end{remark}
 
-\begin{definition} [Field]
+\begin{definition} {Field}
     A \textbf{field} is a triple \((F, +, \cdot)\) \st
     \begin{enumerate}
         \item \((F, +)\) is an Abelian group with identity 0
@@ -73,7 +73,7 @@
 \begin{recall}
     \(p\in \bbz\) is a prime if \(\forall m\in \bbn: m \mid p \implies m = 1 \:\text{or}\:  m = p\)
 \end{recall}
-\begin{definition} [\(\bbf_p\) for p prime]
+\begin{definition} {\(\bbf_p\) for p prime}
     \[
         \bbf_p = \{[0], [1], \dots, [p-1]\}
     \]
@@ -155,13 +155,13 @@ where \(a_{ij}, b_k \in \bbk\).
     When doing \(3 \times \eqref{eq:1.1} + \eqref{eq:1.2}\), how do we know if we're gaining or losing information? e.g in \(\bbf_7\) we can just multiply by 7 and get nothing new! Therefore some kind of ``equivalence'' concept must be introduced!
 \end{remark}
 
-\begin{definition} [Linear combination]
+\begin{definition} {Linear combination}
     Suppose \(S = \{\sum a_{ij}x_j = b_i\}_{1 \leq i \leq m, 1\leq j \leq n}\) is a system of linear equations over \(\bbk\). \(S' = \{\sum a'_{ij}x_j = b_i\}_{1 \leq i \leq m, 1\leq j \leq n}\) is another system of linear equations (not too important how many equations there are in \(S'\)). Then, \(S'\) is a \textbf{linear combination} of \(S\) if every linear equations \(\sum a'_{ij}x_j = b_i\) in \(S'\) can be obtained as linear combinations of equations in \(S\), i.e. \(\sum a'_{ij}x_j = b'_i\) is obtained through \[
         \sum c_i\left(\sum a_{ij}x_j\right) = \sum c_i b_i, 1 \leq i \leq m,\:\text{for some}\: c_i \in \bbk
     \]
 \end{definition}
 
-\begin{definition} [Equivalance]
+\begin{definition} {Equivalance}
     2 systems \(S, S'\) are \textbf{equivalent} if \(S'\) is a linear combination of \(S\) and vice versa. Denote \(\mathbf{S \sim S'}\)
 \end{definition}
 \begin{example}

@@ -50,7 +50,7 @@
         \end{array}\right]\) itself, due to the properties of \(I_3\). By ``simplying'' rows this way, we can therefore solve systems of linear equations.
 \end{example}
 
-\begin{definition} [Row-reduced Matrix]
+\begin{definition} {Row-reduced Matrix}
     The \textbf{row-reduced} form of a matrix has 1 as the leading non-zero coefficient for each of its rows (0-padded on the left). Furthermore, each column which contains the leading non-zero entry of some row has all its other entries as 0. By convention, the leading coefficient of a row of higher row index also has a higher column index.
 \end{definition}
 
@@ -70,7 +70,7 @@
 \end{proof}
 
 \subsection{Vector Spaces}
-\begin{definition} [Vector Space]
+\begin{definition} {Vector Space}
     Let \(\bbk\) be a field. A \textbf{vector space over \(\bbk\)} (``\(\bbk\)-vector space'')(``k-vs'') is an Abelian group \(V\) with a map: \(\bbk \times V \to V\) (\(\bbk\)-action on \(V\)). An element in \(V\) is called a \textbf{vector}. They have to satisfy \(\forall a, b \in \bbk; \forall v, v_1, v_2 \in V\):
     \begin{enumerate}
         \item \(0 \cdot v = 0\\ 1 \cdot v = v\)
@@ -90,13 +90,13 @@
     Field \(\bbk = \bbr\), \(V = \bbr^n \doteq \{(x_1, x_2, \dots, x_n) \mid x_i \in \bbr\}\). Indeed, \(\bbr^n\) is an Abelian group.
 \end{example}
 
-\begin{definition} [Linear Combination]
+\begin{definition} {Linear Combination}
     Let \(V\) be a k-vs. If \(v_1, v_2, \dots, v_r \in V; r \in \bbn\) then a \textbf{linear combination} of \(\{v_1, v_2, \dots, v_r\}\) is a vector of the form \[
         c_1 \cdot v_1 + c_2 \cdot v_2 + \dots + c_r \cdot v_r \:\text{where}\: c_i \in \bbk
     \]
 \end{definition}
 
-\begin{definition} [Linear Span]
+\begin{definition} {Linear Span}
     Then the \textbf{linear span} of \(v_1, v_2, \dots, v_r \:\text{in}\: V\) is the set of all such linear combinations.
 \end{definition}
 

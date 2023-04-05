@@ -1,0 +1,170 @@
+\lecture{4}{04 Apr 2023}{Linear Transformation, Homomorphism, Kernel, Image}
+\subsection{Vector Subspace}
+\begin{definition} {Vector Subspace}
+    Let \(V\) be a \(\bbk\)-vector space. A \textbf{subspace} (or \textbf{sub-vector space}) of \(V\) is a subset \(W \subseteq V\) \st \(W\) is itself a \(\bbk\)-vector space under addition and scaling induced from \(V\). A priori, we know that \[
+        + : W \times W \to V, \cdot: W \times W \to V
+    \]
+    but this subspace requirement implies that
+    \[
+        \forall x, y \in W, x+y \in W
+    \]
+    \[
+        \forall \alpha \in \bbk, x \in W, \alpha \cdot x \in W
+    \]
+    In other words, the subspace is closed under addition and scaling.
+\end{definition}
+
+\begin{example}
+    Take \(\bbk = \bbr, V = \bbr^2\), with ordinary addition and scaling.
+
+    Consider the subset represented by line \(y = 1\).
+    \input{figures/figure0.tex}
+
+    This is not a subspace because there exists no 0 element. This kinda implies that any subspace of \(\bbr^2\) must pass through the origin \((0, 0)\).
+
+    Consider another instance, this time the following ray:
+    \input{figures/figure1.tex}
+    This is also not a subspace, since there's no additive inverse. Therefore a subspace shall look something like this:
+    \input{figures/figure2.tex}
+\end{example}
+\subsection{Mapping}
+\begin{motivation}
+    A map from sets to sets can be anything. e.g. \(x:\bbz \mapsto x^2:\bbz\) doesn't preserve the ``group'' structure \((x+y) ^2 \neq x^2 + y^2\) most of the time.
+\end{motivation}
+
+\begin{definition} {Group Homomorphism}
+    Let \(A, B\) be Abelian groups. Map \(\psi: A \to B\) is called a \textbf{group homomorphism} if: \[
+        \psi (x + y) = \psi (x) + \psi (y)
+    \]
+\end{definition}
+
+Then \(x:\bbz \mapsto x^2:\bbz\) is not a group homomorphism, but \(x: \bbz \mapsto nx: \bbz\) for fixed \(n\) is a group homomorphism.
+
+Here, a natural question arises: If given 2 vector spaces, what maps are allowed between them? What structures do we have to preserve?
+
+\begin{definition} {Linear Transformation}
+    Let \(V, W\) be \(\bbk\)-vector spaces. Then a \textbf{vector space homomorphism} is also called a \textbf{linear transformation}, a map \(\psi: V \to W\) \st
+    \begin{enumerate}
+        \item \(\psi(v_1 + v_2) = \psi(v_1) + \psi(v_2) \forall v_1, v_2 \in V\)
+        \item \(\psi(\alpha \cdot v) = \alpha \cdot \psi(v) \forall \alpha \in \bbk, v \in V\)
+    \end{enumerate}
+
+    Denote \(\mathbf{Hom_\bbk(V, W)}\) as the set of all linear transformations \(V \to W\).
+\end{definition}
+
+\begin{example}
+    \(\bbk = \bbr, V = W = \bbr\)
+
+    \(\Hom_\bbr(V, W) = \{\psi: \bbr \to \bbr \mid (1), (2) \:\text{are satisfied}\: \} \)
+
+    We claim that \(\psi(1)\) uniquely determines the map \(\psi\), because \[
+        \psi(\alpha) = \alpha \cdot \psi(1)
+    \]
+
+    Essentially, there exists a bijection between \(\Hom_\bbr(V, W)\) and \(\bbr\):
+    \begin{align*}
+        \Hom_\bbr(V, W)              & \to \bbr         \\
+        \psi                                 & \to \psi(1)      \\
+        (\psi_\beta: x \mapsto x \cdot\beta) & \leftarrow \beta
+    \end{align*}
+\end{example}
+
+\begin{example}
+    \(\bbk = \bbr, V = \bbr, W \:\text{is any vector space (over \(\bbr\))}\: \)
+
+    We, similarly, claim that there is a bijection between \(\Hom_\bbr(V, W) \:\text{and}\: \bbr\). With the same reasoning, \(\psi\) is determined by \(\psi(1)\), though this time \(\psi(1) \in W\).
+
+    \begin{align*}
+        \Hom_\bbr(V, W)           & \to W             \\
+        \psi                              & \to \psi(1) \in W \\
+        (\psi_\beta: x \mapsto x \cdot w) & \leftarrow w
+    \end{align*}
+\end{example}
+
+\begin{example}
+    As a sub-example of the example above, consider \(W = \bbr^2\):
+    \input{figures/figure3.tex}
+    Then if \(\psi(1) = (4, 5)\) as above (and \(\psi(0) = (0, 0)\) implicit), then \(\psi\) would map the rest of \(V = \bbr\) onto the dotted line above.
+
+    An interesting point to note is that if \(\psi(1) = (0, 0)\), then the entire real line would get sent (and compressed) to \((0, 0)\). \(\psi_{(0, 0)}\) therefore contracts \(\bbr\) into one point (the origin (0, 0)) while others output a subspace of \(\bbr^2\).
+\end{example}
+
+\begin{example}
+    \(\bbk = \bbr, V = \bbr^2, W = \:\text{any \(\bbr\)-vector space}\: \)
+
+    We claim that there exists a bijection between \(\Hom_\bbr(\bbr^2, W)\) and \(W \oplus W\); as each \(\psi\) is determined by \(\psi((1, 0)) \:\text{and}\: \psi((0, 1))\).
+
+    The notation \(\oplus\) is defined as: If \(V, W\) are \(\bbk\)-vector spaces then \[
+        V \oplus W = \{(v, w) \mid v \in V, w \in W\}
+    \]
+    e.g. \(\bbr^2 = \bbr \oplus \bbr\)
+
+    Then \(V \oplus W\) would also be a \(\bbk\)-vector space with operations \(+, \cdot\) defined intuitively:
+    \begin{align*}
+        (v_1, w_1) + (v_2, w_2) & = (v_1+v_2, w_1 + w_2)             \\
+        \alpha \cdot (v, w)     & = (\alpha \cdot v, \alpha \cdot w)
+    \end{align*}
+
+    Back to the example, \(\forall v = (x, y) \in V, v = x (1, 0) + y(0, 1)\), therefore \[
+        \psi(v) = \psi((x, y)) = x \cdot\psi((1, 0)) + y\cdot\psi((0, 1))
+    \]
+    \(\psi\) is therefore uniquely defined by \(\psi((1, 0)) \:\text{and}\: \psi((0, 1))\).
+\end{example}
+
+\begin{example}
+    \(\bbk = \bbr, V = \bbr^m, W = \:\text{any \(\bbr\)-vector space}\: \)
+
+    Think about \(W = \bbr^n\) with similar reasoning.
+
+    \textbf{Hint: } We want to show there exists a bijection between \(\Hom_\bbr(\bbr^m, \bbr^n) \) and \(\bbr^{m\cdot n}\), but this is often rewritten as \(\bbm_{m\times n}(\bbr)\)
+\end{example}
+
+\subsection{Isomorphism, Kernel, Image}
+Every linear transformation is just a map, and we can therefore question if it is injective, surjective or bijective. In all cases, these concepts simply deal with the sets (vector spaces) as simply sets.
+
+\begin{definition} {Isomorphism}
+    A \(\bbk\)-linear transformation \(\psi: V \to W\) is an \textbf{isomorphism} if it is bijective.
+\end{definition}
+
+\begin{definition} {Kernel, Image}
+    Let \(\psi: V \to W\) be a linear transformation over \(\bbk\). Then: \begin{enumerate}
+        \item \textbf{Kernel}: \(\ker(\psi) \coloneqq \{v \in V \mid \psi(v) = 0\} \subseteq V\)
+        \item \textbf{Image}: \(\im(\psi) \coloneqq \{w \in W \mid \exists v \in V \st \psi(v) = w\}\)
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+    \hfill
+    \begin{enumerate}
+        \item \(\ker(\psi)\) is a \(\bbk\)-vector subspace of \(V\)
+        \item \(\im(\psi)\) is a \(\bbk\)-vector subspace of \(W\)
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof} {Lemma}    
+    We want to show that if \(x, y \in \ker(\psi)\) then \(x + y \in \ker(\psi)\).
+    \[
+        \begin{split}  
+            \psi(x + y) &= \psi(x) + \psi(y) (\:\text{since \(\psi\) is a linear transformation}\: ) \\
+            & = 0 + 0 \\
+            &= 0
+        \end{split}
+    \]
+
+    Therefore \(x + y \in \ker(\psi)\)
+
+    Furthermore, \(\forall \alpha \in \bbk, x \in \ker(\psi)\) then \[
+    \psi(\alpha, x) = \alpha \cdot \psi(x) = \alpha \cdot 0 = 0 \implies \alpha \cdot x \in \ker(\psi)
+    \]
+
+    Therefore \(\ker(\psi)\) is a subspace.
+
+    Similarly, \(\im(\psi)\) is a subspace.
+\end{proof}
+
+\begin{definition} {Finite Dimensional, Dimension}
+    \begin{enumerate}
+        \item Let \(V\) be a \(\bbk\)-vector space. \(V\) is called \textbf{finite dimensional} if there exists a surjective linear transformation \(\bbk^r \to V\) where \(r \in \bbz_{\geq 0}\). As a consequence, \(\bbk^r\) is also finite dimensional, with an identity mapping.
+        \item If $V$ is finite dimensional then \textbf{dimension} of $V$ is defined as \[\dim V \coloneqq \min\{k \in \bbz_{\geq 0} \mid \exists \:\text{linear transformation}\: \bbk^r \to V\}\]
+    \end{enumerate}
+\end{definition}
