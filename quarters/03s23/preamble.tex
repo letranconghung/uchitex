@@ -193,10 +193,11 @@
     \setcounter{corollary}{0}
     \setcounter{lemma}{0}
     \setcounter{exercise}{0}
+    \setcounter{definition0}{0}
 
-    \@ifclasswith\class{nocolor}{
-        \setcounter{definition}{0}
-    }{}
+    % \@ifclasswith\class{nocolor}{
+    %     \setcounter{definition}{0}
+    % }{}
 }
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -224,7 +225,7 @@
     % Set the section number to the lecture counter.
     \setcounter{section}{#1}
     \renewcommand\thesubsection{#1.\arabic{subsection}}
-
+    
     % Reset the counters.
     \resetcounters
 
@@ -243,7 +244,6 @@
     % Lecture 1: Lecture Title
     \newpage
     \begin{mdframed}
-        % \section*{\@lecture}
         \begin{center}
             \Large \textbf{\@leccount}
 
