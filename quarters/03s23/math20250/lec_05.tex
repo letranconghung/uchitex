@@ -1,0 +1,42 @@
+\lecture{5}{06 Apr 2023}{Span, Linear Independence, Basis}
+
+\begin{recall}
+    Linear Combination: Let \(V = \:\text{\(\bbk\)-vector space}\: \) with \(v_1, v_2, \dots, v_r \in V\) then \[
+    \bbk\langle v_1, v_2, \dots, v_r \rangle \coloneqq \{w \in W \mid = w = a_1v_1 + \dots + a_rv_r; a_i \in \bbk\} \subseteq V (\:\text{is a subspace of}\: V)
+    \]
+\end{recall}
+
+\begin{definition} {Span}
+    \(\{v_1, v_2, \dots, v_r\}\) span \(V\) if \[
+    \bbk\langle v_1, v_2, \dots, v_r \rangle = V
+    \]
+    i.e. equality is achieved: every vector in \(V\) can be written as linear combinations of \(\{v_1, v_2, \dots, v_r\}\)
+\end{definition}
+
+Connecting to the previous lecture, let \(\psi: \bbk^r \to V\) then \(\psi \in \Hom_\bbk(\bbk^r, V) \xrightarrow{\sim} V^{\oplus r}\), i.e. \(\psi\) corresponds to \((v_1, v_2, \dots, v_r)\) in \(V\).
+
+In particular, \((v_1, v_2, \dots, v_r) \in V^{\oplus r}\) determines the map:
+\begin{align*}
+    \psi: (1, 0, \dots, 0) \in \bbk^r &\to v_1 \\
+    (0, 1, \dots, 0) \in \bbk^r &\to v_2 \\
+    \vdots & \vdots \\
+    (0, 0, \dots, 1) \in \bbk^r &\to v_r \\
+    (\alpha_1, \alpha_2, \dots, \alpha_r) \in \bbk^r &\to \alpha_1v_1 + \alpha_2v_2 + \dots + \alpha_rv_r
+\end{align*}
+
+\begin{lemma}
+    \hfill
+    \begin{enumerate}
+        \item Let \(\psi: \bbk^r \to V\) be a linear transformation determined by \(v_1, v_2, \dots, v_r \in V\), i.e. \(\psi(\alpha_1, \alpha_2, \dots, \alpha_r) \coloneqq \sum_{i=1}^r \alpha_iv_i\), then \[
+        \im(\psi) = \bbk\langle v_1, v_2, \dots, v_r \rangle
+        \] is a subspace of \(V\)
+        \item \(\{v_1, v_2, \dots, v_r\}\) span \(V \Leftrightarrow \psi \:\text{is surjective}\: \) 
+
+        i.e. a surjection \(\bbk^r \to V\) corresponds to \(r\) vectors \(v_1, v_2, \dots, v_r \in V\) that span \(V\)
+    \end{enumerate}
+\end{lemma}
+
+\begin{remark}
+    \(V\) is finite dimensional when \(\exists\) surjection \(\bbk^d \to V\) 
+\end{remark}
+
