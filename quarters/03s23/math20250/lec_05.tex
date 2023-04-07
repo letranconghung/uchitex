@@ -2,13 +2,13 @@
 
 \begin{recall}
     Linear Combination: Let \(V = \:\text{\(\bbk\)-vector space}\: \) with \(v_1, v_2, \dots, v_r \in V\) then \[
-    \bbk\langle v_1, v_2, \dots, v_r \rangle \coloneqq \{w \in W \mid = w = a_1v_1 + \dots + a_rv_r; a_i \in \bbk\} \subseteq V (\:\text{is a subspace of}\: V)
+        \bbk\langle v_1, v_2, \dots, v_r \rangle \coloneqq \{w \in W \mid = w = a_1v_1 + \dots + a_rv_r; a_i \in \bbk\} \subseteq V (\:\text{is a subspace of}\: V)
     \]
 \end{recall}
 
 \begin{definition} {Span}
     \(\{v_1, v_2, \dots, v_r\}\) span \(V\) if \[
-    \bbk\langle v_1, v_2, \dots, v_r \rangle = V
+        \bbk\langle v_1, v_2, \dots, v_r \rangle = V
     \]
     i.e. equality is achieved: every vector in \(V\) can be written as linear combinations of \(\{v_1, v_2, \dots, v_r\}\)
 \end{definition}
@@ -17,26 +17,70 @@ Connecting to the previous lecture, let \(\psi: \bbk^r \to V\) then \(\psi \in \
 
 In particular, \((v_1, v_2, \dots, v_r) \in V^{\oplus r}\) determines the map:
 \begin{align*}
-    \psi: (1, 0, \dots, 0) \in \bbk^r &\to v_1 \\
-    (0, 1, \dots, 0) \in \bbk^r &\to v_2 \\
-    \vdots & \vdots \\
-    (0, 0, \dots, 1) \in \bbk^r &\to v_r \\
-    (\alpha_1, \alpha_2, \dots, \alpha_r) \in \bbk^r &\to \alpha_1v_1 + \alpha_2v_2 + \dots + \alpha_rv_r
+    \psi: (1, 0, \dots, 0) \in \bbk^r                & \to v_1                                             \\
+    (0, 1, \dots, 0) \in \bbk^r                      & \to v_2                                             \\
+    \vdots                                           & \vdots                                              \\
+    (0, 0, \dots, 1) \in \bbk^r                      & \to v_r                                             \\
+    (\alpha_1, \alpha_2, \dots, \alpha_r) \in \bbk^r & \to \alpha_1v_1 + \alpha_2v_2 + \dots + \alpha_rv_r
 \end{align*}
 
 \begin{lemma}
     \hfill
     \begin{enumerate}
         \item Let \(\psi: \bbk^r \to V\) be a linear transformation determined by \(v_1, v_2, \dots, v_r \in V\), i.e. \(\psi(\alpha_1, \alpha_2, \dots, \alpha_r) \coloneqq \sum_{i=1}^r \alpha_iv_i\), then \[
-        \im(\psi) = \bbk\langle v_1, v_2, \dots, v_r \rangle
-        \] is a subspace of \(V\)
-        \item \(\{v_1, v_2, \dots, v_r\}\) span \(V \Leftrightarrow \psi \:\text{is surjective}\: \) 
+                  \im(\psi) = \bbk\langle v_1, v_2, \dots, v_r \rangle
+              \] is a subspace of \(V\)
+        \item \(\{v_1, v_2, \dots, v_r\}\) span \(V \Leftrightarrow \psi \:\text{is surjective}\: \)
 
-        i.e. a surjection \(\bbk^r \to V\) corresponds to \(r\) vectors \(v_1, v_2, \dots, v_r \in V\) that span \(V\)
+              i.e. a surjection \(\bbk^r \to V\) corresponds to \(r\) vectors \(v_1, v_2, \dots, v_r \in V\) that span \(V\)
     \end{enumerate}
 \end{lemma}
 
 \begin{remark}
-    \(V\) is finite dimensional when \(\exists\) surjection \(\bbk^d \to V\) 
+    \(V\) is finite dimensional when \(\exists\) surjection \(\bbk^d \to V\)
+
+    \(\Leftrightarrow \exists d\) vectors \(v_1, v_2, \dots, v_r\) that span \(V\).
+
+    Recall: \(\dim V = \min\{r \in \bbz_{\geq 0} \st \exists \:\text{surjective}\: \bbk^r \to V\}\).
+
+    Next, what does it mean for \(\psi\) to be injective?
 \end{remark}
 
+\begin{definition} {Linear Independence}
+    \(v_1, v_2, \dots, v_r \in V\) are \textbf{linearly independent} if \[
+        a_1v_1 + a_2v_2 + \cdots + a_rv_r = 0; a_i \in \bbk \implies a_1 = a_2 = \cdots = a_r = 0
+    \]
+
+    i.e. there doesn't exist non-trivial relations between the vectors.
+\end{definition}
+
+\begin{example}
+    In \(\bbr^2\), (0, 1) and (0, 2) are not linearly independent because \[
+        (-2) (0, 1) + (0, 2) = (0, 0)
+    \]
+
+    But (0, 1) and (1,0) are linearly independent.
+\end{example}
+
+Consequentially, they are \textbf{linearly dependent} otherwise, i.e. \[
+    \exists a_i \:\text{not all }\: 0 \st \sum a_iv_i = 0
+\]
+
+\begin{lemma}
+    Let \(\phi: V \to W\) be a linear transformation then \(\phi\) is injective if and only if \[
+    \ker(\psi) = \{0\} \subseteq V
+    \]
+\end{lemma}
+
+\begin{proof} {Lemma}
+    \hfill
+
+    \((\Rightarrow)\) We assume that \(\phi\) is injective,
+    
+    \((\Leftarrow)\) Suppose \(\ker{\psi} = 0\) then we want to show if \[
+    a_1v_1 + a_2v_2 + \dots + a_rv_r = 0
+    \]
+\end{proof}
+\begin{lemma}
+    Given \(\psi: \bbk^r \to V\) corresponds to \(v_1, v_2, \dots, v_r\) then \(v_1, v_2, \dots, v_r\) are linearly independent if and only if \(\psi\) is injective
+\end{lemma}

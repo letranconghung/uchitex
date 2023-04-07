@@ -221,6 +221,7 @@
 \newcommand\lecture[3]{
     %   % Add 1 to the lecture counter.
     %   \addtocounter{lecturecounter}{1}
+    \newpage
 
     % Set the section number to the lecture counter.
     \setcounter{section}{#1}
@@ -242,7 +243,6 @@
     %                                                  Oct 17 2022 Mon (08:49:10)
     % ---------------------------------------------------------------------------
     % Lecture 1: Lecture Title
-    \newpage
     \begin{mdframed}
         \begin{center}
             \Large \textbf{\@leccount}
@@ -435,33 +435,31 @@
 %  Define Colors  %
 %%%%%%%%%%%%%%%%%%%
 
-\definecolor{myblue}{RGB}{45, 111, 177}
-\definecolor{mygreen}{RGB}{56, 140, 70}
-\definecolor{myred}{RGB}{199, 68, 64}
-\definecolor{mypurple}{RGB}{197, 92, 212}
+% color prototype
+% \definecolor{color}{RGB}{45, 111, 177}
 
 % ESSENTIALS: 
-\definecolor{definition_color}{HTML}{c74540}
+\definecolor{myred}{HTML}{c74540}
+\definecolor{myblue}{HTML}{072b85}
+\definecolor{black}{HTML}{000000}
 
-\definecolor{theorem_color}{HTML}{00007B}
-\colorlet{proof_color}{theorem_color}
-\colorlet{prop_color}{theorem_color}
+\colorlet{definition_color}{myred}
+\colorlet{theorem_color}{myblue}
+\colorlet{lemma_color}{myblue}
+\colorlet{prop_color}{myblue}
+\colorlet{corollary_color}{myblue}
+\colorlet{proof_color}{myblue}
+\colorlet{claim_color}{myblue}
 
-\colorlet{corollary_color}{mypurple!85!black}
-
-\definecolor{lemma_color}{HTML}{983b0f}
-
-\definecolor{example_color}{HTML}{2A7F7F}
-\colorlet{exercise_color}{example_color}
-
-\colorlet{claim_color}{mygreen!85!black}
+\colorlet{example_color}{black}
+\colorlet{exercise_color}{black}
 
 % MISCS: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Create Environments Styles Based on Given Parameter  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\mdfsetup{skipabove=1em,skipbelow=0em}
+% \mdfsetup{skipabove=1em,skipbelow=0em}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %  Helpful Commands  %
@@ -503,9 +501,21 @@
     \declaretheoremstyle[
         headfont=\bfseries\sffamily\color{#2}, bodyfont=\normalfont, #3,
         mdframed={
-                linewidth=2pt,
-                rightline=false, leftline=true, topline=false, bottomline=false,
-                linecolor=#2, backgroundcolor=white, #4,
+                outerlinewidth=0.3pt,
+                rightline=false,
+                leftline=false,
+                topline=false,
+                bottomline=false,
+                backgroundcolor=white,
+                skipabove = 4pt,
+                skipbelow = 0pt,
+                linecolor=#2,
+                innertopmargin = 0pt,
+                innerbottommargin = 0pt,
+                innerrightmargin = 4pt,
+                innerleftmargin= 6pt,
+                leftmargin = -6pt,
+                #4,
             },
     ]{#1}
 }
@@ -542,28 +552,24 @@
     % Environments with color.
 
     % ESSENTIALS: definition, theorem, proof, corollary, lemma, claim, example
-    \createnewcoloredtheoremstyle{thmdefinitionbox}{definition_color}{}{
-        leftline=true
-    }
-    \createnewcoloredtheoremstyle{thmtheorembox}{theorem_color}{}{
-        leftline=true
-    }
-    \createnewcoloredtheoremstyle{thmproofbox}{proof_color}{qed=\qedsymbol}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmcorollarybox}{corollary_color}{}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmlemmabox}{lemma_color}{}{backgroundcolor=white}
+    \createnewcoloredtheoremstyle{thmdefinitionbox}{definition_color}{}{leftline=true}
+    \createnewcoloredtheoremstyle{thmtheorembox}{theorem_color}{}{leftline=true}
+    \createnewcoloredtheoremstyle{thmproofbox}{proof_color}{qed=\qedsymbol}{}
+    \createnewcoloredtheoremstyle{thmcorollarybox}{corollary_color}{}{leftline=true}
+    \createnewcoloredtheoremstyle{thmlemmabox}{lemma_color}{}{leftline=true}
     \createnewcoloredtheoremstyle{thmclaimbox}{claim_color}{}{}
-    \createnewcoloredtheoremstyle{thmexamplebox}{example_color}{}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmexplanationbox}{example_color}{qed=\qedsymbol}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmremarkbox}{theorem_color}{}{backgroundcolor=white}
+    \createnewcoloredtheoremstyle{thmexamplebox}{example_color}{}{}
+    \createnewcoloredtheoremstyle{thmexplanationbox}{example_color}{qed=\qedsymbol}{}
+    \createnewcoloredtheoremstyle{thmremarkbox}{theorem_color}{}{}
 
-    \createnewcoloredtheoremstyle{thmmiscbox}{black}{}{leftline=false,backgroundcolor=white}
+    \createnewcoloredtheoremstyle{thmmiscbox}{black}{}{}
 
 
-    \createnewcoloredtheoremstyle{thmpropbox}{prop_color}{}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmexercisebox}{exercise_color}{}{backgroundcolor=white}
+    \createnewcoloredtheoremstyle{thmpropbox}{prop_color}{}{}
+    \createnewcoloredtheoremstyle{thmexercisebox}{exercise_color}{}{}
 
-    \createnewcoloredtheoremstyle{thmproblembox}{myred}{}{backgroundcolor=white}
-    \createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{backgroundcolor=white}
+    \createnewcoloredtheoremstyle{thmproblembox}{theorem_color}{}{}
+    \createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
 }
 \makeatother
 
@@ -590,153 +596,6 @@
 \declaretheorem[numbered=no,          style=thmmiscbox,    name=Observe]{observe}
 
 
-
-
-%%%% FANCY GRAPHICS:
-
-% \makeatletter
-% \@ifclasswith\class{nocolor}{
-%   % Environments without color.
-
-%   \newtheorem*{note}{Note}
-
-%   \declaretheorem[numberwithin=section, style=thmdefinitionbox, name=Definition]{definition}
-%   \declaretheorem[numberwithin=section, style=thmquestionbox,   name=Question]{question}
-%   \declaretheorem[numberwithin=section, style=thmsolutionbox,   name=Solution]{solution}
-% }{
-%   % Environments with color.
-
-%   \newtcbtheorem[number within=section]{Definition}{Definition}{
-%     enhanced,
-%     before skip=2mm,
-%     after skip=2mm,
-%     colback=red!5,
-%     colframe=red!80!black,
-%     colbacktitle=red!75!black,
-%     boxrule=0.5mm,
-%     attach boxed title to top left={
-%       xshift=1cm,
-%       yshift*=1mm-\tcboxedtitleheight
-%     },
-%     varwidth boxed title*=-3cm,
-%     boxed title style={
-%       interior engine=empty,
-%       frame code={
-%         \path[fill=tcbcolback]
-%         ([yshift=-1mm,xshift=-1mm]frame.north west)
-%         arc[start angle=0,end angle=180,radius=1mm]
-%         ([yshift=-1mm,xshift=1mm]frame.north east)
-%         arc[start angle=180,end angle=0,radius=1mm];
-%         \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,
-%         middle color=tcbcolback!80!black]
-%         ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
-%         [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
-%         -- (frame.south east) -- (frame.south west)
-%         -- ([xshift=-1mm,yshift=-1mm]frame.north west)
-%         [sharp corners]-- cycle;
-%       },
-%     },
-%     fonttitle=\bfseries,
-%     title={#2},
-%     #1
-%   }{def}
-
-%   \NewDocumentEnvironment{definition}{O{}O{}}
-%     {\begin{Definition}{#1}{#2}}{\end{Definition}}
-
-%   \newtcolorbox{note}[1][]{%
-%     enhanced jigsaw,
-%     colback=gray!20!white,%
-%     colframe=gray!80!black,
-%     size=small,
-%     boxrule=1pt,
-%     title=\textbf{Note:-},
-%     halign title=flush center,
-%     coltitle=black,
-%     breakable,
-%     drop shadow=black!50!white,
-%     attach boxed title to top left={xshift=1cm,yshift=-\tcboxedtitleheight/2,yshifttext=-\tcboxedtitleheight/2},
-%     minipage boxed title=1.5cm,
-%     boxed title style={%
-%       colback=white,
-%       size=fbox,
-%       boxrule=1pt,
-%       boxsep=2pt,
-%       underlay={%
-%         \coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
-%         \coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
-%         \begin{scope}
-%           \clip (interior.north west) rectangle ([xshift=3ex]interior.east);
-%           \filldraw [white, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
-%         \end{scope}
-%         \begin{scope}[gray!80!black]
-%           \fill (dotA) circle (2pt);
-%           \fill (dotB) circle (2pt);
-%         \end{scope}
-%       },
-%     },
-%     #1,
-%   }
-
-%   \newtcbtheorem{Question}{Question}{enhanced,
-%     breakable,
-%     colback=white,
-%     colframe=myblue!80!black,
-%     attach boxed title to top left={yshift*=-\tcboxedtitleheight},
-%     fonttitle=\bfseries,
-%     title=\textbf{Question:-},
-%     boxed title size=title,
-%     boxed title style={%
-%       sharp corners,
-%       rounded corners=northwest,
-%       colback=tcbcolframe,
-%       boxrule=0pt,
-%     },
-%     underlay boxed title={%
-%       \path[fill=tcbcolframe] (title.south west)--(title.south east)
-%       to[out=0, in=180] ([xshift=5mm]title.east)--
-%       (title.center-|frame.east)
-%       [rounded corners=\kvtcb@arc] |-
-%       (frame.north) -| cycle;
-%     },
-%     #1
-%   }{def}
-
-%   \NewDocumentEnvironment{question}{O{}O{}}
-%   {\begin{Question}{#1}{#2}}{\end{Question}}
-
-%   \newtcolorbox{Solution}{enhanced,
-%     breakable,
-%     colback=white,
-%     colframe=mygreen!80!black,
-%     attach boxed title to top left={yshift*=-\tcboxedtitleheight},
-%     title=\textbf{Solution:-},
-%     boxed title size=title,
-%     boxed title style={%
-%       sharp corners,
-%       rounded corners=northwest,
-%       colback=tcbcolframe,
-%       boxrule=0pt,
-%     },
-%     underlay boxed title={%
-%       \path[fill=tcbcolframe] (title.south west)--(title.south east)
-%       to[out=0, in=180] ([xshift=5mm]title.east)--
-%       (title.center-|frame.east)
-%       [rounded corners=\kvtcb@arc] |-
-%       (frame.north) -| cycle;
-%     },
-%   }
-
-%   \NewDocumentEnvironment{solution}{O{}O{}}
-%   {\vspace{-10pt}\begin{Solution}{#1}{#2}}{\end{Solution}}
-% }
-% \makeatother
-
-
-%%%%% END OF FANCY GRAPHICS %%%%%%%%%%
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Edit Proof Environment  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -751,11 +610,11 @@
 
     \hfill
         
-    \vspace{0.2cm}
+    \vspace{2pt}
 
 }{
 
-    \vspace{0.2cm}
+    \vspace{2pt}
     \end{definition0}
 }
 
