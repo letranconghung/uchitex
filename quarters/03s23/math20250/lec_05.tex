@@ -19,7 +19,7 @@ In particular, \((v_1, v_2, \dots, v_r) \in V^{\oplus r}\) determines the map:
 \begin{align*}
     \psi: (1, 0, \dots, 0) \in \bbk^r                & \to v_1                                             \\
     (0, 1, \dots, 0) \in \bbk^r                      & \to v_2                                             \\
-    \vdots                                           & \vdots                                              \\
+                                                     & \vdots                                              \\
     (0, 0, \dots, 1) \in \bbk^r                      & \to v_r                                             \\
     (\alpha_1, \alpha_2, \dots, \alpha_r) \in \bbk^r & \to \alpha_1v_1 + \alpha_2v_2 + \dots + \alpha_rv_r
 \end{align*}
@@ -65,22 +65,121 @@ In particular, \((v_1, v_2, \dots, v_r) \in V^{\oplus r}\) determines the map:
 Consequentially, they are \textbf{linearly dependent} otherwise, i.e. \[
     \exists a_i \:\text{not all }\: 0 \st \sum a_iv_i = 0
 \]
-
-\begin{lemma}
-    Let \(\phi: V \to W\) be a linear transformation then \(\phi\) is injective if and only if \[
-    \ker(\psi) = \{0\} \subseteq V
-    \]
-\end{lemma}
-
-\begin{proof} {Lemma}
-    \hfill
-
-    \((\Rightarrow)\) We assume that \(\phi\) is injective,
-    
-    \((\Leftarrow)\) Suppose \(\ker{\psi} = 0\) then we want to show if \[
-    a_1v_1 + a_2v_2 + \dots + a_rv_r = 0
-    \]
-\end{proof}
-\begin{lemma}
+\begin{lemma} \label{lemma:5.2}
     Given \(\psi: \bbk^r \to V\) corresponds to \(v_1, v_2, \dots, v_r\) then \(v_1, v_2, \dots, v_r\) are linearly independent if and only if \(\psi\) is injective
 \end{lemma}
+
+
+In order to prove the lemma above, we shall make use of a more convenient test for whether a map \(\phi: \bbk^r \to V\) is injective.
+
+\begin{lemma} \label{lemma:5.3}
+    Let \(\phi: V \to W\) be a linear transformation then \(\phi\) is injective if and only if \[
+        \ker(\phi) = \{0\} \subseteq V
+    \]
+\end{lemma}
+
+\begin{proof} {Lemma \ref{lemma:5.3}}
+    \hfill
+
+    \pffwd We assume that \(\phi\) is injective, want to show that \(\ker(\phi) = \{0\}\).
+
+    We know that \(\phi(0) = 0 \implies 0 \in \ker(\phi) \) but since \(\phi\) is injective, \(\nexists v \neq 0 \in V \st \phi(v) = 0\).
+
+    It follows that \(\ker(\phi) = {0}\)
+
+    \pfbwd We want to show that \(x, y \in V \st \phi(x) = \phi(y) \implies x = y\)
+
+    Since \(\phi(x-y)  = \phi(x + (-y)) = \phi(x) - \phi(y) = 0\), combined with \(\ker(\phi) = {0}\) \[
+        \implies x - y = 0 \implies x =y
+    \]
+\end{proof}
+
+\begin{proof} {Lemma \ref{lemma:5.2}}
+    \hfill
+
+    Applying Lemma \ref{lemma:5.3}, we want to show: \(\ker(\phi) = {0}\) iff \(v_1, v_2, \dots, v_r\) are linearly independent.
+
+    \pffwd Suppose \(\ker(\phi) = \{0\}\) then want to show \[
+        a_1v_1 + a_2v_2 + \dots + a_rv_r = 0 \implies a_i = 0 \forall i
+    \]
+
+    But \(LHS = \phi((a_1, a_2, \dots, a_r))  \implies (a_1, a_2, \dots, a_r) \in \ker(\phi) \implies (a_1, a_2, \dots, a_r)  = 0\).
+
+    Therefore \(a_i = 0 \forall i\).
+
+    \pfbwd Suppose that \(v_1, v_2, \dots, v_r\) are linearly independent.
+
+    Then for \(v \in \ker(\phi) \implies \phi(v) = 0\), with \(v = (a_1, a_2, \dots, a_r)\)
+    \begin{align*}
+        \implies 0 & =\phi(v)                           \\
+                   & = \phi((a_1, a_2, \dots, a_r))     \\
+                   & = a_1v_1 + a_2v_2 + \dots + a_rv_r
+    \end{align*}
+    But since \(v_1, v_2, \dots, v_r\) are linearly independent
+    \[
+        \implies a_i = 0 \forall i \implies v = 0 \implies \ker(\phi) = {0}
+    \]
+\end{proof}
+
+\begin{corollary}
+    If \(V\) has dimension \(d\) over \(\bbk\) then there exists isomorphic \(\phi: \bbk^d \xrightarrow{\sim} V\)
+
+    i.e. \(\phi\) is a bijective linear transformation
+\end{corollary}
+
+\begin{proof}{Corollary}
+    Since \(d = \dim V\), by definition there exists surjective linear transformation \(\pi: \bbk^d \twoheadrightarrow V\)
+
+    We then claim that \(\pi\) is also injective.
+
+    Proving by contradiction, we suppose that \(\pi\) is not injective.
+    
+    let \(v_1, v_2, \dots, v_d\) be the \(d\) vectors that correspond to \(\pi\), i.e. \[
+    \pi((a_1, a_2, \dots, a_d)) = a_1v_1 + \dots + a_dv_d
+    \]
+
+    By Lemma \ref{lemma:5.2}, \(\pi\) being not injective implies that \(v_1, v_2, \dots, v_d\) are linearly dependent.
+
+    i.e. there exists \(b_1, b_2, \dots, b_d \in \bbk\) not identically 0 \st \[
+    b_1v_1 + b_2v_2 + \dots + b_dv_d = 0
+    \]
+
+    WLOG, assume \(b_1 \neq 0\).
+    \begin{align*}
+        \implies b_1v_1 &= -(b_2v_2 \dots b_dv_d) \\
+        \implies v_1 &= -b^{-1}(b_2v_2 \dots b_dv_d) (\exists b^{-1} \because b_1 \neq 0) \\
+        &= c_2v_2 + c_3v_3 + \dots + c_dv_d
+    \end{align*}
+
+    We already know that since \(\pi\) is surjective, thus \(v_1, v_2, \dots, v_d\) span \(V\). However, the above equality implies that \(v_2, \dots, v_d\) already span \(V\)!
+    
+    It follows that there must exist a surjective linear transformation \(\pi': \bbk^{d-1} \twoheadrightarrow V\)
+
+    \contra, since \(d = \min\{r \mid \exists \:\text{surjective}\: \pi^r: \bbk^r \twoheadrightarrow V\}\)
+
+    Therefore \(\pi\) is injective. It is already surjective, and therefore bijective, making it an isomorphism.
+\end{proof}
+
+\begin{recall}
+    \(\psi: \bbk^d \to V\) as determined by \(v_1, v_2, \dots, v_d\) is 
+    \begin{enumerate}
+        \item \textbf{injective} when \(v_1, v_2, \dots, v_d\) are linearly independent
+        \item \textbf{surjective} when \(v_1, v_2, \dots, v_d\) span \(V\)
+    \end{enumerate}
+
+    This naturally leads to our next definition.
+\end{recall}
+\begin{definition} {Basis}
+    \(\{v_1, v_2, \dots, v_r\}\) is called a \textbf{basis} of \(V\) if they span \(V\) and are linearly independent,
+    
+    i.e. \(\psi_{(v_1, v_2, \dots, v_r)}: \bbk^r \to V\) is an isomorphism.
+\end{definition}
+
+\begin{corollary}
+    \(
+    \dim_\bbk V = d \Leftrightarrow \exists \:\text{basis}\: \{v_1, v_2, \dots, v_d\} \:\text{for}\: V
+    \)
+\end{corollary}
+\begin{corollary}
+    If \(\{v_1, v_2, \dots, v_d\}\) and \(\{w_1, w_2, \dots, v_{d'}\}\) are basis for \(V\) then \(d = d'\).
+\end{corollary}
