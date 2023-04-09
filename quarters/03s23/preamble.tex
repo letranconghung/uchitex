@@ -441,18 +441,19 @@
 % ESSENTIALS: 
 \definecolor{myred}{HTML}{c74540}
 \definecolor{myblue}{HTML}{072b85}
-\definecolor{black}{HTML}{000000}
+\definecolor{myblack}{HTML}{000000}
 
 \colorlet{definition_color}{myred}
+
 \colorlet{theorem_color}{myblue}
 \colorlet{lemma_color}{myblue}
 \colorlet{prop_color}{myblue}
 \colorlet{corollary_color}{myblue}
-\colorlet{proof_color}{myblue}
 \colorlet{claim_color}{myblue}
 
-\colorlet{example_color}{black}
-\colorlet{exercise_color}{black}
+\colorlet{proof_color}{myblack}
+\colorlet{example_color}{myblack}
+\colorlet{exercise_color}{myblack}
 
 % MISCS: 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -501,13 +502,13 @@
     \declaretheoremstyle[
         headfont=\bfseries\sffamily\color{#2}, bodyfont=\normalfont, #3,
         mdframed={
-                outerlinewidth=0.3pt,
+                outerlinewidth=0.75pt,
                 rightline=false,
                 leftline=false,
                 topline=false,
                 bottomline=false,
                 backgroundcolor=white,
-                skipabove = 4pt,
+                skipabove = 10pt,
                 skipbelow = 0pt,
                 linecolor=#2,
                 innertopmargin = 0pt,
@@ -584,7 +585,7 @@
 \declaretheorem[numberwithin=section, style=thmpropbox,        name=Proposition]{proposition}
 \declaretheorem[numberwithin=section, style=thmlemmabox,       name=Lemma]{lemma}
 \declaretheorem[numberwithin=section, style=thmexercisebox,    name=Exercise]{exercise}
-\declaretheorem[numbered=no,          style=thmproofbox,       name=Proof]{replacementproof}
+\declaretheorem[numbered=no,          style=thmproofbox,       name=Proof]{proof0}
 \declaretheorem[numbered=no,          style=thmexplanationbox, name=Explanation]{explanation}
 \declaretheorem[numbered=no,          style=thmsolutionbox,    name=Solution]{solution}
 \declaretheorem[numberwithin=section,          style=thmproblembox,     name=Problem]{problem}
@@ -602,8 +603,8 @@
 
 \renewenvironment{proof}[2][\proofname]{
     % \vspace{-12pt}
-    \begin{replacementproof} [#2]
-}{\end{replacementproof}}
+    \begin{proof0} [#2]
+}{\end{proof0}}
 
 \newenvironment{definition}[1]{
     \begin{definition0}[#1]
@@ -645,8 +646,12 @@
 \newcommand{\bbk}{\mathbb{K}}
 \newcommand{\bbm}{\mathbb{M}}
 \renewcommand{\phi}{\varphi}
-\newcommand{\st}{\;\text{such that}\;}
 
+% Universal Math Shortcuts
+\newcommand{\st}{\;\text{such that}\;}
+\newcommand{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
+\newcommand{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
+\newcommand{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
 
 % MATH 20250 %
 \newcommand{\Hom}{\mathrm{Hom}}
