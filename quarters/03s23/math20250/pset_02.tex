@@ -43,7 +43,7 @@ Is the vector \((3, -1, 0, -1)\) in the subspace of \(\bbr^5\) spanned by the ve
     \]
     which is then equivalent to the following augmented matrix:
     \[
-        \left[\begin{array}{cccc}
+        \left[\begin{array}{ccc|c}
                 2  & -1 & 1  & 3  \\
                 -1 & 1  & 1  & -1 \\
                 3  & 1  & 9  & 0  \\
@@ -53,7 +53,7 @@ Is the vector \((3, -1, 0, -1)\) in the subspace of \(\bbr^5\) spanned by the ve
 
     on which we can carry out simplifying row operations to reach the row-reduced echelon form:
     \[
-        \left[\begin{array}{cccc}
+        \left[\begin{array}{ccc|c}
                 1 & 0 & 2 & 0 \\
                 0 & 1 & 3 & 0 \\
                 0 & 0 & 0 & 1 \\
@@ -238,14 +238,14 @@ form a basis for \(\bbr^3\). Express each of the standard basis vectors as linea
 
     It must now be proven that they are linearly independent, which is equivalent to showing that the system of linear equations represented by the following augmented matrix has no non-trivial solutions:
     \[
-        \left[\begin{array}{cccc}
+        \left[\begin{array}{ccc|c}
                 1  & 1 & 0  & 0 \\
                 0  & 2 & -3 & 0 \\
                 -1 & 1 & 2  & 0 \\
             \end{array}\right]
     \]
 
-    Indeed, its row-reduced echelon form is \(\left[\begin{array}{cccc}
+    Indeed, its row-reduced echelon form is \(\left[\begin{array}{ccc|c}
             1 & 0 & 0 & 0 \\
             0 & 1 & 0 & 0 \\
             0 & 0 & 1 & 0
