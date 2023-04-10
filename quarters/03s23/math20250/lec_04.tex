@@ -1,7 +1,7 @@
 \lecture{4}{04 Apr 2023}{Linear Transformation, Homomorphism, Kernel, Image}
 \subsection{Vector Subspace}
 \begin{definition} {Vector Subspace}
-    Let \(V\) be a \(\bbk\)-vector space. A \textbf{subspace} (or \textbf{sub-vector space}) of \(V\) is a subset \(W \subseteq V\) \st \(W\) is itself a \(\bbk\)-vector space under addition and scaling induced from \(V\). A priori, we know that \[
+    Let \(V\) be a \(\bbk\)-vector space. A \textbf{subspace} (or \textbf{sub-vector space}) of \(V\) is a subset \(W \subseteq V\) s.t. \(W\) is itself a \(\bbk\)-vector space under addition and scaling induced from \(V\). A priori, we know that \[
         + : W \times W \to V, \cdot: W \times W \to V
     \]
     but this subspace requirement implies that
@@ -43,7 +43,7 @@ Then \(x:\bbz \mapsto x^2:\bbz\) is not a group homomorphism, but \(x: \bbz \map
 Here, a natural question arises: If given 2 vector spaces, what maps are allowed between them? What structures do we have to preserve?
 
 \begin{definition} {Linear Transformation}
-    Let \(V, W\) be \(\bbk\)-vector spaces. Then a \textbf{vector space homomorphism} is also called a \textbf{linear transformation}, a map \(\psi: V \to W\) \st
+    Let \(V, W\) be \(\bbk\)-vector spaces. Then a \textbf{vector space homomorphism} is also called a \textbf{linear transformation}, a map \(\psi: V \to W\) s.t.
     \begin{enumerate}
         \item \(\psi(v_1 + v_2) = \psi(v_1) + \psi(v_2) \forall v_1, v_2 \in V\)
         \item \(\psi(\alpha \cdot v) = \alpha \cdot \psi(v) \forall \alpha \in \bbk, v \in V\)
