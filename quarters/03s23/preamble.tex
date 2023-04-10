@@ -501,7 +501,11 @@
 % change backgroundcolor to #2!5 if user wants a colored backdrop to theorem environments. It's a cool color theme, but there's too much going on in the page.
 \newcommand\createnewcoloredtheoremstyle[4]{
     \declaretheoremstyle[
-        headfont=\bfseries\sffamily\color{#2}, bodyfont=\normalfont, #3,
+        headfont=\bfseries\sffamily\color{#2},
+        bodyfont=\normalfont,
+        headpunct=,
+        headformat = \NAME~\NUMBER\NOTE \hfill\smallskip\linebreak,
+        #3,
         mdframed={
                 outerlinewidth=0.75pt,
                 rightline=false,
@@ -608,10 +612,7 @@
 }{\end{proof0}}
 
 \newenvironment{definition}[1]{
-    \begin{definition0}[#1]
-
-    \hfill
-        
+    \begin{definition0}[#1]        
     \vspace{2pt}
 
 }{
@@ -649,7 +650,7 @@
 \renewcommand{\phi}{\varphi}
 
 % Universal Math Shortcuts
-\newcommand{\st}{\;\text{such that}\;}
+\newcommand{\st}{\,\text{such that}\,}
 \newcommand{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
 \newcommand{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
 \newcommand{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
