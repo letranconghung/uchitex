@@ -1,0 +1,172 @@
+\lecture{6}{13 Apr 2023}{Vector Space as Direct Sums of Subspaces}
+
+\begin{lemma}
+    Let \(V, W\) be vector spaces over \(\bbk\). If \(\dim_\bbk V = d_1, \dim_\bbk W = d_2\) then \(V \oplus W\) is finite dimensional and \(\dim_\bbk (V \oplus W) = d_1 + d_2\)
+\end{lemma}
+\begin{proof} {Lemma}
+    We claim that: If \(\{v_1, v_2, \dots, v_{d_1}\}\) is a basis for \(V\),  \(\{w_1, w_2, \dots, w_{d_2}\}\) is a basis for \(W\) then \[
+    \{(v_1, 0), (v_2, 0), \dots, (v_{d_1}, 0), (0, w_1), (0, w_2), \dots, (0, w_{d_2})\}
+    \]
+    is a basis for \(V \oplus W\).
+
+    \textbf{Span}
+
+    If \(x \in V \oplus W\) then \(x = (v, w)\) for some \(v \in V, w \in W\).
+
+    Therefore
+    \begin{align*}
+        x &= (v, 0) + (0, w)\\
+        &= \sum_{i=1}^{d_1}\alpha_i(v_i, 0) + \sum_{j=1}^{d_2}\beta_j (0, w_j)
+    \end{align*}
+    for some \(\alpha_i, \beta_j \in \bbk\), since \(\{v_i\}, \{w_j\}\) are bases.
+
+    \(\{(v_1, 0), (v_2, 0), \dots, (v_{d_1}, 0), (0, w_1), (0, w_2), \dots, (0, w_{d_2})\}\) indeed spans \(V \oplus W\).
+
+    \textbf{Linearly Independent}
+
+    Suppose there exists \(\sum_{i=1}^{d_1}\alpha_i(v_i, 0) + \sum_{j=1}^{d_2}\beta_j (0, w_j) = (0, 0)\)
+
+    By comparing the 2 ``coordinates'', \(\sum_{i=1}^{d_1}\alpha_i v_i =0 \in V\) and \(\sum_{j=1}^{d_2}\beta_j w_j =0 \in W\).
+
+    But since \(\{v_i\}, \{w_j\}\) are bases \(\implies \alpha_i = \beta_j = 0 \in \bbk\). 
+    
+    It follows that  \(\{(v_1, 0), (v_2, 0), \dots, (v_{d_1}, 0), (0, w_1), (0, w_2), \dots, (0, w_{d_2})\}\) are indeed linearly independent.
+
+    Dimension as size of basis:
+    \[
+    \implies \dim_\bbk(V \oplus W) = d_1 + d_2 = \dim_\bbk V + \dim_\bbk W
+    \]
+\end{proof}
+
+\begin{example}
+    \(\bbr \oplus \bbr = \bbr^2\).
+
+    We can view \(\bbr\) as a ``subspace'' of \(\bbr^2\), by prescribing the other coordinate. Some ways are described as follows:
+    \begin{enumerate}
+        \item \(L_0: \bbr \to \bbr^2, a \to (0, 0)\)
+        \item \(L_1: \bbr \to \bbr^2, x \to (x, 0)\)
+        \item \(L_2: \bbr \to \bbr^2, y \to (0, y)\)
+        \item \(L_3: \bbr \to \bbr^2, z \to (z, z)\)
+    \end{enumerate}
+
+    Then, when are these direct sums of subspaces either lacking/redundant to get \(\bbr^2\)? For example, \(L_0 \oplus L_1\) is lacking, while \(L_1 \oplus \bbr^2\) is redundant. We thus investigate the relationship between a vector space and its subspaces.
+\end{example}
+
+Let \(W\) be a vector space over \(\bbk\). \(V_1, V_2\) are subspaces of \(W\). Consider 
+\begin{align*}
+    V_1 \oplus V_2 &\xrightarrow{\pi} W \\
+    (v_1, v_2) &\xrightarrow{} v_1 + v_2
+\end{align*}
+
+We then inspect the injectivity and surjectivity of this mapping \(\pi\).
+
+\begin{lemma}
+    \(\pi\) as above is injective \(\Leftrightarrow V_1 \cap V_2 = \{0\} \subseteq W\)
+\end{lemma}
+
+\begin{proof} {Lemma}
+    \pffwd Suppose \(\pi\) is injective.
+
+    Let \(x \in V_1 \cap V_2\) then \(x \in V_1, x \in V_2 \implies (-x) \in V_2\).
+
+    It follows that \((x, -x) \in V_1 \oplus V_2 \:\text{and}\: \pi(x, -x) = x + (-x) = 0\).
+
+    Therefore, for \(\pi\) to be injective, \(x = 0 \implies V_1 \cap V_2 = \{0\}\)
+
+    \pfbwd Suppose \(V_1 \cap V_2 = \{0\}\). To prove that  \(\pi\) is injective, we prove that \(\ker(\pi) = {0}\)
+
+    Let \(y = (v_1, v_2) \in \ker(\pi)\), i.e. \(v_1 \in V_1, v_2 \in V_2, 0 = \pi(y) = \pi((v_1, v_2)) = v_1 + v_2 \in W\)
+
+    It follows that \(v_1 = -v_2 \in V_2 \implies v_1 \in V_1 \implies v_1 \in V_1 \cap V_2 \implies v_1 = 0 \implies v_2 = -v_1 = 0\)
+
+    Thus \(y = (0, 0) = 0_{V \oplus W}\). Therefore \(\ker(\pi) = \{0\}\)
+\end{proof}
+
+\begin{corollary}
+    Suppose \(V_1, V_2\) are subspaces of \(W\) \st \begin{enumerate}
+        \item (surjective) every \(w \in W\) can be written as \(w = v_1 + v_2\) for some \(v_1 \in V_1, v_2 \in V_2\)
+        \item (injective) \(V_1 \cap V_2 = \{0\}\)
+    \end{enumerate}
+
+    then we have a (natural) isomorphism:
+    \begin{align*}
+        V_1 \oplus V_2 &\xrightarrow{\sim} W \\
+        (x, y) &\to x + y
+    \end{align*}
+\end{corollary}
+
+\begin{remark}
+    Essentially, this answers the question: when can we write a vector space as direct sum of 2 subspaces?
+\end{remark}
+
+\begin{proposition}
+    Let \(V, W\) be finite dimensional vector spaces over \(\bbk\). Let \(\psi: V \to W\) be a linear transformation over \(\bbk\) then there exists isomorphism \[
+    \ker(\psi) \oplus \im(\psi) \xrightarrow{\sim} V
+    \]
+    Consequentially, \(\dim_\bbk V = \dim_\bbk(\ker(\psi)) + \dim_\bbk(\im(\psi))\)
+
+    \textbf{Warning:} \(\ker(\psi)\) is a subspace of \(V\), but \(\im(\psi)\) is only a subspace of \(W\)! We therefore can't straightaway apply the results of the previous corollary, but can do that by constructing a subspace of \(V\) that is isomorphic to \(\im(\psi)\).
+\end{proposition}
+
+\begin{remark}
+    \(\dim_\bbk(\ker(\psi))\) is called the \textbf{nullity of \(\psi\)}.
+
+    \(\dim_\bbk(\im(\psi))\) is called the \textbf{rank of \(\psi\)}
+\end{remark}
+
+\begin{proof} {Proposition}
+    Since \(W\) is finite dimensional, \(\im(\psi) \subseteq W\) is therefore finite dimensional.
+
+    Let \(\{e_1, e_2, \dots, e_r\}\) be a basis for \(\im(\psi) \subseteq W\).
+
+    Since \(e_i \in \im(\psi) \implies \exists \psi^{-1}(e_i) = \{v \in V \mid \psi(v) = e_i\} \neq \O\)
+
+    Pick some \(e'_i \in \psi^{-1}(e_i)\) for each \(i\) then let \[
+    U \coloneq \bbk\langle e'_1, e'_2, \dots, e'_r\rangle \subseteq V
+    \]
+    be the subspace spanned by \(\{e'_i\}\).
+    
+    \textbf{Claim 1:} \(\psi\) induces an isomorphism 
+    \begin{align*}
+        U & \xrightarrow{\sim} \im(\psi) \\
+        \sum_{i=1}^{r} \alpha_i e'_i & \to \sum_{i=1}^{r} \alpha_i e_i
+    \end{align*}
+
+    \textbf{Claim 2:} \(\ker(\psi)\) and \(U\) satisfy the conditions in the above corollary as subspaces of \(V\).
+
+    Before proving the details, we show that the 2 claims give us QED:
+
+    Claim 1: \(\implies \ker(\psi) \oplus U \xrightarrow{\sim} \ker(\psi) \oplus \im(\psi)\)
+    
+    Claim 2: \(\implies \ker(\psi) \oplus U \xrightarrow{\sim} V\) \qedhere
+
+    \textbf{Proving Claim 1:} From construction, \begin{align*}
+        U & \xrightarrow{\phi} \im(\psi) \\
+        \sum_{i=1}^{r} \alpha_i e'_i &\to \sum_{i=1}^{r} \alpha_i e_i
+    \end{align*}
+    is surjective. It remains for us to show that it is injective \(\Leftrightarrow \ker(\phi) = \{0\}\)
+
+    Suppose \(\sum_{i=1}^{r} \alpha_i e'_i \in \ker(\phi)\) then \[
+    \im(\psi) \ni 0 = \phi\left(\sum_{i=1}^{r} \alpha_i e'_i\right) = \sum_{i=1}^{r} \alpha_i e_i
+    \]
+
+    But since \(\{e_i\}\) forms a basis for \(\im(\psi) \implies \alpha_i = 0 \in \bbk \implies \sum_{i=1}^{r} \alpha_i e'_i = 0 \in U \implies \ker(\phi) = \{0\}\) 
+    
+    \(\phi\) is therefore injective.
+
+    \textbf{Proving Claim 2:} Let \(v \in V\), we want to write \(v\) as sum of an element from \(U\) and an element from \(\ker(\psi)\).
+
+    Let \(w = \psi(v) \in \im(\psi) = \sum \alpha_i e_i\)
+
+    Let \(v' = \sum \alpha_i e'_i \in U\), then \[
+    \psi(v - v') = \psi(v) - \psi(v') = w - w = 0
+    \]
+    Therefore \(v - v' \in \ker(\psi)\), and we can write \[
+    v = (v- v') (\in \ker(\psi)) + v' (\in U)
+    \]
+    It remains for us to show that \(\ker(\psi) \cap U = \{0\}\).
+
+    Let any \(x \in \ker(\psi) \cap U\) then \(\psi(x) = 0 \in \im(\psi)\).
+    
+    But from claim 1, it follows that \(x = 0 \implies \ker(\psi) \cap U = \{0\}\)
+\end{proof}

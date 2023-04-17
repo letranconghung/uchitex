@@ -1,8 +1,8 @@
 \lecture{5}{06 Apr 2023}{Span, Linear Independence, Basis}
 
 \begin{recall}
-    Linear Combination: Let \(V = \:\text{\(\bbk\)-vector space}\: \) with \(v_1, v_2, \dots, v_r \in V\) then \[
-        \bbk\langle v_1, v_2, \dots, v_r \rangle \coloneqq \{w \in W \mid = w = a_1v_1 + \dots + a_rv_r; a_i \in \bbk\} \subseteq V (\:\text{is a subspace of}\: V)
+    Linear Combination: Let \(V = \:\text{\(\bbk\)-vector space with}\: v_1, v_2, \dots, v_r \in V\) then \[
+        \bbk\langle v_1, v_2, \dots, v_r \rangle \coloneqq \{w \in W \mid w = a_1v_1 + \dots + a_rv_r; a_i \in \bbk\} \subseteq V (\:\text{is a subspace of}\: V)
     \]
 \end{recall}
 
@@ -26,6 +26,7 @@ In particular, \((v_1, v_2, \dots, v_r) \in V^{\oplus r}\) determines the map:
 
 \begin{lemma}
     \begin{enumerate}
+        \item[]
         \item Let \(\psi: \bbk^r \to V\) be a linear transformation determined by \(v_1, v_2, \dots, v_r \in V\), i.e. \(\psi(\alpha_1, \alpha_2, \dots, \alpha_r) \coloneqq \sum_{i=1}^r \alpha_iv_i\), then \[
                   \im(\psi) = \bbk\langle v_1, v_2, \dots, v_r \rangle
               \] is a subspace of \(V\)
