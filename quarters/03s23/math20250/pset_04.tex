@@ -1,0 +1,157 @@
+\documentclass[a4paper, 11pt]{article}
+\input{../preamble.tex}
+\title{Math 20250: Abstract Linear Algebra \\ \large Problem Set 4}
+\date{24 Apr 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\newpage
+\setcounter{section}{4}
+\textbf{Textbook: Linear Algebra by Hoffman and Kunze (2nd Edition)}
+\begin{problem} [Sec 3.4. Problem 3]
+Let \(T\) be a linear operator on \(\bbf^n\), let \(A\) be the matrix of \(T\) in the standard ordered basis for \(\bbf^n\), and let \(W\) be the subspace of \(\bbf^n\) spanned by the column vectors of \(A\). What does \(W\) have to do with \(T\)?
+\end{problem}
+\begin{solution}
+    Let \(\cab= \{e_1, e_2, \dots e_n\}\) be the standard ordered basis for \(\bbf^n\).
+
+    Since \(A\) is the matrix of \(T\) in \(\cab\), the columns \(A_j = T(e_j)\).
+
+    Since \(W\) is the subspace of \(\bbf^n\) spanned by the column vectors \(A_j\) of \(A\), it is the subspace spanned by \(T(e_j)\), which is simply the range of \(T\).
+\end{solution}
+\begin{problem} [Sec 3.4. Problem 5]
+Let \(T\) be the linear operator on \(\bbr^3\), the matrix of which in the standard ordered basis is \[
+    A = \left[\begin{array}{ccc}
+            1  & 2 & 1 \\
+            0  & 1 & 1 \\
+            -1 & 3 & 4
+        \end{array}\right]
+\]
+Find a basis for the range of \(T\) and a basis for the null space of \(T\).
+\end{problem}
+\begin{solution}
+    Per the previous problem, we know that \(\{(1, 0, -1), (2, 1, 3), (1, 1, 4)\}\) span the range of \(T\). However, in order to establish the basis of the range of \(T\), we have to check if they are linearly independent.
+
+    In fact, they are not:
+    \[
+        (1, 0, -1) + (-1)(2, 1, 3) + (1, 1, 4) = (0, 0, 0)
+    \]
+    and therefore \(\{(1, 0, -1), (2, 1, 3)\}\) already span the range of \(T\).
+
+    It is also trivial that \(\{(1, 0, -1), (2, 1, 3)\}\) are linearly independent, and thus they form a basis for the range of \(T\).
+
+    The nullspace of \(T = \{v \in \bbr^3 \mid Av = 0\}\) and we can solve for \(v\) by row-reducing \(A\):
+    \[
+        \left[\begin{array}{ccc}
+                1  & 2 & 1 \\
+                0  & 1 & 1 \\
+                -1 & 3 & 4
+            \end{array}\right] \xrightarrow{(1) = (1) - 2(2), (3) = (1) + (3)} \left[\begin{array}{ccc}
+                1 & 0 & -1 \\
+                0 & 1 & 1  \\
+                0 & 5 & 5
+            \end{array}\right] \xrightarrow{(3) = (3) - 5(2)} \left[\begin{array}{ccc}
+                1 & 0 & -1 \\
+                0 & 1 & 1  \\
+                0 & 0 & 0
+            \end{array}\right]
+    \]
+
+    Thus, \(v = (a, -a, a) \forall a \in \bbr \implies \{(1, -1, 1)\}\) forms a basis for the nullspace of \(T\)
+\end{solution}
+\begin{problem} [Sec 3.4. Problem 11]
+Let \(W\) be the space of all \(n \times 1\) column matrices over a field \(\bbf\). If \(A\) is an \(n \times n\) matrix over \(\bbf\), then \(A\) defines a linear operator \(L_A\) on \(W\) through left multiplication: \(L_A(X) = AX\). Prove that every linear operator on \(W\) is a left multiplication by some \(n \times n \) matrix, i.e. is \(L_A\) for some \(A\).
+
+Now suppose \(V\) is an \(n-\)dimensional vector space over the field \(\bbf\), and let \(\cab\) be an ordered basis for \(V\). For each \(\alpha\) in \(V\), define \(U\alpha = [\alpha]_\cab\). Prove that \(U\) is an isomorphism of \(V\) onto \(W\).
+If \(T\) is a linear operator on \(V\), then \(UTU^{-1}\) is a linear operator on \(W\). Accordingly, \(UTU^{-1}\) is left multiplication by some \(n \times n\) matrix \(A\). What is \(A\)?
+\end{problem}
+\begin{solution}
+    For the first part, let \(\cab = \{e_1, e_2, \dots, e_n\}\) be the analogous standard ordered basis for \(W\), in which \(e_i \in \bbm_{n \times 1}(\bbf)\) has all entries as 0, other than its \(i-\)th as 1. Then let \(T\) be some linear operator on \(W\):
+    \begin{align*}
+        T(X) & = T(x_1 e_1 + x_2 e_2 + \cdots + x_n e_n)       \\
+             & = x_1 T(e_1) + x_2 T(e_2) + \cdots + x_n T(e_n) \\
+             & = AX
+    \end{align*}
+
+    where \(A \in \bbm_{n \times n}(\bbf)\) and the column vector \(A_i \coloneq T(e_i)\). \(T\) therefore corresponds to \(L_A(X) = AX\).
+
+    For the second part, we want to show that \(U\) is an isomorphism of \(V\) onto \(W\) by showing that \(U\) is a linear transformation, is surjective and injective. Indeed, \[
+        U(c\alpha + \beta) = [c\alpha+\beta]_\cab = c[\alpha]_\cab + [\beta]_\cab = cU(\alpha) + U(\beta)
+    \]
+
+    \(U\) is surjective since \(\forall [\alpha]_\cab \in W, \exists \alpha \in V\) that is retrievable via \(\cab\).
+
+    \(U\) is injective since \(\ker(U) = \{\alpha \in V \mid [\alpha]_\cab = 0\} = \{0\}\)
+
+    It follows that \(U\) is indeed an isomorphism.
+
+    To find the matrix \(A\) that corresponds to \(UTU^{-1}\): let \(w = [\alpha]_\cab \in W\), then:
+    \begin{align*}
+        UTU^{-1} & = UTU^-1([\alpha]_\cab)  \\
+                 & = UT(\alpha)             \\
+                 & = [T(\alpha)]_\cab       \\
+                 & = [T]_\cab [\alpha]_\cab \\
+                 & = [T]_\cab w
+    \end{align*}
+
+    It follows that \(A = [T]_\cab\)
+\end{solution}
+
+\begin{problem} [Sec 5.3. Problem 1]
+If \(K\) is a commutative ring with identity and \(A\) is the matrix over \(\bbk\) given by:
+\[
+    A = \left[\begin{array}{ccc}
+            0  & a  & b \\
+            -a & 0  & c \\
+            -b & -c & 0
+        \end{array}\right]
+\]
+show that \(\det A = 0\)
+\end{problem}
+\begin{solution}
+    \begin{align*}
+        \det A & = 0 \begin{vmatrix}
+                         0  & c \\
+                         -c & 0
+                     \end{vmatrix} - (-a) \begin{vmatrix}
+                                              a  & b \\
+                                              -c & 0
+                                          \end{vmatrix} + (-b) \begin{vmatrix}
+                                                                   a & b \\
+                                                                   0 & c
+                                                               \end{vmatrix} \\
+               & =a(bc) - b(ac) = 0
+    \end{align*}
+\end{solution}
+
+\begin{problem} [Sec 5.3. Problem 2]
+Prove that the determinant of the Vandemonde matrix \[
+    \left[\begin{array}{ccc}
+            1 & a & a^2 \\
+            1 & b & b^2 \\
+            1 & c & c^2
+        \end{array}\right]
+\]
+is \((b-a)(c-a)(c-b)\)
+\end{problem}
+\begin{solution}
+    Let \(A\) be the above matrix. Then
+    \begin{align*}
+        \det A & =\begin{vmatrix}
+                         b & b^2 \\
+                         c & c^2
+                     \end{vmatrix}
+        - \begin{vmatrix}
+              a & a^2 \\
+              c & c^2
+          \end{vmatrix} + \begin{vmatrix}
+                              a & a^2 \\
+                              b & b^2
+                          \end{vmatrix} \\
+        &= bc(c-b) - ca(c-a) + ab(b-a) \\
+        &= bc(c-b) - ca(c-a) + ab[(c-a) - (c-b)] \\
+        &= (c-b)(bc-ab) - (c-a)(ca-ab)\\
+        &= (c-b)(c-a)b - (c-a)(c-b)a \\
+        &= (c-b)(c-a)(b-a)
+    \end{align*}
+\end{solution}
+\end{document}

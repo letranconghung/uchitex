@@ -1,0 +1,187 @@
+\documentclass[a4paper, 11pt]{article}
+\input{../preamble.tex}
+\title{Math 20250: Abstract Linear Algebra \\ \large Problem Set 3}
+\date{17 Apr 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\newpage
+\setcounter{section}{3}
+\textbf{Textbook: Linear Algebra by Hoffman and Kunze (2nd Edition)}
+\begin{problem} [Sec 2.4. Problem 4]
+    Let \(W\) be the subspace of \(\bbc^3\) spanned by \(\alpha_1 = (1, 0, i), \alpha_2 = (1+i, 1, -1)\). \begin{enumerate} [label=(\alph*)]
+        \item Show that \(\alpha_1 \:\text{and}\: \alpha_2 \) form a basis for \(W\)
+        \item Show that the vectors \(\beta_1 = (1, 1, 0) \:\text{and}\: \beta_2 = (1, i, 1+i)\) are in \(W\) and form another basis for \(W\)
+        \item What are the coordinates of \(\alpha_1, \alpha_2\) in the ordered basis \(\{\beta_1, \beta_2\}\) for \(W\)?
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \begin{enumerate} [label=(\alph*)]
+        \item Suppose there exists \(c_1, c_2\) \st \(c_1\alpha_1 + c_2\alpha_2 = 0\)
+        
+        It follows that \(c_1(1) + c_2(1 + i) = 0 + 0i \implies c_2 = 0 \implies c_1 = 0\).
+
+        \(\alpha_1, \alpha_2\) are therefore linearly independent. Since they also span \(W\), it can be concluded that they form a basis for \(W\)
+        \item It can be observed that: \begin{align*}
+            \beta_1 = (1, 1, 0) &= -i(1, 0, i) + (1+i, 1, -1) = -i\alpha_1 + \alpha_2 \\
+            \beta_2 = (1, i, 1+i) &= (2-i)(1, 0, i) + i(1+i, 1, -1) = (2-i)\alpha_1 + i\alpha_2
+        \end{align*}
+
+        Therefore \(\beta_1, \beta_2 \in W\).
+
+        We now prove that \(\beta_1, \beta_2\) span \(W\) and are linearly independent.
+
+        First, we can rewrite \(\alpha_1, \alpha_2\) as linear combinations of \(\beta_1, \beta_2\): \[
+        \alpha_1 = \frac{1-i}{2}\beta_1 + \frac{1+i}{2} \beta_2, \alpha_2 = \frac{3+i}{2}\beta_1 + \frac{-1 + i}{2} \beta_2
+        \]
+        Since \(\alpha_1, \alpha_2\) span \(W\), it can be concluded that \(\beta_1, \beta_2\) also span \(W\).
+
+        Second, there exists \(c_1, c_2\) \st \(c_1\beta_1 + c_2\beta_2 = 0\), it follows that \(c_1 + c_2 = 0, c_2(1+i) = 0 \implies c_1 = c_2 = 0\). Thus, \(\beta_1, \beta_2\) are linearly independent.
+
+        Therefore, \(\beta_1, \beta_2\) form another basis for \(W\).
+        \item Following our expressions of \(\alpha_1, \alpha_2\) as linear combinations of \(\beta_1, \beta_2\), their coordinates in the ordered basis \(\{\beta_1, \beta_2\}\) is \[
+        \alpha_1: \left(\frac{1-i}{2},\frac{1+i}{2}\right), \alpha_2: \left(\frac{3+i}{2},\frac{-1 + i}{2}\right)
+        \]
+    \end{enumerate}
+\end{solution}
+\begin{problem} [Sec 3.1. Problem 1]
+    Which of the following functions \(T\) from \(\bbr^2\) into \(\bbr^2\) are linear transformations?
+    \begin{enumerate} [label=(\alph*)]
+        \item \(T(x_1, x_2) = (1 + x_1, x_2)\)
+        \item \(T(x_1, x_2) = (x_2, x_1)\)
+        \item \(T(x_1, x_2) = (x_1^2, x_2)\)
+        \item \(T(x_1, x_2) = (\sin x_1, x_2)\)
+        \item \(T(x_1, x_2) = (x_1 - x_2, 0)\)
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \begin{enumerate} [label=(\alph*)]
+        \item \(T(x_1, x_2) = (1 + x_1, x_2)\)
+
+        No. \(T((0, 0)) = (1 + 0, 0) = (1, 0) \neq 0 \in \bbr^2\)
+        \item \(T(x_1, x_2) = (x_2, x_1)\)
+        
+        Yes. Let \(\alpha = (x_1, x_2), \beta = (y_1, y_2)\) then: 
+        \begin{align*}
+            T(c\alpha + \beta) &= T((cx_1 + y_1, cx_2 + y_2)) \\
+            &= (cx_2 + y_2, cx_1 + y_1) \\
+            &= c(x_2, x_1) + (y_2, y_1) \\
+            &= cT(\alpha) + T(\beta)
+        \end{align*}
+        \item \(T(x_1, x_2) = (x_1^2, x_2)\)
+        
+        No. Counter-example:
+
+        \(T((1,0) + (-1, 0)) = T((0, 0)) = (0, 0)\) while \(T(1,0) + T(-1,0) = (1,0) + (1,0) = (2,0)\)
+        \item \(T(x_1, x_2) = (\sin x_1, x_2)\)
+        
+        No. Counter-example:
+
+        \(T((\frac{\pi}{2}, 0) + (\frac{3\pi}{2}, 0)) = T(2\pi, 0) = (0, 0)\) while \(T((\frac{\pi}{2}, 0)) + T((\frac{3\pi}{2}, 0)) = (1, 0) + (1,0) = (2,0)\)
+        \item \(T(x_1, x_2) = (x_1 - x_2, 0)\)
+        
+        Yes. Let \(\alpha = (x_1, x_2), \beta = (y_1, y_2)\) then: 
+        \begin{align*}
+            T(c\alpha + \beta) &= T((cx_1 + y_1, cx_2 + y_2)) \\
+            &= (cx_1 + y_1 - cx_2 - y_2, 0) \\
+            &= c(x_1 - x_2, 0) + (y_1-y_2, 0) \\
+            &= cT(\alpha) + T(\beta)
+        \end{align*}
+    \end{enumerate}
+\end{solution}
+\begin{problem} [Sec 3.2. Problem 2]
+    Let \(T\) be the (unique) linear operator on \(\bbc^3\) for which:
+    \begin{align*}
+        T\epsilon_1 &=(1, 0, i) \\
+        T\epsilon_2 &=(0, 1, 1) \\
+        T\epsilon_3 &=(i, 1, 0)
+    \end{align*}
+    Is \(T\) invertible?
+\end{problem}
+\begin{solution}
+    From the textbook, \(T\) is invertible iff \(\{T\epsilon_1, T\epsilon_2, T\epsilon_3\}\) forms a basis for \(\bbc^3\). However, it can be observed that they are not linearly independent: \begin{align*}
+        i(1, 0, i) + (0, 1, 1) - (i, 1, 0) &= (0, 0, 0) \\
+        \implies iT\epsilon_1 + T\epsilon_2 - T\epsilon_3 &= 0 \in \bbc^3
+    \end{align*}
+
+    It follows that \(\{T\epsilon_1, T\epsilon_2, T\epsilon_3\}\) does not form a basis for \(\bbc^3\), and therefore \(T\) is not invertible.
+\end{solution}
+\begin{problem} [Sec 3.2. Problem 7]
+    Find two linear operators \(T, U\) on \(\bbr^2\) \st \(TU = 0\) but \(UT \neq 0\)
+\end{problem}
+\begin{solution}
+    We define operators \(T, U\) by their associated matrices: \[
+    A = \left[\begin{array}{cc}
+    0 & 1 \\
+    0 & 1 \\
+    \end{array}\right], B = \left[\begin{array}{cc}
+    1 & 1 \\
+    0 & 0
+    \end{array}\right]
+    \]
+    where for \(X \in \bbr^{2\times 1}, T(X) = AX, U(X) = BX\). Then, \[
+    AB = \left[\begin{array}{cc}
+    0 & 0 \\
+    0 & 0
+    \end{array}\right] \:\text{while}\: BA = \left[\begin{array}{cc}
+        0 & 2 \\
+        0 & 0
+        \end{array}\right] \neq 0
+    \]
+
+    It follows that \(TU(X) = ABX = 0\) but \(UT \neq 0\)
+\end{solution}
+\begin{problem} [Sec 3.3. Problem 3]
+    Let \(W\) be the set of all \(2 \times 2\) complex Hermitian matrices, that is, the set of \(2 \times 2\) complex matrices \(A \st A_{ij} = \overline{A_{ji}}\) (the bar denoting complex conjugation). As we pointed out in Example 6 of Chapter 2, \(W\) is a vector space over the field of \textit{real} numbers, under the usual operations. Verify that \[
+    (x, y, z, t) \to \left[\begin{array}{cc}
+    t + x & y + iz \\
+    y - iz & t -x
+    \end{array}\right]
+    \]
+    is an isomorphism of \(\bbr^4\) onto \(W\).
+\end{problem}
+\begin{solution}
+    We first recognize that \(W\) is trivially isomorphic to \(W'\subseteq \bbc^4: (t+x, y+iz, y-iz, t-x)\). We now want to prove that there exists a linear transformation from \(\bbr^4 \to W'\), that is characterized by an invertible \(T\): \[
+    T \left[\begin{array}{c}
+    x \\ y \\ z \\ t
+    \end{array}\right] = \left[\begin{array}{c}
+    t+x \\
+    y+iz \\
+    y-iz \\
+    t-x
+    \end{array}\right]
+    \]
+
+    This implies the characteristic matrix: \[
+    T = \left[\begin{array}{cccc}
+    1 & 0 & 0 & 1 \\
+    0 & 1 & i & 0 \\
+    0 & 1 & -i & 0 \\
+    -1 & 0 & 0 & 1
+    \end{array}\right]
+    \]
+
+    Row-reducing \(T\):
+    \begin{multline*}
+        \left[\begin{array}{cccc}
+            1 & 0 & 0 & 1 \\
+            0 & 1 & i & 0 \\
+            0 & 1 & -i & 0 \\
+            -1 & 0 & 0 & 1
+            \end{array}\right] \xrightarrow{(3) = \frac{(2)-(3)}{2i}, (4) = \frac{1}{2} ((1) + (4))} \left[\begin{array}{cccc}
+                1 & 0 & 0 & 1 \\
+                0 & 1 & i & 0 \\
+                0 & 0 & 1 & 0 \\
+                0 & 0 & 0 & 1
+            \end{array}\right]
+            \\
+            \xrightarrow{(2) = (2) - i(3), (1) = (1) - (4)} \left[\begin{array}{cccc}
+                1 & 0 & 0 & 0 \\
+                0 & 1 & 0 & 0 \\
+                0 & 0 & 1 & 0 \\
+                0 & 0 & 0 & 1
+            \end{array}\right]
+    \end{multline*}
+    Therefore \(T\) is invertible, implying that \(\bbr^4\) is isomorphic to \(W'\), which is isomorphic to \(W\).
+\end{solution}
+\end{document}
