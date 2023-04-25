@@ -1,0 +1,248 @@
+\lecture{7}{23 Apr 2023}{Linear Transformation and Matrices}
+
+\begin{recall}
+    \begin{enumerate}
+        \item[]
+        \item \(\psi \in \Hom_\bbk(\bbk^r, V)\) corresponds to \(r\) vectors: \(v_1, v_2, \dots, v_r\):
+              \begin{align*}
+                  (\psi: \bbk^r \to V)                                      & \rightarrow \{v_i\} = \{\psi(0, \dots, 1, \dots, 0)\} \:\text{(1 in \(i-\)th position)}\: \\
+                  \left(\psi: (a_1, a_2, \dots, a_r\right) \to \sum a_iv_i) & \leftarrow \{v_i\}
+              \end{align*}
+        \item \(V\) has dimension \(d \Leftrightarrow V\) has basis \(\{v_1, v_2, \dots, v_d\}\)
+        \item \(\psi: V \xrightarrow{\sim} W\) then \(\psi\) sends a set of basis \(\{v_i\}_{1\leq i \leq d}\) to a set of basis \(\psi(v_i)\) of \(W\)
+    \end{enumerate}
+\end{recall}
+
+\begin{proof} {Recall 3}
+    \textbf{Approach 1}
+
+    One might first prove this statement from first principles, that is to show that:
+    \begin{enumerate}
+        \item \(\{w_i = \psi(v_i)\}\) span \(W\)
+        \item \(\{w_i = \psi(v_i)\}\) are linearly independent
+    \end{enumerate}
+    This approach is doable, though a little bit tedious.
+
+    \textbf{Approach 2}
+
+    Observe that \(\{v_i\}\) corresponds to a map:
+
+    \[
+        \bbk^d \xrightarrow{\sim} V
+    \]
+
+    while \[
+        V \xrightarrow[\psi]{\sim} W
+    \]
+    by assumption.
+
+    It then follows that \(\bbk^d \xrightarrow{\sim} W\), following the function composition, it would yield that this mapping corresponds to \(\{w_i = \psi(v_i)\}\). Therefore \(\{w_i\}\) forms a basis of \(W\).
+\end{proof}
+
+\subsection{Linear Transformation as Matrix Multiplication}
+\begin{claim}
+    Let \(V, W\) be vector spaces over \(\bbk\) of dimensions \(n, m\) respectively. Let \(\psi: V \to W\) be a linear transformation. Then once we've fixed bases \(\{v_i\}_{1\leq i \leq n}\) of \(V\) and \(\{w_j\}_{1 \leq j \leq m}\) of \(W\), \(\psi\) corresponds to \(T_\psi \in \bbm_{m\times n}(\bbk)\)
+
+    In other words, \[
+        \psi \in \Hom_\bbk(V, W) \leftrightarrow T_\psi \in \bbm_{m\times n}(\bbk)
+    \]
+\end{claim}
+Specifically,
+\[
+    T_\psi = (\alpha_{ji}) = \left(\begin{array}{cccc}
+            \alpha_{11} & \alpha_{12} & \cdots & \alpha_{1n} \\
+            \vdots      & \vdots      & \ddots & \vdots      \\
+            \alpha_{m1} & \alpha_{m2} & \cdots & \alpha_{mn}
+        \end{array}\right)
+\]
+corresponds to \[
+    \psi: v_i \mapsto \alpha_{1i}w_1 + \alpha_{2i}w_2 + \cdots + \alpha_{mi}w_m = \sum_{j=1}^{m}\alpha_{ji} w_j \:\text{for \(1 \leq i \leq n\)}\:
+\]
+
+For any \(v = \sum_{i = 1}^{n}\beta_i v_i \in V\) then \begin{align*}
+    w = \psi(v) & = \sum_{i=1}^{n} \beta_i \psi(v_i)                                 \\
+                & = \sum_{i=1}^{n} \beta_i \left(\sum_{j=1}^{m}\alpha_{ji}w_j\right) \\
+                & = \sum_{i=1}^{n}\sum_{j=1}^{m}\alpha_{ji} \beta_i w_j
+\end{align*}
+
+An alternative perspective is that \(
+v = \sum_{i=1}^{n} \beta_i v_i
+\) can be thought of as a ``matrix'' multiplication: \[\left(\begin{array}{c}
+            \beta_1 \\ \vdots \\ \beta_n
+        \end{array}\right) (v_1 \ldots v_n)\]
+
+where \(\left(\begin{array}{c}
+        \beta_1 \\ \vdots \\ \beta_n
+    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\) and \((v_1 \ldots v_n)\) is just the basis in the row vector form.
+
+(Warning: It is not a matrix, since \(v_i \not \in \bbk\))
+
+\textbf{Upshot:} If we fix basis \(v_1, v_2, \dots, v_n\) then any \(v \in V\) would be uniquely expressed as \(v = \beta_i v_i\). The fixed basis would then correspond to unique matrices \(\left(\begin{array}{c}
+        \beta_1 \\ \vdots \\ \beta_n
+    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\)
+
+Note that if we change the basis to another \(\{v'_i\}\) then \[
+    v = \sum \beta_i v_i = \sum \beta'_i v'_i \:\text{where}\:  \left(\begin{array}{c}
+            \beta'_1 \\ \vdots \\ \beta'_n
+        \end{array}\right) \in \bbm_{n \times 1}(\bbk)
+\]
+
+Now, if \(T_\psi = (a_{ji})_{1 \leq j \leq m, 1 \leq i \leq n}\) then the map \(\psi\) sends \(v \leftrightarrow \left(\begin{array}{c}
+        \beta_1 \\ \vdots \\ \beta_n
+    \end{array}\right)\) to
+\[
+    \left(\begin{array}{cccc}
+            \alpha_{11} & \alpha_{12} & \cdots & \alpha_{1n} \\
+            \vdots      & \vdots      & \ddots & \vdots      \\
+            \alpha_{m1} & \alpha_{m2} & \cdots & \alpha_{mn}
+        \end{array}\right)
+    \left(\begin{array}{c}
+            \beta_1 \\ \vdots \\ \beta_n
+        \end{array}\right) = \left(\begin{array}{c}
+            \sum_{i=1}^{n}\alpha_{1i}\beta_i = \gamma_1 \\
+            \sum_{i=1}^{n}\alpha_{2i}\beta_i = \gamma_2 \\
+            \vdots                                      \\
+            \sum_{i=1}^{n}\alpha_{mi}\beta_i = \gamma_m \\
+        \end{array}\right) \in \bbm_{m \times 1}(\bbk)
+\]
+which corresponds to writing \(w \in W\) under \(\{w_j\}\) as \begin{align*}
+    w & = \gamma_1 w_1 + \cdots + \gamma_m w_m                                              \\
+      & = \sum_{j=1}^{m}\gamma_j w_j = \sum_{j=1}^{m} \sum_{i=1}^{n} \alpha_{ji}\beta_i w_j
+\end{align*}
+which is similar to the expression above.
+
+Therefore, once we choose basis \(\{v_i\}, \{w_j\}\) of \(V, W\) respectively then \(\psi \leftrightarrow T_\psi \in \bbm_{m \times n}(\bbk)\):
+\begin{align*}
+    v = \sum_{i=1}^{n} \beta_i v_i       & \rightarrow \psi(v) = \sum_{i=1}^{n} \sum_{j=1}^{m} \alpha_{ji} \beta_i v_i \\
+    (\alpha_{ji}) \left(\begin{array}{c}
+                                \beta_1 \\ \vdots \\ \beta_n
+                            \end{array}\right) & \leftrightarrow \left(\begin{array}{c}
+                                                                           \gamma_1 \\ \vdots \\ \gamma_m
+                                                                       \end{array}\right)
+\end{align*}
+
+\subsection{Going from linear transformation to matrix}
+We've successfully represented linear transformation \(\psi \in \Hom_\bbk(V, W)\) from \(T_\psi\). How about the other way around, i.e. we know \(\psi\) and want to find its corresponding matrix \(T_\psi\)?
+
+Consider \(\psi: v_i \to \psi(v_i) \in W = c_1 w_1 + \cdots + c_m w_m\) then we can define \(a_{ji} = c_j\) in this expression. Iterating over \(1 \leq i \leq n\) would yield us \(T_\psi = (a_{ji})\).
+
+\subsubsection{Standard \(\bbk^n \to \bbk^m\)}
+We have \(\bbk^n, \bbk^m (\bbk^n = \bbk^{\oplus n} = \{x_1, x_2, \ldots, x_n \mid x_i \in \bbk\})\) then there's a preferred basis \(\{e_i\}_{1 \leq i \leq n}\):
+\begin{align*}
+    e_1 & = (1, 0, \ldots, 0) \in \bbk^n                                            \\
+    e_i & = (0, 0, \ldots, 1, \ldots, 0) \in \bbk^n  \:\text{(\(i-\)th position)}\: \\
+        & \vdots                                                                    \\
+    e_n & = (0, 0, \ldots, 1) \in \bbk^n
+\end{align*}
+and similarly for \(e'_j \in \bbk^m\).
+
+Under this basis, \((x_1, x_2, \ldots, x_n)\) corresponds to \(\left(\begin{array}{c}
+        \beta_1 \\ \vdots \\ \beta_n
+    \end{array}\right) = \left(\begin{array}{c}
+        x_1 \\ \vdots \\ x_n
+    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\)
+
+It follows that any linear transformation \(\psi \in \Hom_\bbk(\bbk^n, \bbk^m)\) corresponds to \[T_\psi = (\alpha_{ji}) = \left(\begin{array}{ccc}
+            \alpha_{11} & \cdots & \alpha_{1n} \\
+            \vdots      & \ddots & \vdots      \\
+            \alpha_{m1} & \cdots & \alpha_{mn}
+        \end{array}\right)\]
+with \(\psi\) sending: \[
+    \left(\begin{array}{ccc}
+            \alpha_{11} & \cdots & \alpha_{1n} \\
+            \vdots      & \ddots & \vdots      \\
+            \alpha_{m1} & \cdots & \alpha_{mn}
+        \end{array}\right)\left(\begin{array}{c}
+            x_1 \\ \vdots \\ x_n
+        \end{array}\right) = \left(\begin{array}{c}
+            y_1    \\
+            \vdots \\
+            y_m
+        \end{array}\right)
+\]
+
+\subsubsection{General case \(V \to W\)}
+With \(\psi \in \Hom_\bbk(V, W)\), and isomorphisms \(\psi_1: \bbk^n \xrightarrow{\sim} V, \psi_2: \bbk^m \xrightarrow{\sim} W\) with corresopnding bases \(\{v_i\}, \{w_j\}\):
+\input{figures/figure4.tex}
+
+then \(\psi \in \Hom_\bbk(V, W)\) corresponds to \(\tilde{\psi} \in \Hom_\bbk(\bbk^n, \bbk^m)\)  (through \(\psi_1, \psi_2\)), and this \(\tilde{\psi}\) corresponds to \(T_{\tilde{\psi}}\)!
+
+\begin{exercise}
+    Given linear transformation \(\psi: \bbk^n \to \bbk^n\) that corresponds to \(T_\psi \in \bbm_{n \times n}(\bbk)\).
+
+    Show that \(\psi\) is isomorphism \(\Leftrightarrow T_\psi\) is invertible.
+\end{exercise}
+
+\begin{remark}
+    Consider \(\psi: \bbk^n \to \bbk^m\) that corresponds to matrix \(T_\psi = A = (\alpha_{ji})\). Then,
+
+    \begin{multline*}
+        \ker(\psi) = \{v \in \bbk^n \mid \psi(v) = 0\} = \left\{\left(\begin{array}{c}
+                x_1 \\ \vdots \\ x_n
+            \end{array}\right) \in \bbk^n \;\middle|\; A \cdot \left(\begin{array}{c}
+                x_1 \\ \vdots \\ x_n
+            \end{array}\right) = 0 \right\} \\
+        = \:\text{null space of}\:A
+    \end{multline*}
+    \begin{multline*}
+        \im(\psi) = \{w \in \bbk^m \mid w = \psi(v) \:\text{ for some }\: v\} = \left\{\left(\begin{array}{c}
+                y_1 \\ \vdots \\y_n
+            \end{array}\right) = A \cdot \left(\begin{array}{c}
+                x_1 \\ \vdots \\ x_n
+            \end{array}\right) \:\text{for some}\: \{x_1, \dots, x_n\}\right\} \\
+            = \:\text{range of}\: A
+    \end{multline*}
+\end{remark}
+
+\begin{recall}
+    Relating the this with a previous dimensional equality:
+    \begin{align*}
+        \dim_\bbk \bbk^n &= n \\
+        &= \dim_\bbk (\im(\psi)) + \dim_\bbk (\ker(\psi))\\
+        &= \:\text{rank of}\: A + \:\text{nullity of}\: A
+    \end{align*}
+\end{recall}
+
+\subsection{Determinant}
+
+Determinant is simply a function \(D: \bbm_{n \times n}(\bbk) \to \bbk\)
+
+\begin{definition} {Multilinearity and Alternating}
+    A function \(f: \bbm_{n \times n}(\bbk) \to \bbk\) is called \textbf{multilinear} if the following holds:
+
+    Given \(A = \left(\begin{array}{c}
+    r_1 \\ \vdots \\ r_n
+    \end{array}\right)\) where row \(r_i = (a_{i1} \: a_{i2} \: \ldots \: a_{in})\), \[
+    f \left(\begin{array}{c}
+    r_1 \\ \vdots \\ \alpha r_i + \beta r'_i \\ \vdots \\ r_n
+    \end{array}\right) = \alpha f \left(\begin{array}{c}
+    r_1 \\ \vdots \\ r_i \\ \vdots \\ r_n 
+    \end{array}\right) + \beta f \left(\begin{array}{c}
+    r_1 \\ \vdots \\ r'_i \\ \vdots \\ r_n
+    \end{array}\right) \:\text{where}\: \alpha, \beta \in \bbk
+    \]
+
+    \(f\) is \textbf{alternating} if the following holds:
+    \begin{enumerate}
+        \item \(f \left(\begin{array}{c}
+            r_1 \\ \vdots \\ r_n
+            \end{array}\right) = 0\) whenever \(\exists r_i = r_j, i \neq j\)
+            \item \(f \left(\begin{array}{c}
+            r_1 \\ \vdots \\ r_i \\ r_{i+1}\\ \vdots \\ r_n
+            \end{array}\right) = -f \left(\begin{array}{c}
+                r_1 \\ \vdots \\ r_{i+1}\\ r_i \\ \vdots \\ r_n
+                \end{array}\right) \) 
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    If \(2 \neq 0\) in \(\bbk\) then the second condition for alternating implies the first one.
+\end{remark}
+
+\begin{definition} {Determinant}
+    A \textbf{determinant} function \(\bbm_{n \times n}(\bbk)\) is a multilinear and alternating function \(D: \bbm_{n \times n}(\bbk) \to \bbk\) \st \(D(I_n) = 1\)
+\end{definition}
+
+\begin{remark}
+    For each \(n\) there is a unique determinant function \(\bbm_{n\times n}(\bbk)\), usually written as \(\det\). To be discussed further next lecture.
+\end{remark}

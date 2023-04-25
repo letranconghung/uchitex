@@ -1,0 +1,127 @@
+\lecture{8}{23 Apr 2023}{Determinant}
+
+\begin{motivation}
+    The motivation for representing matrices in such a manner now becomes clearer for us. Let \(\psi_1: \bbk^l \to \bbk^n, \psi_2: \bbk^n \to \bbk^m\) be linear transformations with corresponding \(T_1 \in \bbm_{n \times l}(\bbk), T_2 \in \bbm_{m \times n}(\bbk)\):
+
+    \[
+        \bbk^l \xrightarrow{\psi_1, T_1} \bbk^n \xrightarrow{\psi_2, T_2} \bbk^m
+    \]
+
+    then it is also an exercise to show that \(\psi_2 \circ \psi_1\) is also a linear transformation, that corresponds to \(T_2 \cdot T_1 \in \bbm_{m \times l}(\bbk)\).
+
+    Matrix multiplication is therefore built in such a way that \(T_2 \cdot T_1\) results in an \(m \times l\) matrix. It makes sense to multiply in such a way to fit the shape requirements: \(i-\)th row by \(j-\)th column.
+\end{motivation}
+
+\begin{recall}
+    \(D: \bbm_n(\bbk) \to \bbk\) is a function that is multilinear, alternating and satisfies: \(D(I_n) = 1\). As of now, we don't know if this function exists at all!
+\end{recall}
+
+\begin{remark}
+    Assuming that \(D\) is multilinear, then the first condition for alternating implies the second. When \(2 \neq 0\), the second condition imlpies the first one.
+\end{remark}
+
+\begin{proof} {Remark}
+    \pffwd We want to show that \[
+        D\left(\begin{array}{c}
+                r_1 \\ \vdots \\ r_n
+            \end{array}\right) = 0 \:\text{whenever}\: \exists i \neq j: r_i = r_j \implies D \left(\begin{array}{c}
+                \vdots \\ r_i \\ r_{i+1} \\ \vdots
+            \end{array}\right) = -D \left(\begin{array}{c}
+                \vdots \\ r_{i+1} \\ r_i \\ \vdots
+            \end{array}\right)
+    \]
+    We have:
+    \begin{align*}
+        LHS &= D \left(\begin{array}{c}
+            \vdots \\ r_i \\ r_{i+1} \\ \vdots
+        \end{array}\right) + 0
+        = D \left(\begin{array}{c}
+            \vdots \\ r_i \\ r_{i+1} \\ \vdots
+        \end{array}\right) + D \left(\begin{array}{c}
+            \vdots \\ r_{i+1} \\ r_{i+1} \\ \vdots
+        \end{array}\right) \\
+        &= D \left(\begin{array}{c}
+            \vdots \\ r_i + r_{i+1} \\ r_{i+1} \\ \vdots
+        \end{array}\right)
+    \end{align*}
+    Similarly, \[
+    RHS = -D \left(\begin{array}{c}
+        \vdots \\ r_i + r_{i+1} \\ r_i \\ \vdots
+    \end{array}\right)
+    \]
+
+    Thus, \[
+    LHS - RHS = D \left(\begin{array}{c}
+        \vdots \\ r_i + r_{i+1} \\ r_{i+1} \\ \vdots
+    \end{array}\right) + D\left(\begin{array}{c}
+        \vdots \\ r_i + r_{i+1} \\ r_i \\ \vdots
+    \end{array}\right) = D\left(\begin{array}{c}
+        \vdots \\ r_i + r_{i+1} \\ r_i + r_{i+1} \\ \vdots
+    \end{array}\right) = 0
+    \]
+
+    \pfbwd The proof backward is similar, only with the requirement that \(2 \neq 0\) in \(\bbk\).
+\end{proof}
+
+\begin{proposition}
+    \(\forall n, \exists! \:\text{such a function}\: D\).
+\end{proposition}
+
+\begin{proof} {Proposition}
+    If \(n=1, D: \bbk^1 \to \bbk\), since \(D\) must be multilinear (in this case, simply linear):
+    \[
+    D (\alpha) = D(\alpha \cdot 1) = \alpha \cdot D(1) = \alpha
+    \]
+    It is trivial that this \(D\) satisfies all conditions (2nd condition is satisfied as there are no 2 rows to swap) and is indeed unique.
+
+    If \(n=2\):
+    \begin{align*}
+        D\left(\left(\begin{array}{cc}
+        a & b \\
+        c & d
+        \end{array}\right)\right) &= D\left(\left(\begin{array}{cc}
+        a & 0 \\
+        c & d
+        \end{array}\right) + \left(\begin{array}{cc}
+        0 & b \\
+        c & d
+        \end{array}\right)\right) \\
+        &= a D\left(\left(\begin{array}{cc}
+        1 & 0 \\
+        c & d
+        \end{array}\right)\right) + bD\left(\left(\begin{array}{cc}
+        0 & 1 \\
+        c & d
+        \end{array}\right)\right)\\
+        &= a\left[D\left(\left(\begin{array}{cc}
+        1 & 0 \\
+        c & d
+        \end{array}\right)\right) - cD\left(\left(\begin{array}{cc}
+        1 & 0 \\
+        1 & 0
+        \end{array}\right)\right)\right]\\
+        &+ b\left[D\left(\left(\begin{array}{cc}
+            0 & 1 \\
+            c & d
+            \end{array}\right)\right) - dD\left(\left(\begin{array}{cc}
+            0 & 1\\
+            0 & 1\\
+            \end{array}\right)\right)\right] \\
+            &= aD\left(\left(\begin{array}{cc}
+            1 & 0 \\
+            0 & d
+            \end{array}\right)\right) + bD\left(\left(\begin{array}{cc}
+            0 & 1 \\
+            c & 0
+            \end{array}\right)\right) \\
+            &= adD\left(\left(\begin{array}{cc}
+            1 & 0 \\
+            0 & 1
+            \end{array}\right)\right) + bcD\left(\left(\begin{array}{cc}
+            0 & 1 \\
+            1 & 0
+            \end{array}\right)\right) \\
+            &= adD(I_2) - bcD(I_2) \\
+            &= ad-bc
+    \end{align*}
+\end{proof}
