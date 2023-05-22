@@ -1,0 +1,208 @@
+\lecture{9}{25 Apr 2023}{The Uniqueness of the Determinant}
+
+\begin{goal}
+    For all \(n\), there exists a unique function \(\det: \bbm_n(\bbk) \to \bbk\)
+\end{goal}
+
+\subsection{Uniqueness of Determinant Function}
+\begin{proposition}
+    If a determinant function \(D: \bbm_n(\bbk) \to \bbk\) exists then it is unique
+\end{proposition}
+
+\begin{proof} {Proposition}
+    We first prove the proposition for \(n = 3\). Suppose \[
+        A = \begin{pmatrix}
+            a_{11} & a_{12} & a_{13} \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}
+    \]
+
+    Then, if a determinant function \(D\) exists,
+    \[
+        D(A) = a_{11} D\begin{pmatrix}
+            1      & 0      & 0      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix} + a_{12} D\begin{pmatrix}
+            0      & 1      & 0      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix} + a_{13} D\begin{pmatrix}
+            0      & 0      & 1      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}
+    \]
+
+    Now, observe that \[
+        D\begin{pmatrix}
+            1      & 0      & 0      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}  = a_{21} D\begin{pmatrix}
+            1      & 0      & 0      \\
+            1      & 0      & 0      \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix} + D\begin{pmatrix}
+            1      & 0      & 0      \\
+            0      & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}
+    \]
+    due to the linearity of the second row.
+
+    Moreover, \(a_{21}D\begin{pmatrix}
+        1      & 0      & 0      \\
+        1      & 0      & 0      \\
+        a_{31} & a_{32} & a_{33} \\
+    \end{pmatrix} = 0\) since rows 1 and 2 are equal. Therefore,\[
+        D\begin{pmatrix}
+            1      & 0      & 0      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}  =  D\begin{pmatrix}
+            1      & 0      & 0      \\
+            0      & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}
+    \]
+
+    Consequently,  \[
+        D\begin{pmatrix}
+            1      & 0      & 0      \\
+            a_{21} & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix}  =  D\begin{pmatrix}
+            1      & 0      & 0      \\
+            0      & a_{22} & a_{23} \\
+            a_{31} & a_{32} & a_{33} \\
+        \end{pmatrix} = D\begin{pmatrix}
+            1 & 0      & 0      \\
+            0 & a_{22} & a_{23} \\
+            0 & a_{32} & a_{33} \\
+        \end{pmatrix}
+    \]
+    for similar reasons. It follows that we can write \(D(A)\):
+    \begin{align*}
+        D(A) & = a_{11} D\begin{pmatrix}
+                             1 & 0      & 0      \\
+                             0 & a_{22} & a_{23} \\
+                             0 & a_{32} & a_{33} \\
+                         \end{pmatrix}
+        + a_{12}D\begin{pmatrix}
+                     0      & 1 & 0      \\
+                     a_{21} & 0 & a_{23} \\
+                     a_{31} & 0 & a_{33} \\
+                 \end{pmatrix}
+        + a_{13}D\begin{pmatrix}
+                     0      & 0      & 1 \\
+                     a_{21} & a_{22} & 0 \\
+                     a_{31} & a_{32} & 0 \\
+                 \end{pmatrix}                     \\
+             & = a_{11} \left[a_{22}D\begin{pmatrix}
+                                             1 & 0      & 0      \\
+                                             0 & 1      & 0      \\
+                                             0 & a_{32} & a_{33} \\
+                                         \end{pmatrix}
+        + a_{23}D\begin{pmatrix}
+                         1 & 0      & 0      \\
+                         0 & 0      & 1      \\
+                         0 & a_{32} & a_{33} \\
+                     \end{pmatrix}\right] + \cdots           \\
+             & =a_{11}a_{22}a_{33}D\begin{pmatrix}
+                                       1 & 0 & 0 \\
+                                       0 & 1 & 0 \\
+                                       0 & 0 & 1
+                                   \end{pmatrix}
+        + a_{11}a_{23}a_{32}D\begin{pmatrix}
+                                 1 & 0 & 0 \\
+                                 0 & 0 & 1 \\
+                                 0 & 1 & 0
+                             \end{pmatrix}  + \cdots
+    \end{align*}
+    Note that every \(D(I')\) in the last expression evaluates to \(\pm 1\), since every \(I'\) is some row-swapping of the identity matrix, making \(D(I') = \pm D(I) = \pm 1\). It naturally follows that \(D\) is unique for \(n = 3\). Though a tedious procedure, we can carry out the same simplifying steps for all other values of \(n\) - therefore we can conclude that if \(D\) exists in the first place (if not, we can't even evaluate the last steps), then it must be unique.
+\end{proof}
+
+In the next section, we shall inductively construct a determinant function to prove its existence.
+
+\subsection{Inductive Construction of Determinant Function}
+
+\begin{proposition}
+    Suppose \(\forall m \leq n-1, \det_m: \bbm_m (\bbk) \to \bbk\) exists (and is therefore unique). Then a construction of \(\det_n: \bbm_n(\bbk) \to \bbk\) is:
+    \[
+        \det_n (A) = a_{11}\det_{n-1}(A_{11}) - a_{12}\det_{n-1}(A_{12}) + \cdots + (-1)^{n+1}a_{1n}\det_{n-1}(A_{1n}) = \sum_{j=1}^{n}(-1)^{1+j}a_{1j}\det_{n-1}(A_{1j})
+    \]
+    where \(A_{ij} \in \bbm_{n-1}(\bbk)\) in this case has a meaning that is different from normal usage, being matrix \(A\) with its \(i-\)th row and \(j-\)th column removed.
+\end{proposition}
+
+\begin{proof} {Proposition}
+    It suffices for us to show that above-constructed \(\det_n\) is a determinant function, i.e. multilinear and alternating.
+
+    \textbf{Step 1: Multilinearity}
+
+    Denote \(\det = \det_n\).
+    Let \(A = \begin{pmatrix}
+        \alpha_1               \\
+        \vdots                 \\
+        c\alpha_i + d\alpha'_i \\
+        \vdots                 \\
+        \alpha_n
+    \end{pmatrix}, B = \begin{pmatrix}
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_i \\
+        \vdots   \\
+        \alpha_n
+    \end{pmatrix},B' = \begin{pmatrix}
+        \alpha_1  \\
+        \vdots    \\
+        \alpha'_i \\
+        \vdots    \\
+        \alpha_n
+    \end{pmatrix} \), where \(\alpha_i\) are row vectors.
+
+    We want to show \[
+        \det A = c \det B + d \det B'
+    \]
+    If \(i \neq 1\),  the coefficients of the \(\det_{n-1}\) terms in all 3 expansions are the same (\(a_{1j}\)). Furthermore, since \(\det_{n-1}\) is multilinear, \[
+        \det_{n-1}(A_{1j}) = c\det_{n-1}(B_{1j}) + d\det_{n-1}(B'_{1j})
+    \]
+    If \(i=1\), the \(\det_{n-1}\) terms are all equal, while the coefficients adhere to the multilinearity (row vectors \(A_1 = c B_1 + d B'_1\)). From these 2 cases, it is clear that \(\det\) is multilinear.
+
+    \textbf{Step 2: Alternating}
+
+    We want to show that if the i-th row is the same as the (i+1)-th row, then \(\det(A) = 0\). 
+    
+    We first consider the harder case \(i=1\). Let \(A\) be as follows \[
+        A = \begin{pmatrix}
+            a_{11}          & a_{12}          & \cdots & a_{1n}         \\
+            a_{21} = a_{11} & a_{22} = a_{12} & \cdots & a_{2n} = a{1n} \\
+            \vdots          & \vdots          & \ddots & \vdots         \\
+            a_{n1}          & a_{n2}          & \cdots & a_{nn}
+        \end{pmatrix}
+    \]
+
+    Define \(T_{ij}\) as matrix \(A\) with rows 1 and 2, columns \(i, j\) removed (clearly, \(T_{ij} = T_{ji}\)). We recall that \[
+        \det A = a_{11}\det_{n-1}(A_{11}) - a_{12}\det_{n-1}(A_{12}) + \cdots
+    \]
+
+    Expanding each component, \begin{align*}
+        \det_{n-1}(A_{11}) & = a_{22} \det_{n-2}(T_{12}) - a_{23}\det_{n-2}(T_{13}) + \cdots                                                                          \\
+                           & = a_{12} \det_{n-2}(T_{12}) - a_{13}\det_{n-2}(T_{13}) + \cdots                                                                          \\
+        \det_{n-1}(A_{12}) & = a_{21} \det_{n-2}(T_{21}) - a_{23}\det_{n-2}(T_{23}) + \cdots                                                                          \\
+                           & = a_{11} \det_{n-2}(T_{21}) - a_{13}\det_{n-2}(T_{23}) + \cdots                                                                          \\
+                           & \cdots                                                                                                                                   \\
+        \det_{n-1}(A_{1m}) & = \pm a_{21} \det_{n-2}(T_{m1}) \pm a_{22}\det_{n-2}(T_{m2}) \pm \cdots \pm a_{2n}\det_{n-2}(T_{mn})                                     \\
+                           & =\pm a_{11} \det_{n-2}(T_{m1}) \pm a_{12}\det_{n-2}(T_{m2}) \pm \cdots \pm a_{1n}\det_{n-2}(T_{mn}) \:\text{(without \(a_{1m}\) term)}\: \\
+    \end{align*}
+    As a high-level explanation, to calculate \(\det_{n-1}(A_{1m})\), we have already removed the first row and m-th column. Therefore, the coefficients are going to be from the second row (which, in this case, is the same as the first row), and we have to remove one more column other than the m-th (which is why there's no \(a_{1m}\) term). It is a good reminder that in each expression, the signs alternate. Combining these steps into the original expression:
+    \begin{align*}
+        \det_n(A) & = a_{11}\det_{n-1}(A_{11}) - a_{12}\det_{n-1}(A_{12}) + \cdots                   \\
+                  & = a_{11}(a_{12} \det_{n-2}(T_{12}) - a_{13}\det_{n-2}(T_{13}) + \cdots) + \cdots
+    \end{align*}
+
+    In this expansion, the term \(a_{1i}a_{1j}\det_{n-2}(T_{ij})\) appear twice with opposite signs, making \(\det A = 0 \).
+
+    The easier case is when \(i \neq 1\). Since the i-th and (i+1)-th rows are both included in the matrix onto which \(\det_{n-1}\) is applied, and since \(\det_{n-1}\) is alternating, it follows that all \(\det_{n-1}\) terms are 0 in the expansion, resulting in \(\det A = 0\). \(\det\) is therefore also alternating.
+\end{proof}

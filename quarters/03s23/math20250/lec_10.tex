@@ -1,0 +1,176 @@
+\lecture{10}{27 Apr 2023}{Properties of the Determinant}
+\begin{recall}
+    The determinant function \(D: \bbm_n(\bbk) \to \bbk\) is unique and is defined by:
+    \[
+        D(A) = \sum_{j=1}^{n} (-1)^{j+1} a_{1j} \det_{n-1}(A_{1j})
+    \]
+\end{recall}
+
+\begin{proposition}
+    The proof previously sketched shows that if \(F: \bbm_n(\bbk) \to \bbk\) is a multilinear, alternating map then \[
+        F(A) = \det_n(A) F(I_n)
+    \]
+
+    In particular, if \(F(I_n) = 1\) then \(F(A) = \det(A)\). It is quite clear why \(F(I_n)\) should appear at the final expression, as according to what we did to prove uniqueness from existence of the determinant function, the final expression involves the determinant function applied to row permutations of \(I_n\), the value of which evaluates to \(\pm F(I_n)\) due to the alternating nature of the function.
+\end{proposition}
+
+\begin{definition} {Row-varying Determinant Function}
+    \[
+        D_i(A) \coloneqq \sum_{j=1}^{n}(-1)^{i+j}a_{ij} \det_{n-1}(A_{ij})
+    \]
+    Then \(D_i: \bbm_n(\bbk) \to \bbk\) is also multilinear and alternating, and \(D_i(A) = \det A\)
+\end{definition}
+
+\subsection{Multiplicativity of Determinant}
+Let \(B \in \bbm_n(\bbk)\) be any matrix. Consider: \begin{align*}
+    H: \bbm_n(\bbk) & \to \bbk            \\
+    A               & \to \det(A \cdot B)
+\end{align*}
+
+\begin{claim}
+    \(H\) is multilinear and alternating. In order to prove this, we shall introduce some notations:
+    \begin{itemize}
+        \item If \(S \in \bbm_{m \times n}(\bbk)\) then \(S^T \in \bbm_{n \times m}(\bbk),  S^T_{ij} \coloneqq S_{ji}\). This is the transpose matrix.
+        \item If \(v = (v_1, v_2, \dots, v_n) \in \bbm_{1 \times n}(\bbk)\), \(v^T = \begin{pmatrix}
+                  v_1    \\
+                  \vdots \\
+                  v_n
+              \end{pmatrix} \in \bbm_{n \times 1}(\bbk) \)
+        \item If \(w, v \in \bbm_{1 \times n}(\bbk)\), we define the dot product of \(v, w\) as \[
+                  v \cdot w = vw^T = \sum_{i=1}^{n}v_i w_i
+              \]
+    \end{itemize}
+\end{claim}
+
+
+\begin{proof} {Claim}
+    \textbf{Multilinearity}
+
+    Write \(A = \begin{pmatrix}
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_n
+    \end{pmatrix}, B = \begin{pmatrix}
+        w_1^T  \\
+        \vdots \\
+        w_n^T
+    \end{pmatrix}\) where each \(\alpha_i\) are row vectors of \(A\), \(w_i\) are column vectors of \(B\). Then,
+
+    \[
+        A \cdot B = \begin{pmatrix}
+            \alpha_1 w_1^T & \alpha_1 w_2^T & \cdots & \alpha_1 w_n^T \\
+            \alpha_2 w_1^T & \alpha_2 w_2^T & \cdots & \alpha_2 w_n^T \\
+            \vdots         & \vdots         & \ddots & \vdots         \\
+            \alpha_n w_1^T & \alpha_n w_2^T & \cdots & \alpha_n w_n^T \\
+        \end{pmatrix}
+    \]
+
+    If \(A = \begin{pmatrix}
+        \alpha_1              \\
+        \vdots                \\
+        \alpha_i + c\alpha'_i \\
+        \vdots                \\
+        \alpha_n
+    \end{pmatrix}, A_1 = \begin{pmatrix}
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_i \\
+        \vdots   \\
+        \alpha_n
+    \end{pmatrix}, A_2 = \begin{pmatrix}
+        \alpha_1  \\
+        \vdots    \\
+        \alpha'_i \\
+        \vdots    \\
+        \alpha_n
+    \end{pmatrix}\) then we want to show \(H(A) = H(A_1) + cH(A_2)\)
+
+    \begin{align*}
+        H(A) = \det(AB) & = \det \begin{pmatrix}
+                                     \alpha_1 w_1^T               & \alpha_1 w_2^T               & \cdots & \alpha_1 w_n^T               \\
+                                     \vdots                       & \vdots                       & \ddots & \vdots                       \\
+                                     (\alpha_i + c\alpha'_i)w_1^T & (\alpha_i + c\alpha'_i)w_2^T & \cdots & (\alpha_i + c\alpha'_i)w_n^T \\
+                                     \alpha_n w_1^T               & \alpha_n w_2^T               & \cdots & \alpha_n w_n^T               \\
+                                 \end{pmatrix} \\
+                        & =\det(A_1B) + c \det(A_2B)                                                                                 \\
+                        & = H(A_1) + cH(A_2)
+    \end{align*}
+
+    Proof that \(H\) is alternating is left as an exercise.
+\end{proof}
+
+\begin{corollary}
+    \begin{align*}
+        H(A)              & = \det(A) H(I_n) \:\text{(since \(H\) is multilinear, alternating)}\: \\
+        \implies \det(AB) & = \det A \det B                                                     \\
+        \implies \det(AB) &= \det A \det B = \det(BA)
+    \end{align*}
+\end{corollary}
+
+\begin{corollary}\label{cor:10_2}
+    If \(A\) has either a left or right inverse, then \(\det A \neq 0\) in \(\bbk\).
+\end{corollary}
+
+\begin{proof} {Corollary}
+    Suppose \(\exists A' \st AA' = I_n \implies 1 = \det(I_n) = \det A \det A' \implies \det A \neq 0\)
+\end{proof}
+
+\begin{proposition}
+    Given \(A \in \bbm_n(\bbk)\) then
+    \[
+        \det A = \det A^T
+    \]
+\end{proposition}
+
+\begin{proof} {Proposition}
+    Suppose this is true up to \(n-1\). Then, \[
+        \det A = \sum_{1}^{n} (-1)^{1+j} a_{1j} \det_{n-1}(A_{1j})
+    \]
+
+    Consider \(D_{vert}: \bbm_n(\bbk) \to \bbk\), where \[
+        D_{vert}(B) = \sum_{i=1}^{n} (-1)^{1+i}b_{i1} \det_{n-1}(B_{i1})
+    \]
+    We claim that \(D_{vert}\) is multilinear and alternating, and \(D_{vert}(I_n) = 1\), which would therefore imply that \(D_{vert} = \det\). This is trivial.
+
+    So, \begin{align*}
+        \det(A^T) & = D_{vert}(A^T)                                             \\
+                  & = \sum_{i=1}^{n} (-1)^{1+i} a^T_{i1}\det_{n-1}(A^T_{i1})    \\
+                  & = \sum_{i=1}^{n}   (-1)^{1+i} a_{1i} \det_{n-1}((A_{1i})^T) \\
+                  & = \sum_{i=1}^{n} (-1)^{i+1} a_{1i} \det_{n-1}(A_{1i})       \\
+                  & = \sum_{j=1}^{n} (-1)^{j+1} a_{1j} \det_{n-1}(A_{1j})       \\
+                  & = \det A
+    \end{align*}
+\end{proof}
+
+\begin{definition} {Adjunct Matrix?}
+    Let \(A \in \bbm_n(\bbk)\). Define \[
+        A' = \begin{pmatrix}
+            (-1)^2 \det A_{11}     & (-1)^3 \det A_{12} & \cdots                & (-1)^{1+n} \det A_{n1} \\
+            \vdots                 & \vdots             & (-1)^{i+j}\det A_{ij} & \vdots                 \\
+            (-1)^{n+1} \det A_{n1} & \cdots             & \cdots                & (-1)^{2n} \det A_{nn}
+        \end{pmatrix}
+    \]
+
+    Then the \textbf{adjunct matrix} of \(A\) is \((A')^T\)
+\end{definition}
+
+\begin{claim}
+\[
+A (A')^T = (A')^T A = \det A I_n
+\]
+We will prove this in the next lecture, with the upshot being that if \(\det A \neq 0\) then \[
+A ((\det A) ^{-1} (A')^T) = I_n \implies A^{-1} = (\det A) ^{-1} (A')^T
+\]
+
+We can therefore use this formula to find the inverse of \(A\)!
+\end{claim}
+
+\begin{corollary}
+\(A\) is invertible iff \(\det A \neq 0\)
+\end{corollary}
+
+\begin{proof} {Corollary}
+\pffwd As proven above in Corollary \ref{cor:10_2}
+
+\pfbwd The above claim provides a constructive way of finding the inverse of \(A\) through \(\det A\).
+\end{proof}

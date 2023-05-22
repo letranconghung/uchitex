@@ -1,0 +1,175 @@
+\lecture{14}{11 May 2023}{Generalized Eigenspaces and Cayley-Hamilton}
+
+We continue from last lecture.
+\begin{proposition}
+    Let \(T: V \to V\) be a linear operator, and \(W\) be a stabilised subspace under \(T\), then \(T\mid_W\) is diagonalizable.
+\end{proposition}
+
+\begin{proof} {Proposition}
+    Since \(T\) is diagonalizable, \[
+        V = \underset{\lambda}{\oplus} V_{\lambda}
+    \] for distinct \(\lambda\). From previous lecture, we know that \[
+        W = \underset{\lambda}{\oplus} (W \cap V_\lambda)
+    \] for distinct \(\lambda\) of \(T: V \to V\). It therefore suffices to show that \(W \cap V_\lambda\) is an eigenspace of \(T: W \to W\), i.e. \(W_\lambda = W \cap V_\lambda\). However, this is clear from the definition itself: \[
+        LHS = \{w \in W \mid Tw = \lambda w\} = RHS
+    \]
+
+    Therefore, \( W = \underset{\lambda}{\oplus} W_\lambda \implies T\mid_W\) is diagonalizable.
+\end{proof}
+
+\subsection{Simultaneously Diagonalizable Linear Operators}
+\begin{question}
+    Given linear operators \(T_1, T_2: V \to V\) that are both diagonalizable, then when are they simultaneously diagonalizable? i.e. when does there exist an eigenbasis that is an eigenbasis for both \(T_1, T_2\)?
+\end{question}
+
+Observe that if there exists a common eigenbasis \(\cab\) then \[
+    [T_1]_\cab = \begin{pmatrix}
+        a_1 &        &     \\
+            & \ddots &     \\
+            &        & a_n
+    \end{pmatrix}, [T_2]_\cab = \begin{pmatrix}
+        b_1 &        &     \\
+            & \ddots &     \\
+            &        & b_n
+    \end{pmatrix}
+    \implies [T_1]_\cab [T_2]_\cab = [T_2]_\cab [T_1]_\cab
+\]
+
+\(T_1, T_2\) are commutative!
+
+\begin{proposition}
+    Let \(T_1, T_2: V \to V\) be diagonalizable linear operators, then they are simultaneously diagonalizable if and only if \(T_1 \circ T_2 = T_2 \circ T_1\)
+\end{proposition}
+
+\begin{proof} {Proposition}
+
+    \pffwd From our observation above \qed
+
+    \pfbwd First, let \(V  = \underset{\lambda}{\oplus} V_{\lambda}\) for \(\lambda\) of \(T_1: V \to V\), i.e. \(V_\lambda: \{v \in V \mid T_1 v = \lambda v\}\)
+
+    We then claim that \(V_\lambda\) is invariant under \(T_2\). This would imply that since \(T_2\) is diagonalizable, \(T_2 \mid_{V_\lambda}\) is diagonalizable.
+
+    Then each \(V_\lambda = \underset{\alpha}{\oplus} W_{\lambda, \alpha}\) for \(\alpha\) of \(T_2: V_\lambda \to V_\lambda\) where \(W_{\lambda, \alpha} = \{v \in V_\lambda \mid T_2 v= \alpha v\}\).
+
+    It then follows that \(V = \underset{\lambda}{\oplus} V_{\lambda} = \underset{\lambda}{\oplus} (\underset{\alpha}{\oplus} W_{\lambda, \alpha})\). Now, since \(W_{\lambda, \alpha} = \{v \in V \mid T_1 v = \lambda v, T_2 v = \alpha v\}\) then we are done.
+
+    It remains for us to prove the claim, i.e. \(T_2(V_\lambda) \subseteq V_\lambda\).
+
+    If \(x \in V_\lambda\), we want to show that \(T_2(x) \in V_\lambda \Leftrightarrow T_1(T_2(x))  = \lambda (T_2(x))\).
+
+    But \(T_1 \circ T_2 = T_2 \circ T_1 \implies T_1(T_2(x)) = T_2(T_1(x)) = T_2(\lambda x) = \lambda T_2(x)\)
+\end{proof}
+
+\begin{observe}
+    \(\begin{pmatrix}
+        1 & 1 \\
+        0 & 1
+    \end{pmatrix}\) has eigenvalue 1, ,but not diagonalizable over \(\bbr, \bbc\), but
+
+    \(\begin{pmatrix}
+           & 1 \\
+        -1 &
+    \end{pmatrix}\) is clearly not diagonalizable over \(\bbr\) (no eigenvalue), but potentially over \(\bbc\). It was therefore the fault of the field (in this case, \(\bbr\)) that made it not diagonalizable, not fault of the matrix itself. This prompts us to generate a more general definition of eigenspace.
+\end{observe}
+
+\begin{definition} {Generalized Eigenspace}
+    Let \(\lambda\) be an eigenvalue of \(T: V \to V\). Define the \textbf{generalized eigenspace} of \(T\): \[
+        \tilde{V}_\lambda \coloneqq \{ v \in V \mid (T - \lambda)^m \cdot v = 0 \:\text{for some}\:  m \in \bbn \}
+    \]
+
+    \(\forall m \geq 1\), we can define: \[
+        V_\lambda^{(m)} \coloneqq \{ v \in V \mid (T - \lambda)^m \cdot v = 0\}
+    \]
+
+    In particular, the typical eigenspace \[
+        V_\lambda = V_\lambda^{(1)}
+    \]
+    and \[
+        V_\lambda^{(1)} \subseteq V_\lambda^{(2)} \subseteq \cdots  \subseteq V_\lambda^{(m)} \subseteq \tilde{V}_\lambda = \bigcup_{m \geq 1} V_\lambda^{(m)}
+    \]
+\end{definition}
+
+\begin{example}
+    \(\begin{pmatrix}
+        1 & 1 \\
+        0 & 1
+    \end{pmatrix}\) has eigenvalue 1, \(\dim V_1 = 1\) but \(\dim \tilde{V}_1 = 2\), since \[
+        (M-I)^2 = \begin{pmatrix}
+            0 & 1 \\
+            0 & 0
+        \end{pmatrix} ^2 = \begin{pmatrix}
+            0 & 0 \\
+            0 & 0
+        \end{pmatrix}
+    \]
+\end{example}
+
+\begin{lemma}\label{lemma:14_1}
+    Suppose the characteristic polynomial of \(T: V \to V\) has the form: \[
+        P(x) = \prod_{\lambda_i} (x - \lambda_i)^{d_i}
+    \]
+    then \(\dim \tilde{V}_{\lambda_i} = d_i\)
+\end{lemma}
+
+\begin{lemma}\label{lemma:14_2}
+    If the characteristic polynomial has the same form as above, then \(V \cong \underset{\lambda}{\oplus} \tilde{V}_\lambda\).
+\end{lemma}
+
+\begin{proof} {Lemma \ref*{lemma:14_2}}
+    Using the same idea, we want to show \[
+        \underset{\lambda}{\oplus} \tilde{V}_\lambda \xrightarrow{\tilde{\pi}}  V
+    \] where \(\tilde{\pi}\)  is the standard addition map, is an isomorphism.
+
+    Then we want \(\ker(\tilde{\pi}) = \{0\}\), and \(\sum \dim \tilde{V}_\lambda = \dim V\), which would imply isomorphism.
+
+    It is also an exercise to prove, during this process, that \(\tilde{V}_\lambda \cap \tilde{V}_{\lambda'} = {0}\)
+\end{proof}
+
+\begin{proof} {Lemma \ref*{lemma:14_1}}
+    We inspect the special case when there only exists 1 eigenvalue \(\lambda\), i.e. \(P(x) = (x- \lambda)^d\).
+
+    It is already clear that \(\dim \tilde{V}_1 \leq d\), since \(\tilde{V}_1 \subseteq V\).
+
+    However, we want to show \(\dim \tilde{V}_1 = d\), i.e. \(\forall v \in V, (T - \lambda)^m v = 0 \:\text{for some}\: v\).
+
+    Equivalently, we claim that \((T - \lambda)^d v = 0 \forall v \in V\), i.e. \((T - \lambda)^d = 0\)
+\end{proof}
+
+This claim will be proven by the following theorem, which shall prove the previous 2 lemmas at one go.
+
+\begin{theorem} [Cayley-Hamilton]
+    Let \(T: V \to V\) be a linear operator, and its characteristic polynomial be \[
+        P(x) = \det (x I_n - T)
+    \]
+
+    Then \[
+        P(T) = 0
+    \]
+    i.e. if \(P(x) = a_0 + a_1 x + a_2x^2 + \cdots + a_d x^d; a_i \in \bbk\) then \[
+        a_0 I + a_1T + a_2T^2 + \cdots + a_d T^d = 0
+    \]
+\end{theorem}
+\begin{remark}
+    This makes the claims above obvious, since \(P(x) = (x-\lambda)^d \implies (T - \lambda)^d = 0\)
+\end{remark}
+\begin{example}
+    \(A = \begin{pmatrix}
+        1 & 1 \\
+        0 & 1
+    \end{pmatrix} \implies P(X) = (x-1)^2\) then according to theorem, \[
+        \left(\begin{pmatrix}
+                1 & 1 \\
+                0 & 1
+            \end{pmatrix} - I_2\right)^2 = 0
+    \]
+
+\end{example}
+
+\begin{remark}
+    If \(P(x) = \prod_{\lambda_i} (x - \lambda_i)^{d_i}\) then we can switch around the order \[
+        (T - \lambda_1)^{d_1}(T - \lambda_2)^{d_2}\cdots = (T - \lambda_2)^{d_2}(T - \lambda_1)^{d_1}\cdots = 0
+    \]
+    (we could switch the multiplying order in the polynomial, and thus switch the multiplying order of the matrices)
+
+    Then if \((T - \lambda_1)^{d_1}(T - \lambda_2)^{d_2} v = 0 \) then it's relatively easy to conclude that \(v \in \tilde{V}_1 \) or \(\tilde{V}_2\)
+\end{remark}

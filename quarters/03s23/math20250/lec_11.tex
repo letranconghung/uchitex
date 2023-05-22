@@ -1,0 +1,263 @@
+\lecture{11}{02 May 2023 (Zoom)}{Spectral Theory: Eigenvalues, Eigenvectors, Eigenspaces}
+\begin{recall}
+    We claimed last lecture that \[
+        A (A')^T = (A')^T A = (\det A) I_n
+    \]
+\end{recall}
+
+\begin{proof} {Claim}
+    First recall that \begin{align*}
+        A'_{ij}              & = (-1)^{i+j} \det(A_{ij})          \\
+        \implies (A'^T)_{ij} & = A_{ji} = (-1)^{i+j} \det(A_{ji})
+    \end{align*}
+    Let \begin{align*}
+        P & = A (A')^T                          \\
+          & = \begin{pmatrix}
+                  a_{11} & a_{12} & \cdots & a_{1n} \\
+                  a_{21} & a_{22} & \cdots & a_{2n} \\
+                  \vdots & \vdots & \ddots & \vdots \\
+                  a_{n1} & a_{n2} & \cdots & a_{nn}
+              \end{pmatrix}
+        \begin{pmatrix}
+            \det(A_{11})           & \cdots                                & (-1)^{n+1} \det (A_{n1}) \\
+            (-1)\det (A_{12})      & \cdots                                & \vdots                   \\
+            \cdots                 & (A'^T)_{kj} = (-1)^{j+k}\det (A_{jk}) & \vdots                   \\
+            (-1)^{n+1}\det(A_{1n}) & \cdots                                & (-1)^{2n}\det(A_{nn})
+        \end{pmatrix}
+    \end{align*}
+    then \(P_{ii} = \sum_{j=1}^{n} a_{ij}(A'^T)_{ji} = \sum_{j=1}^{n}a_{ij} (-1)^{i+j}\det(A_{ij}) = \det A\), so indeed the diagonal entries are \(\det A\). It remains for us to prove that \(P_{ij} = 0\) for \(i \neq j\).
+
+    \[
+        P_{ij} = \sum_{k=1}^{n} a_{ik} (-1)^{j+k}\det A_{jk}
+    \]
+
+    We will change \(A\) a little bit by replacing its \(j-\)th row with its \(i-\)th row, and denote this matrix \(B\).
+
+    We know that \(\det B = 0\) (having 2 equal rows), and can write its expression:
+    \[
+        \det B = \sum_{k=1}^{n}(-1)^{i+k}a_{ik}\det B_{ik}
+    \]
+    and we can see that \[
+        \det B_{ik} = (-1)^{i+j}\det A_{jk}
+    \]
+    (LHS has \(i-\)th row removed, but the \(j-\)th row is just the former \(i-\)th row, while RHS has the original \(j-\)th row removed. The sign change is to compensate for the alternating nature.)
+
+    Therefore, \begin{align*}
+        0 = \det B & = \sum_{k=1}^{n} (-1)^{i+k}a_{ik}\det B_{ik}    \\
+                   & = \sum_{k=1}^{n}(-1)^{i+j+i+k}a_{ik}\det A_{jk} \\
+                   & = \sum_{k=1}^{n}(-1)^{j+k}a_{ik}\det A_{jk}     \\
+                   & = P_{ij}
+    \end{align*}
+
+    Just a note, that this entire maneuver could have only been accomplished if \(i \neq j\), with the row-changing in the first step.
+\end{proof}
+
+\subsection{Spectral Theory}
+\begin{motivation}
+    Spectral theory is the study of eigenvalues and eigenvectors.
+
+    Let \(T: V \to V\) be a linear transformation over \(\bbk\), otherwise known as a \textbf{linear operator} since it acts \(V \to V\). We know that if we pick a basis \(\cab = \{e_1, e_2, \dots, e_n\}\) then \(T \) corresponds to some matrix \([T]_\cab \in \bbm_n(\bbk) \). Then the question arises: does there exist a basis such that \([T]_\cab\) is ``simple'', whatever that measure of ``simple'' is: maybe it can have lots of zeroes, triangular etc. However, for this case, we opt to ask if there exists a basis such that \([T]_\cab\) is diagonal.
+\end{motivation}
+
+\begin{remark}
+    Why are diagonal matrices good? Well, matrix multiplication is much easier to perform on diagonal matrices!
+
+    If \(A = \begin{pmatrix}
+        \alpha_1 & 0        & \cdots   \\
+        0        & \alpha_2 & \cdots   \\
+        \vdots   & \ddots   & 0        \\
+        \cdots   & 0        & \alpha_n
+    \end{pmatrix}, v = \begin{pmatrix}
+        v_1    \\
+        v_2    \\
+        \vdots \\
+        v_n
+    \end{pmatrix} \) then \(Av = \begin{pmatrix}
+        \alpha_1 v_1 \\
+        \alpha_2 v_2 \\
+        \vdots       \\
+        \alpha_n v_n
+    \end{pmatrix}\), in particular: \[
+        A \begin{pmatrix}
+            1      \\
+            0      \\
+            \vdots \\
+            0
+        \end{pmatrix} = \begin{pmatrix}
+            \alpha_1 \\
+            0        \\
+            \vdots   \\
+            0
+        \end{pmatrix} = \alpha_1 \begin{pmatrix}
+            1      \\
+            0      \\
+            \vdots \\
+            0
+        \end{pmatrix}
+    \]
+    so \(A\) is sending a vector to a multiple of itself!
+\end{remark}
+
+\begin{definition} {Eigenvalue, Eigenvector}
+    Let \(T: V \to V\) be a linear operator over \(\bbk\), \(V\) is finite dimensional. Then \begin{enumerate}
+        \item \(a \in \bbk\) is called an \textbf{eigenvalue} of \(T\) if \(\exists v \neq 0 \in V\) \st \[
+                  T\cdot v = a \cdot v
+              \]
+        \item If \(a\) is eigenvalue of \(T\), then a vector \(v\) \st \[Tv = av\] is called an \textbf{eigenvector} of \(T\) for the eigenvalue \(a\).
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    \(\begin{pmatrix}
+        2 &   \\
+          & 1
+    \end{pmatrix}\) has eigenvalue 2, 1; with \(\begin{pmatrix}
+        x \\ 0
+    \end{pmatrix}\) being an eigenvector of eigenvalue 2, \(\begin{pmatrix}
+        0 \\
+        y
+    \end{pmatrix}\) being an eigenvector of eigenvalue 1.
+
+    \(\begin{pmatrix}
+        1 &   \\
+          & 1
+    \end{pmatrix}\) has eigenvalue 1, and since \(id \cdot v = v = 1 \cdot v \forall v \in \bbk^2\), every \(v \in \bbk^2\) is an eigenvector of eigenvalue 1.
+\end{example}
+
+Therefore, if \(\cab = \{e_1, e_2, \ldots, e_n\}\) is a basis of \(V\), and \([T]_\cab = \begin{pmatrix}
+    c_1 &     &        &     \\
+        & c_2 &        &     \\
+        &     & \ddots &     \\
+        &     &        & c_n
+\end{pmatrix}\) then \(c_1, c_2, \ldots, c_n\) are eigenvalues and each \(e_i\) is an eigenvector of \(c_i\) (Its coordinates would be all zeroes, except for the \(i-\)th position, which would be multiplied by \(c_i\))
+
+\begin{definition} {Eigenspace}
+    If \(a\) is an eigenvalue of \(T\), define \[
+        V_a \coloneqq \{v \in V \mid T(v) = a\cdot v\}
+    \]
+    to be the \textbf{eigenspace} of the eigenvalue \(a\).
+\end{definition}
+
+\begin{claim}
+    \(V_a\) is a vector subspace of \(T\), the proof of which is left as exercise.
+\end{claim}
+
+\begin{example}
+    If \(T: \bbk^2 \to \bbk^2, [T]_\cab = \begin{pmatrix}
+        2 &   \\
+          & 1
+    \end{pmatrix}\) then \begin{align*}
+        V_2 & = \{(x, 0) \mid x \in \bbk\} \\
+        V_1 & = \{(0, y) \mid y \in \bbk\}
+    \end{align*}
+\end{example}
+
+Then a natural question arises, that given \(T: V \to V\), how do we find its eigenvalues and eigenvectors?
+
+\begin{proposition}
+    Let \(T: V \to V\) be a linear operator over \(\bbk\), then the following are equivalent:
+    \begin{enumerate}
+        \item \(a \in \bbk\) is an eigenvalue for \(T\)
+        \item \(T - a \cdot id: V \to V\) is not an isomorphism
+        \item There exists a basis \(\cab = \{e_1, e_2, \ldots, e_n\}\) for \(V \st M= [T]_\cab \) satisfies \(\det (M - a\cdot I_n) = 0\)
+    \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+    In (3), the term \(\det (M - a I_n)\) is independent of basis, i.e. if we have a different basis \(\cab '\) then \[
+        \det(M' - a I_n) = \det(M - a I_n) =  0
+    \]
+    This is because \(M = C M' C^{-1}\) through change of basis, which implies
+    \begin{align*}
+        M - a I_n              & = C (M' - a I_n) C^{-1}               \\
+        \implies \det(M-a I_n) & = \det C \det (M' - aI_n) \det C^{-1} \\
+                               & = \det (M' - a I_n)
+    \end{align*}
+\end{remark}
+
+\begin{proof} {Proposition}
+    We first prove \((1) \implies (2)\). If \(a \in \bbk\) is an eigenvalue for \(T \implies \) There exists eigenvector \(v\) for \(a\).
+
+    Therefore, \(T - a I_n\) is not an isomorphism since \(\exists v \neq 0 \st (T - a I_n) (v) = 0\).
+
+    In fact, \(V_a  = \{v \mid Tv = av = aI_n v \Leftrightarrow (T - a I_n) v = 0 \} = \ker(T  - a I_n)\)
+
+    We now prove \((2) \implies (1)\). We know that \(T - aI_n\) is not an isomorphism, and is either not injective or not surjective.
+
+    If it is not injective, then \(\ker(T - aI_n) \neq \{0\}\).
+
+    If it is not surjective, then \(\dim \im (T - aI_n) < \dim V\), and since \[
+        \dim \ker (T - aI_n) + \dim \im (T - aI_n)= \dim V \implies \dim \ker (T - aI_n) > 0 \implies \ker (T - aI_n) \neq \{0\}
+    \]
+    In either case, \(\ker (T - aI_n) \neq \{0\} \implies \exists v \neq 0 \st T(v) = a I_n v = av\).
+
+    We now prove \((2) \Leftrightarrow (3)\).
+
+    Let \(\cab = \{e_1, \dots, e_n\}\) be any basis. Let \(M = [T]_\cab\), then \(T - aI_n\) corresponds to \(M - aI_n\) under \(\cab\).
+
+    Then, \(T - aI_n\) is (not) an isomorphism \(\Leftrightarrow\) \(M - aI_n\) is (not) invertible \(\Leftrightarrow \det (M - aI_n) = (\neq) 0\)
+\end{proof}
+
+\begin{definition} {Characteristic Polynomial of Matrix}
+    Let \(M \in \bbm_n(\bbk)\) the \textbf{characteristic polynomial} of \(M\) is \[
+        f(x) \coloneqq \det(x I_n - M)
+    \]
+\end{definition}
+
+\begin{example}
+    \(M = \begin{pmatrix}
+        a & b \\
+        c & d
+    \end{pmatrix}\) then \begin{align*}
+        f(x) & = \begin{vmatrix}
+                     x -a & -b  \\
+                     -c   & x-d
+                 \end{vmatrix}         \\
+             & = (x-a)(x-d) - bc        \\
+             & = x^2 - (a+d)x + (ad-bc)
+    \end{align*}
+\end{example}
+
+\begin{definition} {Chacteristic Polynomial of Linear Operator}
+    \(T: V \to V\) is a linear operator over \(\bbk\). Let \(\cab = \{e_1, e_2, \cdots, e_n\}\) be any basis. Then the \textbf{characteristic polynomial} of \(T\) is the characteristic polynomial of \([T]_\cab\).
+\end{definition}
+
+\begin{remark}
+    Note, that this is independent of the choice of basis! For the same reason above: that the change of basis matrices can always be applied and not alter these properties.
+\end{remark}
+
+\begin{corollary}
+    Eigenvalues of \(T\) are precisely the roots of its characteristic polynomial.
+\end{corollary}
+
+\begin{example}
+    If \(A= [T]_\cab = \begin{pmatrix}
+        a_1 &        &     \\
+            & \ddots &     \\
+            &        & a_n
+    \end{pmatrix}\) then \begin{align*}
+        f_T(x) & = \det(xI_n - A)             \\
+               & = \begin{vmatrix}
+                       x - a_1 &        &         \\
+                               & \ddots &         \\
+                               &        & x - a_n
+                   \end{vmatrix} \\
+               & = (x-a_1)\cdots (x-a_n)
+    \end{align*}
+\end{example}
+
+\begin{example}
+If \(A  = \begin{pmatrix}
+ 0 & 1 \\
+ -1 & 0
+\end{pmatrix}\) on \(\bbk^2 \to \bbk^2 \) (\(\bbk = \bbr, \bbc\)) then \[
+P_A(x) = \det \begin{pmatrix}
+ x & -1 \\
+ 1 & x
+\end{pmatrix} = x^2 + 1
+\]
+
+Then, if \(\bbk = \bbr\), then there does not exist any solutions, i.e. no eigenvalues for \(A\) over \(\bbr\).
+
+However, if \(\bbk = \bbc\), then \(\pm i\) are eigenvalues for \(A\).
+\end{example}

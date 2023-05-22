@@ -13,43 +13,38 @@
 
 \begin{definition} {Matrix}
     Let \(\bbk\) be a field. Then an \(\mathbf{m \times n}\) \textbf{matrix} with coefficients in \(\bbk\), is an ordered tuple of elements in \(\bbk\), typically written as \[
-        \left[
-            \begin{array}{cccc}
-                a_{11} & a_{12} & \cdots & a_{1n} \\
-                a_{21} & a_{22} & \cdots & a_{2n} \\
-                \vdots & \vdots & \ddots & \vdots \\
-                a_{m1} & a_{m2} & \cdots & a_{mn} \\
-            \end{array}
-            \right] \in \bbm_{m\times n}(\bbk)
+        \begin{bmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            a_{21} & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{bmatrix}
+        \in \bbm_{m\times n}(\bbk)
     \]
 \end{definition}
 
 \begin{definition} {Matrix Multiplication}
     If \(T_1 \in \bbm_{m\times n}(\bbk), T_2 \in \bbm_{n\times l}(\bbk)\) then \(T_1 \cdot T_2 \in \bbm_{m\times l}(\bbk)\) (where \(m, n, l \in \bbn\)). Specifically, \[
-        \left[
-            \begin{array}{ccccc}
-                a_{11} & a_{12} & \cdots & \cdots & a_{1n} \\
-                a_{21} & a_{22} & \cdots & \cdots & a_{2n} \\
-                \vdots & \vdots & \ddots & \cdots & \vdots \\
-                a_{m1} & a_{m2} & \cdots & \cdots & a_{mn} \\
-            \end{array}
-            \right] \cdot
-        \left[
-            \begin{array}{cccc}
-                b_{11} & b_{12} & \cdots & b_{1l} \\
-                b_{21} & b_{22} & \cdots & b_{2l} \\
-                \vdots & \vdots & \ddots & \vdots \\
-                b_{n1} & b_{n2} & \cdots & b_{nl} \\
-            \end{array}
-            \right] =
-        \left[
-            \begin{array}{ccccc}
+        \begin{bmatrix}
+            a_{11} & a_{12} & \cdots & \cdots & a_{1n} \\
+            a_{21} & a_{22} & \cdots & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \cdots & \vdots \\
+            a_{m1} & a_{m2} & \cdots & \cdots & a_{mn}
+        \end{bmatrix}
+        \cdot
+        \begin{bmatrix}
+            b_{11} & b_{12} & \cdots & b_{1l} \\
+            b_{21} & b_{22} & \cdots & b_{2l} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            b_{n1} & b_{n2} & \cdots & b_{nl}
+        \end{bmatrix}
+        =
+            \begin{bmatrix}
                 c_{11} & c_{12} & \cdots & \cdots & c_{1l} \\
                 c_{21} & c_{22} & \cdots & \cdots & c_{2l} \\
                 \vdots & \vdots & \ddots & \cdots & \vdots \\
-                c_{m1} & c_{m2} & \cdots & \cdots & c_{ml} \\
-            \end{array}
-            \right]
+                c_{m1} & c_{m2} & \cdots & \cdots & c_{ml}
+            \end{bmatrix}
     \]
     where
     \begin{align*}
@@ -63,38 +58,31 @@ In particular, if \(T_1, T_2 \in \bbm_n \coloneqq \bbm_{n\times n}(\bbk) \) then
 
 \begin{observe}
     We can write system of linear equations as \[
-        T \cdot \left[
-            \begin{array}{c}
-                x_1 \\ x_2 \\ \vdots \\ x_n
-            \end{array}
-            \right] = \left[
-            \begin{array}{c}
-                b_1 \\ b_2 \\ \vdots \\ b_m
-            \end{array}
-            \right]
+        T \cdot 
+                \begin{bmatrix}
+                    x_1 \\ x_2 \\ \vdots \\ x_n
+                \end{bmatrix} = \begin{bmatrix}
+                    
+                    b_1 \\ b_2 \\ \vdots \\ b_m
+                \end{bmatrix}
     \] where \[
-        T \in \bbm_{m\times n}(\bbk), \left[
-            \begin{array}{c}
-                x_1 \\ x_2 \\ \vdots \\ x_n
-            \end{array}
-            \right] \in \bbm_{n \times 1}(\text{indeterminants}), \left[
-            \begin{array}{c}
-                b_1 \\ b_2 \\ \vdots \\ b_m
-            \end{array}
-            \right] \in \bbm_{m \times 1}(\bbk)
+        T \in \bbm_{m\times n}(\bbk), \begin{bmatrix}
+            x_1 \\ x_2 \\ \vdots \\ x_n
+        \end{bmatrix} \in \bbm_{n \times 1}(\text{indeterminants}), 
+        \begin{bmatrix}
+            b_1 \\ b_2 \\ \vdots \\ b_m
+        \end{bmatrix} \in \bbm_{m \times 1}(\bbk)
     \]
 
     Then, finding solutions to \(S\) is equivalent to finding \((\alpha_1, \alpha_2, \dots, \alpha_n) \in \bbk\) s.t.
     \[
-        T \cdot \left[
-            \begin{array}{c}
+        T \cdot
+            \begin{bmatrix}
                 \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n
-            \end{array}
-            \right] = \left[
-            \begin{array}{c}
+            \end{bmatrix} =
+            \begin{bmatrix}
                 b_1 \\ b_2 \\ \vdots \\ b_m
-            \end{array}
-            \right]
+            \end{bmatrix}
     \]
 \end{observe}
 
@@ -104,16 +92,16 @@ In particular, if \(T_1, T_2 \in \bbm_n \coloneqq \bbm_{n\times n}(\bbk) \) then
 
 \begin{definition} {Identity Matrix}
     \[
-        I_n = id_n = \left[
-            \begin{array}{cccccc}
+        I_n = id_n = 
+            \begin{bmatrix}
                 1      & 0      & 0      & \cdots & 0      & 0      \\
                 0      & 1      & 0      & \cdots & 0      & 0      \\
                 0      & 0      & 1      & \ddots & 0      & 0      \\
                 \vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\
                 0      & \vdots & \cdots & \ddots & 1      & 0      \\
                 0      & 0      & 0      & \cdots & 0      & 1      \\
-            \end{array}
-            \right] \in \bbm_n(\bbk)
+            \end{bmatrix}
+            \in \bbm_n(\bbk)
     \]
 \end{definition}
 

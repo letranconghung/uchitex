@@ -1,0 +1,159 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{Math 20250: Abstract Linear Algebra \\ \large Problem Set 5}
+\date{08 May 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{5}
+\textbf{Textbook: Linear Algebra by Hoffman and Kunze (2nd Edition)}
+\begin{problem} [Sec 5.4. Problem 3]
+An \(n \times n\) matrix \(A\) over a field \(\bbf\) is \textbf{skew-symmetric} if \(A^t = -A\). If \(A\) is a skew-symmetric \(n \times n\) matrix with complex entries and \(n\) is odd, prove that \(\det A = 0\).
+\end{problem}
+\begin{solution}
+    We want to show that \(\det A = (-1)^n \det (-A)\). We will prove the statement by induction.
+
+    When \(n = 1\), it's clear that \(\det a = a = -(-a) = (-1)^1 \det (-a)\).
+
+    Suppose that the statement is true for all \(m \leq n-1\), we want to prove that it is also true for \(n\). Let \(A \in \bbm_{n}(\bbf)\) and \(A(i|j)\) denote the \((n-1) \times (n-1)\) matrix that is constructed by removing the \(i-\)th row and \(j-\)th row of \(A\). Then,
+    \begin{align*}
+        \det A & = \sum_{j=1}^{n} (-1)^{1+j}A_{1j}\det(A(1\mid j))                       \\
+               & =\sum_{j=1}^{n} (-1)^{1+j} (-1)(-A)_{1j}[(-1)^{n-1}\det((-A)(1\mid j))] \\
+               & = (-1)^n \sum_{j=1}^{n}(-1)^{1+j}(-A)_{1j}\det((-A)(1\mid j))           \\
+               & = (-1)^n \det (-A) \qed
+    \end{align*}
+
+    Therefore, in this case, since \(n\) is odd, \(\det A = - \det(-A)\). However, \(\det A = \det (A^t) = \det (-A)\) since \(A^t = -A\). It follows that \(2\det A = 0 \implies \det A = 0\).
+\end{solution}
+
+\begin{problem} [Sec 5.4. Problem 4]
+An \(n \times n\) matrix \(A\) over a field \(\bbf\) is called \textbf{orthogonal} if \(A A^t = I\). If \(A\) is orthogonal, show that \(\det A = \pm 1\). Give an example of an orthogonal matrix for which \(\det A = -1\).
+\end{problem}
+\begin{solution}
+    \begin{align*}
+        AA^t                     & = I          \\
+        \implies \det A \det A^t & = \det I = 1 \\
+        \implies (\det A) ^2     & = 1          \\
+        \implies \det A          & = \pm 1
+    \end{align*}
+    An example is \(\begin{pmatrix}
+        \frac{-1}{2}       & \frac{\sqrt{3}}{2} \\
+        \frac{\sqrt{3}}{2} & \frac{1}{2}
+    \end{pmatrix}\), whose determinant is \(\dfrac{-1}{4} - \dfrac{3}{4} = -1\)
+\end{solution}
+
+\begin{problem} [Sec 6.2. Problem 3]
+Let \(A\) be an \(n \times n\) triangular matrix over the field \(\bbf\). Prove that the characteristic values of \(A\) are the diagonal entries of \(A\), i.e. the scalars \(A_{ii}\).
+\end{problem}
+\begin{solution}
+    We first recall that the determinant of a triangular matrix is the product of the entries on its diagonal. Therefore, the characteristic polynomial of a triangular matrix \(A\) is \[
+        f = \det (x I_n - A) = \prod_{i=1}^n(x-A_{ii})
+    \]
+    Since the eigenvalues of \(A\) are the roots of its characteristic polynomial, they are trivially \(A_{ii}\)
+\end{solution}
+
+\begin{problem} [Sec 6.2. Problem 4]
+Let \(T\) be the linear operator on \(\bbr^3\) which is represented in the standard ordered basis by the matrix \[
+    \begin{pmatrix}
+        -9  & 4 & 4 \\
+        -8  & 3 & 4 \\
+        -16 & 8 & 7
+    \end{pmatrix}
+\]
+Prove that \(T\) is diagonalizable by exhibiting a basis for \(\bbr^3\), each vector of which is a characteristic vector of \(T\).
+\end{problem}
+\begin{solution}
+    We first find the eigenvalues of \(T\). The characteristic polynomial is \begin{align*}
+        \det (x I_3 - A) & = \begin{vmatrix}
+                                 x + 9 & -4  & -4  \\
+                                 8     & x-3 & -4  \\
+                                 16    & - 8 & x-7
+                             \end{vmatrix}                                           \\
+                         & = (x+9)((x-7)(x-3) -32) - 8 (-4(x-7) - 32) + 16 (16 + 4(x-3)) \\
+                         & = x^3 - x^2 - 5x - 3                                          \\
+                         & = (x-3)(x+1)^2
+    \end{align*}
+
+    Therefore 3 and -1 are eigenvalues for \(T\).
+
+    To find eigenvectors for 3:
+    \begin{align*}
+        \begin{pmatrix}
+            -9  & 4 & 4 \\
+            -8  & 3 & 4 \\
+            -16 & 8 & 7
+        \end{pmatrix} X          & = 3 X \\
+        \implies \begin{pmatrix}
+                     -12 & 4 & 4 \\
+                     -8  & 0 & 4 \\
+                     -16 & 8 & 4
+                 \end{pmatrix} X & = 0   \\
+        \implies \begin{pmatrix}
+                     1 & 0 & \frac{-1}{2} \\
+                     0 & 1 & \frac{-1}{2}
+                 \end{pmatrix} X & = 0
+    \end{align*}
+
+    Therefore the eigenspace for 3 is spanned by \(\begin{pmatrix}
+        1 \\ 0 \\ 2
+    \end{pmatrix}\) and \(\begin{pmatrix}
+        0 \\ 1 \\ 2
+    \end{pmatrix}\)
+
+    To find eigenvectors for -1:
+    \begin{align*}
+        \begin{pmatrix}
+            -9  & 4 & 4 \\
+            -8  & 3 & 4 \\
+            -16 & 8 & 7
+        \end{pmatrix} X          & = -X \\
+        \implies \begin{pmatrix}
+                     -8  & 4 & 4 \\
+                     -8  & 4 & 4 \\
+                     -16 & 8 & 8
+                 \end{pmatrix} X & = 0  \\
+        \implies \begin{pmatrix}
+                     -2 & 1 & 1
+                 \end{pmatrix} X & = 0
+    \end{align*}
+
+    Therefore the eigenspace for -1 is spanned by \(\begin{pmatrix}
+        1 \\ -1 \\ -1
+    \end{pmatrix}\)
+
+    It remains to show that \(\mathcal{B} = \left\{\begin{pmatrix}
+        1 \\ 0 \\ 2
+    \end{pmatrix},\begin{pmatrix}
+        0 \\ 1 \\ 2
+    \end{pmatrix},\begin{pmatrix}
+        1 \\ -1 \\ -1
+    \end{pmatrix}\right\}\) form a basis for \(\bbr^3\), but this is true since the bases of eigenspaces of different eigenvalues are linearly independent, and there are \(3 = \dim(\bbr^3)\) vectors in \(\mathcal{B}\).
+\end{solution}
+
+\begin{problem} [Sec 6.2. Problem 6]
+Let \(T\) be the linear operator on \(\bbr^4\) which is represented in the standard ordered basis by the matrix \[
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        a & 0 & 0 & 0 \\
+        0 & b & 0 & 0 \\
+        0 & 0 & c & 0
+    \end{pmatrix}
+\]
+Under what conditions on \(a, b, c\) is \(T\) diagonalizable?
+\end{problem}
+\begin{solution}
+    The characteristic polynomial of \(T\) is:
+
+    \begin{align*}
+        \det(xI_4 - A) & = \begin{vmatrix}
+                               x  & 0  & 0  & 0 \\
+                               -a & x  & 0  & 0 \\
+                               0  & -b & x  & 0 \\
+                               0  & 0  & -c & x
+                           \end{vmatrix} \\
+                       & = x^4
+    \end{align*}
+
+    whose root is 0. Therefore, \(T\) only has 1 eigenvalue \(c_1 = 0\). For \(T\) to be diagonalizable, \(\dim W_1 = \dim \bbr^4 = 4\), where \(W_1\) is the nullspace of \(T - c_1 I_4\). Since \(c_1 = 0\), \(A - c_1I_4 = A\). Therefore for \(\dim W_1 = 4\), \(A\) must be the zero matrix, i.e. \(a = b = c = 0\)
+\end{solution}
+\end{document}

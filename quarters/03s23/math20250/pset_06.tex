@@ -1,0 +1,89 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{Math 20250: Abstract Linear Algebra \\ \large Problem Set 6}
+\date{15 May 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{6}
+\textbf{Textbook: Linear Algebra by Hoffman and Kunze (2nd Edition)}
+\begin{problem} [Sec 6.5. Problem 2]
+Let \(\bbf\) be a commuting family of \( 3 \times 3 \) complex matrices. How many linearly independent matrices can \(\bbf\) contain? What about the \(n \times n \) case?
+
+Instructor's note: Only have to consider case \(n=3\).
+\end{problem}
+\begin{solution}
+\end{solution}
+\begin{problem} [Sec 6.5. Problem 3]
+Let \(T\) be a linear operator on an \(n-\)dimensional space, and suppose that \(T\) has \(n\) distinct characteristic values. Prove that any linear operator which commutes with \(T\) is a polynomial in \(T\).
+\end{problem}
+\begin{solution}
+    Since \(T\) has \(n\) distinct eigenvalues, \(T\) is diagonalizable. Then there exists an eigenbasis \(\mathcal{B}\) \st \(A = [T]_\mathcal{B}\) is a diagonal matrix with entries \(A_{ii} = \lambda_i\) where \(\lambda_i \neq \lambda_j \:\text{if}\: i \neq j\), and \(A_{ij} = 0\) if \(i \neq j\).
+
+    Let \(T'\) be a linear operator that commutes with \(T\), and let \(A' = [T']_\mathcal{B}\), then the commutativity implies: \[
+        A A' = A' A \implies (AA')_{ij} = (A'A)_{ij}
+    \]
+
+    Observe that:
+    \begin{align*}
+        (AA')_{ij}                              & = A'_{ij}\lambda_j \\
+        (A'A)_{ij}                              & = A'_{ij}\lambda_i \\
+        \implies A'_{ij}(\lambda_i - \lambda_j) & = 0 \forall i, j
+    \end{align*}
+
+    When \(i \neq j\), \(\lambda_i \neq \lambda_j \implies, A'_{ij} = 0\). When otherwise, the expression is trivial. Therefore, \(A'\) is diagonal.
+
+    We claim that we can find a polynomial \(f\) in \(T\) \st \(f(T) = A'\), as there trivially exists a polynomial \(g\) of degree less than or equal to \(n\) \st \[g(A_{ii}) = A'_{ii} \forall 1 \leq i \leq n\]
+
+    We then construct \(f\) with the same coefficients as \(g\), which then implies \(f(A) = A'\), since raising powers and scaling a diagonal matrix are accomplished by raising powers and scaling the diagonal entries themselves.
+
+\end{solution}
+\begin{problem} [Sec 6.5. Problem 4]
+Let \(A, B, C, D\) be \(n \times n\) complex matrices which commute. Let \(E\) be the \(2n \times 2n \) matrix \[
+    E = \begin{bmatrix}
+        A & B \\
+        C & D
+    \end{bmatrix}
+\]
+Prove that \(\det E = \det (AD-BC)\)
+
+Instructor's note: We can assume that \(A\) is invertible, and \(A, B, C, D\) are all diagonalizable.
+\end{problem}
+\begin{solution}
+    Observe that \[
+        \begin{bmatrix}
+            A & B \\
+            C & D
+        \end{bmatrix} \begin{bmatrix}
+            I & -A^{-1}B \\
+            0 & I
+        \end{bmatrix} = \begin{bmatrix}
+            A & A(-A^{-1}B) + B \\
+            C & -C(A^{-1}B) + D
+        \end{bmatrix} = \begin{bmatrix}
+            A & 0             \\
+            C & -CA^{-1}B + D
+        \end{bmatrix}
+    \]
+
+    It follows that
+    \begin{align*}
+        \det E \begin{vmatrix}
+                   I & -A^{-1}B \\
+                   0 & I
+               \end{vmatrix} & = \begin{vmatrix}
+                                     A & 0             \\
+                                     C & -CA^{-1}B + D
+                                 \end{vmatrix} \\
+        \implies \det E &= \det A \det (-CA^{-1}B + D) \\
+        &= \det(-ACA^{-1}B + AD)
+    \end{align*}
+
+    But since \(A, B, C, D\) commute:
+    \begin{align*}
+        \det(-ACA^{-1}B + AD) &= \det(-CAA^{-1}B + AD)\\
+        &= \det(-CB + AD) \\
+        &= \det (AD-BC) \qedhere
+    \end{align*}
+\end{solution}
+\end{document}

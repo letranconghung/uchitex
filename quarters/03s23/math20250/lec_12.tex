@@ -1,0 +1,63 @@
+\lecture{12}{02 May 2023}{Review before Midterm 2}
+
+\subsection{Change of Basis}
+
+Consider the \textbf{identity map}, that is
+\[
+    \begin{array}{ccc}
+        V                               & \xlongrightarrow{id} & V                                   \\
+        \cab = \{v_1, v_2, \dots, v_n\} &                      & \cab '= \{v'_1, v'_2, \dots, v'_n\} \\
+        v_i                             & \mapsto              & v_i
+    \end{array}
+\]
+
+Note that this is not the map \textbf{represented} by the identity matrix, which would essentially just map the coordinates to be the same between 2 bases.
+
+The matrix \(C = [id]_{\cab, \cab '}\) is the \textbf{change of basis matrix}. Essentially all vectors are kept the same (it's an identity mapping!), but just the coordinates are changed (because the basis changed!).
+
+In particular, this mapping would map:
+\begin{align*}
+    v_i             & \mapsto C_{i1}v'_1 + C_{i2} v'_2 + \cdots C_{in} v'_n \\
+    \begin{pmatrix}
+        0      \\
+        \vdots \\
+        1      \\
+        \vdots \\
+        0
+    \end{pmatrix} & \mapsto C \begin{pmatrix}
+                                  0      \\
+                                  \vdots \\
+                                  1      \\
+                                  \vdots \\
+                                  0
+                              \end{pmatrix} = \begin{pmatrix}
+                                                  C_{i1} \\
+                                                  \vdots \\
+                                                  C_{ij} \\
+                                                  \vdots \\
+                                                  C_{in}
+                                              \end{pmatrix}
+\end{align*}
+
+Consider the following: 
+
+\input{figures/figure5.tex}
+
+then \[
+T' = DTC^{-1}
+\]
+simply tracing back!
+
+In a specific case,
+\input{figures/figure6.tex}
+
+then \[
+M' = CMC^{-1}
+\]
+
+\subsection{Eigenspaces}
+If \(\alpha\) is an eigenvalue of \(T\), \(V_\alpha  \coloneqq \{v \mid Tv = \alpha v\} = \ker (T - \alpha I_n)\).
+
+\begin{exercise}
+If \(\alpha \neq \beta, V_\alpha \cap V_\beta = \{0\}\)
+\end{exercise}

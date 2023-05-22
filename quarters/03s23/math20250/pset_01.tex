@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 10pt]{article}
 \input{../preamble.tex}
 \title{Math 20250: Abstract Linear Algebra \\ \large Problem Set 1}
 \date{02 Apr 2023}
@@ -10,101 +10,101 @@
 \textbf{Textbook: Linear Algebra by Hoffman and Kunze (2nd Edition)}
 \begin{problem} [Sec 1.3. Problem 3]
 If \[
-    A = \left[\begin{array}{ccc}
+    A = \begin{pmatrix}
             6  & -4 & 0 \\
             4  & -2 & 0 \\
             -1 & 0  & 3
-        \end{array}\right]
+        \end{pmatrix}
 \]
 
 find all solutions of \(AX = 2X\) and all solutions of \(AX = 3X\). (The symbol \(cX\) denotes the matrix each entry of which is \(c\) times the corresponding entry of \(X\))
 \end{problem}
 \begin{solution}
-    We first solve \(AX = 2X\), which is equivalent to \(A_1X = \left[\begin{array}{c}
+    We first solve \(AX = 2X\), which is equivalent to \(A_1X = \begin{pmatrix}
             0 \\
             0 \\
             0
-        \end{array}\right]\) where \[
-        A_1 = \left[\begin{array}{ccc}
+        \end{pmatrix}\) where \[
+        A_1 = \begin{pmatrix}
                 6 -2 & -4    & 0   \\
                 4    & -2 -2 & 0   \\
                 -1   & 0     & 3-2
-            \end{array}\right] = \left[\begin{array}{ccc}
+            \end{pmatrix} = \begin{pmatrix}
                 4  & -4 & 0 \\
                 4  & -4 & 0 \\
                 -1 & 0  & 1
-            \end{array}\right]
+            \end{pmatrix}
     \]
     Row-reducing:
     \begin{multline*}
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 4  & -4 & 0 \\
                 4  & -4 & 0 \\
                 -1 & 0  & 1
-            \end{array}\right] \xrightarrow{(1) = \frac{1}{4}(1),(2) = (3)}
-        \left[\begin{array}{ccc}
+            \end{pmatrix} \xrightarrow{(1) = \frac{1}{4}(1),(2) = (3)}
+        \begin{pmatrix}
                 1  & -1 & 0 \\
                 -1 & 0  & 1
-            \end{array}\right] \xrightarrow{(2) = (2) + (1)}
-        \left[\begin{array}{ccc}
+            \end{pmatrix} \xrightarrow{(2) = (2) + (1)}
+        \begin{pmatrix}
                 1 & -1 & 0 \\
                 0 & -1 & 1
-            \end{array}\right] \xrightarrow{(2) = -(2)}
+            \end{pmatrix} \xrightarrow{(2) = -(2)}
         \\
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 1 & -1 & 0  \\
                 0 & 1  & -1
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
     Therefore \(x_3 = a, x_2 = x_3 = a, x_1 = x_2 = a\) for any \(a \in \bbc\).
 
     Solving \(AX = 3X\) is equivalent to \[
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 6 -3 & -4    & 0    \\
                 4    & -2 -3 & 0    \\
                 -1   & 0     & 3 -3
-            \end{array}\right] X = \left[\begin{array}{c}
+            \end{pmatrix} X = \begin{pmatrix}
                 0 \\ 0 \\ 0
-            \end{array}\right]
+            \end{pmatrix}
     \]
     \[
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 3  & -4 & 0 \\
                 4  & -5 & 0 \\
                 -1 & 0  & 0
-            \end{array}\right] X = \left[\begin{array}{c}
+            \end{pmatrix} X = \begin{pmatrix}
                 0 \\ 0 \\ 0
-            \end{array}\right]
+            \end{pmatrix}
     \]
 
     Row-reducing:
     \begin{multline*}
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 3  & -4 & 0 \\
                 4  & -5 & 0 \\
                 -1 & 0  & 0
-            \end{array}\right] \xrightarrow{(1) \leftrightarrow (3)}
-        \left[\begin{array}{ccc}
+            \end{pmatrix} \xrightarrow{(1) \leftrightarrow (3)}
+        \begin{pmatrix}
                 -1 & 0  & 0 \\
                 3  & -4 & 0 \\
                 4  & -5 & 0
-            \end{array}\right] \xrightarrow{(1) = -(1), (2) = (2) + 3(1), (3) = (3) + 4(1)}
+            \end{pmatrix} \xrightarrow{(1) = -(1), (2) = (2) + 3(1), (3) = (3) + 4(1)}
         \\
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 1 & 0  & 0 \\
                 0 & -4 & 0 \\
                 0 & -5 & 0
-            \end{array}\right] \xrightarrow{(2) = \frac{-1}{4}(2), (3) = \frac{-1}{5}(3)}
-        \left[\begin{array}{ccc}
+            \end{pmatrix} \xrightarrow{(2) = \frac{-1}{4}(2), (3) = \frac{-1}{5}(3)}
+        \begin{pmatrix}
                 1 & 0 & 0 \\
                 0 & 1 & 0 \\
                 0 & 1 & 0
-            \end{array}\right] \xrightarrow{}
-        \left[\begin{array}{ccc}
+            \end{pmatrix} \xrightarrow{}
+        \begin{pmatrix}
         1 & 0 & 0 \\
         0 & 1 & 0 
-        \end{array}\right]
+        \end{pmatrix}
     \end{multline*}
 
     Therefore \(x_3 = a, x_2 = 0, x_1 = 0\) for any \(a \in \bbc\).
@@ -112,205 +112,205 @@ find all solutions of \(AX = 2X\) and all solutions of \(AX = 3X\). (The symbol 
 
 \begin{problem} [Sec 1.5. Problem 1]
 Let \[
-    A = \left[\begin{array}{ccc}
+    A = \begin{pmatrix}
             2 & -1 & 1 \\
             1 & 2  & 1
-        \end{array}\right],
-    B = \left[\begin{array}{c}
+        \end{pmatrix},
+    B = \begin{pmatrix}
             3 \\
             1 \\
             -1
-        \end{array}\right],
-    C = \left[\begin{array}{cc}
+        \end{pmatrix},
+    C = \begin{pmatrix}
             1 & -1
-        \end{array}\right]
+        \end{pmatrix}
 \]
 Compute \(ABC \:\text{and}\:  CAB\)
 \end{problem}
 \begin{solution}
     \[
-        AB = \left[\begin{array}{ccc}
+        AB = \begin{pmatrix}
                 2 & -1 & 1 \\
                 1 & 2  & 1
-            \end{array}\right]\left[\begin{array}{c}
+            \end{pmatrix}\begin{pmatrix}
                 3 \\
                 1 \\
                 -1
-            \end{array}\right] =
-        \left[\begin{array}{cc}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 2 \cdot 3 + (-1) \cdot 1 + 1 \cdot (-1) \\
                 1 \cdot 3 + 2 \cdot 1 + 1 \cdot (-1)
-            \end{array}\right] =
-        \left[\begin{array}{cc}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 4 \\
                 4
-            \end{array}\right]
+            \end{pmatrix}
     \]
     \[
-        \implies ABC = \left[\begin{array}{cc}
+        \implies ABC = \begin{pmatrix}
                 4 \\
                 4
-            \end{array}\right] \left[\begin{array}{cc}
+            \end{pmatrix} \begin{pmatrix}
                 1 & -1
-            \end{array}\right] =
-        \left[\begin{array}{cc}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 4 \cdot 1 & 4 \cdot (-1) \\
                 4 \cdot 1 & 4 \cdot (-1)
-            \end{array}\right] =
-        \left[\begin{array}{cc}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 4 & -4 \\
                 4 & -4
-            \end{array}\right]
+            \end{pmatrix}
     \]
     \begin{multline*}
-        CA = \left[\begin{array}{cc}
+        CA = \begin{pmatrix}
                 1 & -1
-            \end{array}\right]\left[\begin{array}{ccc}
+            \end{pmatrix}\begin{pmatrix}
                 2 & -1 & 1 \\
                 1 & 2  & 1
-            \end{array}\right] =
-        \left[\begin{array}{ccc}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 1 \cdot 2 + (-1) \cdot 1 & 1 \cdot (-1) + (-1) \cdot 2 & 1 \cdot 1 + (-1) \cdot 1
-            \end{array}\right] =
+            \end{pmatrix} =
         \\
-        \left[\begin{array}{ccc}
+        \begin{pmatrix}
                 1 & -3 & 0
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
     \[
-        \implies CAB = \left[\begin{array}{ccc}
+        \implies CAB = \begin{pmatrix}
                 1 & -3 & 0
-            \end{array}\right] \left[\begin{array}{c}
+            \end{pmatrix} \begin{pmatrix}
                 3 \\
                 1 \\
                 -1
-            \end{array}\right] =
-        \left[\begin{array}{c}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 1 \cdot 3 + (-3) \cdot 1 + 0 \cdot (-1)
-            \end{array}\right] =
-        \left[\begin{array}{c}
+            \end{pmatrix} =
+        \begin{pmatrix}
                 0
-            \end{array}\right]
+            \end{pmatrix}
     \]
 \end{solution}
 
 \begin{problem} [Sec 1.5. Problem 2]
 Let
 \[
-    A = \left[\begin{array}{ccc}
+    A = \begin{pmatrix}
             1 & -1 & 1 \\
             2 & 0  & 1 \\
             3 & 0  & 1
-        \end{array}\right],
-    B = \left[\begin{array}{cc}
+        \end{pmatrix},
+    B = \begin{pmatrix}
             2 & -2 \\
             1 & 3  \\
             4 & 4
-        \end{array}\right]
+        \end{pmatrix}
 \]
 Verify directly that \(A(AB) = A^2B\)
 \end{problem}
 \begin{solution}
 
     \begin{multline*}
-        AB = \left[\begin{array}{ccc}
+        AB = \begin{pmatrix}
                 1 & -1 & 1 \\
                 2 & 0  & 1 \\
                 3 & 0  & 1
-            \end{array}\right]\left[\begin{array}{cc}
+            \end{pmatrix}\begin{pmatrix}
                 2 & -2 \\
                 1 & 3  \\
                 4 & 4
-            \end{array}\right]
+            \end{pmatrix}
         \\
-        = \left[\begin{array}{cc}
+        = \begin{pmatrix}
                 1 \cdot 2 + (-1) \cdot 1 + 1 \cdot 4 & 1 \cdot (-2) + (-1) \cdot 3 + 1 \cdot 4 \\
                 2 \cdot 2 + 0 \cdot 1 + 1 \cdot 4    & 2 \cdot (-2) + 0 \cdot 3 + 1 \cdot 4    \\
                 3 \cdot 2 + 0 \cdot 1 + 1 \cdot 4    & 3 \cdot (-2) + 0 \cdot 3 + 1 \cdot 4    \\
-            \end{array}\right]
-        = \left[\begin{array}{cc}
+            \end{pmatrix}
+        = \begin{pmatrix}
                 5  & -1 \\
                 8  & 0  \\
                 10 & -2
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
     \begin{multline*}
-        \implies A(AB) =  \left[\begin{array}{ccc}
+        \implies A(AB) =  \begin{pmatrix}
                 1 & -1 & 1 \\
                 2 & 0  & 1 \\
                 3 & 0  & 1
-            \end{array}\right]\left[\begin{array}{cc}
+            \end{pmatrix}\begin{pmatrix}
                 5  & -1 \\
                 8  & 0  \\
                 10 & -2
-            \end{array}\right]
-        = \left[\begin{array}{cc}
+            \end{pmatrix}
+        = \begin{pmatrix}
                 1 \cdot 5 + (-1) \cdot 8 + 1 \cdot 10 & 1 \cdot (-1) + (-1) \cdot 0 + 1 \cdot (-2) \\
                 2 \cdot 5 + 0 \cdot 8 + 1 \cdot 10    & 2 \cdot (-1) + 0 \cdot 0 + 1 \cdot (-2)    \\
                 3 \cdot 5 + 0 \cdot 8 + 1 \cdot 10    & 3 \cdot (-1) + 0 \cdot 0 + 1 \cdot (-2)    \\
-            \end{array}\right]
+            \end{pmatrix}
         \\
-        = \left[\begin{array}{cc}
+        = \begin{pmatrix}
                 7  & -3 \\
                 20 & -4 \\
                 25 & -5
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
     Meanwhile,
     \begin{multline*}
-        A^2 = \left[\begin{array}{ccc}
+        A^2 = \begin{pmatrix}
                 1 & -1 & 1 \\
                 2 & 0  & 1 \\
                 3 & 0  & 1
-            \end{array}\right]\left[\begin{array}{ccc}
+            \end{pmatrix}\begin{pmatrix}
                 1 & -1 & 1 \\
                 2 & 0  & 1 \\
                 3 & 0  & 1
-            \end{array}\right]
+            \end{pmatrix}
         \\
-        = \left[\begin{array}{ccc}
+        = \begin{pmatrix}
                 1 \cdot 1 + (-1) \cdot 2 + 1 \cdot 3 & 1 \cdot (-1) + (-1) \cdot 0 + 1 \cdot 0 & 1 \cdot 1 + (-1) \cdot 1 + 1 \cdot 1 \\
                 2 \cdot 1 + 0 \cdot 2 + 1 \cdot 3    & 2 \cdot (-1) + 0 \cdot 0 + 1 \cdot 0    & 2 \cdot 1 + 0 \cdot 1 + 1 \cdot 1    \\
                 3 \cdot 1 + 0 \cdot 2 + 1 \cdot 3    & 3 \cdot (-1) + 0 \cdot 0 + 1 \cdot 0    & 3 \cdot 1 + 0 \cdot 1 + 1 \cdot 1
-            \end{array}\right]
-        = \left[\begin{array}{ccc}
+            \end{pmatrix}
+        = \begin{pmatrix}
                 2 & -1 & 1 \\
                 5 & -2 & 3 \\
                 6 & -3 & 4
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
     \begin{multline*}
-        \implies A^2B = \left[\begin{array}{ccc}
+        \implies A^2B = \begin{pmatrix}
                 2 & -1 & 1 \\
                 5 & -2 & 3 \\
                 6 & -3 & 4
-            \end{array}\right]\left[\begin{array}{cc}
+            \end{pmatrix}\begin{pmatrix}
                 2 & -2 \\
                 1 & 3  \\
                 4 & 4
-            \end{array}\right]
+            \end{pmatrix}
         \\
-        = \left[\begin{array}{cc}
+        = \begin{pmatrix}
                 2 \cdot 2 + (-1) \cdot 1 + 1 \cdot 4 & 2 \cdot (-2) + (-1) \cdot 3 + 1 \cdot 4 \\
                 5 \cdot 2 + (-2) \cdot 1 + 3 \cdot 4 & 5 \cdot (-2) + (-2) \cdot 3 + 3 \cdot 4 \\
                 6 \cdot 2 + (-3) \cdot 1 + 4 \cdot 4 & 6 \cdot (-2) + (-3) \cdot 3 + 4 \cdot 4
-            \end{array}\right]
-        = \left[\begin{array}{cc}
+            \end{pmatrix}
+        = \begin{pmatrix}
                 7  & -3 \\
                 20 & -4 \\
                 25 & -5
-            \end{array}\right]
+            \end{pmatrix}
     \end{multline*}
 
-    Therefore, \(A(AB) = A^2(B) = \left[\begin{array}{cc}
+    Therefore, \(A(AB) = A^2(B) = \begin{pmatrix}
             7  & -3 \\
             20 & -4 \\
             25 & -5
-        \end{array}\right]\)
+        \end{pmatrix}\)
 \end{solution}
 \begin{problem} [Sec 2.1. Problem 3]
 If \(\bbc\) is the field of complex numbers, which vectors in \(\bbc^3\) are linear combinations of \((1, 0, -1), (0, 1, 1) \:\text{and}\: (1, 1, 1)\)?

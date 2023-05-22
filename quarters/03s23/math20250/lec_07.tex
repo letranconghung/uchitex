@@ -1,4 +1,4 @@
-\lecture{7}{23 Apr 2023}{Linear Transformation and Matrices}
+\lecture{7}{18 Apr 2023 (Zoom)}{Linear Transformation and Matrices}
 
 \begin{recall}
     \begin{enumerate}
@@ -49,11 +49,11 @@
 \end{claim}
 Specifically,
 \[
-    T_\psi = (\alpha_{ji}) = \left(\begin{array}{cccc}
+    T_\psi = (\alpha_{ji}) = \begin{pmatrix}
             \alpha_{11} & \alpha_{12} & \cdots & \alpha_{1n} \\
             \vdots      & \vdots      & \ddots & \vdots      \\
             \alpha_{m1} & \alpha_{m2} & \cdots & \alpha_{mn}
-        \end{array}\right)
+        \end{pmatrix}
 \]
 corresponds to \[
     \psi: v_i \mapsto \alpha_{1i}w_1 + \alpha_{2i}w_2 + \cdots + \alpha_{mi}w_m = \sum_{j=1}^{m}\alpha_{ji} w_j \:\text{for \(1 \leq i \leq n\)}\:
@@ -67,43 +67,43 @@ For any \(v = \sum_{i = 1}^{n}\beta_i v_i \in V\) then \begin{align*}
 
 An alternative perspective is that \(
 v = \sum_{i=1}^{n} \beta_i v_i
-\) can be thought of as a ``matrix'' multiplication: \[\left(\begin{array}{c}
+\) can be thought of as a ``matrix'' multiplication: \[\begin{pmatrix}
             \beta_1 \\ \vdots \\ \beta_n
-        \end{array}\right) (v_1 \ldots v_n)\]
+        \end{pmatrix} (v_1 \ldots v_n)\]
 
-where \(\left(\begin{array}{c}
+where \(\begin{pmatrix}
         \beta_1 \\ \vdots \\ \beta_n
-    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\) and \((v_1 \ldots v_n)\) is just the basis in the row vector form.
+    \end{pmatrix} \in \bbm_{n \times 1}(\bbk)\) and \((v_1 \ldots v_n)\) is just the basis in the row vector form.
 
 (Warning: It is not a matrix, since \(v_i \not \in \bbk\))
 
-\textbf{Upshot:} If we fix basis \(v_1, v_2, \dots, v_n\) then any \(v \in V\) would be uniquely expressed as \(v = \beta_i v_i\). The fixed basis would then correspond to unique matrices \(\left(\begin{array}{c}
+\textbf{Upshot:} If we fix basis \(v_1, v_2, \dots, v_n\) then any \(v \in V\) would be uniquely expressed as \(v = \beta_i v_i\). The fixed basis would then correspond to unique matrices \(\begin{pmatrix}
         \beta_1 \\ \vdots \\ \beta_n
-    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\)
+    \end{pmatrix} \in \bbm_{n \times 1}(\bbk)\)
 
 Note that if we change the basis to another \(\{v'_i\}\) then \[
-    v = \sum \beta_i v_i = \sum \beta'_i v'_i \:\text{where}\:  \left(\begin{array}{c}
+    v = \sum \beta_i v_i = \sum \beta'_i v'_i \:\text{where}\:  \begin{pmatrix}
             \beta'_1 \\ \vdots \\ \beta'_n
-        \end{array}\right) \in \bbm_{n \times 1}(\bbk)
+        \end{pmatrix} \in \bbm_{n \times 1}(\bbk)
 \]
 
-Now, if \(T_\psi = (a_{ji})_{1 \leq j \leq m, 1 \leq i \leq n}\) then the map \(\psi\) sends \(v \leftrightarrow \left(\begin{array}{c}
+Now, if \(T_\psi = (a_{ji})_{1 \leq j \leq m, 1 \leq i \leq n}\) then the map \(\psi\) sends \(v \leftrightarrow \begin{pmatrix}
         \beta_1 \\ \vdots \\ \beta_n
-    \end{array}\right)\) to
+    \end{pmatrix}\) to
 \[
-    \left(\begin{array}{cccc}
+    \begin{pmatrix}
             \alpha_{11} & \alpha_{12} & \cdots & \alpha_{1n} \\
             \vdots      & \vdots      & \ddots & \vdots      \\
             \alpha_{m1} & \alpha_{m2} & \cdots & \alpha_{mn}
-        \end{array}\right)
-    \left(\begin{array}{c}
+        \end{pmatrix}
+    \begin{pmatrix}
             \beta_1 \\ \vdots \\ \beta_n
-        \end{array}\right) = \left(\begin{array}{c}
+        \end{pmatrix} = \begin{pmatrix}
             \sum_{i=1}^{n}\alpha_{1i}\beta_i = \gamma_1 \\
             \sum_{i=1}^{n}\alpha_{2i}\beta_i = \gamma_2 \\
             \vdots                                      \\
             \sum_{i=1}^{n}\alpha_{mi}\beta_i = \gamma_m \\
-        \end{array}\right) \in \bbm_{m \times 1}(\bbk)
+        \end{pmatrix} \in \bbm_{m \times 1}(\bbk)
 \]
 which corresponds to writing \(w \in W\) under \(\{w_j\}\) as \begin{align*}
     w & = \gamma_1 w_1 + \cdots + \gamma_m w_m                                              \\
@@ -114,14 +114,14 @@ which is similar to the expression above.
 Therefore, once we choose basis \(\{v_i\}, \{w_j\}\) of \(V, W\) respectively then \(\psi \leftrightarrow T_\psi \in \bbm_{m \times n}(\bbk)\):
 \begin{align*}
     v = \sum_{i=1}^{n} \beta_i v_i       & \rightarrow \psi(v) = \sum_{i=1}^{n} \sum_{j=1}^{m} \alpha_{ji} \beta_i v_i \\
-    (\alpha_{ji}) \left(\begin{array}{c}
+    (\alpha_{ji}) \begin{pmatrix}
                                 \beta_1 \\ \vdots \\ \beta_n
-                            \end{array}\right) & \leftrightarrow \left(\begin{array}{c}
+                            \end{pmatrix} & \leftrightarrow \begin{pmatrix}
                                                                            \gamma_1 \\ \vdots \\ \gamma_m
-                                                                       \end{array}\right)
+                                                                       \end{pmatrix}
 \end{align*}
 
-\subsection{Going from linear transformation to matrix}
+\subsection{Going from Linear Transformation to Matrix}
 We've successfully represented linear transformation \(\psi \in \Hom_\bbk(V, W)\) from \(T_\psi\). How about the other way around, i.e. we know \(\psi\) and want to find its corresponding matrix \(T_\psi\)?
 
 Consider \(\psi: v_i \to \psi(v_i) \in W = c_1 w_1 + \cdots + c_m w_m\) then we can define \(a_{ji} = c_j\) in this expression. Iterating over \(1 \leq i \leq n\) would yield us \(T_\psi = (a_{ji})\).
@@ -136,32 +136,32 @@ We have \(\bbk^n, \bbk^m (\bbk^n = \bbk^{\oplus n} = \{x_1, x_2, \ldots, x_n \mi
 \end{align*}
 and similarly for \(e'_j \in \bbk^m\).
 
-Under this basis, \((x_1, x_2, \ldots, x_n)\) corresponds to \(\left(\begin{array}{c}
+Under this basis, \((x_1, x_2, \ldots, x_n)\) corresponds to \(\begin{pmatrix}
         \beta_1 \\ \vdots \\ \beta_n
-    \end{array}\right) = \left(\begin{array}{c}
+    \end{pmatrix} = \begin{pmatrix}
         x_1 \\ \vdots \\ x_n
-    \end{array}\right) \in \bbm_{n \times 1}(\bbk)\)
+    \end{pmatrix} \in \bbm_{n \times 1}(\bbk)\)
 
-It follows that any linear transformation \(\psi \in \Hom_\bbk(\bbk^n, \bbk^m)\) corresponds to \[T_\psi = (\alpha_{ji}) = \left(\begin{array}{ccc}
+It follows that any linear transformation \(\psi \in \Hom_\bbk(\bbk^n, \bbk^m)\) corresponds to \[T_\psi = (\alpha_{ji}) = \begin{pmatrix}
             \alpha_{11} & \cdots & \alpha_{1n} \\
             \vdots      & \ddots & \vdots      \\
             \alpha_{m1} & \cdots & \alpha_{mn}
-        \end{array}\right)\]
+        \end{pmatrix}\]
 with \(\psi\) sending: \[
-    \left(\begin{array}{ccc}
+    \begin{pmatrix}
             \alpha_{11} & \cdots & \alpha_{1n} \\
             \vdots      & \ddots & \vdots      \\
             \alpha_{m1} & \cdots & \alpha_{mn}
-        \end{array}\right)\left(\begin{array}{c}
+        \end{pmatrix}\begin{pmatrix}
             x_1 \\ \vdots \\ x_n
-        \end{array}\right) = \left(\begin{array}{c}
+        \end{pmatrix} = \begin{pmatrix}
             y_1    \\
             \vdots \\
             y_m
-        \end{array}\right)
+        \end{pmatrix}
 \]
 
-\subsubsection{General case \(V \to W\)}
+\subsubsection{General Case \(V \to W\)}
 With \(\psi \in \Hom_\bbk(V, W)\), and isomorphisms \(\psi_1: \bbk^n \xrightarrow{\sim} V, \psi_2: \bbk^m \xrightarrow{\sim} W\) with corresopnding bases \(\{v_i\}, \{w_j\}\):
 \input{figures/figure4.tex}
 
@@ -177,19 +177,19 @@ then \(\psi \in \Hom_\bbk(V, W)\) corresponds to \(\tilde{\psi} \in \Hom_\bbk(\b
     Consider \(\psi: \bbk^n \to \bbk^m\) that corresponds to matrix \(T_\psi = A = (\alpha_{ji})\). Then,
 
     \begin{multline*}
-        \ker(\psi) = \{v \in \bbk^n \mid \psi(v) = 0\} = \left\{\left(\begin{array}{c}
+        \ker(\psi) = \{v \in \bbk^n \mid \psi(v) = 0\} = \left\{\begin{pmatrix}
                 x_1 \\ \vdots \\ x_n
-            \end{array}\right) \in \bbk^n \;\middle|\; A \cdot \left(\begin{array}{c}
+            \end{pmatrix} \in \bbk^n \;\middle|\; A \cdot \begin{pmatrix}
                 x_1 \\ \vdots \\ x_n
-            \end{array}\right) = 0 \right\} \\
+            \end{pmatrix} = 0 \right\} \\
         = \:\text{null space of}\:A
     \end{multline*}
     \begin{multline*}
-        \im(\psi) = \{w \in \bbk^m \mid w = \psi(v) \:\text{ for some }\: v\} = \left\{\left(\begin{array}{c}
+        \im(\psi) = \{w \in \bbk^m \mid w = \psi(v) \:\text{ for some }\: v\} = \left\{\begin{pmatrix}
                 y_1 \\ \vdots \\y_n
-            \end{array}\right) = A \cdot \left(\begin{array}{c}
+            \end{pmatrix} = A \cdot \begin{pmatrix}
                 x_1 \\ \vdots \\ x_n
-            \end{array}\right) \:\text{for some}\: \{x_1, \dots, x_n\}\right\} \\
+            \end{pmatrix} \:\text{for some}\: \{x_1, \dots, x_n\}\right\} \\
             = \:\text{range of}\: A
     \end{multline*}
 \end{remark}
@@ -210,28 +210,28 @@ Determinant is simply a function \(D: \bbm_{n \times n}(\bbk) \to \bbk\)
 \begin{definition} {Multilinearity and Alternating}
     A function \(f: \bbm_{n \times n}(\bbk) \to \bbk\) is called \textbf{multilinear} if the following holds:
 
-    Given \(A = \left(\begin{array}{c}
+    Given \(A = \begin{pmatrix}
     r_1 \\ \vdots \\ r_n
-    \end{array}\right)\) where row \(r_i = (a_{i1} \: a_{i2} \: \ldots \: a_{in})\), \[
-    f \left(\begin{array}{c}
+    \end{pmatrix}\) where row \(r_i = (a_{i1} \: a_{i2} \: \ldots \: a_{in})\), \[
+    f \begin{pmatrix}
     r_1 \\ \vdots \\ \alpha r_i + \beta r'_i \\ \vdots \\ r_n
-    \end{array}\right) = \alpha f \left(\begin{array}{c}
+    \end{pmatrix} = \alpha f \begin{pmatrix}
     r_1 \\ \vdots \\ r_i \\ \vdots \\ r_n 
-    \end{array}\right) + \beta f \left(\begin{array}{c}
+    \end{pmatrix} + \beta f \begin{pmatrix}
     r_1 \\ \vdots \\ r'_i \\ \vdots \\ r_n
-    \end{array}\right) \:\text{where}\: \alpha, \beta \in \bbk
+    \end{pmatrix} \:\text{where}\: \alpha, \beta \in \bbk
     \]
 
     \(f\) is \textbf{alternating} if the following holds:
     \begin{enumerate}
-        \item \(f \left(\begin{array}{c}
+        \item \(f \begin{pmatrix}
             r_1 \\ \vdots \\ r_n
-            \end{array}\right) = 0\) whenever \(\exists r_i = r_j, i \neq j\)
-            \item \(f \left(\begin{array}{c}
+            \end{pmatrix} = 0\) whenever \(\exists r_i = r_j, i \neq j\)
+            \item \(f \begin{pmatrix}
             r_1 \\ \vdots \\ r_i \\ r_{i+1}\\ \vdots \\ r_n
-            \end{array}\right) = -f \left(\begin{array}{c}
+            \end{pmatrix} = -f \begin{pmatrix}
                 r_1 \\ \vdots \\ r_{i+1}\\ r_i \\ \vdots \\ r_n
-                \end{array}\right) \) 
+                \end{pmatrix} \) 
     \end{enumerate}
 \end{definition}
 

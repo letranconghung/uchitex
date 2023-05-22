@@ -186,15 +186,17 @@
     % all the custom environments.
     \setcounter{subsection}{0}
     \setcounter{subsubsection}{0}
+    \setcounter{definition0}{0}
     \setcounter{paragraph}{0}
-    \setcounter{subparagraph}{0}
     \setcounter{theorem}{0}
     \setcounter{claim}{0}
     \setcounter{corollary}{0}
+    \setcounter{proposition}{0}
     \setcounter{lemma}{0}
     \setcounter{exercise}{0}
-    \setcounter{definition0}{0}
-
+    \setcounter{problem}{0}
+    
+    \setcounter{subparagraph}{0}
     % \@ifclasswith\class{nocolor}{
     %     \setcounter{definition}{0}
     % }{}
@@ -219,43 +221,40 @@
 \def\@lectitle{}
 \def\@leccount{}
 \newcommand\lecture[3]{
-    %   % Add 1 to the lecture counter.
-    %   \addtocounter{lecturecounter}{1}
     \newpage
-
-    % Set the section number to the lecture counter.
-    \setcounter{section}{#1}
-    \renewcommand\thesubsection{#1.\arabic{subsection}}
-    
-    % Reset the counters.
-    \resetcounters
 
     % Check if user passed the lecture title or not.
     \def\@leccount{Lecture #1}
     \ifthenelse{\isempty{#3}}{
         \def\@lecture{Lecture #1}
+        \def\@lectitle{Lecture #1}
     }{
         \def\@lecture{Lecture #1: #3}
         \def\@lectitle{#3}
     }
 
-    % Display the information like the following:
-    %                                                  Oct 17 2022 Mon (08:49:10)
-    % ---------------------------------------------------------------------------
-    % Lecture 1: Lecture Title
+    \setcounter{section}{#1}
+    \renewcommand\thesubsection{#1.\arabic{subsection}}
+    
+    \phantomsection
+    \addcontentsline{toc}{section}{\@lecture}
+    \resetcounters
+
     \begin{mdframed}
         \begin{center}
             \Large \textbf{\@leccount}
-
+            
+            \vspace*{0.2cm}
+            
+            \large \@lectitle
+            
+            
             \vspace*{0.2cm}
 
-            \large\@lectitle
-
-            \vspace*{0.2cm}
             \normalsize #2
         \end{center}
     \end{mdframed}
-    \addcontentsline{toc}{section}{\@lecture}
+
 }
 
 %%%%%%%%%%%%%%%%%%%%
@@ -329,13 +328,13 @@
         %   Last Update: \@date, \\
         %   \faculty
         % }
+
+        \newpage
     }{ % If the intro.tex file doesn't exist.
         % Force a \newpageage.
-        \forcenewpage
+        % \forcenewpage
+        \newpage
     }
-
-    % Create a new page.
-    \newpage
 
     % Remove the center stuff we did above, and replace it with just the page
     % number, which is still in roman numerals.
@@ -343,7 +342,7 @@
     % Add the table of contents.
     \tableofcontents
     % Force a new page.
-    \forcenewpage
+    \newpage
 
     % Move the page numberings back to arabic, from roman numerals.
     \pagenumbering{arabic}
@@ -373,7 +372,7 @@
 %  Circle  %
 %%%%%%%%%%%%
 
-\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+\newcommand*\circled[1]{\tikz[baseline= (char.base)]{
         \node[shape=circle,draw,inner sep=1pt] (char) {#1};}
 }
 
@@ -550,7 +549,7 @@
     \createnewtheoremstyle{thmexercisebox}{}{}
     \createnewtheoremstyle{thmexplanationbox}{}{}
     \createnewtheoremstyle{thmremarkbox}{}{}
-
+    
     % STYLIZED MORE BELOW
     \createnewtheoremstyle{thmquestionbox}{}{}
     \createnewtheoremstyle{thmsolutionbox}{qed=\qedsymbol}{}
@@ -570,7 +569,7 @@
     \createnewcoloredtheoremstyle{thmremarkbox}{theorem_color}{}{}
 
     \createnewcoloredtheoremstyle{thmmiscbox}{black}{}{}
-    
+
     \createnewcoloredtheoremstyle{thmexercisebox}{exercise_color}{}{}
     \createnewcoloredtheoremstyle{thmproblembox}{theorem_color}{}{leftline=true}
     \createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
@@ -583,7 +582,7 @@
 \declaretheorem[numberwithin=section, style=thmdefinitionbox,     name=Definition]{definition0}
 \declaretheorem[numberwithin=section, style=thmtheorembox,     name=Theorem]{theorem}
 \declaretheorem[numbered=no,          style=thmexamplebox,     name=Example]{example}
-\declaretheorem[numberwithin=section, style=thmclaimbox,       name=Claim]{claim}
+\declaretheorem[numberwithin=section, style=thmtheorembox,       name=Claim]{claim}
 \declaretheorem[numberwithin=section, style=thmcorollarybox,   name=Corollary]{corollary}
 \declaretheorem[numberwithin=section, style=thmpropbox,        name=Proposition]{proposition}
 \declaretheorem[numberwithin=section, style=thmlemmabox,       name=Lemma]{lemma}
@@ -598,6 +597,7 @@
 \declaretheorem[numbered=no,          style=thmmiscbox,    name=Motivation]{motivation}
 \declaretheorem[numbered=no,          style=thmmiscbox,    name=Remark]{remark}
 \declaretheorem[numbered=no,          style=thmmiscbox,    name=Observe]{observe}
+\declaretheorem[numbered=no,          style=thmmiscbox,    name=Question]{question}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -607,15 +607,15 @@
 \renewenvironment{proof}[2][\proofname]{
     % \vspace{-12pt}
     \begin{proof0} [#2]
-}{\end{proof0}}
+        }{\end{proof0}}
 
 \newenvironment{definition}[1]{
-    \begin{definition0}[#1]        
-    \vspace{2pt}
+    \begin{definition0}[#1]
+        \vspace{2pt}
 
-}{
+        }{
 
-    \vspace{2pt}
+        \vspace{2pt}
     \end{definition0}
 }
 
@@ -632,7 +632,7 @@
 % \newtheorem*{remark}{Remark}
 % \newtheorem*{observe}{Observe}
 
-\author{Cong Hung Le Tran}
+\author{Hung C. Le Tran}
 
 
 %%%% MATH SHORTHANDS %%%%
@@ -657,6 +657,8 @@
 % MATH 20250 %
 \newcommand{\Hom}{\mathrm{Hom}}
 \newcommand{\im}{\mathrm{im}}
+\newcommand{\innerproduct}[2]{\langle #1, #2 \rangle}
+\newcommand*{\conj}[1]{\overline{#1}}
 
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
 \let\oldforall\forall

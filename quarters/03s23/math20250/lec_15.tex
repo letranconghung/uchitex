@@ -1,0 +1,240 @@
+\lecture{15}{16 May 2023}{Proving Cayley-Hamilton}
+\begin{goal}
+    To prove Cayley-Hamilton!
+\end{goal}
+\begin{recall}
+    Let \(T: V \to V\) be a linear operator, and \(P(x)\) be the characteristic polynomial of \(T\), then \(P(T) = 0\)
+\end{recall}
+
+\begin{proof} {C-H for Diagonalizable Linear Operator}
+    We first look at a special case, where \(T\) is diagonalizable. Then, choosing the representation of \(T\) in the eigenbasis (it does not matter which basis we choose!):
+    \begin{align*}
+        P(x)          & = (x - \lambda_1)(x - \lambda_2) \cdots (x - \lambda_n)              \\
+        \implies P(T) & = (T - \lambda_1 I_n) (T - \lambda_2 I_n) \cdots (T - \lambda_n I_n) \\
+                      & =
+        \begin{pmatrix}
+            0 &                       &        &                       \\
+              & \lambda_2 - \lambda_1 &        &                       \\
+              &                       & \ddots &                       \\
+              &                       &        & \lambda_n - \lambda_1
+        \end{pmatrix}
+        \begin{pmatrix}
+            \lambda_1 - \lambda_2 &   &        &                       \\
+                                  & 0 &        &                       \\
+                                  &   & \ddots &                       \\
+                                  &   &        & \lambda_n - \lambda_2
+        \end{pmatrix}\cdots = 0
+    \end{align*}
+\end{proof}
+
+\begin{remark}
+    If \(P(A) = 0\) for \(A \in \bbm_n(\bbk) \Leftrightarrow P(CAC^{-1}) = 0\)
+
+    Again, it doesn't matter which basis we choose!
+\end{remark}
+
+\textbf{The following section should be read with a ton of salt, as I could only understand and jot down the brief ideas, and couldn't capture every subtlety that Professor Yao introduced to us.}
+
+
+\begin{proof} {Sketch 1, Jordan Canonical Form}
+    Only works for \(\bbc\), or any algebraically closed field \(\bbk\).
+
+    Jordan: If \(A \in \bbm_n(\bbc)\) then \(\exists C \st A' = CAC^{-1}\) has the form \[
+        A' = \begin{pmatrix}
+            \lambda_1 & \ast      &           &           &           &           &           &           &           \\
+                      & \lambda_1 & \ast      &           &           &           &           &           &           \\
+                      &           & \lambda_1 & \ast      &           &           &           &           &           \\
+                      &           &           & \lambda_1 &           &           &           &           &           \\
+                      &           &           &           & \lambda_2 & \ast      &           &           &           \\
+                      &           &           &           &           & \lambda_2 &           &           &           \\
+                      &           &           &           &           &           & \lambda_l & \ast      &           \\
+                      &           &           &           &           &           &           & \lambda_l & \ast      \\
+                      &           &           &           &           &           &           &           & \lambda_l
+        \end{pmatrix}
+    \]
+    essentially has entries on the diagonal, and 1 off the diagonal, sectioned off into different ``squares'' with the same eigenvalue on the diagonal within each ``square''. Then we can show that eventually the off-diagonal entries will die off after some steps.
+\end{proof}
+
+\begin{proof} {Sketch 2, Abstractifying}
+    A wrong approach one might have tried is as follows:
+    \begin{align*}
+        P(X)          & = \det(x I_n - A)  \\
+        \implies P(A) & = \det (A - A) = 0
+    \end{align*}
+
+    This is clearly wrong, since \(x\) in this case is a scalar, and can't just be replaced by a matrix \(A\). But what if...?
+
+    \begin{definition} {Commutative Ring}
+        \((R, +, \cdot)\) is a \textbf{commutative ring} if \begin{enumerate}
+            \item \((R, +)\) is an Abelian group
+            \item \(\cdot\) is associative , \(\exists 1 \in R\)
+            \item \((a+b) \cdot c = (a \cdot c) + (b \cdot c)\)
+            \item \(ab = ba\)
+        \end{enumerate}
+        and we assume that \(1 \neq 0\).
+
+        i.e. A commutative ring is simply a field, without the multiplicative inverse requirement.
+    \end{definition}
+
+    \begin{definition} {Module over commutative ring}
+        A \textbf{module} over a commutative ring is similar to a vector space over a field, i.e. with the same requirements and properties.
+
+        A module \(M\) over \(R\) is finitely generated(?) if there exists a surjection \(R^d \twoheadrightarrow M\).
+    \end{definition}
+
+    Let us now consider the polynomials over a field \(\bbk\):
+    \[
+        \bbk[x] \coloneqq \left\{\sum_{i=0}^{d}a_i x^i \mid a_i \in \bbk\right\}
+    \]
+    then \(\bbk[x] \) is actually a commutative ring, with addition and multiplication well-defined. Of course, we can't (and it is not required of us to) enforce the multiplicative inverse requirement. In this case, \(x\) is an indeterminant.
+
+    Switching perspective, let's look at linear operators. Let \(T: V \to V\), and consider \[
+        \Sigma_T = ``\bbk[T]"
+    \]
+    a ``polynomials with entries \(T\) (formerly \(x\)), with coefficients in \(\bbk\)'' of sorts.
+
+    Intuitively, each element in \(\sum_T\) is a linear operator (scaled powers of \(T\) are also linear operators, just applied repeatedly and scaled), i.e. \[
+        \bbk[T] \subseteq \Hom_\bbk(V, V)
+    \]
+
+    In particular, since \(\sum_T = ``\bbk[T]"\) is a commutative ring, we can consider matrices with entries in this ring. Consider \[
+        M_{n \times n}\left(\Sigma_T\right) \coloneqq \left\{ (\alpha_{ij}) \mid \alpha_{ij} \in \Sigma_T\right\}
+    \]
+    then this has considerably enlarged what we can put into matrices.
+
+    Let's draw a parallel between \(P(x)\) and \(P(T)\). Fix \(\cab = \{v_1, v_2, \dots, v_n\}\) to be a basis of \(V\), and let \(A = [T]_\cab = (a_{ij})\).
+
+    Then first, since we know \(P(x) = \det(xI_n - A)\) (again, does not matter which basis we take!), let us actually take the determinant of \((xI_n - A)^T\), for purposes that will make sense later:
+    \[
+        P(x) = \det \begin{pmatrix}
+            x - a_{11} & -a_{21}    & \cdots & -a_{n1}  \\
+            -a_{12}    & x - a_{22} & \cdots & -a_{n2}  \\
+            \vdots     & \vdots     & \ddots & \vdots   \\
+            -a_{1n}    & -a_{2n}    & \cdots & x-a_{nn}
+        \end{pmatrix}
+    \]
+    where the matrix inside the determinant function \(\in \bbm_n(\bbk)\), then similarly \[
+        P(T) = \det \begin{pmatrix}
+            T - a_{11}I & -a_{21}I    & \cdots & -a_{n1}I  \\
+            -a_{12}I    & T - a_{22}I & \cdots & -a_{n2}I  \\
+            \vdots      & \vdots      & \ddots & \vdots    \\
+            -a_{1n}I    & -a_{2n}I    & \cdots & T-a_{nn}I
+        \end{pmatrix}
+    \]
+    where the matrix inside the determinant function \( B \in \bbm_n(\sum_T)\)
+
+    Keep in mind that \(P(T) = \det B \in \sum_T\) are linear operators, therefore we now need to prove that it is the zero mapping. To do that, we shall show that it sends \(v_i\) in the basis to 0, i.e. \[
+        (\det B) v_i = 0 \forall i
+    \]
+
+    Equivalently, \[
+        \begin{pmatrix}
+            \det B &        &        \\
+                   & \ddots &        \\
+                   &        & \det B
+        \end{pmatrix} \begin{pmatrix}
+            v_1    \\
+            \vdots \\
+            v_n
+        \end{pmatrix} = 0
+    \]
+    but we know that \[
+        \begin{pmatrix}
+            \det B &        &        \\
+                   & \ddots &        \\
+                   &        & \det B
+        \end{pmatrix} = (\det B) I_n \in \bbm_n(\Sigma_T)
+    \]
+    and recall that we proved \[
+        (M')^T M = (\det M) I_n
+    \]
+    for \(M  \in \bbm_n(\bbk)\), so we can also use that here when \(B \in \bbm_n(\Sigma_T)\), i.e.
+    \[
+        (B')^T B = (\det B )I_n
+    \]
+
+    Therefore, we want to show that \((B')^T B\) sends \(\begin{pmatrix}
+        v_1    \\
+        \vdots \\
+        v_n
+    \end{pmatrix}\) to 0. Then,
+    \[
+        B \begin{pmatrix}
+            v_1    \\
+            \vdots \\
+            v_n
+        \end{pmatrix} = \begin{pmatrix}
+            T - a_{11}I & -a_{21}I    & \cdots & -a_{n1}I  \\
+            -a_{12}I    & T - a_{22}I & \cdots & -a_{n2}I  \\
+            \vdots      & \vdots      & \ddots & \vdots    \\
+            -a_{1n}I    & -a_{2n}I    & \cdots & T-a_{nn}I
+        \end{pmatrix}\begin{pmatrix}
+            v_1    \\
+            \vdots \\
+            v_n
+        \end{pmatrix}
+    \]
+    The entry on the first row would be: \begin{align*}
+         & (T - a_{11}I) v_1 - a_{21}Iv_2 - \cdots   \\
+         & = Tv_1 - (a_{11}v_1 + a_{21}v_2 + \cdots) \\
+         & = 0
+    \end{align*}
+    by sheer definition of \(A = [T]_\cab\). And this argument works for all rows!
+\end{proof}
+\begin{remark}
+    It should be noted that the last step clarifies why we took the determinant of the transpose matrix in the first place: simply to make the final computations easier. If we did not, then we would have had to show computations with \((B')^T\), and that's not nice.
+\end{remark}
+
+\begin{proof} {Sketch 3, Analysis}
+    We can perturb \(A\) slightly by introducing \(\delta_{ij}\) to diagonal entries \(A_{jj}\) to form a sequence of perturbed matrices \(A_i\) that are very close to \(A\). By magic, we can show that \[
+        P(A) = \lim_{i \to \infty} P_i(A_i) \in \bbm_n(\bbc)
+    \]
+
+    The proof of which uses some ``norm'' on \(\bbm_n(\bbc) \cong C^{n^2}\) to show the convergence.
+
+    And note that each \(P_i(A_i) = 0 \implies P(A) = 0\)
+\end{proof}
+
+\begin{proof} {Sketch 4, General Matrices}
+    \textit{My apologies in advance for butchering the arguments, hopefully one day I'll be able to get this in its full glory.}
+
+    Consider field \(L \coloneqq \bbk[x_{ij}]_{i, j \leq n}\) then the a super general matrix would be \[
+        A^{gen} = \begin{pmatrix}
+            x_{11} & \cdots & x_{1n} \\
+            \vdots & \ddots & \vdots \\
+            x_{n1} & \cdots & x_{nn}
+        \end{pmatrix} \in \bbm_n(L)
+    \]
+
+    We then plug in all possible roots of \(L\) (\(\bar{L}\), the algebraic closure of \(L\)).
+
+    Then \begin{align*}
+        P(A) & = \det(x I_n - A)                                             \\
+             & = P(x) = (x - \lambda_1) \cdots (x - \lambda_n) \in \bbm_n(L)
+    \end{align*}
+    And we have \(\lambda_1, \cdots, \lambda_n\) all distinct since \(P'(x) \neq 0 \implies P(A^{gen} = 0)\)
+\end{proof}
+
+\begin{remark} Understanding \(\bbz\):
+
+    For a long long time no one really understood \(\bbz\), but it shall be understood as \[
+        \{(a, b) | a, b \in \bbn, b \neq 0\}
+    \]
+    equipped with a notion of equivalence \(\sim\) defined as:
+    \[
+        (a, b) \sim (c, d) \Leftrightarrow a + d = b + c \Leftrightarrow ``a - b = c - d"
+    \]
+
+    Then the pair of natural numbers \((a, b)\) shall represent ``\(a-b\)'' in the common sense.
+
+    It is mindblowing to observe that we intuitively understand this type of construction for the positive rationals \(\bbq_+\), just equipped with a slightly different notion of equivalence, namely:
+    \[
+        (a, b) \sim (c, d) \Leftrightarrow ad = bc \Leftrightarrow ``
+        \frac{a}{b} = \frac{c}{d}"
+    \]
+    but ancient mathematicians failed to realize the similar construction for the integers.
+
+    Also, a lot of number systems (Roman, Chinese) did not have the symbol for ``0'' too, indicating that they might not have fully grasped what its meaning is, not even mentioning the negative numbers.
+
+    Somehow it got here when we were trying to turn \(\bbz\) into a field, but it was cool. Fun class!
+\end{remark}

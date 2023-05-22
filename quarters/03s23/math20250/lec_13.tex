@@ -1,0 +1,175 @@
+\lecture{13}{09 May 2023}{Diagonalizable Linear Operators}
+
+\begin{recall}
+    Linear operator \(T: V \to V\), then the char poly is \(\det (x I_n - T) = \det (x - I_n [T]_\cab)\), which is consistent regardless of choice of basis \(\cab\)!
+
+    Solutions of the char poly are the eigenvalues of \(T\) (or of \(M = [T]_\cab\)).
+
+    For each eigenvalue \(\lambda\) of \(T\), there is \[
+        V_\lambda \coloneqq \{v \in V \mid Tv = \lambda v\} = \ker (T - \lambda I_n)
+    \]
+\end{recall}
+
+\begin{exercise}
+    If \(\lambda \neq \lambda '\) then \(V_\lambda \cap V_{\lambda'} = \{0\}\)
+\end{exercise}
+\begin{definition} {Diagonalizable}
+    Let \(T: V \to V\) be a linear operator. \(T\) is diagonalizable if there exists a basis \(\cab = \{e_1, e_2, \dots, e_n\}\) of \(V\)  \st \([T]_\cab\) is a diagonal matrix, i.e. each \(e_i\) is an eigenvector of \(T\).
+
+    If \([T]_\cab = \begin{pmatrix}
+        c_1 &        &     \\
+            & \ddots &     \\
+            &        & c_n
+    \end{pmatrix}\), it sends \(T e_i = c_i e_i \implies e_i\)  is an eigenvector of eigenvalue \(c_i\)
+\end{definition}
+
+\begin{proposition}
+    Let \(T: V \to V\) be a linear operator with \(\dim V = d\). TFAE (The Following Are Equivalent):
+    \begin{enumerate}
+        \item \(T\) is diagonalizable
+        \item \(P_T(x) = (x - \lambda_1)^{d_1}(x - \lambda_2)^{d_2}\dots (x - \lambda_n)^{d_n}\) where \(\lambda_i \neq \lambda_j\) if \(i \neq j\) and \(d_i = \dim V_{\lambda_i} \)  (the power has to match the dimension of the eigenspace!)
+        \item Let \(\{\lambda_i\}_{i = 1, \dots, l}\) be distinct eigenvalues of \(T\), then \(\dim V = \sum \dim V_{\lambda_i}\)
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    \(T = \begin{pmatrix}
+        1 & 1 \\
+        0 & 1
+    \end{pmatrix}\), then \(P_T(x) = (x-1)^2 \implies \lambda_1 = 1\)
+
+    \[
+        V_1 = \left\{\begin{pmatrix}
+            x \\
+            y
+        \end{pmatrix} \in V \middle| \begin{pmatrix}
+            1 & 1 \\
+            0 & 1
+        \end{pmatrix} \begin{pmatrix}
+            x \\ y
+        \end{pmatrix} =  \begin{pmatrix}
+            x \\ y
+        \end{pmatrix} \right\} = \left\{\begin{pmatrix}
+            x \\
+            y
+        \end{pmatrix} \in V \middle| \begin{pmatrix}
+            x + y \\
+            y
+        \end{pmatrix} =  \begin{pmatrix}
+            x \\ y
+        \end{pmatrix} \right\}
+    \]
+    This implies \(y = 0 \implies \left\{\begin{pmatrix}
+        1 \\
+        0
+    \end{pmatrix}\right\}\) forms a basis for \(V_1 \implies \dim V_1 = 1 \neq 2\) (the power of \((x-1)^2\)). \(T\) is therefore NOT diagonalizable.
+\end{example}
+
+\begin{proof} {Proposition}
+    \(\mathbf{(1) \implies (2)}\)
+
+    Let \(d = \dim V\). Let \(\cab = \{e_1, e_2, \dots, e_d\}\) be the basis \st \([T]_\cab\) is diagonal: \[
+        [T]_\cab = \begin{pmatrix}
+            c_1 &        &     \\
+                & \ddots &     \\
+                &        & c_d
+        \end{pmatrix}
+    \]
+
+    then the characteristic polynomial is \[
+        (x-c_1)(x-c_2) \dots (x-c_d) = \prod_{\lambda_i} (x - \lambda_i)^{d_i}
+    \]
+    and \(\dim V_{\lambda_i} = d_i\) (picking out the \(d_i\) vectors in \(\cab\) that correspond to the eigenvalue \(\lambda_i\))
+
+    \(\mathbf{(2) \implies (3)}\)
+
+    If \((2)\) holds then \(\sum \dim V_{\lambda_i} = \sum d_i = \deg (P(x)) = \dim V\)
+
+    \(\mathbf{(3) \implies (1)}\)
+
+    Given eigenvalues \(\{\lambda_i\}_{i = 1, 2, \dots, l}\).
+
+    Consider the map \(\pi: V_{\lambda_1} \oplus V_{\lambda_2} \oplus \dots \oplus V_{\lambda_l} \to V\), sending \((v_1, v_2, \dots, v_l) \mapsto v_1 + \dots + v_l\)
+
+    We claim that \(\ker(\pi) = \{0\}\), which in combination with \(\dim LHS = \sum \dim V_{\lambda_i} = \dim V = \dim RHS\), implies that \(\pi\) is isomorphic.
+
+    Suppose that \((w_1, w_2, \dots, w_l) \in \ker(\pi)\). Since it is an element of the direct sum of eigenspaces, \(Tw_i = \lambda_i w_i\) and \(0 = \pi(w_1, \dots, w_l) = \sum w_i  \)
+
+    Let \(w = \sum w_i (=0)\) then \(T w = \lambda_1 w_1 + \cdots + \lambda_l w_l\)
+
+    Then \[
+        0 = Tw - \lambda_1 w = (\lambda_2 - \lambda_1) w_2 + \dots + (\lambda_l - \lambda_1) w_l
+    \]
+    which implies \((w'_2  = (\lambda_2 - \lambda_1) w_2, \dots , w'_l = (\lambda_l - \lambda_1) w_l ) \in \ker(\oplus_{i=2, \dots, l} V_{\lambda_i} \to V)\)
+
+    Repeating this, \[
+        (\lambda_l - \lambda_1)(\lambda_l - \lambda_2) \dots (\lambda_l - \lambda_{l-1}) w_l \in \ker (V_{\lambda_l} \to V)
+    \]
+
+    But \(V_{\lambda_l}\)    is a subspace of \(V \implies \ker(V_{\lambda_l}\to V )= \{0\} \implies (\lambda_l - \lambda_1)(\lambda_l - \lambda_2) \dots (\lambda_l - \lambda_{l-1}) w_l = 0\)/
+
+    But \(\lambda_i \neq \lambda_j \implies w_l = 0 \implies w_{l-1} = 0 \implies \cdots \implies w_1 = 0\)
+
+    In particular, if \(l = 2\), \[
+        V_{\lambda_1} \oplus V_{\lambda_2} \xrightarrow{\pi} V
+    \]
+    \begin{align*}
+        \ker(\pi) & = \{(w_1, w_2) \mid w_1 + w_2 = 0\}                                      \\
+                  & = \{(w_1, -w_1) \mid  w_1 \in V_{\lambda_1} \cap V_{\lambda_2}\} = \{0\}
+    \end{align*}
+
+    Coming back, if \(\pi\) is indeed an isomorphism, then we can pick out bases from \(V_{\lambda_i}\) to form a basis for \(V\) that are all eigenvectors.
+\end{proof}
+
+\begin{definition} {Algebraic and Geometric Multiplicity}
+    If \(P_T(x) = (x-\lambda_1)^{d_1}(x-\lambda_2)^{d_2}\dots (x-\lambda_l)^{d_l}\) then \(d_i\) is the \textbf{algebraic multiplicity} of \(\lambda_i\), while \(\dim V_{\lambda_i}\)   is the \textbf{geometric multiplicity} of \(\lambda_i\). Generally, \(\dim V_{\lambda_i} \leq d_i\)
+\end{definition}
+
+\begin{definition} {Invariant/Stabilised Subspace}
+
+    Let \(T: V \to V\) be a linear operator. A subspace \(W \subseteqq V\) is an \textbf{invariant/stabilised subspace under \(T\)} if \(T(W) \subseteq W \), i.e. \(T(w) \in W \forall w \in W\).
+\end{definition}
+\begin{lemma}
+    Linear operator \(T: V \to V\), stabilised subspace \(W\) and let \(v_1, v_2, \dots, v_l\) be eigenvectors corresponding to distinct eigenvalues then if \(v_1 + \cdots + v_l \in W\) then \(v_i \in W\).
+\end{lemma}
+
+\begin{remark}
+    In particular, if \(W = \{0\}\) then the result from the previous proof follows, i.e. if \(0 = \pi(v_1, v_2, \dots, v_n) = v_1 + v_2 + \cdots + v_n\) then \(v_i = 0\)
+\end{remark}
+
+\begin{proof} {Lemma}
+    We can induct on \(l\). Base case \(l = 1\) is clear.
+
+    Suppose the lemma holds for \(m \leq l-1\), then we want to show it is true for \(l\).
+
+    Let \(v = v_1 + \cdots + v_l \in W\), then
+    \begin{align*}
+        Tv               & = \lambda_1 v_1 + \lambda_2 v_2 + \cdots + \lambda_l v_l             \\
+        \lambda_1 v      & = \lambda_1 v_1 + \lambda_1 v_2 + \cdots + \lambda_1 v_l             \\
+        Tv - \lambda_1 v & = (\lambda_2 - \lambda_1) v_2 + \cdots + (\lambda_l - \lambda_1) v_l
+    \end{align*}
+
+    Since \(v \in W \implies Tv, \lambda_1 v \in W \implies Tv - \lambda_1 v \in W \implies RHS \in W\).
+
+    The induction hypothesis is true for \((l-1) \implies v_2, \ldots, v_l \in W \implies v_1 \in W\)
+\end{proof}
+
+\begin{corollary}
+    Suppose \(T\) is diagonalizable on \(V\), \(W \subseteq V\) be a stabilised subspace under \(T\) then \[
+        W = \underset{\lambda_i}{\oplus}  (W \cap V_{\lambda_i})
+    \]
+\end{corollary}
+
+\begin{proof} {Corollary}
+    Similar to previous proof, consider \[
+        \underset{\lambda_i}{\oplus}  (W \cap V_{\lambda_i}) \xrightarrow{\pi} W 
+    \]
+
+    We want to show that \(\pi\) is surjective. It's more obvious that \(\pi\) is injective, but for demonstration let us show surjectivity.
+
+    Let \(w \in W \implies w = v_1 + \cdots + v_l\), simply viewing \(w \in V\), since there exists an eigenbasis \(\{v'_1, v'_2, \dots, v'_l\}\), and \(v_i\) has simply absorbed all the coefficients. By Lemma, each \(v_i \in W \implies v_i \in W \cap V_{\lambda_i}\)
+\end{proof}
+
+\begin{corollary}
+If \(T : V \to V\) is diagonalizable on \(V\), and \(W\) is a stabilised subspace then \(T\mid_W\) is also diagonalizable.
+\end{corollary}
