@@ -1,0 +1,160 @@
+\documentclass[a4paper, 10pt]{article}
+\input{preamble.tex}
+\title{Questions}
+
+\begin{document}
+% \section{Week 2 Reading}
+% \begin{enumerate}
+%     \item (Page 21) How does the equality (given \(S_0 = x\))
+%           \[
+%               F(x) = [1 - \bbp^x(S_T = N)] F(0) + \bbp^x(S_T = N) F(N)
+%           \]
+%           result in \(\bbp^x(S_T = N) = \bbp(S_T = N \mid S_0 = x) = \frac{x}{N} \)
+
+%           (Added later: Derivation in continuous setting, page 73)
+
+%           (NTS: Have to use the mean condition?)
+%     \item (Page 27) (Clarification) The first expression, given the initial conditions, that \[
+%               p_n (y) = \bbp(S_{n \land T_A} = y \mid S_0 = x)
+%           \]
+
+%           From which expression is this equality derived from? I assume that this is not derived from the equation from the last section, where conditions are placed on the boundary \( \partial A\) and values are then projected into the interior \(A\). In this case there are just initial conditions placed on points in \(A\).
+
+%           I want to write \[
+%               p_n(y) = \sum_{z \in A} \bbp(S_{n \land T_A} = y \mid S_0 = z) p_0(z) = \bbp(S_{n \land T_A} = y \mid S_0 = x) p_0(x) = \bbp(S_{n \land T_A} = y \mid S_0 = x)
+%           \]
+
+%           (the sum simplifies because \(p_0(z) = 0 \forall z \neq x\)), but that seems unrigorous to me, though it does make intuitive sense (The heat after \(n\) steps only came from within the system and therefore from the initial conditions).
+
+%           In fact, I think the above equation comes readily from the following paragraph, about how \(\{p_n(x) : x \in A\}\) is the vector \(\mathbf{Q}^n f\).
+
+%           Perhaps I'm having trouble because the only expression that I have right now is that
+%           \begin{align*}
+%               \partial_n p_n (x)          & = \call p_n (x)                                                       \\
+%               \Leftrightarrow p_{n+1} (x) & = \mathbf{Q} p_n (x)                                                  \\
+%                                           & = \bbe[p_n(S_1) \mid S_0 = x]                                         \\
+%                                           & = \sum_{\abs{y-x} = 1} p_n(y) \bbp (S_1 = y \mid S_0 = x)             \\
+%                                           & = \sum_{y \in A} p_n(y) \bbp (S_1 = y \mid S_0 = x)                   \\
+%                                           & \text{(more generically this way, since the other probabilities = 0)}
+%           \end{align*}
+%           But perhaps this can be done repeatedly to get back down to \(p_0\), which would turn out to be
+%           \begin{align*}
+%                & = \sum_{y \in A} p_0(y) \bbp (S_{n \land T_A} = y \mid S_0 = x)                                     \\
+%                & = \sum_{y \in A} p_0(y) \bbp (S_{n \land T_A} = x \mid S_0 = y) \:\text{(can switch around...?!)}\:
+%           \end{align*}
+%     \item (page 35) (Clarification, not sure if my understanding is correct)
+
+%           Since if \[
+%               f(x) = \abs{x}^2 = x_1^2 + x_2^2 + \cdots + x_d^2
+%           \] then \(\call f(x) = 1\); for \(n < T_A (\implies n \land T_A = n, (n+1) \land T_A = n+1)\) we have
+%           \begin{align*}
+%               \bbe [f(S_{(n+1)\land T_A}) \mid S_0, S_1, \ldots, S_n]                                 & - f(S_{n \land T_A}) = 1                \\
+%               \implies \bbe [\abs{S_{(n+1)\land T_A}}^2 \mid S_0, S_1, \ldots, S_n]                   & = \abs{S_{n \land T_A}}^2 + 1           \\
+%               \implies \bbe [\abs{S_{(n+1)\land T_A}}^2 \mid S_0, S_1, \ldots, S_n] - (n+1) \land T_A & = \abs{S_{n \land T_A}}^2 - n \land T_A \\
+%               \implies \bbe (M_{n+1} \mid S_0, S_1, \ldots, S_n)                                      & = M_n \qed
+%           \end{align*}
+%           else if \(n \geq T_A \implies n \land T_A = (n+1) \land T_A = T_A\) it's trivial that the above equality holds.
+%     \item (Page 36) (Clarification, not sure if my understanding is correct)
+
+%           We want to show \(\call f(y) = -1 \):
+%           \begin{align*}
+%               \call f(y) & = \bbe [f(S_1) \mid S_0 = y] - f(y)                                       \\
+%                          & = \bbe [G_A(S_1, y) \mid S_0 = y] - G_A(y, y)                             \\
+%                          & = \bbe [G_A(S_1, y) \mid S_0 = y] - \bbe (V_y \mid S_0 = y)               \\
+%                          & = \bbe [G_A(S_1, y) \mid S_0 = y] - (1 + \bbe [G_A(S_1, y) \mid S_0 = y]) \\
+%                          & = -1
+%           \end{align*}
+%     \item (Page 36 - 38, Green's Function) I understand the construction and derivations but would like to get a more intuitive explanation of what the Green's Function represents.
+%     \item (Page 40, 41) I understood the motivation and computation until the end of page 39, yet I find the following section in page 40 and 41 unmotivated. I guess one can say that they're made to lead up to Theorem 1.14 and 1.15, but I don't really understand the bigger picture.
+
+%           (skipped 1.5.1. Exterior Dirichlet Problem and 1.6. Exercises)
+
+%     \item (Page 61) I don't fully understand the implications of Proposition 2.4.
+
+% \end{enumerate}
+% \subsection{Additional Questions}
+% \begin{enumerate}
+%     \item (Page 14) Note that this also implies that if the random walker starts at \(x \neq 0\), then the probability that it will get to the origin is one.
+
+%           \textbf{Answer: }Can just take expected value of visits of \(y\) from \(x\), and realize that the probability is one.
+
+%     \item (Page 18, 25) ``It is not hard to see that with probability one \(T < \infty\) i.e. eventually the walker will reach 0 or \(N\) and then stop.'' ``We have shown in the previous section that with probability one \(T < \infty\)''. (Apparently, the statement works for both finite and infinite discrete state space with interior and boundary \(A, \partial A \subset \bbz^d\)). Continuous state space also implies \(T_U < \infty\) too, page 72. Lawler: If there's a positive probability, if keep trying then will get there.
+
+%           \textbf{Answer: } \(\bbe[T] < \infty\)
+%     \item (Page 32) Parity issues: Shouldn't this have been accounted for in the transition matrix already?
+
+%           \textbf{Answer: } Apparently nonsense
+%     \item (Page 66 - 69) \textbf{Theorem 2.8}
+
+%           \textbf{Answer:} Similar to the discrete analogue!
+%     \item (Page 73) Show that construction of Brownian motion does satisfy: \textit{continuity} and \textit{MVP}
+
+%           \textbf{Answer: }Direct computation, which shouldn't be too hard.
+%     \item (Page 71-75) Why do we take the limits as \(r \to 0, R \to \infty\) to check point recurrence/neighborhood recurrence?
+% \end{enumerate}
+
+
+% \section{Week 3 Reading}
+% \begin{enumerate}
+%     \item Is the technique of "separation of variables" always possible? e.g. on page 86, example 2.1.3. And if possible could you give me an overview of the technique?
+%     \item (Page 89 - 90, Proposition 2.14) I don't really understand the proof, especially the step:
+
+%           Let \(r < \rho (x)\) and let \[
+%               g(y) = f(x + ry)
+%           \]
+
+%           I'm confused as to what's fixed and what's variable here.
+
+%     \item (Page 105-107) I understand the example and want to hear your remarks on the failure of convergence (?) / failure of swapping \(\lim\) and \(\bbe\), swapping \(\lim\) and \(\int\) in this context i.e. like what prevents the swapping in general and what prevents the swapping in this specific case
+%     \item (Page 108, 109) I'm unsure what the remark at the bottom of 108 to start of 109, saying that ``there is a lingering effect from the fact that we assumed that the a priori distribution was the uniform distribution''. I think Prof. Lawler is referring to the distribution \(f_0(x) = 1, 0 < x < 1\) (page 108) here, but I don't really see how the previous distribution \(f_{n}(x \mid k)\) affects the later distribution \(f_{n+1}(x \mid k)\).
+%     \item (Page 112, 115) I assume that the requirement \(\bbe(|Y|) < \infty \) (p.112, around midpage under \textbf{3.2}), \(\bbe (|M_n|) < \infty\) (p.115, bottom page, under \textbf{Definition 3.2.}) is present to enable some expression involving convergence to be well-defined, and want to know more about the theory underlying it.
+
+%           \subsection{Additional Questions}
+%           \begin{enumerate}
+%               \item (Page 117-120) Proposition 3.3 \[
+%                         \bbe[M_{n \land T}] = \bbe (M_0)
+%                     \]
+
+%                     and Theorem 3.4 that under conditions \[
+%                         \begin{cases}
+%                             \bbe(T < \infty) = 1      \\
+%                             \bbe[|M_T|]      < \infty \\
+%                             \lim_{n \to \infty}\bbe[M_n 1_{T>n}] = 0
+%                         \end{cases}
+%                     \]
+%                     \[
+%                         \implies \bbe[M_T] = \bbe (M_0)
+%                     \]
+%                 \item (Page 121) Polya's urn and Lemma 3.5
+%           \end{enumerate}
+% \end{enumerate}
+
+% \section{Week 5 Reading}
+% I've finished the Martingale notes and cleared the question that I was going to ask last week. I'm now reading Evans' PDE book.
+% \begin{enumerate}
+%     \item (Page 24) I think this might be a dumb question, but how do we assert the bounds on \[||D^2f||_{L^\infty} \:\text{(equation (12)) and }\:  ||Df||_{L^\infty} \:\text{(equation (14))}\: \] which per page 618 (Appendix) I think is their \(\esssup\). Does this have anything to do with the assumption on page 23 right above Theorem 1, that \(f \in C^2_c(\bbr^n)\)? And the importance of \(f\) having compact support as part of the assumption for simplicity. 
+%     \item (Page 27, Remark at the bottom of page)
+
+%           ``
+%           The strong maximum principle asserts in particular that if \(U\) is connected and \(u \in C^2(U) \cap C(\bar{U}) \) satisfies \[
+%               \begin{cases}
+%                   \Delta u = 0 & \:\text{in}\:  U         \\
+%                   u        = g & \:\text{on}\: \partial U
+%               \end{cases}
+%           \]
+%           where \(g \geq 0\), then \(u\) is positive \textit{everywhere} if \(g\) is positive \textit{somewhere}''
+
+%           I can kinda hand wave the reason why this is an implication of the maximum principle but would like to hear more.
+
+%         % \textbf{NTS:} Page 28, Uniqueness Theorem, requirements about continuity and its weakening.
+
+%     \item In general I'm running into heavy computations involving ``analysis'' type estimates, which I'm not so sure if there's a point in scrutinizing through to see what's going on. I've gone through transport equation and mostly through Laplace's equation subsection in Section 2 of Evans' book, and plan to probably read through Heat equation too to re-see what Prof. Lawler covered in a different light - though, again, some computations and mentioning of higher level analysis concepts (most notably \(L^p\) norms) have been hindering progress quite a bit. But also with the rigor, it's nice to see some things written out more explicitly than in Lawler's notes, e.g. mollifiers and convolution to show \(u\) from \(C^2\) to \(C^\infty\), so that was good to see.
+
+%     I'm wondering if you have any thoughts or recommendations on what to do.
+% \end{enumerate}
+
+\section{Week 6 Reading}
+\begin{enumerate}
+    \item First Question
+\end{enumerate}
+\end{document}

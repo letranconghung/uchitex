@@ -1,0 +1,262 @@
+\documentclass[openany, amssymb, psamsfonts]{amsart}
+\usepackage{mathrsfs,comment}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\usepackage[all,arc,2cell]{xy}
+\UseAllTwocells
+\usepackage{enumerate}
+%%% hyperref stuff is taken from AGT style file
+\usepackage{hyperref}  
+\hypersetup{%
+  bookmarksnumbered=true,%
+  bookmarks=true,%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  filecolor=blue,%
+  menucolor=blue,%
+  pagecolor=blue,%
+  urlcolor=blue,%
+  pdfnewwindow=true,%
+  pdfstartview=FitBH}   
+  
+\let\fullref\autoref
+%
+%  \autoref is very crude.  It uses counters to distinguish environments
+%  so that if say {lemma} uses the {theorem} counter, then autrorefs
+%  which should come out Lemma X.Y in fact come out Theorem X.Y.  To
+%  correct this give each its own counter eg:
+%                 \newtheorem{theorem}{Theorem}[section]
+%                 \newtheorem{lemma}{Lemma}[section]
+%  and then equate the counters by commands like:
+%                 \makeatletter
+%                   \let\c@lemma\c@theorem
+%                  \makeatother
+%
+%  To work correctly the environment name must have a corrresponding 
+%  \XXXautorefname defined.  The following command does the job:
+%
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+%
+%  Some standard autorefnames.  If the environment name for an autoref 
+%  you need is not listed below, add a similar line to your TeX file:
+%  
+%\makeautorefname{equation}{Equation}%
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{theorem}{Theorem}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{ass}{Assumption}%
+\makeautorefname{asss}{Assumptions}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+
+%
+%                  *** End of hyperref stuff ***
+
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+%\newtheorem{ass}{Assumption}[section]
+%\newtheorem{asses}{Assumptions}[section]
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ass}{Assumption}[section]
+\newtheorem{asss}{Assumptions}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}{Question}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+
+%%%% hack to get fullref working correctly
+\makeatletter
+\let\c@obs=\c@thm
+\let\c@cor=\c@thm
+\let\c@prop=\c@thm
+\let\c@lem=\c@thm
+\let\c@prob=\c@thm
+\let\c@con=\c@thm
+\let\c@conj=\c@thm
+\let\c@defn=\c@thm
+\let\c@notn=\c@thm
+\let\c@notns=\c@thm
+\let\c@exmp=\c@thm
+\let\c@ax=\c@thm
+\let\c@pro=\c@thm
+\let\c@ass=\c@thm
+\let\c@warn=\c@thm
+\let\c@rem=\c@thm
+\let\c@sch=\c@thm
+\let\c@equation\c@thm
+\numberwithin{equation}{section}
+\makeatother
+
+%%%% MATH SHORTHANDS %%%%
+%% blackboard bold math capitals
+\newcommand{\bbf}{\mathbb{F}}
+\newcommand{\bbn}{\mathbb{N}}
+\newcommand{\bbq}{\mathbb{Q}}
+\newcommand{\bbr}{\mathbb{R}}
+\newcommand{\bbz}{\mathbb{Z}}
+\newcommand{\bbc}{\mathbb{C}}
+\newcommand{\bbk}{\mathbb{K}}
+\newcommand{\bbm}{\mathbb{M}}
+\newcommand{\bbp}{\mathbb{P}}
+\newcommand{\bbe}{\mathbb{E}}
+
+
+\newcommand{\calb}{\mathcal{B}}
+\newcommand{\calf}{\mathcal{F}}
+\newcommand{\calt}{\mathcal{T}}
+\newcommand{\call}{\mathcal{L}}
+
+\renewcommand{\phi}{\varphi}
+
+% Universal Math Shortcuts
+\newcommand{\st}{\hspace*{4pt}\text{s.t.}\hspace*{4pt}}
+\newcommand{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
+\newcommand{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
+\newcommand{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
+
+\let\oldforall\forall
+\renewcommand{\forall}{\;\oldforall\; }
+\let\oldexist\exists
+\renewcommand{\exists}{\;\oldexist\; }
+\newcommand\existu{\;\oldexist!\: }
+
+
+\renewcommand{\_}[1]{\underline{#1}}
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{Something Harmonic Function}
+
+\author{Hung Le Tran}
+
+\date{Summer 2023}
+
+\begin{document}
+
+\begin{abstract}
+
+    This is the abstract
+
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Harmonic Function}
+
+\begin{defn} [Harmonic Function]
+    Recall that a function \(f\) on \(\bbz^d\) is harmonic at \(x\) if \(f(x)\) equals the average of \(f\) on its nearest neighbors. If \(U\) is an open subset of \(\bbr^d\), we will say that \(f\) is \textbf{harmonic} in \(U\) if and only if it is continuous and satisfies the following \textbf{mean value property}: for every \(x \in U\), and every \(0 < \epsilon < dist(x, \partial U)\),
+    \begin{equation}
+        f(x) = MV(f; x, \epsilon) = \int_{|y-x| = \epsilon}f(y) ds(y)
+    \end{equation}
+\end{defn}
+
+\begin{rem}
+    Value at \(x\) equals to average of ball radius \(\epsilon\) around \(x\) for all \(\epsilon\)
+\end{rem}
+
+\begin{defn} [Laplacian]
+    \[
+        \Delta f(x) = \lim_{e \to 0} \dfrac{1}{\epsilon^2}\sum_{y \in \bbz^d, |y| = 1} [f(x + \epsilon y) - f(x)]
+    \]
+\end{defn}
+\begin{rem}
+    Just taking in each direction, not the whole ball!
+\end{rem}
+\begin{prop} [Representing Laplacian in partial derivatives]
+    Suppose \(f\) is \(C^2\) in a neighborhood of \(x\) in \(\bbr^d\). Then \(\Delta f(x) \)exists at \(x\) and \[
+        \Delta f(x) = \sum_{j=1}^{d} \partial_{jj} f(x)
+    \]
+\end{prop}
+\begin{proof}
+    This comes naturally from the above definition of \(\Delta f(x)\), as well as the approximation one can make from the \(C^2\) smoothness of \(f(x)\).
+\end{proof}
+
+\begin{prop}
+    If \(f\) is \(C^2\) in a neighborhood of \(x\), then \begin{equation}
+        \dfrac{1}{2d}  \Delta f(x) = \lim_{\epsilon \to 0} \dfrac{MV(f; x, \epsilon) - f(x)}{\epsilon^2}
+    \end{equation}
+\end{prop}
+
+\begin{thm}
+
+    \textbf{BIG THEOREM! Stating the equivalence of a harmonic function with its Laplacian operator}
+    
+    A function in a domain \(U\) is harmonic if and only if \(f\) is \(C^2\) with \(\Delta f(x) = 0 \forall x \in U\)
+\end{thm}
+\newpage
+
+\section*{Acknowledgments}  You should thank anyone who deserves thanks, and for sure you should
+thank your mentor.   ``It is a pleasure to thank my mentor,
+his/her name, for ....  ".   Or add anyone else, for example ``I thank [another participant] for helping
+me understand [something or other]"
+
+\section{Bibliography}
+\begin{thebibliography}{9}
+
+    \bibitem{ams} http://www.ams.org/publications/authors/tex/amslatex
+
+    \bibitem{amsshort}
+    Michael Downes.
+    Short Math Guide for \LaTeX.
+    http://tex.loria.fr/general/downes-short-math-guide.pdf
+
+    \bibitem{May}
+    J. P. May.
+    A Concise Course in Algebraic Topology.
+    University of Chicago Press. 1999.
+
+    \bibitem{notsoshort}
+    Tobias Oekiter, Hubert Partl, Irene Hyna and Elisabeth Schlegl.
+    The Not So Short Introduction to \LaTeX 2e.
+    https://tobi.oetiker.ch/lshort/lshort.pdf
+
+\end{thebibliography}
+
+\end{document}
+

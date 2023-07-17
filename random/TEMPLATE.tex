@@ -1,0 +1,281 @@
+
+\documentclass[openany, amssymb, psamsfonts]{amsart}
+\usepackage{mathrsfs,comment}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\usepackage[all,arc,2cell]{xy}
+\UseAllTwocells
+\usepackage{enumerate}
+%%% hyperref stuff is taken from AGT style file
+\usepackage{hyperref}  
+\hypersetup{%
+  bookmarksnumbered=true,%
+  bookmarks=true,%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  filecolor=blue,%
+  menucolor=blue,%
+  pagecolor=blue,%
+  urlcolor=blue,%
+  pdfnewwindow=true,%
+  pdfstartview=FitBH}   
+  
+\let\fullref\autoref
+%
+%  \autoref is very crude.  It uses counters to distinguish environments
+%  so that if say {lemma} uses the {theorem} counter, then autrorefs
+%  which should come out Lemma X.Y in fact come out Theorem X.Y.  To
+%  correct this give each its own counter eg:
+%                 \newtheorem{theorem}{Theorem}[section]
+%                 \newtheorem{lemma}{Lemma}[section]
+%  and then equate the counters by commands like:
+%                 \makeatletter
+%                   \let\c@lemma\c@theorem
+%                  \makeatother
+%
+%  To work correctly the environment name must have a corrresponding 
+%  \XXXautorefname defined.  The following command does the job:
+%
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+%
+%  Some standard autorefnames.  If the environment name for an autoref 
+%  you need is not listed below, add a similar line to your TeX file:
+%  
+%\makeautorefname{equation}{Equation}%
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{theorem}{Theorem}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{ass}{Assumption}%
+\makeautorefname{asss}{Assumptions}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+
+%
+%                  *** End of hyperref stuff ***
+
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+%\newtheorem{ass}{Assumption}[section]
+%\newtheorem{asses}{Assumptions}[section]
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ass}{Assumption}[section]
+\newtheorem{asss}{Assumptions}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}{Question}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+
+%%%% hack to get fullref working correctly
+\makeatletter
+\let\c@obs=\c@thm
+\let\c@cor=\c@thm
+\let\c@prop=\c@thm
+\let\c@lem=\c@thm
+\let\c@prob=\c@thm
+\let\c@con=\c@thm
+\let\c@conj=\c@thm
+\let\c@defn=\c@thm
+\let\c@notn=\c@thm
+\let\c@notns=\c@thm
+\let\c@exmp=\c@thm
+\let\c@ax=\c@thm
+\let\c@pro=\c@thm
+\let\c@ass=\c@thm
+\let\c@warn=\c@thm
+\let\c@rem=\c@thm
+\let\c@sch=\c@thm
+\let\c@equation\c@thm
+\numberwithin{equation}{section}
+\makeatother
+
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{Template for REU papers}
+
+\author{Your Name}
+
+\date{DEADLINES: Draft AUGUST 14 and Final version AUGUST 28, 2021}
+
+\begin{document}
+
+\begin{abstract}
+
+This is a sample latex document with emphasis on using math mode and
+equation environments.  You should use it as a template for your paper.
+Some pointers are included. 
+Remember that a first draft must be submitted to mentors by August 14.  The completed paper must be submitted by August 28, unless  permission for a later date has been obtained from the director of the program.   Please  name your file  Lastname.pdf.  If you have a common last name, for example Li or Wu, please name your file Lastname,Firstname.pdf.  That saves me the trouble of renaming.
+
+
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Writing}  Before getting to latex comments, I'll say a few words about writing, venting from many years of hard experience. 
+
+It is important that what you write is something you would actually like to read.  There should be no overuse of symbols.
+Clusters of symbols can be barbaric.  There are subjects whose literature is festooned with sentences written almost entirely with symbols like $\exists$, $\forall$.  Don't do that. Never use a symbol for a verb.  Never start a sentence with a symbol or with the word ``And''.
+
+Grammar should be correct.  Never start a sentence with ``Where ...".   
+Mismatches of singular and plural are excruciatingly painful, utterly abhorrent.  You cannot write
+``Let ..., then ..."  That is what is called a run-on sentence. You must write ``Let ... .  Then ... ."
+Alternatively, ``If ..., then ..."  works just fine.
+
+Avoid words or phrases like Simply, Obviously, Just, ..., It is easy to see.  They serve only to intimidate or to browbeat the reader into acquiescence. 
+Especially if English is not your native language, make sure you have  somebody fluent in English check what you have written.     
+
+References to numbered statements are best in the form Theorem 2.3, not just 2.3.  Use  \verb|usepackage{hyperref}| to get this right.  Really.  I will likely return papers unread that don't. 
+Equations should be referred to as (2.3), NOT 2.3 or equation 2.3 or equation (2.3).
+
+
+Bad writing makes for unpleasant papers, no matter how good the material.
+
+
+\section{What does the table of contents command do?}
+
+The table of contents command will automatically make a contents.
+You must run tex at least twice for this to work.  Do use \verb|\maketitle| and \verb|\tableofcontents}|.  I will likely return papers unread that don't. 
+
+\section{How do the environment commands work?}
+
+``Environments'' are commands that are given using the \verb|\begin{}|
+  and \verb|\end{}| syntax. In the preamble, you can see we've defined
+  a bunch of theorem-type environments.  For example, to get a definition, 
+you type:
+
+\begin{defn}  This is how to define a definition.
+\end{defn}
+
+And for a theorem and its proof you type:
+
+\begin{thm}
+This is the statement of a theorem.
+\end{thm}
+\begin{proof}
+And this shows that the statement is correct.
+\end{proof}
+
+Note that the numbering is taken care of automatically, and that we've predefined a bunch of these sorts of environments in the header.  These take give environments for  lemmas, corollaries and such like. 
+
+Another useful kind of enviroment is the equation environment.  Equations
+get numbered in sequence with statements, as for example
+
+\begin{equation}  e = mc^2
+\end{equation}
+
+Note that if you do not want a numbered equation, you can use the
+environment ``equation*''
+ like so:
+
+\begin{equation*}
+e=mc^2
+\end{equation*}
+But a quicker way to tex the same command and get the same displayed result is:
+\[  e=mc^2 \]
+
+There are plenty of other equation-type enviroments that allow you to
+align several equations and such like things. The AMS's guide \cite{amsshort} is a
+good place to start with these.
+
+You can also typeset math directly in a paragraph by placing it within
+dollar signs.  This is called ``math mode.''  For example: Let $e$
+be energy, $m$ be momentum and $c$ be the speed of light.  Then
+Einstein's famous equation says that $e=mc^2$.  This is useful, but
+remember that it is harder to read inline math than displayed math. 
+
+Remember that letters get put in a different font in math mode, so
+whenever you are referencing a mathematical object you should always
+put it in dollar signs.  For example, $f$ is a function, but f is just
+a random letter.
+
+Both \cite{notsoshort} and \cite{amsshort} have good lists of other symbols you can use in math mode.
+These include greek letters ($\alpha, \beta, \Gamma, \Delta$),
+operators ($\otimes, +, \sum$) and much more ($\leq, \diamond$).
+
+\section{Xypic and diagrams}
+
+If you want to draw diagrams, you should use xypic.  It's actually
+much easier than it looks, and we've already included it in the header
+above.  Here is an example. 
+\[\xymatrix{
+FX \ar[r]^-{Ff} \ar[d]_{\eta_X} & FY \ar[d]^{\eta_Y} \\
+GX \ar[r]_-{Gf} & GY\\} \]
+
+\section*{Acknowledgments}  You should thank anyone who deserves thanks, and for sure you should
+thank your mentor.   ``It is a pleasure to thank my mentor, 
+his/her name, for ....  ".   Or add anyone else, for example ``I thank [another participant] for helping 
+me understand [something or other]"
+
+\section{bibliography}  The bibliography should list all sources that you have used and referenced.
+And you should reference anything you use.   Especially if you quote any result without proof, you MUST
+give a reference.   And never ever should you copy material directly or more or less directly, from a source.
+
+\begin{thebibliography}{9}
+
+\bibitem{ams} http://www.ams.org/publications/authors/tex/amslatex
+
+\bibitem{amsshort}
+Michael Downes.
+Short Math Guide for \LaTeX.
+http://tex.loria.fr/general/downes-short-math-guide.pdf
+
+\bibitem{May}
+J. P. May.
+A Concise Course in Algebraic Topology.
+University of Chicago Press. 1999. 
+
+\bibitem{notsoshort}
+Tobias Oekiter, Hubert Partl, Irene Hyna and Elisabeth Schlegl.
+The Not So Short Introduction to \LaTeX 2e.
+https://tobi.oetiker.ch/lshort/lshort.pdf
+
+\end{thebibliography}
+
+\end{document}
+
