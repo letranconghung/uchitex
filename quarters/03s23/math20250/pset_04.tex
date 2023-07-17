@@ -12,9 +12,9 @@
 Let \(T\) be a linear operator on \(\bbf^n\), let \(A\) be the matrix of \(T\) in the standard ordered basis for \(\bbf^n\), and let \(W\) be the subspace of \(\bbf^n\) spanned by the column vectors of \(A\). What does \(W\) have to do with \(T\)?
 \end{problem}
 \begin{solution}
-    Let \(\cab= \{e_1, e_2, \dots e_n\}\) be the standard ordered basis for \(\bbf^n\).
+    Let \(\calb= \{e_1, e_2, \dots e_n\}\) be the standard ordered basis for \(\bbf^n\).
 
-    Since \(A\) is the matrix of \(T\) in \(\cab\), the columns \(A_j = T(e_j)\).
+    Since \(A\) is the matrix of \(T\) in \(\calb\), the columns \(A_j = T(e_j)\).
 
     Since \(W\) is the subspace of \(\bbf^n\) spanned by the column vectors \(A_j\) of \(A\), it is the subspace spanned by \(T(e_j)\), which is simply the range of \(T\).
 \end{solution}
@@ -61,11 +61,11 @@ Find a basis for the range of \(T\) and a basis for the null space of \(T\).
 \begin{problem} [Sec 3.4. Problem 11]
 Let \(W\) be the space of all \(n \times 1\) column matrices over a field \(\bbf\). If \(A\) is an \(n \times n\) matrix over \(\bbf\), then \(A\) defines a linear operator \(L_A\) on \(W\) through left multiplication: \(L_A(X) = AX\). Prove that every linear operator on \(W\) is a left multiplication by some \(n \times n \) matrix, i.e. is \(L_A\) for some \(A\).
 
-Now suppose \(V\) is an \(n-\)dimensional vector space over the field \(\bbf\), and let \(\cab\) be an ordered basis for \(V\). For each \(\alpha\) in \(V\), define \(U\alpha = [\alpha]_\cab\). Prove that \(U\) is an isomorphism of \(V\) onto \(W\).
+Now suppose \(V\) is an \(n-\)dimensional vector space over the field \(\bbf\), and let \(\calb\) be an ordered basis for \(V\). For each \(\alpha\) in \(V\), define \(U\alpha = [\alpha]_\calb\). Prove that \(U\) is an isomorphism of \(V\) onto \(W\).
 If \(T\) is a linear operator on \(V\), then \(UTU^{-1}\) is a linear operator on \(W\). Accordingly, \(UTU^{-1}\) is left multiplication by some \(n \times n\) matrix \(A\). What is \(A\)?
 \end{problem}
 \begin{solution}
-    For the first part, let \(\cab = \{e_1, e_2, \dots, e_n\}\) be the analogous standard ordered basis for \(W\), in which \(e_i \in \bbm_{n \times 1}(\bbf)\) has all entries as 0, other than its \(i-\)th as 1. Then let \(T\) be some linear operator on \(W\):
+    For the first part, let \(\calb = \{e_1, e_2, \dots, e_n\}\) be the analogous standard ordered basis for \(W\), in which \(e_i \in \bbm_{n \times 1}(\bbf)\) has all entries as 0, other than its \(i-\)th as 1. Then let \(T\) be some linear operator on \(W\):
     \begin{align*}
         T(X) & = T(x_1 e_1 + x_2 e_2 + \cdots + x_n e_n)       \\
              & = x_1 T(e_1) + x_2 T(e_2) + \cdots + x_n T(e_n) \\
@@ -75,25 +75,25 @@ If \(T\) is a linear operator on \(V\), then \(UTU^{-1}\) is a linear operator o
     where \(A \in \bbm_{n \times n}(\bbf)\) and the column vector \(A_i \coloneqq T(e_i)\). \(T\) therefore corresponds to \(L_A(X) = AX\).
 
     For the second part, we want to show that \(U\) is an isomorphism of \(V\) onto \(W\) by showing that \(U\) is a linear transformation, is surjective and injective. Indeed, \[
-        U(c\alpha + \beta) = [c\alpha+\beta]_\cab = c[\alpha]_\cab + [\beta]_\cab = cU(\alpha) + U(\beta)
+        U(c\alpha + \beta) = [c\alpha+\beta]_\calb = c[\alpha]_\calb + [\beta]_\calb = cU(\alpha) + U(\beta)
     \]
 
-    \(U\) is surjective since \(\forall [\alpha]_\cab \in W, \exists \alpha \in V\) that is retrievable via \(\cab\).
+    \(U\) is surjective since \(\forall [\alpha]_\calb \in W, \exists \alpha \in V\) that is retrievable via \(\calb\).
 
-    \(U\) is injective since \(\ker(U) = \{\alpha \in V \mid [\alpha]_\cab = 0\} = \{0\}\)
+    \(U\) is injective since \(\ker(U) = \{\alpha \in V \mid [\alpha]_\calb = 0\} = \{0\}\)
 
     It follows that \(U\) is indeed an isomorphism.
 
-    To find the matrix \(A\) that corresponds to \(UTU^{-1}\): let \(w = [\alpha]_\cab \in W\), then:
+    To find the matrix \(A\) that corresponds to \(UTU^{-1}\): let \(w = [\alpha]_\calb \in W\), then:
     \begin{align*}
-        UTU^{-1} & = UTU^-1([\alpha]_\cab)  \\
+        UTU^{-1} & = UTU^-1([\alpha]_\calb)  \\
                  & = UT(\alpha)             \\
-                 & = [T(\alpha)]_\cab       \\
-                 & = [T]_\cab [\alpha]_\cab \\
-                 & = [T]_\cab w
+                 & = [T(\alpha)]_\calb       \\
+                 & = [T]_\calb [\alpha]_\calb \\
+                 & = [T]_\calb w
     \end{align*}
 
-    It follows that \(A = [T]_\cab\)
+    It follows that \(A = [T]_\calb\)
 \end{solution}
 
 \begin{problem} [Sec 5.3. Problem 1]

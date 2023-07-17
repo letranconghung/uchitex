@@ -56,7 +56,7 @@
 \begin{motivation}
     Spectral theory is the study of eigenvalues and eigenvectors.
 
-    Let \(T: V \to V\) be a linear transformation over \(\bbk\), otherwise known as a \textbf{linear operator} since it acts \(V \to V\). We know that if we pick a basis \(\cab = \{e_1, e_2, \dots, e_n\}\) then \(T \) corresponds to some matrix \([T]_\cab \in \bbm_n(\bbk) \). Then the question arises: does there exist a basis such that \([T]_\cab\) is ``simple'', whatever that measure of ``simple'' is: maybe it can have lots of zeroes, triangular etc. However, for this case, we opt to ask if there exists a basis such that \([T]_\cab\) is diagonal.
+    Let \(T: V \to V\) be a linear transformation over \(\bbk\), otherwise known as a \textbf{linear operator} since it acts \(V \to V\). We know that if we pick a basis \(\calb = \{e_1, e_2, \dots, e_n\}\) then \(T \) corresponds to some matrix \([T]_\calb \in \bbm_n(\bbk) \). Then the question arises: does there exist a basis such that \([T]_\calb\) is ``simple'', whatever that measure of ``simple'' is: maybe it can have lots of zeroes, triangular etc. However, for this case, we opt to ask if there exists a basis such that \([T]_\calb\) is diagonal.
 \end{motivation}
 
 \begin{remark}
@@ -124,7 +124,7 @@
     \end{pmatrix}\) has eigenvalue 1, and since \(id \cdot v = v = 1 \cdot v \forall v \in \bbk^2\), every \(v \in \bbk^2\) is an eigenvector of eigenvalue 1.
 \end{example}
 
-Therefore, if \(\cab = \{e_1, e_2, \ldots, e_n\}\) is a basis of \(V\), and \([T]_\cab = \begin{pmatrix}
+Therefore, if \(\calb = \{e_1, e_2, \ldots, e_n\}\) is a basis of \(V\), and \([T]_\calb = \begin{pmatrix}
     c_1 &     &        &     \\
         & c_2 &        &     \\
         &     & \ddots &     \\
@@ -143,7 +143,7 @@ Therefore, if \(\cab = \{e_1, e_2, \ldots, e_n\}\) is a basis of \(V\), and \([T
 \end{claim}
 
 \begin{example}
-    If \(T: \bbk^2 \to \bbk^2, [T]_\cab = \begin{pmatrix}
+    If \(T: \bbk^2 \to \bbk^2, [T]_\calb = \begin{pmatrix}
         2 &   \\
           & 1
     \end{pmatrix}\) then \begin{align*}
@@ -159,12 +159,12 @@ Then a natural question arises, that given \(T: V \to V\), how do we find its ei
     \begin{enumerate}
         \item \(a \in \bbk\) is an eigenvalue for \(T\)
         \item \(T - a \cdot id: V \to V\) is not an isomorphism
-        \item There exists a basis \(\cab = \{e_1, e_2, \ldots, e_n\}\) for \(V \st M= [T]_\cab \) satisfies \(\det (M - a\cdot I_n) = 0\)
+        \item There exists a basis \(\calb = \{e_1, e_2, \ldots, e_n\}\) for \(V \st M= [T]_\calb \) satisfies \(\det (M - a\cdot I_n) = 0\)
     \end{enumerate}
 \end{proposition}
 
 \begin{remark}
-    In (3), the term \(\det (M - a I_n)\) is independent of basis, i.e. if we have a different basis \(\cab '\) then \[
+    In (3), the term \(\det (M - a I_n)\) is independent of basis, i.e. if we have a different basis \(\calb '\) then \[
         \det(M' - a I_n) = \det(M - a I_n) =  0
     \]
     This is because \(M = C M' C^{-1}\) through change of basis, which implies
@@ -193,7 +193,7 @@ Then a natural question arises, that given \(T: V \to V\), how do we find its ei
 
     We now prove \((2) \Leftrightarrow (3)\).
 
-    Let \(\cab = \{e_1, \dots, e_n\}\) be any basis. Let \(M = [T]_\cab\), then \(T - aI_n\) corresponds to \(M - aI_n\) under \(\cab\).
+    Let \(\calb = \{e_1, \dots, e_n\}\) be any basis. Let \(M = [T]_\calb\), then \(T - aI_n\) corresponds to \(M - aI_n\) under \(\calb\).
 
     Then, \(T - aI_n\) is (not) an isomorphism \(\Leftrightarrow\) \(M - aI_n\) is (not) invertible \(\Leftrightarrow \det (M - aI_n) = (\neq) 0\)
 \end{proof}
@@ -219,7 +219,7 @@ Then a natural question arises, that given \(T: V \to V\), how do we find its ei
 \end{example}
 
 \begin{definition} {Chacteristic Polynomial of Linear Operator}
-    \(T: V \to V\) is a linear operator over \(\bbk\). Let \(\cab = \{e_1, e_2, \cdots, e_n\}\) be any basis. Then the \textbf{characteristic polynomial} of \(T\) is the characteristic polynomial of \([T]_\cab\).
+    \(T: V \to V\) is a linear operator over \(\bbk\). Let \(\calb = \{e_1, e_2, \cdots, e_n\}\) be any basis. Then the \textbf{characteristic polynomial} of \(T\) is the characteristic polynomial of \([T]_\calb\).
 \end{definition}
 
 \begin{remark}
@@ -231,7 +231,7 @@ Then a natural question arises, that given \(T: V \to V\), how do we find its ei
 \end{corollary}
 
 \begin{example}
-    If \(A= [T]_\cab = \begin{pmatrix}
+    If \(A= [T]_\calb = \begin{pmatrix}
         a_1 &        &     \\
             & \ddots &     \\
             &        & a_n

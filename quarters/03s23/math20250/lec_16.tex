@@ -1,6 +1,6 @@
 \lecture{16}{18 May 2023 }{Inner Product and Normed Spaces}
 
-\subsection{Motivating Examples on Inner Produc and Norm}
+\subsection{Motivating Examples on Inner Product and Norm}
 \begin{remark}
     For the scope of this lecture, we shall restrict our field \(\bbk\) to either \(\bbr\) or \(\bbc\) (I'll denote \(\bbr / \bbc\)), which are called ``normed'' fields, that are roughly fields in which we can make sense of the notion of distance.
 \end{remark}
@@ -48,7 +48,7 @@ Let \(V\) be a vector space over \(\bbr /\bbc\), then we now want to talk about 
     \begin{enumerate}
         \item \(\innerproduct{x}{y} = \conj{\innerproduct{y}{x}}\) (over \(\bbr\), this is simply an equality without the conjugate)
         \item \(\innerproduct{\alpha x + \beta y}{z} = \alpha \innerproduct{x}{z} + \beta \innerproduct{y}{z}\)
-        \item \(\innerproduct{x}{x} \leq 0 \forall x \in V\) and \[
+        \item \(\innerproduct{x}{x} \geq 0 \forall x \in V\) and \[
                   \innerproduct{x}{x} = 0 \Leftrightarrow x = 0
               \]
 
@@ -133,7 +133,7 @@ This exploration of the relationship between the norm and inner product gives us
         \norm{\cdot}: V \to \bbr \st
     \]
     \begin{enumerate}
-        \item \(\norm{x} \leq 0, \norm{x} = 0 \Leftrightarrow x = 0 \)
+        \item \(\norm{x} \geq 0, \norm{x} = 0 \Leftrightarrow x = 0 \)
         \item \(\forall \alpha \in \bbk, \norm{\alpha x} = \abs{\alpha} \norm{x}\)
         \item \(\norm{x + y} \leq \norm{x} + \norm{y} \forall x, y \in V\)
     \end{enumerate}
@@ -169,7 +169,7 @@ This exploration of the relationship between the norm and inner product gives us
 
 \subsection{Orthogonal System of Vectors}
 \begin{definition} {Orthogonal System of Vectors}
-    Let \(\{v_1, v_2, \dots, v_r\}\) be vectors \(V\), then they are called an \textbf{orthogonal system of vectors} if \(v_i \perp v_j \forall i \neq j\)
+    Let \(\{v_1, v_2, \dots, v_r\}\) be vectors in \(V\), then they are called an \textbf{orthogonal system of vectors} if \(v_i \perp v_j \forall i \neq j\)
 \end{definition}
 
 \begin{lemma}
@@ -198,7 +198,7 @@ This exploration of the relationship between the norm and inner product gives us
 We want to find \(w \in E \st (x - w) \perp w\)
 
 \begin{definition} {Projection}
-    Let \(V\) be an inner product space, \(E \subseteq V\) be a subspae. Define \[
+    Let \(V\) be an inner product space, \(E \subseteq V\) be a subspace. Define \[
         pr_E: V \to E
     \]
     to be a projection \st \(\forall x \in V, x - pr_E(x) \perp pr_E(x)\)
@@ -231,7 +231,7 @@ We want to find \(w \in E \st (x - w) \perp w\)
 
     Equality holds iff \(\delta = 0 \Leftrightarrow w = x \)
 
-    Let us now prove the existence. We first assume that \(E\) has an orthogonal basis \(\cab = \{e_1, e_2, \dots, e_n\}\). Then, we can construct \[
+    Let us now prove the existence. We first assume that \(E\) has an orthogonal basis \(\calb = \{e_1, e_2, \dots, e_n\}\). Then, we can construct \[
         pr_E (v) \coloneqq \sum_{i=1}^{m} \dfrac{\innerproduct{v}{e_i}}{\norm{e_i}^2}  e_i
     \]
 

@@ -102,7 +102,7 @@
     \]
     then this has considerably enlarged what we can put into matrices.
 
-    Let's draw a parallel between \(P(x)\) and \(P(T)\). Fix \(\cab = \{v_1, v_2, \dots, v_n\}\) to be a basis of \(V\), and let \(A = [T]_\cab = (a_{ij})\).
+    Let's draw a parallel between \(P(x)\) and \(P(T)\). Fix \(\calb = \{v_1, v_2, \dots, v_n\}\) to be a basis of \(V\), and let \(A = [T]_\calb = (a_{ij})\).
 
     Then first, since we know \(P(x) = \det(xI_n - A)\) (again, does not matter which basis we take!), let us actually take the determinant of \((xI_n - A)^T\), for purposes that will make sense later:
     \[
@@ -179,7 +179,7 @@
          & = Tv_1 - (a_{11}v_1 + a_{21}v_2 + \cdots) \\
          & = 0
     \end{align*}
-    by sheer definition of \(A = [T]_\cab\). And this argument works for all rows!
+    by sheer definition of \(A = [T]_\calb\). And this argument works for all rows!
 \end{proof}
 \begin{remark}
     It should be noted that the last step clarifies why we took the determinant of the transpose matrix in the first place: simply to make the final computations easier. If we did not, then we would have had to show computations with \((B')^T\), and that's not nice.

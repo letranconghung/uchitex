@@ -1,9 +1,9 @@
 \lecture{13}{09 May 2023}{Diagonalizable Linear Operators}
 
 \begin{recall}
-    Linear operator \(T: V \to V\), then the char poly is \(\det (x I_n - T) = \det (x - I_n [T]_\cab)\), which is consistent regardless of choice of basis \(\cab\)!
+    Linear operator \(T: V \to V\), then the char poly is \(\det (x I_n - T) = \det (xI_n -[T]_\calb)\), which is consistent regardless of choice of basis \(\calb\)!
 
-    Solutions of the char poly are the eigenvalues of \(T\) (or of \(M = [T]_\cab\)).
+    Solutions of the char poly are the eigenvalues of \(T\) (or of \(M = [T]_\calb\)).
 
     For each eigenvalue \(\lambda\) of \(T\), there is \[
         V_\lambda \coloneqq \{v \in V \mid Tv = \lambda v\} = \ker (T - \lambda I_n)
@@ -14,9 +14,9 @@
     If \(\lambda \neq \lambda '\) then \(V_\lambda \cap V_{\lambda'} = \{0\}\)
 \end{exercise}
 \begin{definition} {Diagonalizable}
-    Let \(T: V \to V\) be a linear operator. \(T\) is diagonalizable if there exists a basis \(\cab = \{e_1, e_2, \dots, e_n\}\) of \(V\)  \st \([T]_\cab\) is a diagonal matrix, i.e. each \(e_i\) is an eigenvector of \(T\).
+    Let \(T: V \to V\) be a linear operator. \(T\) is diagonalizable if there exists a basis \(\calb = \{e_1, e_2, \dots, e_n\}\) of \(V\)  \st \([T]_\calb\) is a diagonal matrix, i.e. each \(e_i\) is an eigenvector of \(T\).
 
-    If \([T]_\cab = \begin{pmatrix}
+    If \([T]_\calb = \begin{pmatrix}
         c_1 &        &     \\
             & \ddots &     \\
             &        & c_n
@@ -68,8 +68,8 @@
 \begin{proof} {Proposition}
     \(\mathbf{(1) \implies (2)}\)
 
-    Let \(d = \dim V\). Let \(\cab = \{e_1, e_2, \dots, e_d\}\) be the basis \st \([T]_\cab\) is diagonal: \[
-        [T]_\cab = \begin{pmatrix}
+    Let \(d = \dim V\). Let \(\calb = \{e_1, e_2, \dots, e_d\}\) be the basis \st \([T]_\calb\) is diagonal: \[
+        [T]_\calb = \begin{pmatrix}
             c_1 &        &     \\
                 & \ddots &     \\
                 &        & c_d
@@ -79,7 +79,7 @@
     then the characteristic polynomial is \[
         (x-c_1)(x-c_2) \dots (x-c_d) = \prod_{\lambda_i} (x - \lambda_i)^{d_i}
     \]
-    and \(\dim V_{\lambda_i} = d_i\) (picking out the \(d_i\) vectors in \(\cab\) that correspond to the eigenvalue \(\lambda_i\))
+    and \(\dim V_{\lambda_i} = d_i\) (picking out the \(d_i\) vectors in \(\calb\) that correspond to the eigenvalue \(\lambda_i\))
 
     \(\mathbf{(2) \implies (3)}\)
 
@@ -106,7 +106,7 @@
         (\lambda_l - \lambda_1)(\lambda_l - \lambda_2) \dots (\lambda_l - \lambda_{l-1}) w_l \in \ker (V_{\lambda_l} \to V)
     \]
 
-    But \(V_{\lambda_l}\)    is a subspace of \(V \implies \ker(V_{\lambda_l}\to V )= \{0\} \implies (\lambda_l - \lambda_1)(\lambda_l - \lambda_2) \dots (\lambda_l - \lambda_{l-1}) w_l = 0\)/
+    But \(V_{\lambda_l}\)    is a subspace of \(V \implies \ker(V_{\lambda_l}\to V )= \{0\} \implies (\lambda_l - \lambda_1)(\lambda_l - \lambda_2) \dots (\lambda_l - \lambda_{l-1}) w_l = 0\)
 
     But \(\lambda_i \neq \lambda_j \implies w_l = 0 \implies w_{l-1} = 0 \implies \cdots \implies w_1 = 0\)
 
@@ -127,7 +127,7 @@
 
 \begin{definition} {Invariant/Stabilised Subspace}
 
-    Let \(T: V \to V\) be a linear operator. A subspace \(W \subseteqq V\) is an \textbf{invariant/stabilised subspace under \(T\)} if \(T(W) \subseteq W \), i.e. \(T(w) \in W \forall w \in W\).
+    Let \(T: V \to V\) be a linear operator. A subspace \(W \subseteq V\) is an \textbf{invariant/stabilised subspace under \(T\)} if \(T(W) \subseteq W \), i.e. \(T(w) \in W \forall w \in W\).
 \end{definition}
 \begin{lemma}
     Linear operator \(T: V \to V\), stabilised subspace \(W\) and let \(v_1, v_2, \dots, v_l\) be eigenvectors corresponding to distinct eigenvalues then if \(v_1 + \cdots + v_l \in W\) then \(v_i \in W\).

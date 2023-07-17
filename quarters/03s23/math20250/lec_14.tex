@@ -22,17 +22,17 @@ We continue from last lecture.
     Given linear operators \(T_1, T_2: V \to V\) that are both diagonalizable, then when are they simultaneously diagonalizable? i.e. when does there exist an eigenbasis that is an eigenbasis for both \(T_1, T_2\)?
 \end{question}
 
-Observe that if there exists a common eigenbasis \(\cab\) then \[
-    [T_1]_\cab = \begin{pmatrix}
+Observe that if there exists a common eigenbasis \(\calb\) then \[
+    [T_1]_\calb = \begin{pmatrix}
         a_1 &        &     \\
             & \ddots &     \\
             &        & a_n
-    \end{pmatrix}, [T_2]_\cab = \begin{pmatrix}
+    \end{pmatrix}, [T_2]_\calb = \begin{pmatrix}
         b_1 &        &     \\
             & \ddots &     \\
             &        & b_n
     \end{pmatrix}
-    \implies [T_1]_\cab [T_2]_\cab = [T_2]_\cab [T_1]_\cab
+    \implies [T_1]_\calb [T_2]_\calb = [T_2]_\calb [T_1]_\calb
 \]
 
 \(T_1, T_2\) are commutative!
@@ -64,7 +64,7 @@ Observe that if there exists a common eigenbasis \(\cab\) then \[
     \(\begin{pmatrix}
         1 & 1 \\
         0 & 1
-    \end{pmatrix}\) has eigenvalue 1, ,but not diagonalizable over \(\bbr, \bbc\), but
+    \end{pmatrix}\) has eigenvalue 1, but not diagonalizable over \(\bbr, \bbc\), but
 
     \(\begin{pmatrix}
            & 1 \\
