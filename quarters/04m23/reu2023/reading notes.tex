@@ -1,5 +1,5 @@
 \documentclass[a4paper, 10pt]{article}
-\input{preamble.tex}
+\input{../preamble.tex}
 \title{Questions}
 
 \begin{document}
@@ -153,8 +153,89 @@
 %     I'm wondering if you have any thoughts or recommendations on what to do.
 % \end{enumerate}
 
-\section{Week 6 Reading}
+% \section{Week 6 Reading}
+% \begin{enumerate}
+%     \item (Page 37, 39) The idea of ``reflecting the singularity'' when computing Green's function in specific cases.
+%     \item (Page 49) Duhamel's Principle and the intuition behind integrating with respect to $s$.
+%     \item (Page 52 - 54) Mean-value property for heat equations. I wanna hear some remarks/motivation on why the property should be true, as the constructions now seem kinda random to me. e.g. why take such a heat ball. I can also follow the computation (applying IBP, etc.) but don't get the high-level overview of the proof.
+%     \item Intuition for ``energy method'' to prove uniqueness in Laplace's and Heat Equations
+%     \item Differences between the ``fundamental solutions'' of the Laplace's Equation and the Heat Equation.
+%           \textbf{Laplace's Equation} $\Delta u = 0$ has \textit{fundamental solution}
+%           \[
+%               \Phi(x) = \begin{cases}
+%                   \dfrac{1}{2\pi} \log |x|                        & (n =2) \\
+%                   \dfrac{1}{n(n-2)\alpha(n)} \dfrac{1}{|x|^{n-2}} & (n=3)  \\
+%               \end{cases}
+%           \]
+%           which is defined on $\bbr^n \backslash \{0\}$.
+
+%           Then a solution to Poisson's equation $- \Delta u = f$ in $\bbr^n$ would be \begin{equation} \label{eq:poisson}
+%               u (x) = (\Phi * f)(x) = \int_{\bbr^n}\Phi(x-y) f(y) dy
+%           \end{equation}
+%           and I get that one can think of $\Phi$ as the response to the impulse $ - \Delta \Phi = \delta_0$, then ``summing up throughout''
+
+%           \textbf{Heat Equation} $u_t - \Delta u = 0$ has \textit{fundamental solution} \[
+%               \Phi (x, t) = \begin{cases}
+%                   \dfrac{1}{{(4 \pi t)}^{n/2}}e^{-\frac{|x|^2}{4t}} & (x \in \bbr^n, t > 0) \\
+%                   0                                                 & (x \in \bbr^n , t<0)
+%               \end{cases}
+%           \]
+
+%           Then a solution to the initial-value problem \[\begin{cases}
+%                   u_t - \Delta u = 0 & (x, t) \in (\bbr^n \times (0, \infty)) \\
+%                   u = g              & (x, t) \in (\bbr^n \times \{t = 0\})
+%               \end{cases}\]
+%           is \[
+%               u(x, t) = \int_{\bbr^n}\Phi(x-y, t) g(y) dy
+%           \]
+%           Rewriting, \begin{equation} \label{eq:heat-boundary}
+%               u^t(x) = (\Phi(\cdot, t) * g)(x)
+%           \end{equation}
+
+%           and now one thinks of $\Phi$ encoding:
+%           \begin{enumerate}
+%               \item[1.] Across the $x$-axis, the heat impulse $\delta_0$
+%               \item[2.] Across the $t$-axis, the propagating effect of the above impulse (i.e. conforming to the heat equation)
+%           \end{enumerate}
+
+%           I'm still kinda unsettled by how the constructions of $u$ from $\Phi$ look so similar between the 2 cases (although a lot of differences can be seen) yet yielding different behavior when ``convoluting'' with another function. For example, I have thought that maybe when constructing $u$ as such in \eqref{eq:heat-boundary} we would have some ``erratic'' behavior like in the case of the Poisson's equation in \eqref{eq:poisson}, something like $u_t - \Delta u = g$ (The input shape doesn't even match here: $u$ on space time, $g$ on space).
+
+%           But then indeed this ``erratic'' behavior is achieved later when solving for the non-homogeneous heat equation with initial value \[
+%               \begin{cases}
+%                   u_t - \Delta u = f & (\bbr^n \times (0, \infty)) \\
+%                   u = 0              & (\bbr^n \times \{t = 0\})
+%               \end{cases}
+%           \]
+%           and we have the solution \[
+%               u(x, t) = \int^{t}_{0} \int_{\bbr^n} \Phi(x - y, t-s) f(y, s) dy ds
+%           \]
+%           that seems more similar to the philosophy used when we were solving for Poisson's Equation.
+
+%           I think I'm failing to see something from the bigger picture here.
+% \end{enumerate}
+
+
+% \section{Week 8 Reading}
+% \begin{enumerate}
+%     \item (Page 183) I get the proof of Plancherel's Theorem, but would you have any remarks on why it \textit{should} be true?
+%     \item (Page 185, middle of the page, under 2.) ``By approximation the same formula is true if $D^\alpha u \in L^2(\bbr^n)$''. I assume this approximation refers to the case when $u$ is not smooth and has compact support? But I'm not sure.
+%     \item (Page 185, under 3.) Application of Fubini's Theorem? In this case $u, v \in L^1 (\bbr^n) \cap L^2(\bbr^n) \implies (u * v) \in L^1(\bbr^n)$ so it's all good?
+%     \item (Page 187, line 3) I looked up the errata file and the first sentence was corrected to be ``Even though $\hat{B}$ is not in $L^1$ or $L^2$ for large $n$, we may proceed to compute $B$''. I guess we're still allowed to use the relationship $B = (\hat B \check )$ and treat $B$ being $L^1$ (the condition for the previous equation to hold) like an ``ansatz''? And eventually either prove that $B$ as computed above is actually $L^1$ so that the equation in the first place was valid or prove that the re-computed $\hat B$ using ``guessed''$B$ actually aligned with the initial $\hat B$?
+%     \item (Page 187, above equation (12)) ``Deforming $\Gamma$ into the real axis''. I know it's a little bit too much of complex analysis at this point but could you somehow provide an intuition for why the two integrals should be equal? On a relevant note, perhaps remarks on what analytic functions are and why they provide nice properties too.
+% \end{enumerate}
+
+% \subsection{Some more questions}
+% (Sorry for jumping everywhere with my questions)
+% \begin{enumerate}
+%     \item (Page 184, line 6) Why does $\hat{w} \geq 0$ matter as we send $\epsilon \to 0^+$?
+%     \item (Another convergence question, Page 186, line 5) Lebesgue point
+%     \item (Page 188, 189, Example 2, 3) Equation (17) can only be used if $g \in L^1 \bigcap L^2$? (cf. Theorem 2 (iii)) So we need ``nice enough'' initial conditions for this to work? The fundamental solution approach didn't have such requirements on $g$?
+%     \item On the same note, I guess I never really thought about this. Do convolutions run into ``convergence problems'' (if that's a valid question)? Let's say, equation (18) page 188
+% \end{enumerate}
+
+
+\section{Draft 1 Questions}
 \begin{enumerate}
-    \item First Question
+    \item I feel like my use of ``linear combination'' is a stretch of the usual notion of linear combinations, but not sure what to use instead of it.
 \end{enumerate}
 \end{document}

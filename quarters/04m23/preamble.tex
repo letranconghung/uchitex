@@ -571,7 +571,7 @@
     \createnewcoloredtheoremstyle{thmmiscbox}{black}{}{}
 
     \createnewcoloredtheoremstyle{thmexercisebox}{exercise_color}{}{}
-    \createnewcoloredtheoremstyle{thmproblembox}{theorem_color}{}{leftline=true}
+    \createnewcoloredtheoremstyle{thmproblembox}{theorem_color}{}{leftline=false}
     \createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
 }
 \makeatother
@@ -658,7 +658,7 @@
 \renewcommand{\phi}{\varphi}
 
 % Universal Math Shortcuts
-\newcommand{\st}{\hspace*{4pt}\text{s.t.}\hspace*{4pt}}
+\newcommand{\st}{\hspace*{2pt}\text{s.t.}\hspace*{2pt}}
 \newcommand{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
 \newcommand{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
 \newcommand{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
@@ -669,11 +669,14 @@
 \newcommand*{\conj}[1]{\overline{#1}}
 
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
+% https://tex.stackexchange.com/questions/22798/nice-looking-empty-set
 \let\oldforall\forall
 \renewcommand{\forall}{\;\oldforall\; }
 \let\oldexist\exists
 \renewcommand{\exists}{\;\oldexist\; }
 \newcommand\existu{\;\oldexist!\: }
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
 
 
 \renewcommand{\_}[1]{\underline{#1}}
@@ -688,8 +691,6 @@
 % \thinmuskip=3mu
 % \medmuskip=4mu plus 2mu minus 4mu
 % \thickmuskip=5mu plus 5mu
-
-
 
 % \DeclareMathOperator{\ext}{ext}
 % \DeclareMathOperator{\bridge}{bridge}
