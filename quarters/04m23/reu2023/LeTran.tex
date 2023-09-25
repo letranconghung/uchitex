@@ -179,16 +179,16 @@
 \bibliographystyle{plain}
 
 %--------Meta Data: Fill in your info------
-\title{The Laplacian and The Heat Equation}
+\title{Harmony in Randomness: The Laplacian and The Heat Equation}
 
 \author{Hung C. Le Tran}
 
-\date{August 31 2023}
+\date{September 20 2023}
 
 \begin{document}
 
 \begin{abstract}
-    In this paper, I explore the basics of Partial Differential Equations, especially the Laplace's, Poisson's and Heat Equations, and some probabilistic interpretations. 
+    In this paper, I explore some basic linear Partial Differential Equations, namely Laplace's Equation, Poisson's Equation and the Heat Equation, along with some of their probabilistic interpretations. 
 \end{abstract}
 
 \maketitle
@@ -196,87 +196,89 @@
 \tableofcontents
 
 \section{Preliminaries}
-\subsection{Partial Differential Equations (PDEs)}
-The study of PDEs in general is concerned with equations involving a function of two or more variables and its partial derivatives. Among the myriad of possible combinations of these components, we are most interested in those that are motivated and used to model and describe physical and probabilistic phenomena, e.g., transport equation, heat equation, wave equation, etc. Though some rigor will of course be expected, this paper will place more emphasis on interpretations, intuitions and why things should be true, instead of going through the tedium of rigor, as resources are vast for this use \cite{Evans}.
-\subsection{Notation}
-Through this paper, let $\Omega$ be an open subset of $\bbr^n$ and $u$ be a function $\Omega \to \bbr$. Then we denote the partial derivatives: \[
+The study of PDEs in general is concerned with equations involving a function of two or more variables and its partial derivatives. Among the myriad of possible combinations of these components, we are most interested in those that are motivated to model physical and probabilistic phenomena, e.g., transport equation, heat equation, wave equation, etc. Though some rigor will of course be expected, this paper will place more emphasis on interpretations, intuitions and why things should be true, instead of going through the tedium of rigor, as resources are vast for this use \cite{Evans}.
+
+Throughout this paper, let $\Omega$ be an open subset of $\bbr^n$ and $u$ be a function $\Omega \to \bbr$. Then we denote the partial derivatives: \[
     \dfrac{\partial u}{\partial x_i}\eqqcolon u_{x_i},
     \dfrac{\partial^2 u}{\partial x_i \partial x_j}\eqqcolon u_{x_ix_j}, etc.
 \]
 
-A vector $\alpha = (\alpha_1, \alpha_2, \dots, \alpha_n)$ with each $ \alpha_i \geq 0 $ is a \textit{multiindex} of order $|\alpha| = \alpha_1 + \cdots + \alpha_n$. Then we can define: \[
-    D^\alpha u(x) \coloneqq \dfrac{\partial^{|\alpha|} u}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dots \partial x_n^{\alpha_n}}
-\]
-and $D^k u(x) \coloneqq \{D^\alpha u(x) \mid |\alpha| = k\}$ for $k \in \bbz_{\geq 0}$.
+% A vector $\alpha = (\alpha_1, \alpha_2, \dots, \alpha_n)$ with each $ \alpha_i \geq 0 $ is a \textit{multiindex} of order $|\alpha| = \alpha_1 + \cdots + \alpha_n$. Then we can define: \[
+%     D^\alpha u(x) \coloneqq \dfrac{\partial^{|\alpha|} u}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dots \partial x_n^{\alpha_n}}
+% \]
+% and $D^k u(x) \coloneqq \{D^\alpha u(x) \mid |\alpha| = k\}$ for $k \in \bbz_{\geq 0}$.
 
-For $k = 1$, we view $D^1 u(x) = Du(x) = \nabla u(x) = (u_{x_1}, \cdots, u_{x_n})$ as a vector. For $k = 2$, we view $D^2 u(x)$ as the usual Hessian matrix.
+We view $Du = \nabla u = (u_{x_1}, \ldots, u_{x_n})$ as a vector. For $k = 2$, we view $D^2 u$ as the usual Hessian matrix.
 
 With this, we are now interested in solving for $u: \Omega \to \bbr^n$ that satisfies some relationship \[
-    F(D^k u(x), D^{k-1}u(x), \ldots, u(x), x) = 0 \;\;\;\:\text{in}\: \Omega
+    F(D^k u(x), D^{k-1}u(x), \ldots, u(x), x) = 0 \;\;\;\:\text{in}\: \Omega.
 \]
 
 By \textit{solving}, we mean finding all $u$ satisfying the above conditions, or possibly only a subset of all such solutions that satisfies auxiliary boundary conditions on $\partial \Omega$. Oftentimes we hope to find explicit and simple formulae for these solutions, but in the case that we can't, we shall deduce existence and properties of those solutions. Luckily for us, the PDEs under inspection for this paper do have explicit formulae that are relatively simple.
 
-It should also be stated that in this paper, when derivatives are concerned, one can think of them as classical derivatives, meaning that the original function should be imposed some continuity conditions for such derivatives to exist in the first place. However, the \textit{theory of distributions} would hope to generalize this notion of derivatives further in the absence of such continuity conditions, a topic worth looking into.
+It should also be stated that for our purposes, when derivatives are concerned, one can think of them as classical derivatives, meaning that the original function should be imposed some continuity conditions for such derivatives to exist in the first place. However, the \textit{theory of weak solutions} would generalize this notion of derivatives further in the absence of such continuity conditions, a more advanced topic that is not the focus of this paper.
 \section{The Laplacian}
 \begin{defn}
     Let $u: \Omega \to \bbr$. Then \textit{the Laplacian} of $u$ is \[
-        \Delta u \coloneqq \sum_{i=1}^{n} u_{x_i x_i} = tr(D^2 u)
+        \Delta u \coloneqq \sum_{i=1}^{n} u_{x_i x_i} = tr(D^2 u).
     \]
 \end{defn}
 
 This operator will be of utmost importance, so let us develop some intuition about what it means.
 
-\subsection{Divergence of gradient}
-The reader might have realized that $\Delta u = \Div (\nabla u)$, an intuition that will be clearer once put into a context:
+\subsection{Divergence of Gradient}
+The reader might have realized that $\Delta u = \Div (D u)$, an intuition that will be clearer once put into a context:
 \begin{equation} \label{laplace_intro}
-    \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega
+    \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega.
 \end{equation}
 
-This is \textit{Laplace's Equation}. A standard interpretation of a function $u$ satisfying \eqref{laplace_intro} is that it represents a chemical concentration or heat \textit{in equilibrium}. This means that the net flux of the ``flow'' $\mathbf{F}$ over any sufficiently smooth boundary $\partial V$ is 0
+This is \textit{Laplace's Equation}. A standard interpretation of a function $u$ satisfying \eqref{laplace_intro} is that it represents a chemical concentration or heat \textit{in equilibrium}. This means that the net flux of the ``flow'' $\mathbf{F}$ over any sufficiently smooth boundary $\partial V$ of a subregion $V$ in $\Omega$ is 0:
 \[
-    \int_{\partial V} \mathbf{F} \cdot \nu dS = 0
+    \int_{\partial V} \mathbf{F} \cdot \nu dS = 0,
 \]
 which, by Divergence Theorem, implies \[
-    \int_{V} \Div \mathbf{F} = \int_{\partial V} \mathbf{F} \cdot \nu dS = 0
+    \int_{V} \Div \mathbf{F} = \int_{\partial V} \mathbf{F} \cdot \nu dS = 0.
 \]
 The selection of $\partial V $ was arbitrary, so $\Div \mathbf{F} = 0$ in $\Omega$. In such physical systems, what would appropriately represent such ``flow'' $\mathbf{F}$? It is reasonable that the quantity flows from regions of higher to lower concentrations, therefore \[
-    \mathbf{F} = -a \nabla u
-\] for some proportionality constant $a>0$ that we can assume to be 1 WLOG. It follows that \[
-    0 = \Div \mathbf{F} = \Div (\nabla u) = - \Delta u \implies \Delta u = 0
+    \mathbf{F} = -a D u,
+\] for some proportionality constant $a>0$. WLOG, assume $a = 1$. It follows that \[
+    0 = \Div \mathbf{F} = \Div (-Du) = - \Delta u.
 \]
 
-\subsection{More intuition}
-What if the RHS is not 0? The \textit{Poisson's Equation}
+\subsection{Heat Flow}
+What if the RHS is not 0? The \textit{Poisson's Equation},
 \begin{equation} \label{poisson}
-    -\Delta u(x) = f(x) \;\;\;\;\; \text{in}\: \Omega
+    -\Delta u(x) = f(x) \;\;\;\;\; \text{in}\: \Omega ,
 \end{equation}
-
-describes to us a system (WLOG, heat) that is in equilibrium, however this time with an external impulse of heat $f$ throughout $\Omega$. $f(x) + \Delta u(x) = 0$ implies that whatever heat that was supposed to ``diverge'' out of point $x$, $\Delta u (x)$, is recompensated by the external impulse $f(x)$. More concretely, for sufficiently smooth $\partial V$, \[
+describes to us a system (heat) that is in equilibrium, however this time with an external source of heat $f$ throughout $\Omega$. $f(x) + \Delta u(x) = 0$ implies that whatever heat that was supposed to diverge out of point $x$, $\Delta u (x)$, is recompensated by the external source $f(x)$. More concretely, for sufficiently smooth boundary $\partial V$ of a subregion $V$ of $\Omega$, \[
     \int_{\partial V} -Du \cdot \nu dS = \int_V \Div (-Du) = \int_V f(x)
 \]
+to show the recompensation over $V$.
 
-It might be more natural for some readers to also visualize of a time axis at the mention of injecting heat into a system and letting it stabilize to equilibrium. Indeed, the non-homogeneous \textit{Heat Equation} describes such a phenomenon:
+Sometimes it might be easier to visualize heat as a function of \textit{time} and \textit{space}, then consider its evolution in time. This is described by the non-homogeneous \textit{Heat Equation} for $u: \Omega \times [0, \infty) \to \bbr$ in both time and space:
 \begin{equation} \label{heat_intro}
-    u_t(x, t) - \Delta_x u(x, t) = f(x, t) \;\;\;\;\; \text{in}\: \Omega \times [0, \infty)
+    u_t(x, t) - \Delta_x u(x, t) = f(x, t) \;\;\;\;\; \text{in}\: \Omega \times [0, \infty),
 \end{equation}
-where $\Delta_x u(x, t)$ only sums over derivatives in $x$. Reshuffling \eqref{heat_intro}: \[u_t(x, t) = f(x, t) + \Delta_x u(x, t)\]
-we can similarly interpret $u(x, t)$ to be the temperature at time $t$ at position $x$ on $\Omega$. At every moment in time, the change in temperature at a fixed $x$ is the flux flowing outwards with an instantaneous external impulse of heat $f(x, t)$ added on top of it. Understanding \eqref{heat_intro} as such, we can understand \eqref{poisson} as the steady-state heat equation, when there is no longer any fluctuation in temperature over time.
+where $\Delta_x u(x, t)$ only sums over derivatives in $x$. Reshuffling \eqref{heat_intro}:
+ \[
+    u_t(x, t) = \Delta_x u(x, t) + f(x, t),
+ \]
+we can similarly interpret $u(x, t)$ to be the temperature at time $t$ at position $x$ on $\Omega$. At every moment in time, the change in temperature at a fixed $x$ is the flux flowing outwards with an instantaneous external source of heat $f(x, t)$ added on top of it. Understanding \eqref{heat_intro} as such, we can understand \eqref{poisson} as the steady-state heat equation, when there is no longer any fluctuation in temperature over time.
 
-To summarize, we can understand $u$ that either satisfies \eqref{poisson} or \eqref{heat_intro} as the \textit{response} to impulses $f(x)$ or $f(x, t)$ respectively. The easier cases will be when there is no external impulse, i.e., $f \equiv 0$. Such a view of what these PDEs mean shall come in handy later.
+To summarize, we can interpret $u$ that satisfies \eqref{poisson} or \eqref{heat_intro} as the \textit{response} to sources $f(x)$ or $f(x, t)$ respectively. The easier cases will be when there is no external source, i.e., $f \equiv 0$. Such a view of these PDEs   shall come in handy later.
 \section{Laplace's Equation and Poisson's Equation}
 \begin{defn}
-    A $C^2$ function $u: \bar{\Omega} \to \bbr$ is \textit{harmonic} if it satisfies Laplace's Equation
+    A $C^2$ function $u: \bar{\Omega} \to \bbr$ is \textit{harmonic} if it satisfies Laplace's Equation:
     \begin{equation} \label{laplace}
-        \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega
+        \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega .
     \end{equation}
 \end{defn}
 
-A quick proof can show that this equation is \textit{linear}, meaning that if $f, g: \bar{\Omega} \to \bbr$ are solutions to \eqref{laplace} then $f + g$ is also a solution. This serves as our motivation to find simple solutions, potentially with some symmetries, so as to build up to more complex solutions by linearly combining them.
+It is easy to see that this equation is \textit{linear}, meaning that if $f, g: \bar{\Omega} \to \bbr$ are solutions to \eqref{laplace} then $\lambda f + \mu g$ is also a solution for $\lambda, \mu \in \bbr$. This serves as our motivation to find simple solutions, potentially with some symmetries, so as to build up to more complex solutions by linearly combining them.
 
 \begin{prop}
     Let $u, v: \bbr^n \to \bbr$ such that \[
-        \Delta u = 0, v(x) = u(Mx)
+        \Delta u = 0, \quad v(x) = u(Mx)
     \] for some orthogonal matrix $M$. Then $\Delta v(x) = 0$. In other words, Laplace's Equation is \textit{rotationally invariant}.
 \end{prop}
 \begin{proof}
@@ -285,110 +287,127 @@ A quick proof can show that this equation is \textit{linear}, meaning that if $f
         v_{x_i} (x)             & = \sum_{k=1}^{n}u_{x_k}(Mx)M_{ki}                          \\
         \implies v_{x_i x_j}(x) & =  \sum_{l=1}^{n}\sum_{k=1}^{n}u_{x_k x_l}(Mx)M_{ki}M_{lj}
     \end{align*}
-    $M$ is orthogonal, so $MM^T = I \implies \sum_{i=1}^{n} M_{ki} M_{li} = \Delta_{kl}$ where $\Delta_{kl}$ is the Kronecker delta. Therefore,
+    $M$ is orthogonal, so $MM^T = I \implies \sum_{i=1}^{n} M_{ki} M_{li} = \delta_{kl}$ where $\delta_{kl}$ is the Kronecker delta, being $1$ when $k = l$ and $0$ otherwise. Therefore
     \begin{align*}
         \Delta v(x) & = \sum_{i=1}^{n}v_{x_i x_i}(x)                                             \\
                     & = \sum_{i=1}^{n} \sum_{l=1}^{n}\sum_{k=1}^{n}u_{x_k x_l}(Mx)M_{ki}M_{li}   \\
                     & = \sum_{l=1}^{n}\sum_{k=1}^{n}  \sum_{i=1}^{n} u_{x_k x_l}(Mx)M_{ki}M_{li} \\
                     & = \sum_{l=1}^{n}\sum_{k=1}^{n}  \sum_{i=1}^{n} u_{x_k x_l}(Mx)\Delta_{kl}  \\
-                    & = \sum_{k=1}^{n}u_{x_k x_k}(Mx) = \Delta u(Mx) = 0
+                    & = \sum_{k=1}^{n}u_{x_k x_k}(Mx) = \Delta u(Mx) = 0.
     \end{align*}
 \end{proof}
-\subsection{Fundamental solution of Laplace's Equation}
+\subsection{Fundamental Solution of Laplace's Equation}
 Since Laplace's Equation is rotationally invariant, we can first search for harmonic $u(x)$ that is radial: $u(x) = v(|x|) = v(r)$ in $\Omega = \bbr^n$. Minor computations yield \[
-    0 = \Delta u = v''(r) + \dfrac{n-1}{r}v'(r)
+    0 = \Delta u = v''(r) + \dfrac{n-1}{r}v'(r),
 \]
 which implies, if $v' \neq 0$, \begin{align*}
-    [\log(|v'|)]'       & = \dfrac{1-n}{r}                                            \\
-    \implies \log(|v'|) & = (1-n)\log r + a                                           \\
-    \implies v'         & = \dfrac{a}{r^{n-1}}                                        \\
-    \implies v(r)       & = \begin{cases}
-                                b \log r + c           & (n=2)      \\
-                                \dfrac{b}{r^{n-2}} + c & (n \geq 3)
+    \dfrac{v''(r)}{v'(r)} &= \dfrac{1-n}{r} \\
+    [\log(|v'|)]'       &= \dfrac{1-n}{r}                                            \\
+    \log(|v'|) &= (1-n)\log r + a                                           \\
+     v'        &= \dfrac{a}{r^{n-1}}                                        \\
+     v(r)       &= \begin{cases}
+                                b \log r + c           & (n=2),     \\
+                                \dfrac{b}{r^{n-2}} + c & (n \geq 3),
                             \end{cases}
 \end{align*}
-where $b, c \in \bbr$. The choices of $b$ and $c$ are not at all significant. Therefore, the sole reasoning for their choices below is to eliminate unnecessary complexities and the need for more scaling in computations later on.
+for any $b, c \in \bbr$.
 
 \begin{defn}
-    The function $\Phi: \bbr^n \backslash \{0\} \to \bbr$: \[
+    The function $\Phi: \bbr^n \backslash \{0\} \to \bbr$ \[
         \Phi (x) \coloneqq \begin{cases}
-            -\dfrac{1}{2 \pi} \log |x|                      & (n=2)      \\
-            \dfrac{1}{n(n-2)\alpha(n)} \dfrac{1}{|x|^{n-2}} & (n \geq 3)
+            -\dfrac{1}{2 \pi} \log |x|                      & (n=2),      \\
+            \dfrac{1}{n(n-2)\alpha(n)} \dfrac{1}{|x|^{n-2}} & (n \geq 3),
         \end{cases}
     \]
     where $\alpha(n)$ is the volume of the unit ball in $\bbr^n$, is the \textit{fundamental solution of Laplace's Equation}. It is important to note that $\Phi$ is not well-defined at $0$ and is only harmonic on $\bbr^n \backslash \{0\}$.
 \end{defn}
 
 \subsection{Poisson's Equation}
-It might be natural at this point to suggest a more complex solution for Laplace's Equation by convolving $\Phi$ and any $f$:
+It might be natural at this point to suggest a more complex solution for Laplace's Equation by convolving $\Phi$ and any $f \in C^2_c(\bbr^n)$:
 \[
-    u(x) = \int_{\bbr^n} \Phi(x-y)f(y) dy
+    u(x) = \int_{\bbr^n} \Phi(x-y)f(y) dy.
 \]
-After all, don't we have $\Delta \Phi(x) = 0$, so $\Delta \Phi(x - y) = 0$ for fixed $y$, and therefore integrating all these terms would also form a harmonic $u$? This is not possible due to the singularity at $y = x$, $\Phi(x-y)$ blows up and so swapping differentiation and integral signs ``$\Delta u(x) = \Delta \int_{\bbr^n} \Phi(x-y)f(y)dy = \int_{\bbr^n} \Delta (x-y)f(y) dy = 0$'' is unjustifiable and incorrect.
+The motivation for this is that since we have $\Delta \Phi(x) = 0$, so $\Delta \Phi(x - y) = 0$ ($\Delta$ operator in $x$) for fixed $y$, it should imply that integrating all these terms would also form a harmonic $u$. However, this is not possible due to the singularity at $y = x$. $\Phi(x-y)$ blows up, making swapping differentiation and integral signs ``$\Delta u(x) = \Delta \int_{\bbr^n} \Phi(x-y)f(y)dy = \int_{\bbr^n} \Delta \Phi (x-y)f(y) dy = 0$'' unjustifiable and incorrect.
 
-It is then somewhat surprising that convolving as above would yield us not a solution to Laplace's Equation, but to Poisson's! For simplicity, we assume that $f \in C^2_c(\bbr^n)$, a relatively strong condition.
+As it turns out, convolving as above would yield us not a solution to Laplace's Equation, but to Poisson's. For simplicity, we assume that $f \in C^2_c(\bbr^n)$, a relatively strong condition.
 \begin{thm} [Solution of Poisson's Equation]
-    Given $f: \bbr^n \to \bbr$, then
+    Given $f: \bbr^n \to \bbr, f \in C^2_c(\bbr^n)$, then
     \begin{equation} \label{poisson_sln}
         u(x) = (\Phi * f)(x) = \int_{\bbr^n} \Phi(x -y) f(y) dy
     \end{equation}
-    is $C^2$ and solves Poisson's Equation $-\Delta u = f$
+    is $C^2$ and solves Poisson's Equation $-\Delta u = f$.
 \end{thm}
 \begin{proof}
-    1. We want to show that $u$ is $C^2$. By a quick change of variables (or, simply rewriting the convolution expression): \begin{equation*}
-        u(x) = \int_{\bbr^n} \Phi(x -y) f(y) dy = \int_{\bbr^n} \Phi(y) f(x-y) dy
+    We want to first show that $u$ is $C^2$. By a quick change of variables (or, simply rewriting the convolution expression): \begin{equation*}
+        u(x) = \int_{\bbr^n} \Phi(x -y) f(y) dy = \int_{\bbr^n} \Phi(y) f(x-y) dy.
     \end{equation*}
-    Rewriting like so enables us to evaluate derivatives of $x$ with derivatives of $f$, making good use of the $C^2_c$ conditions. For $h \neq 0$, \begin{align*}
+    This enables us to evaluate derivatives of $x$ with derivatives of $f$. For $h \neq 0$, \begin{align*}
         \dfrac{u(x + he_i) - u(x)}{h} &= \int_{\bbr^n} \Phi (y) \dfrac{f(x + he_i  -y) - f(x -y)}{h} dy \\
         \lim_{h \to 0} \dfrac{u(x + he_i) - u(x)}{h} &= \lim_{h \to 0} \int_{\bbr^n} \Phi (y) \dfrac{f(x + he_i  -y) - f(x -y)}{h} dy
+        .
     \end{align*}
-    It remains for us to show that the swapping of limit and integral signs is justified. Since $f \in C^2_c(\bbr^n)$, its first and second derivatives are continuous and have compact support, which implies that they are bounded and uniformly continuous. Therefore, \[
-    \dfrac{f( x + he_i - y) - f(x -y)} {h} \xrightarrow{unif.} \dfrac{\partial f}{\partial x_i} (x -y)
+    It remains for us to show that the swapping of limit and integral signs is justified. Since $f \in C^2_c(\bbr^n)$, its first and second derivatives are continuous and have compact support, which implies that they are bounded and uniformly continuous. Define $g (x_i) = g(x_i; x_1, \dots, x_{i-1},x_{i+1}, \dots, x_n) \coloneqq f(x)$ then $g'$ is uniformly continuous. Then,
+    \begin{align*}
+        &\left| \dfrac{f( x + he_i - y) - f(x -y)} {h} - \dfrac{\partial f}{\partial x_i} (x -y) \right|\\
+        &= \left| \dfrac{g(x-y+h) - g(x-y)} {h} - g'(x-y) \right| \\
+        &= \left| g'(x-y+\eta) - g'(x-y) \right| \quad (\text{Mean Value Theorem, some } |\eta| < |h|) \\
+        &< \epsilon
+    \end{align*}
+    whenever $|h| < \delta(\epsilon)$, since $g'$ is uniformly continuous. It follows that
+    \[
+    \dfrac{f( x + he_i - y) - f(x -y)} {h} \xrightarrow{unif.} \dfrac{\partial f}{\partial x_i} (x -y) ,
     \]
-    which enables the swapping just like we wanted. Therefore $u$ is $C^1$. Applying the same argument again, we get that $u$ is $C^2$ \qed
+    which enables the swapping just like we wanted. Therefore
+    \begin{equation*}
+        \lim_{h \to 0} \dfrac{u(x + he_i) - u(x)}{h} = \int_{\bbr^n} \Phi (y) f_{x_i}(x - y) dy,
+    \end{equation*}
+    with $f_{x_i}$ being continuous (from $f \in C^2$), so $u$ is $C^1$. Applying the same argument again, we get that $u$ is $C^2$. \qed
 
-    2. Following from the proof above, \[
+    Following from the proof above, \[
     \Delta u(x) = \int_{\bbr^n} \Phi(y) \Delta_x f(x-y) dy
     \]
-    is justified. Using this, we want to show that $- \Delta u = f$. We introduce some big-picture ideas:
+    is justified. Using this, we want to show that $- \Delta u = f$. Here are a few important observations:
     \begin{enumerate} [a)]
-        \item $\Phi$ blows up at 0, so we shall isolate it inside a small ball
+        \item $\Phi$ blows up at 0, so we shall isolate it inside a small ball.
         \item The gradual goal will be to ``shift'' the $\Delta$ operator from $f$ to $\Phi$, using the Green's identity below, that is essentially the multivariable version of the integration by parts $\int_{a}^{b} u v'' dx = uv'\mid_a^b - \int_{a}^{b} u'v' dx$:
         \begin{equation} \label{greendudv}
-            \int_{\Omega} u \Delta v dx = \int_{\partial \Omega} u\dfrac{\partial v}{\partial \nu}dS - \int_{\Omega} (Du \cdot Dv) dx 
+            \int_{\Omega} u \Delta v dx = \int_{\partial \Omega} u\dfrac{\partial v}{\partial \nu}dS - \int_{\Omega} (Du \cdot Dv) dx.
         \end{equation}
-        \item With these frequent swappings, it's important for us to estimate: \[
-        |D\Phi (x)| \leq \dfrac{C}{|x|^{n-1}}, |D^2 \Phi(x)| \leq \dfrac{C}{|x|^n}
+        \item These estimates will be important throughout the proof: \[
+        |D\Phi (x)| \leq \dfrac{C}{|x|^{n-1}}, |D^2 \Phi(x)| \leq \dfrac{C}{|x|^n},
         \]
         which can be easily and explicitly derived from the $\Phi(x)$ expression.
     \end{enumerate}
     
-    Let us start. Fix $\epsilon > 0$, we isolate the singularity:
+    Let us start. Fix $\epsilon > 0$, we isolate the singularity
     \[
-    u(x) = \int_{B(0, \epsilon)} \Phi(y) \Delta_x f(x - y)dy + \int_{\bbr^n \backslash B(0, \epsilon)} \Phi(y) \Delta_x f(x - y)dy \eqqcolon I_\epsilon + J_\epsilon
+    u(x) = \int_{B(0, \epsilon)} \Phi(y) \Delta_x f(x - y)dy + \int_{\bbr^n \backslash B(0, \epsilon)} \Phi(y) \Delta_x f(x - y)dy \eqqcolon I_\epsilon + J_\epsilon ,
     \]
+    where $B(x, r)$ denotes the ball of radius $r$, center $x$ in $\bbr^n$.
 
-    \textit{Estimating $I_\epsilon$}: From above, we know that second derivatives in $f$ are bounded, thus so is $\Delta_x f(x - y)$. Some complexity comes in to bound $\int_{B(0, \epsilon)} |\Phi(y)| dy$, but we readily change to polar coordinates:
+    \textit{Estimating $I_\epsilon$}: From above, we know that second derivatives in $f$ are bounded, thus so is $\Delta_x f(x - y)$. We therefore just need to estimate $\int_{B(0, \epsilon)} |\Phi(y)| dy$, where we readily change to polar coordinates:
     \begin{enumerate}
         \item For $n=2$,
         \begin{align*}
             \int_{B(0, \epsilon)} |\Phi(y)| dy &= \int_{B(0, \epsilon)} C |\log |y||dy \\
             &= C \int_{0}^{\epsilon} r |\log r| dr \\
-            &\leq C \epsilon^2 \log \epsilon
+            &\leq C \epsilon^2 \log \epsilon .
         \end{align*}
         \item For $n \geq 3$, 
 \begin{align*}
     \int_{B(0, \epsilon)} |\Phi(y)| dy &= \int_{B(0, \epsilon)} C_n \dfrac{1}{|y|^{n-2}} dy \\
             &= C_n A_n \int_{0}^{\epsilon} r^{n-1} r^{2-n} dr \\
-            &= C_n \epsilon^2
+            &= C_n \epsilon^2 .
 \end{align*}
 where $A_n$ is the area of the unit sphere $S^{n-1}$. This gives us \begin{equation} \label{I_e}
     |I_\epsilon| \leq \begin{cases}
         C\epsilon^2 |\log \epsilon| & (n=2) \\
         C \epsilon^2 & (n \geq 3)
-    \end{cases}
+    \end{cases} .
 \end{equation}
 \end{enumerate}
+
+\textit{Notation}: The constants $C$ and $C_n$ absorb all constant factors in the evaluations above, so their exact value might change equation-to-equation.
 
 \textit{Estimating $J_\epsilon$}: Noticing that $\Delta_x f(x-y) = \Delta_y f(x-y)$, $\Delta_y \Phi(y) = 0$ away from the origin and using \eqref{greendudv} twice,
 
@@ -398,28 +417,28 @@ where $A_n$ is the area of the unit sphere $S^{n-1}$. This gives us \begin{equat
     &= \int_{\partial B(0, \epsilon)} \Phi(y) \dfrac{\partial f(x - y)}{\partial \nu} dS(y) + \Bigl(\int_{\bbr^n \backslash B(0, \epsilon)} \Delta_y \Phi(y) f(x - y)dy \\
     & - \int_{\partial B(0, \epsilon)} \dfrac{\partial \Phi(y)}{\partial \nu} f(x - y) dS(y) \Bigr) \\
     & = \int_{\partial B(0, \epsilon)} \Phi(y) \dfrac{\partial f(x - y)}{\partial \nu} dS(y) - \int_{\partial B(0, \epsilon)} \dfrac{\partial \Phi(y)}{\partial \nu} f(x - y) dS(y) \\
-    & \eqqcolon K_\epsilon + L_\epsilon
+    & \eqqcolon K_\epsilon + L_\epsilon ,
 \end{align*}
 where $\nu$ denotes the \textit{inward pointing normal unit} along $\partial B(0, \epsilon)$, since we have flipped the boundary $\partial \bbr^n \backslash B(0, \epsilon)$ to $\partial B(0, \epsilon)$.
 
 \textit{Estimating $K_\epsilon$}: Similar to above, first derivatives in $f$ are bounded and explicitly calculating $\int_{\partial B(0, \epsilon)} |\Phi (y)| dS(y)$ can show \begin{equation} \label{K_e}
     |K_\epsilon| \leq \begin{cases}
-        C\epsilon |\log \epsilon| & (n=2) \\
-        C \epsilon & (n \geq 3)
+        C\epsilon |\log \epsilon| & (n=2),\\
+        C \epsilon & (n \geq 3).
     \end{cases}
 \end{equation}
 
 \textit{Estimating $L_\epsilon$}: We can explicitly calculate this. On $\partial B(0, \epsilon)$, \begin{align*}
     \dfrac{\partial \Phi (y)}{\partial \nu} &= D\Phi(y) \cdot \nu \\
     &= \left( \dfrac{-1}{n \alpha(n)} \dfrac{y}{|y|^n} \right) \cdot \dfrac{-y}{|y|} \\
-    &= \dfrac{1}{n \alpha(n) \epsilon^{n-1}}
+    &= \dfrac{1}{n \alpha(n) \epsilon^{n-1}},
 \end{align*}
 where $n \alpha(n) \epsilon^{n-1}$ is, critically, the surface area of the sphere $\partial B(0, \epsilon)$! Therefore, 
 \begin{align} 
     L_\epsilon &= - \int_{\partial B(0, \epsilon)} \dfrac{1}{n \alpha(n) \epsilon^{n-1}} f(x - y) dS(y) \nonumber \\
-    &= - \fint_{\partial B(0, \epsilon)} f(x-y) dS(y) \xrightarrow{\epsilon \to 0} -f(x) \label{L_e}
+    &= - \fint_{\partial B(0, \epsilon)} f(x-y) dS(y) \xrightarrow{\epsilon \to 0} -f(x), \label{L_e}
 \end{align}
-From \eqref{I_e}, \eqref{K_e}, \eqref{L_e} and letting $\epsilon \to 0$, we have $-\Delta u = f$
+where $\fint$ denotes the average value over the specified integrating domain. From \eqref{I_e}, \eqref{K_e}, \eqref{L_e} and letting $\epsilon \to 0$, we have $-\Delta u = f$.
 \end{proof}
 
 \begin{rem}
@@ -428,17 +447,17 @@ From \eqref{I_e}, \eqref{K_e}, \eqref{L_e} and letting $\epsilon \to 0$, we have
 
 \begin{obs} \label{obs_response}
     We can interpret \begin{equation} \label{impulse_response}
-        - \Delta \Phi = \delta_0
+        - \Delta \Phi = \delta_0,
     \end{equation}
-    where $\Delta_0$ is the Dirac measure on $\bbr^n$, giving mass to the point 0. We can then compute \[
-    - \Delta u(x) = \int_{\bbr^n} \Delta_x \Phi(x-y) f(y) dy = \int_{\bbr^n} \delta_x f(y) dy = f(x)
+    where $\delta_0$ is the Dirac measure on $\bbr^n$, giving mass to the point 0. We can then formally compute \[
+    - \Delta u(x) = \int_{\bbr^n} \Delta_x \Phi(x-y) f(y) dy = \int_{\bbr^n} \delta_x f(y) dy = f(x).
     \]
 
-    In other words, $\Phi$ is the \textit{response} to the \textit{unit impulse} $\Delta_0$. What we have then done is to break up the impulse $f$ over $\bbr^n$ into a linear combination of these unit impulses over $\bbr^n$. Since $\Delta$ is linear, the response to the impulse $f$ would be the linear combination of the same coefficients of those unit impulse responses. This gives a natural reason why $u = \Phi * f$ should solve Poisson's Equation. This theme of breaking an impulse into more ``elementary'' impulses (in this case, unit impulses) and utilizing the linearity of the system to arrive at a solution will continue to be seen.
+    In other words, $\Phi$ is the \textit{response} to the \textit{unit impulse} $\delta_0$. What we have then done is to break up the impulse $f$ over $\bbr^n$ into a linear combination of these unit impulses over $\bbr^n$. Since $\Delta$ is linear, the response to the impulse $f$ would be the linear combination of the same coefficients of those unit impulse responses. This gives a natural reason why $u = \Phi * f$ should solve Poisson's Equation. This theme of breaking an impulse into more ``elementary'' impulses (in this case, unit impulses) and utilizing the linearity of the system to arrive at a solution will continue to be seen.
 \end{obs}
 
-\subsection{Mean value property}
-Returning to Laplace's Equation and our understanding of it as heat in equilibrium, the reader might have a visualization of how temperature at a certain spot should be some average of the nearby points. Indeed, this is true.
+\subsection{Properties of Harmonic Functions}
+Returning to Laplace's Equation and our understanding of it as heat in equilibrium, the reader might have a visualization of how temperature at a certain spot should be some average of the nearby points. This is indeed true, as seen in the following theorem:
 \begin{thm} [Mean Value Property] \label{thm_mvp}
 If $u \in C^2 (\Omega)$ is harmonic, then \[
 u(x) = \fint_{\partial B(x, r)} u(y) dS(y) = \fint_{B(x, r)} u(y) dy
@@ -446,16 +465,19 @@ u(x) = \fint_{\partial B(x, r)} u(y) dS(y) = \fint_{B(x, r)} u(y) dy
 for any ball $B(x, r) \subseteq \Omega$.
 \end{thm}
 \begin{proof}
-    1. We want to show that the average of $u$ over sphere of any size $r$ stays constant ($u(x)$), so it's natural to attempt to show for $v(r) \coloneqq \fint_{\partial B(x, r)} u(y) dS(y), v'(r) = 0$. Re-parameterize $y$ in terms of $x$ and $r$, \begin{align*}
-        v(r) &= \fint_{\partial B(0, 1)} u(x + rz) dS(z) \\
-        \implies v'(r) &= \fint_{\partial B(0, 1)} Du(x + rz) \cdot z dS(z) \\
+    We want to show that the average of $u$ over sphere of any size $r$ stays constant ($u(x)$), so it is natural to attempt to show for $v(r) \coloneqq \fint_{\partial B(x, r)} u(y) dS(y), v'(r) = 0$. Re-parameterize $y$ in terms of $x$ and $r$: \begin{equation*}
+        v(r) = \fint_{\partial B(0, 1)} u(x + rz) dS(z).
+    \end{equation*}
+    So
+    \begin{align*}
+        v'(r) &= \fint_{\partial B(0, 1)} Du(x + rz) \cdot z dS(z) \\
         &= \fint_{\partial B(x, r)} Du(y) \cdot \dfrac{y-x}{r} dS(y) \\
-        &= \fint_{\partial B(x, r)} \dfrac{\partial u}{\partial \nu} dS(y) =^{\eqref{greendudv}} \dfrac{r}{n} \fint_{B(x, r)} \Delta u(y) dy = 0
+        &= \fint_{\partial B(x, r)} \dfrac{\partial u}{\partial \nu} dS(y) \stackrel{\eqref{greendudv}}{=} \dfrac{r}{n} \fint_{B(x, r)} \Delta u(y) dy = 0,
     \end{align*}
     with the final factor $\frac{r}{n}$ to account for the scaling change between the averages. Therefore, $v$ is constant, with the value \[
-    v \equiv \lim_{r \to 0} v(r) = \lim_{r \to 0} \fint_{\partial B(x, r)} u(y) dS(y) = u(x)
+    v \equiv \lim_{r \to 0} v(r) = \lim_{r \to 0} \fint_{\partial B(x, r)} u(y) dS(y) = u(x).
     \]
-    2. Since $u(x)$ is the \textit{mean-value} for every sphere, using polar coordinates it is natural that it is also the \textit{mean-value} for every ball within $\Omega$.
+    Since $u(x)$ is the \textit{mean-value} for every sphere, using polar coordinates one can show that it is also the \textit{mean-value} for every ball within $\Omega$.
 \end{proof}
 \begin{rem}
     The converse of \autoref{thm_mvp} holds. That is, if $u \in C^2(\Omega)$ satisfies \[
@@ -471,50 +493,58 @@ Harmonic functions are therefore quite nice and smoothed out, as the value at ea
 \end{thm}
 
 \begin{proof}
-(\cite{Evans}, pg. 27)
+See (\cite{Evans}, pg. 27).
 \end{proof}
 \begin{rem}
 A similar Strong Minimum Principle can be derived using the same approach.
 \end{rem}
 
 \begin{cor} [Uniqueness]
-Let $g \in C(\partial \Omega), f \in C(\Omega)$, then there exists at most one solution $u \in C^2(\Omega) \cap C(\bar{\Omega})$ of Poisson's Equation with Dirichlet boundary conditions 
+Let $g \in C(\partial \Omega), f \in C(\Omega)$. Then there exists at most one solution $u \in C^2(\Omega) \cap C(\bar{\Omega})$ of Poisson's Equation with Dirichlet boundary conditions 
 \begin{equation} \label{poisson_dirichlet}
     \begin{cases}
         \begin{aligned}
-            -\Delta u &= f &&\:\text{in}\:  \Omega \\
-            u &= g &&\:\text{on}\: \partial \Omega
+            -\Delta u &= f &&\:\text{in}\:  \Omega , \\
+            u &= g &&\:\text{on}\: \partial \Omega .
         \end{aligned}
     \end{cases}
 \end{equation}
 \end{cor}
 \begin{proof}
-    Suppose $u, \tilde{u}$ satisfy the above then $w \coloneqq (u - \tilde{u})\in C^2(\Omega) \cap C(\bar{\Omega})$, is harmonic and is 0 on the boundary $\partial \Omega$. The Strong Maximum Principle implies $w \equiv 0$.
+    Suppose $u, \tilde{u}$ satisfy the above then $w \coloneqq u - \tilde{u} \in C^2(\Omega) \cap C(\bar{\Omega})$, is harmonic and is 0 on the boundary $\partial \Omega$. The Strong Maximum Principle implies $w \equiv 0$.
 \end{proof}
 
-\subsection{Regularity}
-We will now prove that if $u \in C^2$ is harmonic, then $u \in C^\infty$ --- which is a very interesting statement given that the structure of the original PDE only has second-order derivatives, yet we are claiming that it is infinitely differentiable. We will state and prove a theorem that is slightly stronger than this.
+To end this subsection on the properties of harmonic functions, we will prove that if $u \in C^2$ is harmonic, then $u \in C^\infty$ --- which is a very interesting statement given that the structure of the original PDE only has second-order derivatives, yet we are claiming that it is infinitely differentiable. We will state and prove a theorem that is slightly stronger than this.
 \begin{thm} [Smoothness]
-    If $u \in C(\Omega)$ is satisfies mean-value property for each ball $B(x, r) \subseteq \Omega$ then $u \in C^{\infty} (\Omega)$ 
+    If $u \in C(\Omega)$ satisfies mean-value property for each ball $B(x, r) \subseteq \Omega$ then $u \in C^{\infty} (\Omega)$ 
 \end{thm}
 
 \begin{proof}
-Let $\eta$ be the standard mollifier, which is a radial, $C^\infty$ function with support $B(0, 1)$ and $\int_{\bbr^n} \eta = 1$. Then $\eta_\epsilon$ is the rescaled $\eta$ such that its support is $B(0, \epsilon)$ while having $\int_{\bbr^n} \eta_\epsilon = 1$ still. Then $u^\epsilon \coloneqq \eta_\epsilon * u$ defined for $x \in \Omega_\epsilon \coloneqq \{x \in \Omega \mid d(x, \partial \Omega) > \epsilon\}$ is also $C^\infty$. $x \in \Omega_\epsilon$ simply means that it is possible to draw the ball $B(x, \epsilon) \subset \Omega$. Then we show that $u \in C^\infty$ by showing $u \equiv u^\epsilon$ in $\Omega_\epsilon$. Indeed, 
+Let $\eta$ be the standard mollifier, which is a radial, $C^\infty$ function with support $B(0, 1)$ and $\int_{\bbr^n} \eta = 1$. Then $\eta_\epsilon$ is the rescaled $\eta$ such that its support is $B(0, \epsilon)$ while having $\int_{\bbr^n} \eta_\epsilon = 1$ still. Then $u^\epsilon \coloneqq \eta_\epsilon * u$ defined for $x \in \Omega_\epsilon \coloneqq \{x \in \Omega \mid d(x, \partial \Omega) > \epsilon\}$ is also $C^\infty$ (\cite{Evans}, pg. 714). $x \in \Omega_\epsilon$ simply means that it is possible to draw the ball $B(x, \epsilon) \subset \Omega$. Then we show that $u \in C^\infty$ by showing $u \equiv u^\epsilon$ in $\Omega_\epsilon$. Indeed, 
 \begin{align*}
 u^\epsilon(x) &= \int_{\Omega} \eta_\epsilon(x-y) u(y) dy \\
 &= \int_{B(x, \epsilon)}  \eta_\epsilon(x-y) u(y) dy \\
-&= \int_{0}^{\epsilon} \int_{\partial B(x, r)} \eta_\epsilon(r) u(y) dS(y) dr \\
-&= \int_{0}^{\epsilon} \eta_\epsilon(r) \int_{\partial B(x, r)}  u(y) dS(y) dr \\
-&= \int_{0}^{\epsilon} \eta_\epsilon(r) \left(\int_{\partial B(x, r)}  u(y) dS(y)\right) dr \\
-&=^{(MVP)} \int_{0}^{\epsilon} \eta_\epsilon(r) (u(x) r^{n-1} A_n) dr \\
-&= u(x) \int_{B(0, \epsilon)} \eta_\epsilon dy = u(x)
+&= (-1)^n \int_{B(0, \epsilon)} \eta_\epsilon(z) u(x - z) dz \\
+&= (-1)^n \int_{0}^{\epsilon} \int_{\partial B(0, 1)} \eta_\epsilon(rw)  u(x - rw) r^{n-1} dS(w) dr
 \end{align*}
+Since $\eta_\epsilon$ is radial, there exists $\phi_\epsilon$ such that $\eta_\epsilon(rw) = \phi_\epsilon(r)$ for all $w \in \partial B(0, 1)$. Therefore,
+\begin{align*}
+    u^\epsilon(x) &= (-1)^n \int_{0}^{\epsilon} \phi_\epsilon(r) \int_{\partial B(0, 1)} u(x - rw) r^{n-1} dS(w) dr \\
+    &= \int_{0}^{\epsilon} \phi_\epsilon(r) \int_{\partial B(x, r)} u(v) dS(v) dr \\
+    &= \int_{0}^{\epsilon} \phi_\epsilon(r) (r^{n-1} A_n u(x)) dr \quad \:\text{(MVP)}\:\\
+    &= u(x) \int_{0}^{\epsilon} \phi_\epsilon(r) r^{n-1} A_n dr \\
+    &= u(x) \int_{0}^{\epsilon} \phi_\epsilon(r) r^{n-1}\int_{\partial B(0, 1)} 1 dS(w) dr \\
+    &= u(x) \int_{0}^{\epsilon} r^{n-1} \int_{\partial B(0, 1)} \eta_\epsilon(rw) dS(w) dr \\
+    &= u(x) \int_{0}^{\epsilon} \int_{\partial B(0, r)} \eta_\epsilon(v) dS(v) dr \\
+    &= u(x) \int_{B(0, \epsilon)} \eta_\epsilon(z) dz= u(x)
+\end{align*}
+Therefore $u \in C^\infty(\Omega_\epsilon)$ for each $\epsilon > 0$.
 \end{proof}
-\subsection{Poisson's Equation with Dirichlet boundary conditions}
-\eqref{poisson_dirichlet} imposes \textit{Dirichlet} boundary conditions on our Poisson's Equation, meaning it prescribes a value for our solution on the boundary $\partial \Omega$. We thus have to customize our solution \eqref{poisson_sln} to these specific conditions.
+\subsection{Poisson's Equation with Dirichlet Boundary Conditions} \label{sss_poisson_dirichlet}
+What happens if we impose additional \textit{Dirichlet} boundary conditions on our Poisson's Equation, i.e., a value for our solution on the boundary $\partial \Omega$, as we briefly did in \eqref{poisson_dirichlet}? What modifications would we have to make to our existing general solution \eqref{poisson_sln} to cater to these new constraints?
 \begin{thm} [Representation Formula using Green's function]
-If $u \in C^2(\bar{\Omega})$ solves \eqref{poisson_dirichlet} for $\Omega \subseteq \bbr^n$ open, bounded with $C^1 \partial \Omega$ then \begin{equation} \label{poisson_dirichlet_sln}
-    u(x) = \int_{\Omega} f(y) G(x, y) dy - \int_{\partial \Omega} g(y) \dfrac{\partial G}{\partial \nu}(x, y) dS(y)  \;\;\;\;\; \text{in}\: \Omega
+If $u \in C^2(\bar{\Omega})$ solves \eqref{poisson_dirichlet} for $\Omega \subseteq \bbr^n$ open, bounded with $\partial \Omega$ that is $C^1$ then \begin{equation} \label{poisson_dirichlet_sln}
+    u(x) = \int_{\Omega} f(y) G(x, y) dy - \int_{\partial \Omega} g(y) \dfrac{\partial G}{\partial \nu}(x, y) dS(y)  \;\;\;\;\; \text{in}\: \Omega,
 \end{equation}
 with $G(x, y)$ constructed to satisfy:
 \begin{equation} \label{green_construction}
@@ -524,21 +554,21 @@ and the ``corrector function'' $\phi^x(y)$ found so that:
 \begin{equation} \label{green_corrector}
     \begin{cases}
 \begin{aligned}
-    \Delta \phi^x (y) &= 0 &&\text{in}\: \Omega \\
-    \phi^x (y) &= \Phi(y-x)  &&\text{on}\: \partial \Omega
+    \Delta \phi^x (y) &= 0 &&\text{in}\: \Omega ,\\
+    \phi^x (y) &= \Phi(y-x)  &&\text{on}\: \partial \Omega .
 \end{aligned}
-\end{cases} 
+\end{cases}
 \end{equation}
 \end{thm}
 \begin{proof}
-(\cite{Evans}, pg. 34)
+See (\cite{Evans}, pg. 34).
 \end{proof}
 \begin{rem}
 We omit the proof and try to provide some intuition on what \eqref{poisson_dirichlet_sln} is doing. From \eqref{green_construction}, \eqref{green_corrector} and  \autoref{obs_response} on how $\Phi$ is the response to the unit impulse $\delta_0$, we can symbolically write for $G^x(y) \coloneqq G(x, y)$\begin{equation}
     \begin{cases}
         \begin{aligned}
-        -\Delta G^x (y)= -\Delta (\Phi(y-x) - \phi^x(y)) &= \delta_x  &&\text{in}\: \Omega \\
-        G^x (y)= \Phi(y-x) - \phi^x(y) &= 0  &&\text{on}\: \partial \Omega
+        -\Delta G^x (y)= -\Delta (\Phi(y-x) - \phi^x(y)) &= \delta_x  &&\text{in}\: \Omega , \\
+        G^x (y)= \Phi(y-x) - \phi^x(y) &= 0  &&\text{on}\: \partial \Omega .
         \end{aligned}
     \end{cases}
 \end{equation}
@@ -546,28 +576,28 @@ We omit the proof and try to provide some intuition on what \eqref{poisson_diric
 $G^x(y)$ is therefore the response throughout $\Omega$ to the unit impulse at $x$ that vanishes at the boundary $\partial \Omega$. Thus, the first part of \eqref{poisson_dirichlet_sln} contributes to solve $-\Delta u = f$ per our previous approach. The second part handles the continuity of $u$ from in $\Omega$ to $u \equiv g$ on $\partial \Omega$.
 \end{rem}
 \begin{rem}
-Oftentimes finding such $G$ will be difficult, and only for certain $\Omega$ having some sort of symmetry (e.g., the half space $\bbr^n_+$ or ball $B(x_0, r)$) explicit formulae for $G$ can be found. The symmetry enables us to make an informed guess of the corrector function $\phi^x(y)$ so that $G$ cancels out at the boundary.
+Oftentimes finding such $G$ will be difficult, and only for certain $\Omega$ having some sort of symmetry (e.g., the half space $\bbr^n_+$ or ball $B(x_0, r)$) explicit formulae for $G$ can be found (\cite{Evans}, pg. 36). The symmetry enables us to make an informed guess of the corrector function $\phi^x(y)$ so that $G$ cancels out at the boundary.
 \end{rem}
 
-\section{Heat Equation}
-\subsection{Fundamental solution of the Heat Equation}
+\section{The Heat Equation}
+\subsection{Fundamental Solution of the Heat Equation}
 In the same approach as for Laplace's Equation, we try to find a solution that is ``fundamental'' for the homogenous heat equation
 \begin{equation} \label{heat}
-    u_t - \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega \times (0, \infty)
+    u_t - \Delta u = 0 \;\;\;\;\; \text{in}\: \Omega \times (0, \infty) ,
 \end{equation}
 with $\Omega \subseteq \bbr^n$ open, $u(x, t): \bar{\Omega} \times [0, \infty) \to \bbr$ unknown, and $\Delta u = \Delta_x u$ only in the spatial variables.
 
 The first thing to notice is that there is a certain scaling ratio between $x$ and $t$, i.e., if $u(x, t)$ solves \eqref{heat} then $\tilde{u}(x, t) \coloneqq \lambda^\alpha u(\lambda x, \lambda^2 t)$ (invariant under dilation scaling) for any $\lambda, \alpha$ would also solve \eqref{heat}. Therefore, a family of solutions is characterized by a scaling factor $\alpha$ and a ``unit-less'' function $v$ defined when $\lambda = t^{-1/2}$:
 \begin{equation}
-    \tilde{u}(x, t) = t^{-\alpha/2}u\left(\frac{x}{\sqrt{t}}, 1\right) \eqqcolon t^{-\alpha/2} v\left(\frac{x}{\sqrt{t}}\right)
+    \tilde{u}(x, t) = t^{-\alpha/2}u\left(\frac{x}{\sqrt{t}}, 1\right) \eqqcolon t^{-\alpha/2} v\left(\frac{x}{\sqrt{t}}\right) .
 \end{equation}
 
-We then opt for $v$ to be radial (similar to Laplace's), with a corresponding $\alpha = \frac{n}{2}$ so we can arrive at an explicit solution. Detailed derivations can be found in \cite{Evans}.
+We then opt for $v$ to be radial (similar to Laplace's), with a corresponding $\alpha = \frac{n}{2}$ so we can arrive at an explicit solution. Detailed derivations can be found in (\cite{Evans}, pg. 46).
 \begin{defn} The function $\Phi: \bbr^n \times (\bbr \backslash \{0\}) \to \bbr$ \begin{equation} \label{heat_fund}
     \Phi(x, t) \coloneqq \begin{cases}
         \begin{aligned}
-            \frac{1}{(4\pi t)^{n/2}}e ^{-\frac{|x|^2}{4t}} &&\text{on} \: \bbr^n \times (0, \infty) \\
-            0  &&\text{on} \: \bbr^n \times (-\infty, 0)
+            \frac{1}{(4\pi t)^{n/2}}e ^{-\frac{|x|^2}{4t}} & &&\text{on} \: \bbr^n \times (0, \infty), \\
+            0  & &&\text{on} \: \bbr^n \times (-\infty, 0),
         \end{aligned}
     \end{cases}
 \end{equation}
@@ -576,35 +606,34 @@ is the \textit{fundamental solution of the heat equation}.
 
 \begin{lem} \label{conv_1}
 \begin{equation*}
-    \forall t > 0, \int_{\bbr^n} \Phi(x, t) dx = 1
+    \int_{\bbr^n} \Phi(x, t) dx = 1 \forall t > 0.
 \end{equation*}
 \end{lem}
 \begin{rem}
-    We wanted $\Phi$ to have the property above and this was the point of the additional scaling constant $\frac{1}{(4\pi)^{n/2}}$. Moreover, one can also show that $\Phi(x, t)$ is generally well-behaved around $(x \neq 0, t = 0)$, but have a singularity at the origin $(0, 0)$.
+    We wanted $\Phi$ to have the property above and this was the point of the additional scaling constant $\frac{1}{(4\pi)^{n/2}}$. Moreover, $\Phi(x, t)$ is generally well-behaved around $(x \neq 0, t \to 0)$, but has a singularity at the origin $(0, 0)$.
 \end{rem}
-\subsection{Initial-value problem}
-We first visit the initial-value problem, the ``boundary'' for the time-axis \begin{equation} \label{heat_initial}
+\subsection{Initial-value Problem} \label{sss_heat_initial_value}
+We first visit the initial-value problem \begin{equation} \label{heat_initial}
     \begin{cases}
         \begin{aligned}
-            u_t - \Delta u &= 0 && \:\text{on}\: \bbr^n \times (0, \infty)\\
-            u &= g && \:\text{on}\: \bbr^n \times \{t = 0\}  
+            u_t - \Delta u &= 0 && \:\text{on}\: \bbr^n \times (0, \infty) ,\\
+            u &= g && \:\text{on}\: \bbr^n \times \{t = 0\} .
         \end{aligned}
-    \end{cases}
+    \end{cases}.
 \end{equation}
-
 In other words, \eqref{heat_initial} asks: With initial temperature $g$, how does heat propagate with no external impulse? We know that $\Phi(x, t)$ solves the heat equation away from the singularity $(0, 0)$, therefore so does $\Phi(x - y, t)$ for fixed $y \in \bbr^n$. Thus, convolving $\Phi$ over the spatial variables with any $g: \bbr^n \to \bbr$ should also solve the heat equation \textit{away from the singularity}. There are no blow-up issues for $t>0$, so this behavior is expected. Perhaps what's surprising is that this convolution, solves the initial-value problem, i.e., it approaches $g$ as $t \to 0$.
 
 \begin{thm} [Solution of homogenous problem]
     Assume $g \in C(\bbr^n) \cap L^\infty (\bbr^n)$, and define for $t>0, x \in \bbr^n$, \begin{equation} \label{heat_initial_sln}
-        u(x, t) = \int_{\bbr^n}\Phi(x-y, t) g(y) dy = \frac{1}{(4 \pi t)^{n/2}} \int_{\bbr^n} \Phi(x - y, t) g(y) dy
+        u(x, t) = \int_{\bbr^n}\Phi(x-y, t) g(y) dy = \frac{1}{(4 \pi t)^{n/2}} \int_{\bbr^n} e^{-\frac{|x-y|^2}{4t}} g(y) dy,
     \end{equation} then \begin{enumerate}
-        \item $u \in C^{\infty} (\bbr^n \times (0, \infty))$ and solves the homogenous heat equation
-        \item $\lim_{(x, t) \to (x^0, 0), x \in \bbr^n, t>0} u(x, t) = g(x_0)$ for each point $x_0 \in \bbr^n$.
+        \item $u \in C^{\infty} (\bbr^n \times (0, \infty))$ and solves the homogenous heat equation.
+        \item $\lim_{(x, t) \to (x^0, 0)} u(x, t) = g(x_0)$ for each point $x_0 \in \bbr^n$.
     \end{enumerate}
 \end{thm}
 
 \begin{proof}
-    We omit the proof for (1). See \cite{Evans}.
+    We omit the proof for (1) as the intuition is above. See (\cite{Evans}, pg. 47).
 
     To prove (2), fix $x_0 \in \bbr^n$ and $\epsilon > 0$. Using \autoref{conv_1}, we then estimate:
     \begin{align*}
@@ -615,19 +644,17 @@ In other words, \eqref{heat_initial} asks: With initial temperature $g$, how doe
     for some $\delta$. We will then control $I$ through the continuity of $g$ and control $J$ through the decay of $\Phi$ when $y$ is farther away.
 
     Since $g \in C(\bbr^n)$, choose $\delta = \delta(\epsilon)$ such that $|y- x_0| < \delta \implies |g(y) - g(x_0)| < \epsilon$. Then \[
-    I \leq \epsilon \int_{B(x_0, \delta)} \Phi(x-y, t) \leq \epsilon
+    I \leq \epsilon \int_{B(x_0, \delta)} \Phi(x-y, t) \leq \epsilon .
     \]
 
-    To control $J$, we see that $y$ is at least $\delta$ away from $x_0$, while $x \to x_0$ is arbitrarily close to $x_0$. This is convenient as $\Phi(x-y, t) = C e^{-\frac{|x-y|^2}{4t}}$ and thus the ``speed of decay'' has a lower bound. Concretely, if $|x - x_0| < \frac{\delta}{2}$ then $|y-x| \geq \frac{1}{2} |y - x_0|$. Therefore,
+    To control $J$, we see that $y$ is at least $\delta$ away from $x_0$, while $x \to x_0$ is arbitrarily close to $x_0$. This is convenient as $\Phi(x-y, t) = C e^{-\frac{|x-y|^2}{4t}}$ and thus the ``speed of decay'' $|x - y|$ has a lower bound. Concretely, if $|x - x_0| < \frac{\delta}{2}$ then $|y-x| \geq \frac{1}{2} |y - x_0|$. Therefore,
     \begin{align*}
     J &\leq 2 ||g||_{L^\infty} \int_{\bbr^n \backslash B(x_0, \delta)} \Phi(x-y, t) dy \\
     &\leq \frac{C}{t^{n/2}}  \int_{\bbr^n \backslash B(x_0, \delta)} e^{-\frac{|x-y|^2}{4t}} dy \\
     &\leq \frac{C}{t^{n/2}}  \int_{\bbr^n \backslash B(x_0, \delta)} e^{-\frac{|y-x_0|^2}{16t}} dy \\
-    &= \frac{C}{t^{n/2}} \int_{\delta}^{\infty} e^{-\frac{r^2}{16t}} r^{n-1} dr \xrightarrow{t \to 0^+} 0 
+    &= \frac{C}{t^{n/2}} \int_{\delta}^{\infty} e^{-\frac{r^2}{16t}} r^{n-1} dr \xrightarrow{t \to 0^+} 0 ,
     \end{align*}
-    with the last convergence owing to $\exp$ decaying much faster than polynomials.
-
-    Therefore if $|x-x_0| < \frac{\delta}{2}$ and $t>0$ small enough, $|u(x, t) - g(x_0)| < 2\epsilon$.
+    with the last convergence owing to the exponential decaying much faster than polynomials. Therefore if $|x-x_0| < \frac{\delta}{2}$ and $t>0$ small enough, $|u(x, t) - g(x_0)| < 2\epsilon$.
 \end{proof}
 
 \begin{obs}
@@ -635,38 +662,38 @@ We can write
 \begin{equation}
 \begin{cases}
     \begin{aligned}
-        \Phi_t - \Delta \Phi &= 0 && \:\text{in}\: \bbr^n \times (0, \infty)\\
-        \Phi &= \delta_0 &&\:\text{on}\: \bbr^n \times \{t = 0\} 
+        \Phi_t - \Delta \Phi &= 0 && \:\text{in}\: \bbr^n \times (0, \infty) ,\\
+        \Phi &= \delta_0 &&\:\text{on}\: \bbr^n \times \{t = 0\},
     \end{aligned}
 \end{cases}
 \end{equation}
 which informally makes, on $\bbr^n \times \{t = 0\}$, $u(x) = \int_{\bbr^n} \delta_x g(y) dy = g(x)$. In other words, this means that $\Phi$ is the representation of how heat propagates with an initial unit impulse  $\delta_0$ and no external impulse. It is then understandable that the (linear) propagation of initial temperature $g$ is just the integration of all these responses with corresponding coefficients!
 \end{obs}
 
-\subsection{Nonhomogenous problem}
+\subsection{Nonhomogenous Problem}
 The nonhomogenous, initial-value problem is 
 \begin{equation} \label{heat_nonhomogenous}
     \begin{cases}
         \begin{aligned}
-            u_t - \Delta u &= f && \:\text{in}\: \bbr^n \times (0, \infty) \\
-            u &= 0 && \:\text{on}\: \bbr^n \times \{t = 0\}
+            u_t - \Delta u &= f && \:\text{in}\: \bbr^n \times (0, \infty) ,\\
+            u &= 0 && \:\text{on}\: \bbr^n \times \{t = 0\} .
         \end{aligned}
     \end{cases}
 \end{equation}
-This time, the problem asks for how heat propagates given no initial temperature, but at every time $\tau$, an \textit{external} impulse $f^\tau(x) \coloneqq f(x, \tau)$ is fed into $\bbr^n$. To some, this might look very different from the homogenous problem from above; after all, $0$ and the functions $f$ (or $g$) are switched! However, due to the linearity of the system, there is no difference between the solution when injecting the external impulse $f(x, t)$ and linearly combining solutions of ``new'' propagation processes that start at different times with (shifted) initial conditions as exactly these impulses. Concretely, for fixed $\tau$, consider \eqref{heat_initial_sln} shifted in time with time-adjusted initial conditions:
+This time, the problem asks for how heat propagates given no initial temperature, but at every time $\tau$, an \textit{external} impulse $f^\tau(x) \coloneqq f(x, \tau)$ is fed into $\bbr^n$. At first glance, this might look very different from the homogenous problem from above; after all, $0$ and the functions $f$ (or $g$) are switched! However, due to the linearity of the system, there is no difference between the solution when injecting the external impulse $f(x, t)$ and linearly combining solutions of ``new'' propagation processes that start at different times with (shifted) initial conditions as exactly these impulses. Concretely, for fixed $\tau$, consider \eqref{heat_initial_sln} shifted in time with time-adjusted initial conditions. Define
 \begin{equation}
-u^\tau(x, t) = \int_{\bbr^n} \Phi(x-y, t-\tau) f^\tau(y) dy  = \int_{\bbr^n} \Phi(x-y, t-\tau) f(y, \tau) dy
+u^\tau(x, t) \coloneqq \int_{\bbr^n} \Phi(x-y, t-\tau) f^\tau(y) dy  = \int_{\bbr^n} \Phi(x-y, t-\tau) f(y, \tau) dy,
 \end{equation}
 then $u^s$ would solve the homogenous heat equation on $\bbr^n \times (\tau, \infty)$ with initial conditions $f^\tau$. To solve \eqref{heat_nonhomogenous}, one simply linearly combines these processes throughout time.
 
 \begin{thm} [Solution of nonhomogenous problem] Define
 \begin{equation} \label{heat_nonhomogenous_sln}
-    u(x, t) \coloneqq \int_{0}^{t} \int_{\bbr^n} \Phi(x-y, t - \tau) f(y, \tau) dy d\tau
+    u(x, t) \coloneqq \int_{0}^{t} \int_{\bbr^n} \Phi(x-y, t - \tau) f(y, \tau) dy d\tau.
 \end{equation}
 Then,
 \begin{enumerate}
-    \item $u_t(x, t) - \Delta u(x, t) = f(x, t)$ on $\bbr^n \times (0, \infty)$
-    \item $\lim_{(x, t) \to (x_0, 0), x \in \bbr^n, t >0} u(x, t) = 0$ for each point $x_0 \in \bbr^n$
+    \item $u_t(x, t) - \Delta u(x, t) = f(x, t)$ on $\bbr^n \times (0, \infty).$
+    \item $\lim_{(x, t) \to (x_0, 0)} u(x, t) = 0$ for each point $x_0 \in \bbr^n.$
 \end{enumerate}
 \end{thm}
 \begin{proof}
@@ -681,131 +708,194 @@ u(x, t) = \int_{\bbr^n} \Phi(x- y, t) g(y) dy + \int_{0}^{t} \int_{\bbr^n} \Phi(
 to solve \begin{equation}
     \begin{cases}
     \begin{aligned}
-        u_t - \Delta u &= f && \:\text{in}\: \bbr^n \times (0, \infty) \\
-        u &= g && \:\text{on}\: \bbr^n \times \{t = 0\}
+        u_t - \Delta u &= f && \:\text{in}\: \bbr^n \times (0, \infty) ,\\
+        u &= g && \:\text{on}\: \bbr^n \times \{t = 0\} .
     \end{aligned}
     \end{cases}
 \end{equation}
 \end{rem}
 \begin{rem}
-There are analogues of the theorems of Mean Value Property, Strong Maximum Principle, Uniqueness and Regularity for the heat equation, which are not that surprising given that Laplace's Equation is the steady-state heat equation. See \cite{Evans} for more.
+There are analogues of the theorems of Mean Value Property, Strong Maximum Principle, Uniqueness and Regularity for the heat equation, which are not that surprising given that Laplace's Equation is the steady-state heat equation. See (\cite{Evans}, pg. 52) for more.
 \end{rem}
 
 \section{Fourier Transform}
-Throughout the previous sections, a clear motif that has been used is that we break complex impulses into smaller ``elementary'' components, solving for these components and then building back up the more complex solution, of course provided that the differential operator is linear. So far, these ``elementary'' components have been Dirac delta unit impulses, but some readers might have noticed another common technique of doing this exact procedure, yet with a different family of ``elementary'' components. The technique in this section was first used by Joseph Fourier (1768 – 1830) to study the heat equation. We will arrive at the fundamental solution of the heat equation via this different approach.
-
-\subsection{Definition and properties}
+Throughout the previous sections, a clear motif that has been used is that we break complex impulses into smaller ``elementary'' components, solving for these components and then building back up the more complex solution, of course provided that the differential operator is linear. So far, these ``elementary'' components have been Dirac delta unit impulses, but there is another common technique that adheres to this exact philosophy, yet with a different family of ``elementary'' components. The technique in this section was first used by Joseph Fourier (1768 – 1830) to study the heat equation. We will arrive at the fundamental solution of the heat equation via this different approach.
 \begin{defn} [Fourier transform]
-    For $u \in L^1(\bbr^n)$, its \textit{Fourier transform} is \begin{equation}
-        \hat{u}(y) \coloneqq \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{-ix \cdot y} u(x) dx
+    For $u \in L^1(\bbr^n)$, the \textit{Fourier transform of $u$} is \begin{equation}
+        \hat{u}(y) \coloneqq \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{-ix \cdot y} u(x) dx,
     \end{equation}
-    and \textit{inverse Fourier transform} is
+    and the \textit{inverse Fourier transform of $u$} is
     \begin{equation}
-    \check{u} (y) \coloneqq \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{ix \cdot y} u(x) dx
+    \check{u} (y) \coloneqq \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{ix \cdot y} u(x) dx.
     \end{equation}
 \end{defn}
 
 \begin{rem}
-Since $|e^{\pm ix \cdot y}| \leq 1$ and $u \in L^1(\bbr^n)$, the two integrals are well-defined. Moreover, we can similarly define the Fourier transform and inverse Fourier transform for $L^2$ functions as the convergence of those of $L^1 \cap L^2$ functions \cite{Evans}.
+Since $|e^{\pm ix \cdot y}| \leq 1$ and $u \in L^1(\bbr^n)$, the two integrals are well-defined. Moreover, we can similarly define the Fourier transform and inverse Fourier transform for $L^2$ functions as the convergence of those of $L^1 \cap L^2$ functions (\cite{Evans}, pg. 188). We immediately introduce the key result.
 \end{rem}
 
-\begin{lem}
-For $u, v \in L^2(\bbr^n)$, the following properties hold:
+\begin{thm} \label{fourier_transform}
+    For $u \in L^1(\bbr^n) \cap L^2(\bbr^n)$, 
+    \begin{equation}
+        u (x) = (\check{\hat{u}}) (x) = \frac{1}{(2 \pi)^{n/2}} \int_{\bbr^n}e^{i x \cdot y} \hat{u}(y) dy.
+    \end{equation}
+    i.e., $u(x)$ is the inverse Fourier transform of its Fourier transform.
+\end{thm}
+\begin{rem} What we are really doing here is breaking $u(x)$ into ``elementary'' impulses of type $e^{i y\cdot x}$. \autoref{fourier_transform} therefore implies that $\frac{1}{(2\pi)^{n/2}} \hat{u}(y)$ is the strength of each of those impulses. We will make use of the theorem and the following properties to re-derive the fundamental solution of the heat equation.
+\end{rem}
+\begin{lem} \label{fourier_properties}
+    The following properties hold true:
 \begin{enumerate}
-    \item $\widehat{D^\alpha u} = (iy)^\alpha \hat{u}$
-    \item $\widehat{u * v} = (2 \pi)^{n/2} \hat{u} \hat{v}$
+    \item If $u, u_{x_i} \in L^2(\bbr^n)$ then $\widehat{u_{x_i}}(y) = i y_i \hat{u}(y)$. Therefore $\widehat{\Delta u}(y) = - |y|^2\hat{u}(y)$.
+    \item If $u, v \in L^1(\bbr^n) \cap L^2(\bbr^n)$ then $\widehat{u * v} = (2 \pi)^{n/2} \hat{u} \hat{v}$.
 \end{enumerate}
 \end{lem}
 
+\begin{proof} (Sketch)
+    \begin{enumerate}
+        \item This is an application of the chain rule. The swapping of the differentiation and integral signs  are justified by approximating $u$ through smooth and compactly supported functions.
+        \item By explicit computation, we have:
+        \begin{align*}
+            \widehat{u * v} (y) &= \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{-i x \cdot y} \int_{\bbr^n} u(z) v(x-z) dz dx \\
+            &= \frac{1}{(2\pi)^{n/2}} \int_{\bbr^n} e^{-i z \cdot y} u(z) \int_{\bbr^n} e^{-i (x-z) \cdot y} v(x-z) dx dz \\
+            &= \int_{\bbr^n} e^{-i z \cdot y} u(z) dz \hat{v}(y)\\
+            &= (2 \pi)^{n/2} \hat{u}(y) \hat{v}(y) .\qedhere
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+\begin{rem}
+    Equivalently, \[
+        \frac{1}{(2\pi)^{n/2}} \widehat{u * v} (y) =  \left( \frac{1}{(2\pi)^{n/2}} \hat{u} (y)\right) \left(\frac{1}{(2\pi)^{n/2}} \hat{v} (y)\right).\]
+    In other words, the strength of the impulses $e^{i x \cdot y}$ in the breakdown of $u * v$, is the product of the strengths of those impulses in the breakdown of $u$ and $v$.
+\end{rem}
 
+\begin{exmp}
+With new tools equipped, we consider again the initial-value problem for the heat equation to explore how Fourier transform can help us solve similar linear PDEs.
+    \begin{equation*}
+        \begin{cases}
+            \begin{aligned}
+                u_t - \Delta u &= 0 &&\:\text{in}\: \bbr^n \times (0, \infty) ,\\
+                u &= g && \:\text{on}\: \bbr^n \times \{t = 0\} .
+            \end{aligned}
+        \end{cases}
+    \end{equation*}
+    Then applying Fourier transform on $u$ but only on spatial variables gives us
+    \begin{equation*}
+        \begin{cases}
+            \begin{aligned}
+                \hat{u}_t + |y|^2 \hat{u} &= 0 && \:\text{in}\: \bbr^n \times (0, \infty) ,\\
+                \hat{u} &= \hat{g} && \:\text{on}\: \bbr^n \times \{t = 0\} .
+            \end{aligned}
+        \end{cases}
+    \end{equation*}
+    where we assume $u$ to be sufficiently nice to apply \autoref{fourier_properties} twice to compute $\widehat{\Delta u}(y) = \sum i^2 y_i^2 \hat{u}(y) = - |y|^2 \hat{u} (y)$. If we fix $|y|$ and inspect across the time-axis, a simple ODE in $t$ emerges, yielding a solution having an exponential form: $\hat{u} = e^{-t|y|^2} \hat{g}$, in which temporal and spatial variables are \textit{separated}. \autoref{fourier_transform} then implies
+    \begin{equation*}
+        u = (e^{-t|y|^2} \hat{g}) \check{~}.
+    \end{equation*}
+    Therefore, if there exists $F$ such that $\hat{F} = e^{-t|y|^2}$ then \begin{align} \label{fourier_u_g_F}
+        u &= (\hat{F} \hat{g})\check{} \nonumber \\
+        \implies u &= \dfrac{1}{(2\pi)^{n/2}} (g * F),
+    \end{align}
+    using \autoref{fourier_properties}. We directly compute $F$ via \autoref{fourier_transform}: 
+    \begin{align*}  
+        F &= \frac{1}{(2\pi)^{n/2}}\int_{\bbr^n} e^{ix \cdot y} \hat{F}(y) dy \\
+        &= \frac{1}{(2\pi)^{n/2}}\int_{\bbr^n} e^{ix \cdot y} e^{-t|y|^2} dy \\
+        &= \frac{1}{(2\pi)^{n/2}}\prod_{i=1}^{n}\int_{-\infty}^{\infty}e^{ix_i y_i - t y_i^2}dy_i \\
+        &= \frac{1}{(2\pi)^{n/2}} \left(\frac{\pi}{t}\right)^{n/2} e^{-\frac{|x|^2}{4t}} = \frac{1}{(2t)^{n/2}}e^{-\frac{|x|^2}{4t}},
+    \end{align*}
+    where we leave the second last equality as an exercise of applying Cauchy's integral theorem. Therefore, from \eqref{fourier_u_g_F},
+    \begin{align*}
+        u(x, t) &= \frac{1}{(2\pi)^{n/2}}\int_{\bbr^n} g(y) \left(\frac{1}{(2t)^{n/2}} e^{-\frac{|x-y|^2}{4t}}\right) dy \nonumber \\
+        &= \frac{1}{(4 \pi t)^{n/2}} \int_{\bbr^n}e^{-\frac{|x-y|^2}{4t}} g(y) dy .
+    \end{align*} \qed
+\end{exmp}
+\section{Harmony in Randomness}
+In this last section, we introduce a probabilistic interpretation of the solutions of Poisson's Equation and the Heat Equation. I personally found this fascinating, but this is perhaps not surprising, given that heat is propagated via particles that are in \textit{random} motion. For our purposes, we will explore this interpretation only using discrete time and discrete space through \textit{random walks}, instead of continuous time and continuous space through \textit{Brownian motion}.
 
+We are interested in $u: U \to \bbr$, where $U \subset \bbz^n$ is a finite subset of the lattice grid $\bbz^d$. Then $\partial U = \{x \in \bbz^d \mid d(x, U) \coloneqq \min_{y \in U}d(x, y) = 1\}$, and $\bar{U} = U \cap \partial U$ as usual.
+\begin{defn} [The Discrete Laplacian]
+Let $u: \bar{U} \to \bbr$. Then \textit{the discrete Laplacian} of $u$ is
+\begin{equation}
+    \call u(x) \coloneqq \frac{1}{2d} \sum_{z \in \bbz^d, |z - x| = 1} [u(z) - u(x)] =  \frac{1}{2d} \sum_{i=1}^{d} [u(x \pm e_i)] - u(x) ,
+\end{equation}
+defined for $x \in U$.
+\end{defn}
+\begin{defn} [Simple Random Walk]
+Let $X_1, X_2, \dots$ be independent random variables with probability distribution $\bbp(X_j = e_i) = \bbp(X_j = - e_i) = \frac{1}{2n}$, $j \in \bbn, 1 \leq i \leq n$. Then for $x \in \bbz^d$, \[
+S_n \coloneqq x + X_1 + X_2 + \cdots + X_n
+\]
+models a \textit{simple random walk}, starting from $x$.
+\end{defn}
+We now investigate 2 problems that we have previous looked at.
+\subsection{The Heat Equation}
+The discrete Heat Equation on finite $U \subset \bbz^d$ asks for the temperature $u_n(x)$ for each time $n \in \bbn$ and $x \in U$ satisfying
+\begin{equation}
+\begin{cases}
+    \begin{aligned}
+        u_0 (x) &= g(x) && \:\text{in}\: U ,\\
+        u_n (x) &= 0 \forall n \in \bbn \cup \{0\} && \:\text{on}\: \partial U ,\\
+        u_{n+1}(x) - u_n(x) - \call u_n(x) &= 0 \forall n \in \bbn \cup \{0\} && \:\text{in}\: U .
+    \end{aligned}
+\end{cases}
+\end{equation}
+The propagation mechanism implies
+\begin{equation*}
+    u_{n+1}(x) = \frac{1}{2d}\sum_{|z-x| = 1}u_n(z),
+\end{equation*}
+i.e., the temperature at a location at the next time step is the average of the temperatures of its neighbors at the current time. Then we can represent this process by a transition matrix $Q$ of size $|U| \times |U|$, where rows and columns of $Q$ are indexed by similarly enumerating  lattice points in $U$, with $Q(x, z) = \frac{1}{2d}$ if $|x-z| = 1$, $=0$ otherwise. Then $u_n$, as a column vector is (deterministically and recursively) equal to $Q^n u_0 = Q^n f$.
 
+Recall that we had our solution in \autoref{sss_heat_initial_value} as a convolution of the initial value $g$ and the response to the unit impulse. The discrete analogue is the sum \begin{equation}
+u(x) = \sum_{y \in U} K(n, x, y) g(y) dy,
+\end{equation}
+where $K(n, x, y)$ is the response to the unit impulse $\delta_x(y)$ (Kronecker delta) at $x$. What might $K(n, x, y)$ be, probabilistically? Imagine if we dropped 1 heat particle at $x$ and let the process evolve. Then \begin{equation*}
+    K(n, x, y) = \bbp(S_{n \land T_U} = y \mid S_0 = x),
+\end{equation*}
+where $T_U \coloneqq \min\{n \geq 0 \mid S_n \not \in U\}, n \land T_U \coloneqq \min\{n, T_U\}$. Simply put, it is the expected number of particles at $y$ that have not already been ``killed'' going out of $U$. This should come as no surprise, and one can check that $K(n, x, y)$ satisfies our requirements as the unit impulse response.
+\subsection{Poisson's Equation with Dirichlet Boundary Conditions}
+ \begin{equation} \label{disc_poisson_dirichlet}
+    \begin{cases}
+        \begin{aligned}
+            - \call u &= f && \:\text{in}\: U \\
+            u &= 0 && \:\text{on}\: \partial U
+        \end{aligned}
+    \end{cases}
+\end{equation}
 
+We've shown the (more general) continuous case of this in \autoref{sss_poisson_dirichlet}. We've shown the solution
+\[    
+    u(x) = \int_{\Omega} f(y) G(x, y) dy  \;\;\;\;\; \text{in}\: \Omega,
+\]
+where $G(x, y) \eqqcolon G^x(y)$ satisfies $-\Delta G^x(y) = \delta_x$ in $\Omega$, $ G^x(y) = 0$ on $\partial \Omega$, and is the response throughout $\Omega$ to the unit impulse at $x$ that vanishes at the boundary $\partial \Omega$. The discrete analogue is the sum
+\[
+    u(x) = \sum_{y \in U} f(y) G(x, y) dy .
+\]
+Similarly, $G^x(y)$ now satisfies $-\call G^x(y) = \delta_x$ in $U$ (Kronecker delta) and $G^x(y) = 0$ on $\partial U$. Similarly, a probabilistic way to think about it is again through a simple random walk $S_n$,
+    \[
+        G(x, y) = \bbe [V_y \mid S_0 = x],
+    \]
+where $V_y$ is the number of times that the random walk visits $y$ \textit{before leaving $U$} (0-step inclusive). We check \begin{align*}
+    - \call G^x(y) &= \bbe [V_y \mid S_0 = x]  - \frac{1}{2d}\sum_{|z - x| = 1} \bbe [V_y \mid S_0 = z] \\
+    &= \left( \delta_x(y) + \sum_{|z-x| = 1} \bbp[S_1 = z \mid S_0 = x]\bbe[V^{(1)}_y \mid S_1 =z] \right) \\
+    &- \frac{1}{2d}\sum_{i=1}^{d} \bbe [V_y \mid S_0 = z] \\
+    &= \left( \delta_x(y) + \sum_{i=1}^{d} \frac{1}{2d}\bbe[V^{(1)}_y \mid S_1 = z] \right) - \frac{1}{2d}\sum_{i=1}^{d} \bbe [V_y \mid S_0 = z] \\
+    &= \delta_x(y),
+\end{align*}
+where we explicitly denote $V^{(1)}(y)$ to be the number of times the simple random walk visits $y$, counting from $S_1$. Furthermore, it is clear that $G(x, y) = 0$ if $y \in \partial U$, because then, we can't visit $y$ \textit{before leaving} $U$!
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\newpage
-% \section{Discrete Interpretations}
-% \begin{defn} [Harmonic Function]
-%     Recall that a function \(f\) on \(\bbz^d\) is harmonic at \(x\) if \(f(x)\) equals the average of \(f\) on its nearest neighbors. If \(U\) is an open subset of \(\bbr^d\), we will say that \(f\) is \textbf{harmonic} in \(U\) if and only if it is continuous and satisfies the following \textbf{mean value property}: for every \(x \in U\), and every \(0 < \epsilon < dist(x, \partial U)\),
-%     \begin{equation}
-%         f(x) = MV(f; x, \epsilon) = \int_{|y-x| = \epsilon}f(y) ds(y)
-%     \end{equation}
-% \end{defn}
-
-% \begin{rem}
-%     Value at \(x\) equals to average of ball radius \(\epsilon\) around \(x\) for all \(\epsilon\)
-% \end{rem}
-
-% \begin{defn} [Laplacian]
-%     \[
-%         \Delta f(x) = \lim_{e \to 0} \dfrac{1}{\epsilon^2}\sum_{y \in \bbz^d, |y| = 1} [f(x + \epsilon y) - f(x)]
-%     \]
-% \end{defn}
-% \begin{rem}
-%     Just taking in each direction, not the whole ball!
-% \end{rem}
-% \begin{prop} [Representing Laplacian in partial derivatives]
-%     Suppose \(f\) is \(C^2\) in a neighborhood of \(x\) in \(\bbr^d\). Then \(\Delta f(x) \)exists at \(x\) and \[
-%         \Delta f(x) = \sum_{j=1}^{d} \partial_{jj} f(x)
-%     \]
-% \end{prop}
-% \begin{proof}
-%     This comes naturally from the above definition of \(\Delta f(x)\), as well as the approximation one can make from the \(C^2\) smoothness of \(f(x)\).
-% \end{proof}
-
-% \begin{prop}
-%     If \(f\) is \(C^2\) in a neighborhood of \(x\), then \begin{equation}
-%         \dfrac{1}{2d}  \Delta f(x) = \lim_{\epsilon \to 0} \dfrac{MV(f; x, \epsilon) - f(x)}{\epsilon^2}
-%     \end{equation}
-% \end{prop}
-
-% \begin{thm}
-
-%     \textbf{BIG THEOREM! Stating the equivalence of a harmonic function with its Laplacian operator}
-
-%     A function in a domain \(U\) is harmonic if and only if \(f\) is \(C^2\) with \(\Delta f(x) = 0 \forall x \in U\)
-% \end{thm}
-
-% We first state here without full justification that $\Delta u(x)$ represents the difference between the average of $u$ ``around'' the point $x$ and the value $u(x)$. Perhaps this would be clearer if we take a brief look at the \textit{discrete Laplacian}, which we
-% define on the lattice grid for a function $u: U \subseteq \bbz^d \to \bbr$
-
-% \[\call u (x) \coloneqq \dfrac{1}{d} \sum_{i=1}^{n} \bigl[[u(x+e_i) - u(x)] - [u(x) - u(x-e_i)]\bigr] = \dfrac{1}{2d} \sum_{i=1}^{n} [u(x \pm e_i) - u(x)] \]
-% where the Laplacian still represents the (scaled) sum of derivatives (now differences) of $u$. Further elaboration of this interpretation of the Laplacian would be presented in later sections, yet its intuition would serve us well to understand the following equations, \textit{Poisson's Equation} and \textit{Heat Equation} respectively, better:
+This interpretation of $G(x,y)$ brings forth a proof sketch for why it is symmetric (for the continuous case too), that is $G(x, y) = G(y, x)$. We have \begin{align*}
+    V_y &= \sum_{n=0}^{\infty} 1\{S_n = y, n < T_U\} \\
+    \implies \bbe [V_y \mid S_0 = x] &= \bbe \left[ \sum_{n=0}^{\infty} 1\{S_n = y, n < T_U\} \mid S_0 = x\right] \\
+    &= \sum_{n=0}^{\infty} \bbp (S_n = y, n < T_U \mid S_0 = x)\\
+    &= \sum_{n=0}^{\infty} p_n(x, y; U),
+\end{align*}
+where $n < T_U$ means the random walk has not left $U$ until time $n$ (end-inclusive), and $p_n(x, y; U)$ is thus the probability of a random walk starting from $x$ and arriving at $y$ at the $n$-th step without leaving $U$. The reader can see \cite{Lawler} for the discussion of the convergence of the above infinite sum. The important thing to note here is that $p_n(x, y; U)$ is symmetric! Intuitively, if there is a path for the particle to take from $x$ to $y$, one simply reverses its direction to get a path from $y$ to $x$. More concretely, $p_n(x, y;U) = Q^n(x, y)$ where $Q$ is the aforementioned transition matrix.
 
 \newpage
 \section*{Acknowledgments} Words cannot express my gratitude to my mentor, Professor Beniada Shabani --- without whom none of this would have been possible. Her unwavering patience in our meetings, deep understanding of the material and above all, her immense enthusiasm for mathematics have been an enormous source of inspiration for me. I would also like to thank Professors Daniil Rudenko and L\'{a}szl\'{o} Babai for the tremendous Apprentice Program, Professor Greg Lawler for the Probability and Analysis series, and Professor Peter May for organizing this invaluable experience. Lastly, I would like to extend my thanks to the lecturers, TAs, friends and upperclassmen for an amazing REU.
-
 \section{Bibliography}
 \begin{thebibliography}{9}
     \bibitem{Evans} Lawrence C. Evans. Partial Differential Equations. Graduate Studies in Mathematics, American Mathematical Society. 2010.
-
+    \bibitem{Lawler} Gregory F. Lawler. Random Walk and the Heat Equation.
 \end{thebibliography}
 \end{document}
 
