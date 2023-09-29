@@ -74,3 +74,17 @@ CLI Parameter | Info
 `-c, --course` | Course ID
 `--help` | For help
 
+## Problem set commands
+All pset commands are under `texify pset`
+
+Function | Command
+--- | ---
+Create new pset in course | `texify pset -c math20700`
+Help | `texify pset --help`
+
+CLI Parameter | Info
+--- | ---
+`-c, --course` | Course ID
+`--help` | For help
+
+
