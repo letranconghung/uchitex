@@ -11,3 +11,4 @@ references/
 **/*.md5
 **/*.auxlock
 *.aux
+.venv

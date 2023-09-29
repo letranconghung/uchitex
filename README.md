@@ -11,7 +11,7 @@ deactivate
 ```
 - Install the `texify` command
 ```
-pip install --editable .
+pip install --editable scripts/
 ```
 <!-- https://click.palletsprojects.com/en/8.1.x/setuptools/ -->
 Afterwards, the command `texify` should be available in the terminal!
