@@ -1,0 +1,33 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{TITLE}
+\begin{document}
+\textbf{Book: Pugh's Real Mathematical Analysis}
+\section{Real Number}
+\section{A Taste of Topology}
+\begin{definition} {Convergence on metric space}
+    Let $(M, d)$ be a metric space. Sequence $(p_n) \in M$ converges to $p \in M$ if $\forall \epsilon > 0 \exists N \in \bbn$ such that $\forall n \geq N, d(p_n, p) < \epsilon$
+\end{definition}
+
+\begin{definition} {Continuous map between metric spaces}
+    Let $M, N$ be metric spaces. $f: M \to N$ is continuous if it preserves sequential convergence. i.e., if sequence $p_n \to p$ in $M$, then sequence $f(p_n) \to f(p)$ in $N$.
+
+    This condition is equivalent to standard $\epsilon, \delta$ definition of continuity, that is:
+
+    $f: M \to N$ is continuous iff $\forall \epsilon > 0, \forall p \in M, \exists \delta = \delta(\epsilon, p)$ such that $d(p, x) < \delta \implies d(fp, fx) < \epsilon$.
+\end{definition}
+
+\begin{definition} {Continuous map between topological spaces}
+    $f: M \to N$. $f$ is continuous if the preimage of each closed set in $N$ is closed in $M$, or equivalently, the preimage of each open set in $N$ is closed in $M$.
+\end{definition}
+
+\begin{definition} {Homeomorphism - the Isomorphism of Metric Spaces}
+Let $M, N$ be metric spaces. $f: M \to N$ is a homeomorphism if it is bijective, continuous and its inverse $f^{-1}$ is also continuous. Write $M \cong N$.
+\end{definition}
+
+
+
+
+
+\end{document}
+
