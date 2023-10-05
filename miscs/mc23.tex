@@ -1,0 +1,102 @@
+\documentclass[a4paper, 10pt]{article}
+\input{preamble.tex}
+\title{Definitions}
+
+\begin{document}
+
+\textbf{Name}: Hung Le
+
+\textbf{Email}: conghunglt@uchicago.edu
+
+I had 2 interpretations of the problem. I'd like to formally submit the first interpretation, but would leave the second interpretation in the document just in case the board is interested.
+
+\textbf{Interpretation 1}
+
+Let $X_1, \dots, X_{10}$ be uniform random variables from $[0, 1]$.
+
+\textbf{1.} We first assert that for each $X_1 = a$, there is a ``best guess'' for its eventual position.
+
+Intuitively, with $X_1 = a$ is chosen and $X_2, \dots, X_{10}$ uniform random on $[0, 1]$, the best guess for $N = \sum_{i = 2}^{9} 1\{X_i < X_1 = a\}$, i.e., the number of $X_i$ smaller than $a$ (the cases where $X_i$ coincides with $a$ are negligible), is $N(a) = \floor{\frac{a}{0.1}} = \floor{10a}$, which agrees with one's intuition that if for example $a = 0.45$, then there's most likely to have 4 numbers in front it and 5 after.
+
+More concretely, we have \[
+\bbp^a (N = k) \coloneqq \bbp(N = k \mid X_1 = a) = \binom{9}{k} x^k (1-x)^{9-k}
+\]
+and our job is to find $k$ such that $\bbp^a(N=k)$ is maximum.
+
+Then \begin{equation} \label{first}
+    \begin{aligned}
+        \bbp^a(N= k) &\geq \bbp^a(N=k+1) \\
+        \Leftrightarrow \binom{9}{k}a^k (1-a)^{9-k} & \geq \binom{9}{k+1}a^{k+1}(1-a)^{8-k} \\
+        \Leftrightarrow (1-a) & \geq \left(\frac{9-k}{k+1}\right) a \\
+        \Leftrightarrow (k+1)(1-a) & \geq (9-k)a \\
+        \Leftrightarrow k+1 & \geq 10a
+    \end{aligned}
+\end{equation}
+
+we can similarly change $\geq$ into $\leq$ and get that $\bbp^a(N= k) \leq \bbp^a(N = k+1) \Leftrightarrow k+1 \leq 10a$. In short, $P^a(N=k)$ increases as $k$ increases until $k+1 \geq 10a$, after which it starts to decrease. It follows that the value of $k$ that maximizes $\bbp^a(N=k)$ must be the first $k \in \bbn$ that satisfies $k + 1 \geq 10a$, which is $k_{max} = \floor{10a}$ when $10a \not \in \bbz$. When $10a \in \bbz, k_{max} = 10a - 1$, but then the equality in \eqref{first} holds, implying that the guess $k_{max} + 1 = 10a = \floor{10a}$ is equally good and we will take $k_{max}$ as that instead for sake of consistency.
+
+Numerically, what this implies is that $l$ is the best guess for the number of samples smaller than $ a \in [0.1l, 0.1(l+1)]$ for $l \in \{0, \dots, 9\}$. Obviously, the actual guess for the position of the first sample should then be $l + 1$.
+
+\textbf{2.} Let $S$ be the earnings of the game, then our aim now is to find $a$ that has the least $\bbe[S \mid X_1 = a]$. The amount that we pay to play the game will be this least expected earning for a particular first sample.
+
+Intuitively, this least expected earning will occur when there is most uncertainty when making our best guess (least probability of getting it correct) for the position of the first sample, at the middle where $a = 0.5$. 
+
+Let $f(a) = \bbp^a(N = \floor{10a}) = \binom{9}{\floor{10a}}a^{\floor{10a}} (1-a)^{9 - \floor{10a}}$, then we want to show that $f$ achieves a minimum on $[0, 1]$ at $a = 0.5$. Now consider only when $a \leq 0.5$, as trivially $f(a) = f(1-a)$.
+
+In fact, let $g(a) = g(a; l) = \binom{9}{l}a^{l} (1-a)^{9 - l}$ for $0 \leq l \leq 4$ then the left half of $f$ simply consists of pieces of $g$ on $[0.1l, 0.1(l+1)]$. To find minimum on $f$, we find minimum on each piece of $g$. For $l = 0, g' < 0$ somewhat trivially on $[0, 0.1]$ so minimum on [0, 0.1] is achieved at $0.1$. For $1 \leq l \leq 4$,
+\[
+g'(a) = Ca^{l-1} (1-a)^{8-l}(l - 9a)
+\]
+so $g'(a) = 0$ on $[0.1l, 0.1(l+1)]$ only when $a = l/9$, at approximately 0.11, 0.22, 0.33, 0.44 respectively.
+One can check that $g''(a) < 0$ at these points, and so on the interval $[0.1l, 0.1(l+1)]$ the minimum for $g$ is achieved at either end.
+
+Which end is it? Clearly, the larger end $0.1(l+1)$ for all $1 \leq l \leq 4$, since 
+\begin{align*}
+    \binom{9}{l} (0.1l)^l (1-0.1l)^{9-l} &> \binom{9}{l} (0.1(l+1))^l (1-0.1(l+1))^{9-l} \\
+    \Leftrightarrow \left(\frac{10-l}{9-l}\right)^{9-l} &> \left(\frac{l+1}{l}\right)^l \\
+    \Leftrightarrow \left(1 + \frac{1}{9-l}\right)^{9-l} &> \left(1 + \frac{1}{l}\right)^l
+\end{align*}
+which is true since $9 - l > l$ and $(1 + 1/x)^x$ is increasing for $x > 0$.
+
+Since pieces of $g$ are connected at the ends, its minimum on $[0, 0.5]$ must then be at the right-most end, i.e. $a = 0.5$.
+
+Then the least expected earning of for a particular first sample is 
+
+\[
+    \bbe[S \mid X_1 = 0.5] = 100 \binom{9}{4} 0.5^9 = 100 \times 126 / 512 = 24.60
+\]
+
+So the maximum amount I would want to pay is \fbox{\$24.60}.
+
+\begin{center}
+    \includegraphics*[width = 10cm]{output.png}
+\end{center}
+
+\textbf{Interpretation 2: } We try to calculate the ``fair price'' of the game.
+
+Now that we have the best guess (which we will use when we play the game), then
+\[
+\bbe[S] = \bbe [\bbe[S \mid X_1 = a]] = 100\sum_{l = 0}^{9} \int_{0.1l}^{0.1(l+1)}\binom{9}{l}x^l (1-x)^{9-l} dx \approx 36.60
+\]
+
+by
+\begin{lstlisting}[language=Python]
+import numpy as np
+import math
+N = 1000000
+X = np.linspace(0, 1, N)
+sum = 0
+for x in X:
+    l = int(10 * x)
+    if l == 10:
+        # when x == 1, surely it's in last position
+        sum += 1
+    else:
+        sum += math.comb(9, l) * (x**l) * (1-x)**(9-l)
+
+sum *= 100/N
+print(sum)
+\end{lstlisting}
+
+So the fair price of the game is \fbox{\$36.60}.
+\end{document}
