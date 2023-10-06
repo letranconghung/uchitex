@@ -1,0 +1,262 @@
+\documentclass[openany, amssymb, psamsfonts]{amsart}
+\usepackage{mathrsfs,comment}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\usepackage[all,arc,2cell]{xy}
+\UseAllTwocells
+\usepackage{enumerate}
+%%% hyperref stuff is taken from AGT style file
+\usepackage{hyperref}  
+\hypersetup{%
+  bookmarksnumbered=true,%
+  bookmarks=true,%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  filecolor=blue,%
+  menucolor=blue,%
+  pagecolor=blue,%
+  urlcolor=blue,%
+  pdfnewwindow=true,%
+  pdfstartview=FitBH}   
+  
+\let\fullref\autoref
+%
+%  \autoref is very crude.  It uses counters to distinguish environments
+%  so that if say {lemma} uses the {theorem} counter, then autrorefs
+%  which should come out Lemma X.Y in fact come out Theorem X.Y.  To
+%  correct this give each its own counter eg:
+%                 \newtheorem{theorem}{Theorem}[section]
+%                 \newtheorem{lemma}{Lemma}[section]
+%  and then equate the counters by commands like:
+%                 \makeatletter
+%                   \let\c@lemma\c@theorem
+%                  \makeatother
+%
+%  To work correctly the environment name must have a corrresponding 
+%  \XXXautorefname defined.  The following command does the job:
+%
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+%
+%  Some standard autorefnames.  If the environment name for an autoref 
+%  you need is not listed below, add a similar line to your TeX file:
+%  
+%\makeautorefname{equation}{Equation}%
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{theorem}{Theorem}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{ass}{Assumption}%
+\makeautorefname{asss}{Assumptions}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+
+%
+%                  *** End of hyperref stuff ***
+
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+%\newtheorem{ass}{Assumption}[section]
+%\newtheorem{asses}{Assumptions}[section]
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ass}{Assumption}[section]
+\newtheorem{asss}{Assumptions}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}{Question}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+
+%%%% hack to get fullref working correctly
+\makeatletter
+\let\c@obs=\c@thm
+\let\c@cor=\c@thm
+\let\c@prop=\c@thm
+\let\c@lem=\c@thm
+\let\c@prob=\c@thm
+\let\c@con=\c@thm
+\let\c@conj=\c@thm
+\let\c@defn=\c@thm
+\let\c@notn=\c@thm
+\let\c@notns=\c@thm
+\let\c@exmp=\c@thm
+\let\c@ax=\c@thm
+\let\c@pro=\c@thm
+\let\c@ass=\c@thm
+\let\c@warn=\c@thm
+\let\c@rem=\c@thm
+\let\c@sch=\c@thm
+\let\c@equation\c@thm
+\numberwithin{equation}{section}
+\makeatother
+
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{DGQT Technical Assessment}
+
+\author{Hung Le}
+
+\begin{document}
+
+\maketitle
+
+\section{Buffet}
+
+\subsection*{Problem 1.1} \mbox{}
+
+\noindent \textbf{Solution:}
+
+Let \textbf{P1}, \textbf{P2} be 2 players of the game, with \textbf{P1} playing first.
+Let $k$ be the probability that the person that plays first wins. It follows that:
+\begin{enumerate}
+  \item The probability that \textbf{P1} wins is $k$
+  \item The probability that the second player wins is $(1-k)$ 
+\end{enumerate}
+
+On the first turn, if \textbf{P1} flips H, he then wins. If \textbf{P1} flips T, the game essentially resets with \textbf{P2} playing first and \textbf{P1} becomes the second player, at which point his probability of winning is $(1-k)$.
+
+Therefore:
+\begin{align*}  
+  k &= P(\text{P1 flips H})\times P(\text{P1 wins}|\text{P1 flips H})\\
+  &+ P(\text{P1 flips T})\times P(\text{P1 wins}|\text{P1 flips T})\\
+  & = \frac{1}{2} \times 1 + \frac{1}{2} \times (1-k) \\
+  & = 1 - \frac{k}{2}\\
+  \frac{3k}{2} &= 1\\
+  \Rightarrow k &= \frac{2}{3}
+\end{align*}
+
+Therefore the probability that \textbf{P1} wins is $\frac{2}{3}$, that \textbf{P2} wins is $1- \frac{2}{3} = \frac{1}{3}$ (probability of neither player winning $= \lim_{n\rightarrow\infty}{\left(\frac{1}{2}\right)^n} = 0$). Since $ \frac{2}{3} > \frac{1}{3}$, it does matter who goes first (the first player has a higher probability of winning) and I would thus prefer to go first.
+
+\subsection*{Problem 1.4} \mbox{}
+
+\noindent \textbf{Solution:}
+
+Using put-call parity:
+\begin{align*}
+  c + Ke^{-rT} &= p + S_0 \\
+  12.35 + 140e^{-4 \% \times \frac{3}{12}} &= p + 142.16 \\
+  p &\approx 8.79698
+\end{align*}
+
+Thus the price of said put option is \$8.79698.
+\subsection*{Problem 1.5} \mbox{}
+
+\noindent\textbf{Solution:}
+
+Following the Black-Scholes Differential Equation, the parameter drift rate $\mu$ is absent from the equation itself, therefore does not affect the solution. Since all other parameters are equal, current prices $f_1 = f_2$.
+
+\section{Challenge Problems}
+\subsection*{Problem 2.2} \mbox{}
+
+\noindent\textbf{Solution:}
+
+Given:
+\[
+  \left\{
+    \begin{array}{ccl}
+      S_0 &=&50\\
+      \sigma &=& 0.25\\
+    \end{array}  
+  \right.
+\]
+
+(a) Annual expected return = $(1+14\%)^4-1\approx0.68896 \approx 68.90\%$
+
+(b) Since the price follows a geometric Brownian motion:
+\[
+    dS = \mu Sdt + \sigma SdW
+\]
+
+Integrating both sides:
+\begin{equation} \label{eq:brownian}
+  \begin{split}
+    S_t &= S_0e^{(\mu - \frac{\sigma^2}{2})t+\sigma W_t}\\
+    &= 50e^{(0.68896-\frac{0.25^2}{2})t + 0.25W_t}\\
+    &= 50e^{0.65771t + 0.25W_t}
+  \end{split}  
+\end{equation}
+
+(c) From Equation (\ref{eq:brownian}) it follows that:
+
+\[  
+  \ln\left(\frac{S_t}{50}\right) = 0.65771t + 0.25W_t
+\]
+
+Since $W_t \sim \mathcal{N}(0, t)$:
+
+\[\Rightarrow \ln\left(\frac{S_t}{50}\right) \sim \mathcal{N}(0.65771t, 0.25^2t)\]
+
+At 9 months, $t = \frac{9}{12} = 0.75$. Therefore:
+
+\[\ln\left(\frac{S_{0.75}}{50}\right) \sim \mathcal{N}(0.65771 \times 0.75, 0.25^2\times 0.75) = \mathcal{N}(0.4932825, 0.046875) \]
+
+\[
+  \Rightarrow \ln(S_{0.75}) \sim \mathcal{N}(\ln50 + 0.4932825, 0.046875) 
+\]
+
+Thus after 9 months the stock price will follow a lognormal distribution with the above parameters.
+
+(d) The probability that the stock price will be greater than \$65 in 9 months:
+\[
+  \begin{split}
+    \mathbb{P}(S_{0.75} > 65) &= \mathbb{P}(\ln S_{0.75} > \ln 65)\\
+    &= 1 - normcdf(\ln 65,\ln 50 + 0.4932825,0.046875) \\
+    &= 0.856916
+  \end{split}
+\]
+
+(e)
+At t = 0.75:
+\[
+  \begin{split}
+    \mathbb{E}[X_t] &= X_0e^{\mu t}\\
+    &= 50e^{0.68896\times 9 \div 12}\\
+    &\approx 83.8260 \\
+    \Rightarrow \text{Expected payoff} &\approx \$83.8260 - \$65\\
+    &= \$18.8260
+  \end{split}  
+\]
+\end{document}
+

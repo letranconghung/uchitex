@@ -4,7 +4,7 @@ User config
 from pathlib import Path
 
 DATE_FORMAT = '%d %b %Y'
-TEX_WORKSPACE = Path('/Users/hung/Desktop/macmaindata/tex/uchicago_tex/')
+TEX_WORKSPACE = Path('/Users/hung/Desktop/macmaindata/tex/uchitex/')
 ROOT =  TEX_WORKSPACE / 'quarters'
 TEMPLATES_PATH = TEX_WORKSPACE / 'scripts' / 'templates'
 MASTER_TEMPLATE = TEMPLATES_PATH / 'master.tex'
