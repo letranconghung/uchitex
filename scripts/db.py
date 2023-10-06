@@ -13,26 +13,27 @@ from utils import get_week, un_template
 locale.setlocale(locale.LC_ALL, "en_US")
 
 
-def lecnumber_to_filename(lecnumber: int):
+def lecnumber_to_filename(c_id: str, lecnumber: int):
     """
     Converts lecture number to corresponding tex file name.
     """
-    return f'lec_{lecnumber:02}.tex'
+    return f'{c_id}_lec_{lecnumber:02}.tex'
 
 
-def psetnumber_to_filename(psetnumber: int):
+def psetnumber_to_filename(c_id: str, psetnumber: int):
     """
     Converts pset number to corresponding tex file name.
     """
-    return f'pset_{psetnumber:02}.tex'
+    return f'{c_id}_pset_{psetnumber:02}.tex'
 
 
 def filename_to_number(filename: str):
     """
     Converts tex file name to lecture number.
     """
-    return int(str(filename).replace('.tex', '').replace('lec_', '').replace('pset_', ''))
-
+    s = str(filename).split('.')
+    a = s[0].split('_')
+    return int(a[-1])
 
 class Lecture:
     """
@@ -86,14 +87,14 @@ class Course:
         """
         Read in lectures under course path.
         """
-        l_paths = self.c_path.glob('lec_*.tex')
+        l_paths = self.c_path.glob(f'{self.c_id}_lec_*.tex')
         return sorted((Lecture(l_path) for l_path in l_paths), key=lambda l: l.number)
 
     def _init_psets(self):
         """
         Read in psets under course path
         """
-        p_paths = self.c_path.glob('pset_*.tex')
+        p_paths = self.c_path.glob(f'{self.c_id}_pset_*.tex')
         return sorted([filename_to_number(p_path.stem) for p_path in p_paths])
 
     def __str__(self):
@@ -109,7 +110,7 @@ class Course:
             new_l_number = 1
 
         new_l_path = self.c_path / \
-            lecnumber_to_filename(new_l_number)
+            lecnumber_to_filename(self.c_id, new_l_number)
 
         today = datetime.today()
         date = today.strftime(DATE_FORMAT)
@@ -134,7 +135,7 @@ class Course:
             new_p_number = self.psets[-1] + 1
         else:
             new_p_number = 1
-        new_p_path = self.c_path / psetnumber_to_filename(new_p_number)
+        new_p_path = self.c_path / psetnumber_to_filename(self.c_id, new_p_number)
 
         today = datetime.today()
         date = today.strftime(DATE_FORMAT)
@@ -163,7 +164,7 @@ class Course:
         body = ''.join(
             [(' ' * 4
              + r'\input{'
-             + lecnumber_to_filename(number)
+             + lecnumber_to_filename(self.c_id, number)
              + '}\n')
              for number in inclued_l_numbers])
         self.master_file_path.write_text(header + body + footer)

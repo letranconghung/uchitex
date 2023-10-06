@@ -40,6 +40,9 @@ def new_course(c_id, q_id):
 
     (c_path / 'figures').mkdir()
     (c_path / 'figures' / '.gitkeep').touch()
+    
+    (c_path / 'resources').mkdir()
+    (c_path / 'resources' / '.gitkeep').touch()
 
     (c_path / 'course.yaml').touch()
     (c_path / 'course.yaml').write_text(un_template(COURSE_YAML_TEMPLATE,
