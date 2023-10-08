@@ -1,6 +1,6 @@
 \documentclass[a4paper, 12pt]{article}
 \input{../preamble.tex}
-\title{CMSC 25300: Mathematical Methods for Machine Learning \\ \large Problem Set 1}
+\title{CMSC 25300: Mathematical Foundations of ML \\ \large Problem Set 1}
 \date{06 Oct 2023}
 \author{Hung Le Tran}
 \begin{document}
@@ -52,12 +52,23 @@
         \end{bmatrix}
     \]
 
+    For one portion, it costs \$2.65 for omelette, \$1.75 for pancakes, \$3 for muffins.
+
     (c) For one portion of omelette and pancakes,
     \[
-        \mathbf{Z} = \mathbf{Y} \begin{bmatrix}
+        \mathbf{Z} = \begin{bmatrix}
             1 & 1 & 0
-        \end{bmatrix} = 4.4
+        \end{bmatrix} \mathbf{X} =  \begin{bmatrix}
+            1 & 1 & 0
+        \end{bmatrix}\begin{bmatrix}
+            2 & 2 & 0.5 & 0 & 0 \\
+            1 & 2 & 0.5 & 1 & 0 \\
+            1 & 0 & 1   & 3 & 3
+        \end{bmatrix} = \begin{bmatrix}
+        3 & 4 & 1 & 1 & 0
+        \end{bmatrix}
     \]
+    we need 3 eggs, 4 milk, 1 butter, 1 flour.
 
     (d) For 3 portions of every meal,
     \[
@@ -65,23 +76,25 @@
             3 & 3 & 3
         \end{bmatrix} = 22.2
     \]
+    so it costs \$22.2
 
-    (e) \begin{lstlisting} [language=python]
-    import numpy as np
-    import pandas as pd
-    
-    X = np.array([[2, 2, 0.5, 0, 0], [1, 2, 0.5, 1, 0], [1, 0, 1, 3, 3]])
-    
-    w = np.array([1, 0.2, 0.5, 0.1, 0.4])
-    
-    Y = np.matmul(X, w)
-    print(Y)
-    
-    w1 = np.array([1, 1, 0])
-    w2 = np.array([3, 3, 3])
-    
-    print(np.matmul(Y, w1))
-    print(np.matmul(Y, w2))  
+    (e)
+    \begin{lstlisting} [language=python]
+import numpy as np
+import pandas as pd
+
+X = np.array([[2, 2, 0.5, 0, 0], [1, 2, 0.5, 1, 0], [1, 0, 1, 3, 3]])
+
+w = np.array([1, 0.2, 0.5, 0.1, 0.4])
+
+Y = np.matmul(X, w)
+print(Y)
+
+w1 = np.array([1, 1, 0])
+w2 = np.array([3, 3, 3])
+
+print(np.matmul(w1, X))
+print(np.matmul(Y, w2))
     \end{lstlisting}
 \end{solution}
 
@@ -106,13 +119,13 @@
         \end{bmatrix} = \mathbf{y}
     \]
 
-    (b) $w_i = 1$, all other 0.
+    (b) $w_i = 1$, all other 0. Since $\mathbf{w^T X}$ is the weighted sum of rows of $X$. 
 
-    (c) $w_i = a, w_j = b$, all other 0.
+    (c) Similarly, we can set $w_i = a, w_j = b$, all other 0.
 
-    (d) $w_i = 1$, all other 0.
+    (d) $w_i = 1$, all other 0. Since $\mathbf{Xw}$ is the weighted sum of columns of $X$.
 
-    (e) $w_2 = 10, w_1 = -1$, all other 0.
+    (e) Similarly, we can set $w_2 = 10, w_1 = -1$, all other 0.
 
     (f) \[
         \mathbf{XB} = \begin{bmatrix}
@@ -133,38 +146,38 @@
     \]
     (g)
     \begin{lstlisting} [language=python]
-    import numpy as np
-    X = np.array([[4, 1, 1], [-3, 2, 2], [1, -3, 2], [5, 1, 3]])
-    w = np.array([1, 2, 3])
-    
-    # part a
-    Y = np.matmul(X, w)
-    print(Y)
-    
-    # part b, c, d, e
-    w_b = np.array([0, 1, 0, 0]) # 2nd row
-    w_c = np.array([2, 3, 0, 0]) # 2 * 1st row + 3 * 2nd row
-    w_d = np.array([0, 0, 1]) # 3rd column
-    w_e = np.array([-1, 10, 0]) # 10 * 2nd column - 1st column
-    
-    print(np.matmul(w_b, X))
-    print(np.matmul(w_c, X))
-    print(np.matmul(X, w_d))
-    print(np.matmul(X, w_e))
+import numpy as np
+X = np.array([[4, 1, 1], [-3, 2, 2], [1, -3, 2], [5, 1, 3]])
+w = np.array([1, 2, 3])
 
-    # part f
-    B = np.array([[0, 1, -1 ,1], [2, 3, 1, 1], [0, 2, -2, 2]])
-    XB = np.matmul(X, B)
-    print(XB)
+# part a
+Y = np.matmul(X, w)
+print(Y)
+
+# part b, c, d, e
+w_b = np.array([0, 1, 0, 0]) # for example, 2nd row
+w_c = np.array([2, 3, 0, 0]) # for example, 2 * 1st row + 3 * 2nd row
+w_d = np.array([0, 0, 1]) # for example, 3rd column
+w_e = np.array([-1, 10, 0]) # 10 * 2nd column - 1st column
+
+print(np.matmul(w_b, X))
+print(np.matmul(w_c, X))
+print(np.matmul(X, w_d))
+print(np.matmul(X, w_e))
+
+# part f
+B = np.array([[0, 1, -1 ,1], [2, 3, 1, 1], [0, 2, -2, 2]])
+XB = np.matmul(X, B)
+print(XB)
     \end{lstlisting}
 \end{solution}
 
 \begin{problem}
 \end{problem}
 \begin{solution}
-    (a) Rank of $aa^T$ is 1. There exists $w = a^T$ such that $aa^T = aw$, and $a$ is of shape $3 \times 1$.
+    (a) Rank of $aa^T$ is 1. There exists $w = a^T$ such that $aw = aa^T$, and $a$ is of shape $3 \times 1$. And 1 is the least rank possible.
 
-    (b) The third column is the first column scaled by (-0.5), while the second column is not. Therefore the matrix has rank = 2.
+    (b) The third column is the first column scaled by (-0.5), while the second column is not a scaled copy of the first column ($\frac{1}{5} \neq \frac{3}{3}$). Therefore the matrix has rank = 2.
 
     More concretely, we can point out $U, V$ of shape $4 \times 2$ and $2 \times 3$ respectively:
     \[
@@ -178,7 +191,7 @@
             0 & 1 & 0    \\
         \end{bmatrix}
     \]
-    and $UV$ trivially equals to the given matrix.
+    and $UV$ is trivially equal to the given matrix.
 \end{solution}
 
 \begin{problem}
@@ -190,7 +203,7 @@
         6 w_1 - 5w_2 + w_3 & = 0 \\
         5 w_1 + w_3 > 0
     \end{align*}
-    which implies $w_1 = 3w_2 \equiv 3t, \implies w_3 = -w_1 - 10w_2 = -13t$. The last condition requires $15t - 13t > 0 \implies t > 0$
+    which implies $w_1 = 3w_2 \equiv 3t \implies w_3 = -w_1 - 10w_2 = -13t$. The last condition requires $15t - 13t > 0 \implies t > 0$
 
     There is an infinite number of $\mathbf{w}$ that satisfies the above conditions, but it is unique up to positively scaling $\begin{bmatrix}
             3 \\
@@ -267,50 +280,42 @@
     w_1 & w_2 & w_3 & w_4 & w_5 & w_6
     \end{bmatrix}
     \]
-    we can get predictions $\mathbf{y} = \mathbf{Xw}$
+    we can get predictions $\mathbf{\hat{y}} = \mathbf{Xw}$
 
     (c)
     \begin{lstlisting} [language=python]
-    import numpy as np
-    import scipy.io as sio
-    import matplotlib.pyplot as plt
-    from mpl_toolkits import mplot3d
-    # n = number of points
-    # z = points where polynomial is evaluated
-    # p = array to store the values of the interpolated polynomials
-    n = 100
-    z_1 = np.linspace(-1, 1, n)
-    z_2 = np.linspace(-1, 1, n)
-    w_size = 6
-    w = np.random.rand(w_size)
-    X = np.zeros((n, w_size))
-    # TODO : generate X - matrix
+import numpy as np
+import scipy.io as sio
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+# n = number of points
+# z = points where polynomial is evaluated
+# p = array to store the values of the interpolated polynomials
+n = 100
+z_1 = np.linspace(-1, 1, n)
+z_2 = np.linspace(-1, 1, n)
+w_size = 6
+w = np.random.rand(w_size)
+X = np.zeros((n, w_size))
+# TODO : generate X - matrix
+
+X = np.column_stack((z_1 ** 2, z_1, z_2 ** 2, z_2, z_1 * z_2, np.ones(n)))
     
-    X = np.zeros((w_size, n))
-    X[0] = z_1 * z_1
-    X[1] = z_1
-    X[2] = z_2 * z_2
-    X[3] = z_2
-    X[4] = z_1 * z_2
-    X[5] = np.ones(n)
-    
-    X = X.T
-        
-    # TODO : evaluate polynomial at all points z
-    p = np.matmul(X, w)
-    # and store the result in p
-    # do NOT use a loop for this
-    # plot the datapoints and the best - fit polynomials
-    fig = plt.figure()
-    # syntax for 3 - D projection
-    ax = plt.axes (projection = "3d")
-    ax.plot3D (z_1, z_2, p, "green")
-    ax.set_xlabel("z_1")
-    ax.set_ylabel("z_2")
-    ax.set_zlabel("y")
-    
-    ax.set_title("polynomial with coefficients w =% s "% w)
-    plt.show()
+# TODO : evaluate polynomial at all points z
+p = np.dot(X, w)
+# and store the result in p
+# do NOT use a loop for this
+# plot the datapoints and the best - fit polynomials
+fig = plt.figure()
+# syntax for 3 - D projection
+ax = plt.axes (projection = "3d")
+ax.plot3D (z_1, z_2, p, "green")
+ax.set_xlabel("z_1")
+ax.set_ylabel("z_2")
+ax.set_zlabel("y")
+
+ax.set_title("polynomial with coefficients w =% s "% w)
+plt.show()
     \end{lstlisting}
 \end{solution}
 \end{document}
