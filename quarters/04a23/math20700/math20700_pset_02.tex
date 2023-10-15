@@ -1,0 +1,460 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 20700: Honors Analysis in Rn I \\ \large Problem Set 2}
+\date{06 Oct 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{2}
+\textbf{Textbook: Pugh's Real Mathematical Analysis}
+
+\textit{Collaborators: Lucio, Duc, Hung Pham}
+\begin{problem} [2.30]
+Consider a two-point set $M = \{a, b\}$ whose topology consists of the two sets, $M$ and the empty set. Why does this topology not arise from a metric on $M$?
+\end{problem}
+\begin{solution}
+    Suppose there exists a metric $d$ that induces the topology $\calt = \{\{a, b\}, \emptyset\}$ on $M$. Let $\epsilon = d(a, b)/2$, then $B_M(x, \epsilon) = \{a\}$, so $\{a\}$ is an open set. But $\{a\} \not \in \calt$, \contra
+
+    Therefore $\calt$ can't be a topology induced by a metric.
+\end{solution}
+
+\begin{problem} [2.36]
+Construct a set with exactly three cluster points.
+\end{problem}
+\begin{solution}
+    \[
+        S = \{1 - \frac{1}{n} \mid n \in \bbn\} \cup \{ 3 - \frac{1}{n} \mid n \in \bbn\} \cup \{5 - \frac{1}{n} \mid n \in \bbn\}
+    \]
+    $S$ clearly has cluster points 1, 3, 5. The set of cluster points $S'$ is a subset of $\lim S = \{1, 3, 5\}$. So it has none other than the 3 above.
+\end{solution}
+
+\begin{problem} [2.44]
+Consider a function $f: M \to \bbr$. Its graph is the set \[
+    \{(p, y) \in M \times \bbr : y = fp\}
+\]
+
+\begin{enumerate} [(a)]
+    \item Prove that if $f$ is continuous then its graph is closed (as a subset of $M \times \bbr$).
+    \item Prove that if $f$ is continuous and $M$ is compact then its graph is compact
+    \item Prove that if the graph of $f$ is compact then $f$ is continuous
+    \item What if the graph is merely closed? Give an example of a discontinuous function $f: \bbr \to \bbr$ whose graph is closed.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+    We freely use Pugh's Theorem 17 (Ch2.3) in this problem.
+
+    Let $G = \{(p, y) \in M \times \bbr : y = fp\} $ be the graph. \par
+
+    \textbf{(a)} Let $\{(p_n, y_n)\} \subset G$ be a sequence that converges to $(p, y) \in M \times \bbr$. WLOG, we use the metric $d_{max}$ on $M \times \bbr$. WTS $(p, y) \in G$.
+
+    $(p_n, y_n) \cvgn (p, y) \implies p_n \cvgn p, y_n \cvgn y$. But $f$ is continuous, so $y_n = f(p_n) \cvgn f(p) \implies y = f(p) \implies (p, y) \in G$. \qed \par
+
+    \textbf{(b)} Let $\{(p_n, y_n)\} \subset G$. WTS there exists a subsequence $\{(p_{n_j}, y_{n_j})\}$ that converges in $G$.
+
+    Since $M$ is compact and $\{p_n\} \subset M$, there exists a subsequence $\{p_{n_j}\}$ such that $ p_{n_j} \cvgj p \in M$.
+
+    $f$ is continuous, so $f(p_{n_j}) \xrightarrow{j \to \infty} f(p) \Leftrightarrow y_{n_j} \xrightarrow{j \to \infty} f(p) \eqqcolon y$.
+    This implies \[
+        (p_{n_j}, y_{n_j}) \cvgj (p, y) \in G \qed
+    \]
+
+    \textbf{(c)} Let $\{p_n\} \subset M$ such that $p_n \xrightarrow{n \to \infty} p \in M$. WTS $f(p_n) \xrightarrow{n \to \infty} f(p)$.
+
+    Suppose not:
+    \[
+        \neg (\forall \epsilon > 0, \exists N \in \bbn, \forall n \geq N, d(f(p_n), f(p)) < \epsilon)
+    \]
+    \[
+        \Leftrightarrow \exists \epsilon > 0, \forall N \in \bbn, \exists n \geq N, d(f(p_n), f(p)) \geq \epsilon
+    \]
+    Then we construct another sequence $q_n$, defined as follows:
+    Choose $N_0 = 1$ and choose $N_1 \geq N_0$ satisfying the conditions above. Assign $q_1 = p_{N_1}$.
+    Inductively, choose $N_{k+1} \geq N_{k}$ satisfying the conditions above, and assign $q_{k+1} = p_{N_{k+1}}$.
+
+    By constructing $\{q_n\} \subset M$ (essentially a particular subsequence of $\{p_n\}$) this way, \[
+        \forall n \in \bbn, d(f(q_n), f(p)) \geq \epsilon
+    \]
+
+    Since $G$ is compact, sequence $\{(q_n, f(q_n))\} \subset G$ has subsequence $\{(q_{n_j}, f(q_{n_j}))\}$ such that $(q_{n_j}, f(q_{n_j})) \cvgj (q, f(q)) \in G$, which implies $q_{n_j} \cvgj q, f(q_{n_j}) \cvgj f(q)$. But $\{q_{n_j}\}$ is simply a (sub) subsequence of $\{p_n\}$, so $q = p \implies f(q_{n_j}) \cvgj f(p)$.
+
+    But $\forall n \in \bbn, d(f(q_n), f(p)) \geq \epsilon$. \contra \qed
+
+    \textbf{(d)} Define \[
+        f(x) = \begin{cases}
+            0             & \:\text{for}\: x = 0, \\
+            \frac{1}{|x|} & \:\text{otherwise}.\:
+        \end{cases}
+    \]
+    then $f$ is discontinuous at $0$.
+
+    We show that $G$ is indeed closed. Let $\{(p_n, f(p_n))\} \subset M \times \bbr$ such that $(p_n, f(p_n)) \cvgn (p, q) \in M \times \bbr$. WTS $(p, q) \in G \Leftrightarrow q = f(p)$.
+
+    $(p_n, f(p_n)) \cvgn (p, q) \Leftrightarrow p_n \cvgn p, f(p_n) \cvgn q$.
+
+    If $p \neq 0$, let $\epsilon = |p|/2$, then $\exists N \in \bbn$ such that $\forall n \geq N, |p|/2 < |p_n/2| < 3|p|/2$. In particular, they are non-zero. Since $f$ is trivially continuous on $\bbr \backslash \{0\}$, it is then clear that $f(p_n) \cvgn f(p)$, so $q = f(p)$.
+
+    If $p = 0$, with $p_n \cvgn 0, f(p_n)$ diverges. In particular, given any $M > 0$, let $\epsilon = \frac{1}{2M}$ then there exists $N \in \bbn$ such that $\forall n \geq N, |p_n| < \epsilon = \frac{1}{2M} \implies f(p_N) > 2M > M$. So there can't be $(p_n, f(p_n)) \cvgn (0, q)$ in the first place.
+\end{solution}
+
+\begin{problem} [2.49*]
+Construct a subset $A \subset \bbr$ and a continuous bijection $f: A \to A$ that is not a homeomorphism. [Hint: By Theorem 36, $A$ must be noncompact]
+\end{problem}
+\begin{solution}
+Let $A = [0, 1)  \cup [2, 3) \cup [4, 5) \cup \dots = \bigcup_{n=0}^{\infty} [2n, 2n+1)$
+
+And construct map $f$ that (continuously):
+\begin{enumerate}
+    \item Scales and shifts [0, 1) to [0, 1/2)
+    \item Scales and shifts [2, 3) to [1/2, 1)
+    \item Shifts [4, 5) to [2, 3), [6, 7) to [4, 5), etc., in short shifts $[2n, 2n+1)$ to $[2n-2, 2n-1)$ for all $n \geq 2$
+\end{enumerate}
+
+Then $f$ trivially maintains sequential convergence (therefore is continuous) and is a bijection. So it is a continuous bijection.
+
+However, $f$ sends [2, 2.5) to [1/2, 3/4), an open set in $A$ to a nonopen set in $A$, so $f^{-1}$ is not continuous. It follows that $f$ is not homeo.
+\end{solution}
+
+\begin{problem} [2.56]
+Prove that the 2-sphere is not homeomorphic to the plane.
+\end{problem}
+\begin{solution}
+    We want to first show that the 2-sphere is compact, by showing that it is closed and bounded in $\bbr^3$.
+
+    It is clear that the (unit) 2-sphere is bounded by the $2 \times 2 \times 2$ box centered at the origin, so it is bounded.
+
+    Let $\{p_n\} \subset S^2$ such that $p_n \cvgn p \in \bbr^3$. We now want to show that $p \in S^2$. Recall that $S^2 = \{z \in \bbr^3 \mid d(0, z) = 1\}$
+
+    For all $\epsilon > 0$, there exists $N \in \bbn$ such that $\forall n \geq N, d(p_n, p) < \epsilon$. But $d(0, p_n) = 1 \forall n \in \bbn$. It follows that \[
+        1 - \epsilon < d(0, p_N) - d(p_N, p) \leq d(0, p) \leq d(0, p_N) + d(p_N, p) < 1 + \epsilon
+    \]
+    which holds for all $\epsilon > 0$. It follows that $d(0, p) = 1$, so $p \in S^2$. Therefore the 2-sphere is closed.
+
+    Since the 2-sphere is closed and bounded in $\bbr^3$, it is compact (H-B).
+
+    On the other hand, $\bbr^2$ is unbounded in $\bbr^2$, so it is not compact.
+
+    Therefore the 2-sphere (a compact set) can't be homeomorphic to the plane (a noncompact set).
+\end{solution}
+
+\begin{problem} [2.66]
+$\ $
+\begin{enumerate} [(a)]
+    \item Prove that every connected open subset of $\bbr^m$ is path-connected.
+    \item Is the same true for open connected subsets of the circle?
+    \item What about connected nonopen subsets of the circle?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+    \textbf{(a)}
+    Let $U \subset \bbr^m$ be connected and open. WTS $U$ is path-connected.
+
+    We first want to show that any ball in $\bbr^m$ is path-connected. Let $p, q \in B(x, r) \subset U$ then we can construct \[
+        f: [0, 1] \to B(x, r), t \mapsto p + (q-p)t
+    \]
+    that is a continuous path from $p$ to $q$ as required.
+
+    WTS for every $p, q \in U$, there exists a continuous path from $p$ to $q$. Fix $p, q \in U$.
+    
+    Then let $A$ be the set of points $z \in U$ such that there exists a continuous path from $p$ to $z$. We want to show that $A$ is clopen. Note that $p \in A$, so $A$ is non-empty.
+
+    1. Show that $A$ is open.
+    
+    Let $z \in A$ be arbitrary. Since $U$ is open, we can draw $B_U(z, r) \subset U$.
+    
+    We want to show that $B_U(z, r) \subset A$. Choose any $s \in B(z, r)$, then we can concatenate the continuous path from $p_0$ to $z$ (since $z \in A$) and the continuous path from $z$ to $s$ (since the ball is path-connected) to get a continuous path from $p_0$ to $s$.
+    
+    More concretely, if there exists continuous path $f_{p, z}: [0, 1] \to U$ from $p$ to $z$, and $ f_{z, s}: [0, 1] \to U$ from $z$ to $s$ then we can construct \[
+        f_{p, s}(t) = \begin{cases}
+            f_{p, z} (2t) & \:\text{for}\: t < 0.5    \\
+            f_{z, s} (2t-1) & \:\text{for}\: t \geq 0.5
+        \end{cases}
+    \]
+    is a continuous path from $p$ to $s$. So $s \in A$. It follows that $B(z, r) \subset A$. Therefore $A$ is open.
+
+    2. Show that $A$ is closed.
+
+    WTS $A^c$, the set of points $y \in U$ such that there doesn't exist a continuous path from $p$ to $y$, is open. 
+    
+    Let $y \in A^c$ be arbitrary. Since $U$ is open, we can draw $B_U(y, r) \subset U$.
+    
+    WTS $B_U(y, r) \subset A^c$. Choose any $s \in B(y, r)$. Suppose not, that there exists a continuous path from $p$ to $s$, then since the ball is path-connected, it follows that there also exists a continuous path from $s$ to $y$. By concatenating these 2 paths, we can get a continuous path from $p$ to $y$. \contra
+
+    So there doesn't exist a continuous path from $p$ to $s$ for all $s \in B(y, r)$. It follows that $B_U(y, r) \subset A^c$, so $A^c$ is open. Thus $A$ is closed.
+
+    3. Therefore $A$ is a nonempty clopen subset of connected $U$, so $A = U$. It follows that $U$ is path-connected. \qed
+
+    \textbf{(b)} Yes. WLOG, use $S^1$.
+
+    We now want to show that any ball $B(x, r) \subset S^1$ is path-connected. If $r \leq 2$ then $B(x, r)$ is an arc of $S^1$, while if $r > 2$ then $B(x, r) = S^1$. Both of which can be parameterized as $\{(\cos \theta, \sin \theta)\}$, and are therefore trivially path-connected.
+
+    Apply the same proof in (a). \qed
+
+    \textbf{(c)} Yes, it is path-connected.
+
+    Let $V$ be a connected, nonopen subset of the circle, and $p \neq q$ be arbitrary points in $V$. $p$ and $q$ then partition $S^1$ into a major closed arc $A_1$ and a minor closed arc $A_2$ that satisfies: \[
+        A_1 \cup A_2 = S^1, A_1 \cap A_2 = \{p, q\}
+    \]
+
+    \textbf{Case 1:} If $A_1 \subset V$ or $A_2 \subset V$, then there clearly exists a continuous path in $V$ from $p$ to $q$, namely through these continuous closed arcs (that can be easily parameterized into $\{(\cos \theta, \sin \theta)\}$ on a closed interval of $\theta$)
+
+    \textbf{Case 2:} There exists $k \in A_1, l \in A_2$ such that $k, l \not \in V$. Then $k, l$ similarly partitions $S^1$ into 2 closed arcs $A_3, A_4$ such that \[
+        A_3 \cup A_4 = S^1, A_3 \cap A_4 = \{k, l\}
+    \]
+
+    Now consider $A'_3 \coloneqq A_3 \backslash \{k, l\}, A'_4 \coloneqq A_4 \backslash \{k, l\}$, which are open sets in $S^1$ that are image sets of $(\cos \theta, \sin \theta)$ on an open interval of $\theta$. Then \[
+        (V \cap A'_3) \cup (V \cap A'_4) = V \cap (A'_3 \cup A'_4) = V \cap (S^1 \backslash \{k, l\}) = V
+    \]
+    However, $A'_3 \cap A'_4 = \emptyset$ so $(V \cap A'_3) \cap (V \cap A'_4) = \emptyset$. Furthermore, $V \cap A'_3$ and $V \cap A'_4$ in the subspace topology of $V$, as they are intersections of $V$ with an open set in the bigger topology of $S^1$. It follows that $(V \cap A'_3) \sqcup (V \cap A'_4)$ partitions $V$ into 2 non-empty open sets, which are therefore proper clopen, making $V$ disconnected, \contra.
+
+    It follows that only case 1 is valid, and there exists a continuous path from any $p$ to $q$.
+\end{solution}
+
+\begin{problem} [2.78]
+$(p_1, \dots, p_n)$ is an $\epsilon$-chain in a metric space $M$ if for each $i$ we have $p_i \in M$ and $d(p_i, p_{i+1}) < \epsilon$. The metric space is chain-connected if for each $\epsilon > 0$ and each pair of points $p, q \in M$ there is an $\epsilon-$chain from $p$ to $q$.
+
+\begin{enumerate} [(a)]
+    \item Show that every connected metric space is chain-connected.
+    \item Show that if $M$ is compact and chain-connected then it is connected.
+    \item Is $\bbr \backslash \bbz$ chain-connected?
+    \item If $M$ is complete and chain-connected, is it connected?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+    \textbf{(a)} Suppose not. Then there exists $\epsilon > 0$ and $p_0, q_0 \in M$ such that there doesn't exist an $\epsilon-$chain from $p_0$ to $q_0$. We emphasize that this $\epsilon$ is now fixed.
+
+    Let $D$ be the set of such points in $M$ that have no $\epsilon-$chain from $p_0$. Define $C = M \backslash D$. Then $p_0 \in C, q_0 \in D$. WTS $C, D$ are open.
+
+    We first consider $C$. Take arbitrary $c \in C$, then let its corresponding $\epsilon-$chain from $p_0$ be $(p_1, \dots, p_n)$.
+
+    Draw $B_M(c, \epsilon)$. We show that $C$ is open by showing that indeed we can draw for arbitrary $c$, $B_M(c, \epsilon) \subset C$.
+
+    Indeed, $\forall c' \in B_M(c, \epsilon)$, there exists an $\epsilon$-chain from $p_0$ to $c'$, namely $(p_1, \dots, p_n, c')$, which is well-defined since $d(c', p_n) = d(c', c) < \epsilon$.
+
+    Therefore $c' \in C$. So $B_M(c, \epsilon) \subset C$.
+
+    We now consider $D$. The proof is very similar. Take arbitrary $d \in D$.
+
+    Draw $B_M(d, \epsilon)$. We show that $D$ is open by showing that we can draw for arbitrary $d$, $B_M(d, \epsilon) \subset D$.
+
+    Indeed, $\forall d' \in B_M(d, \epsilon)$, if there exists an $\epsilon-$ chain from $p_0$ to $d'$, for example, $(q_1, \dots, q_n)$, then one can form an $\epsilon-$chain from $p_0$ to $d$, which would be $(q_1, \dots, q_n, d)$, a well-defined chain since $d(d, q_n) = d(d, d') < \epsilon$, which would be a contradiction since $d \in D$.
+
+    Therefore there doesn't exist an $\epsilon-$chain from $p_0$ to $d'$. So $(d' \in B_M(d, \epsilon) \implies d' \in D)$. $D$ is therefore open.
+
+    In conclusion, we have \[
+        M = C \sqcup D
+    \]
+    where $C$ and $D$ are both open, which make them both clopen. But $p_0 \not \in D, q_0 \not \in C$, so they are proper clopen subsets of $M$, making $M$ disconnected. \contra
+
+    It follows that $M$ must be chain-connected. \qed
+
+    \textbf{(b)} Let $M$ be compact and chain-connected. WTS $M$ is connected.
+
+    Suppose not. Then there exists $A, B \subset M$ such that \[
+        M = A \sqcup B
+    \]
+    and $A, B \neq \emptyset$ and are clopen. Since $A, B \neq \emptyset, \exists a \in A, b \in B$.
+
+    We shall construct a sequence $\{t_n\} \subset A$ as follows:
+
+    Set $\epsilon = \frac{1}{n}$, then there exists (finite) $\epsilon-$chain $(p_{n, 1}, p_{n, 2}, \dots, p_{n, N(n)})$ from $a$ to $b$, i.e. $p_{n, 1} = a, p_{n, N(n) = b}$. ($N(n) \geq 2$, since $a \neq b$).
+
+    Let $T(n) = \{1 \leq k \leq N(n) \mid B_M(p_{n, k}, \frac{1}{n}) \subset A\}$, i.e., the set of indices of points in the chain whose $\epsilon-$ neighborhoods are still within $A$. Clearly $1 \in T(n)$ and it has an upper bound $N(n)$, so there exists a maximum value $k(n) \in \bbn$.
+
+    Assign $t_n \coloneqq p_{n, k(n)} \in A$.
+
+    Since $A$ is a closed subset of compact $M$, it follows that $A$ is also compact. Therefore, there exists a subsequence $\{t_{n_j}\} $ such that \[
+        t_{n_j} \cvgj t \in A
+    \]
+
+    Since $A$ is open, we can draw a ball $B_M(t, r) \subset A$.
+
+    Since $t_{n_j} \cvgj t$, there exists $J_1\in \bbn$ such that $\forall j > J_1, d(t_{n_j}, t) < \frac{r}{2}$.
+
+    Choose $J = \ceil{\max\{J_1, \frac{4}{r}\}} + 1$. Let $L = n_J$. Then \[
+        \frac{1}{L} \leq \frac{1}{J} < \frac{r}{4}
+    \]
+
+    Consider the original path from $a$ to $b$ with $\epsilon = \frac{1}{L}$:
+    \[
+        (a = p_{L, 1}; p_{L, 2}; \dots ; p_{L, k(L)} = t_{L} ; p_{L, k(L) + 1} ; \dots ; p_{L, N(L)} = b)
+    \]
+    where we pay special attention to the node after $t_L$.
+
+    We see that \begin{align*}
+        d(t, p_{L, k(L) + 1}) & \leq d(t, t_L) + d(t_L, p_{L, k(L) + 1})   \\
+                              & < \frac{r}{2} + \frac{1}{L}                \\
+                              & < \frac{r}{2} + \frac{r}{4} = \frac{3r}{4}
+    \end{align*}
+
+    It trivially follows that $B_M(p_{L, k(L) + 1}, \frac{1}{L}) \subset B_M(t, r)$.
+
+    But $B_M(t, r) \subset A$, so $B_M(p_{L, k(L) + 1}) \subset A$, which contradicts with $k(L)$ being the maximum index at which the node of the path is still in $A$ \contra.
+
+    It follows that $M$ must be connected. \qed
+
+    \textbf{(c)} Yes.
+
+    Given $\epsilon > 0; a, b \in \bbr \backslash \bbz$. WLOG, assume $\epsilon < 1$, since a larger $\epsilon'$-chain can be composed through nodes consisting of $\ceil{\frac{\epsilon'}{\epsilon}}$ subnodes of the $\epsilon-$ chain.
+
+    We will recursively define an $\epsilon-$chain from $a$ to $b$ as follows:
+    \[
+        p_1 \coloneqq a \\
+    \]
+    If $b - p_n < \epsilon, p_{n+1} \coloneqq b$, else
+    \[
+        p_{n+1} = \begin{cases}
+            p_n + \epsilon   & \:\text{if}\: p_n  < \ceil{p_n} - \epsilon                              \\
+            p_n + \epsilon/2 & \:\text{if}\: \ceil{p_n} - \epsilon \leq p_n < \ceil{p_n} - \epsilon /2 \\
+            p_n + \epsilon   & \:\text{if}\: \ceil{p_n} - \epsilon /2 \leq p_n < \ceil{p_n}
+        \end{cases}
+    \]
+
+    It is firstly trivial that $p_{n+1}$, as constructed, is not in $\bbr \backslash \bbz$. It is also guaranteed that after at most $\ceil{\frac{b-a}{\epsilon / 2}}$ terms, $p_n$ will come within $\epsilon$ of $b$, and therefore setting $p_{n+1} = b$, completing the $\epsilon-$chain from $a$ to $b$. \qed
+
+    \textbf{(d)} No.
+
+    Counter-example: 
+
+    Define \[
+    A = \{(x, 1/x) \mid x > 0\}, B = \{(x, -1/x) \mid x < 0\}
+    \]
+    and $M = A \sqcup B$. We show that $M$ is complete and chain-connected, but not connected.
+
+    First, $A$ and $B$ are closed in the ambient metric space $\bbr^2$ (similar to problem 2.44d). So $M = A \sqcup B$ is also closed in $\bbr^2$. $\bbr^2$ is complete so $M$ is complete.
+
+    Second, $M$ is chain-connected. Suppose we are given $\epsilon > 0; p, q \in M$. If $p$ and $q$ are both in $A$ or are both in $B$, then the chain is trivial. If $p \in A$ and $q \in B$ then we can define $x_1 = -\epsilon/3, x_2 = \epsilon/3$ then \[
+    d_E((x_1, 1/|x_1|), (x_2, 1/|x_2|)) = 2\epsilon / 3 < \epsilon
+    \]
+    so we can make and concatenate $\epsilon-$chains from $p$ to $(x_1, 1/x_1)$, from $(x_1, 1/x_1)$ to $(x_2, -1/x_2)$, and from $(x_2, -1/x_2)$ to $q$.
+
+    Lastly, it is not connected. $A = A \cap M$, $A$ is closed in $\bbr^2$ so $A$ is closed in $M$. It is also open in $M$ because for each $p = (a, 1/a) \in A$, we can draw $B_M((a, 1/a), 1/4a) \subset A$ trivially. So $A$ is clopen and proper.
+\end{solution}
+
+\begin{problem} [2.117 f]
+Fold a piece of paper in half.
+\begin{enumerate} [(a)]
+    \item Is this a continuous transformation of one rectangle into another?
+    \item Is it injective?
+    \item Draw an open set in the target rectangle, and find its preimage in the original rectangle. Is it open?
+    \item What if the open set meets the crease?
+
+          The \textbf{baker's transformation} is a similar mapping. A rectangle of dough is stretched to twice its length and then folded back on itself. Is the transformation continuous? A formula for the baker's transformation in one variable is \[
+              f: [0, 1] \to [0, 1], f(x) = 1 - |1 - 2x|
+          \]
+          The $\mathbf{n^{th}}$ iterate of $f$ is $f^n = f \circ f \circ \dots \circ f, n$ times. The \textbf{orbit} of a point $x$ is \[
+              \{x, f(x), f^2(x), \dots, f^n(x), \dots\}
+          \]
+          $f^{\circ n}$ is $f^n$
+    \item If $x$ is rational prove that the orbit of $x$ is a finite set.
+    \item If $x$ is irrational what is the orbit?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} WLOG, Let the rectangle be $[0, 2] \times [0, 1]$, and let the crease be at $x = 1$. Then the transformation is \[
+        f(x, y) = \begin{cases}
+            (x, y)   & \:\text{for}\: x < 1    \\
+            (2-x, y) & \:\text{for}\: x \geq 1
+        \end{cases}
+    \]
+    which folds the rectangle $[0, 2] \times [0,1]$ into the rectangle $[0, 1] \times [0, 1]$. The transformation is continuous, since the stepwise function on the $x-$coordinate is continuous and $y$ is trivially continuous. \qed
+
+    \textbf{(b)} No, it is not injective.
+    \[
+        f(0.5, 0) = f(1.5, 0) = (0.5, 0) \qed
+    \]
+
+    \textbf{(c)} Yes.
+
+    Let the open set be $U = \{(x, y)\} \subset [0, 1] \times [0, 1]$. Define $g(x, y) = (2-x, y)$ then \[
+        f^{Pre}(U) = U \cup g(U)
+    \]
+    Note that $g$ is a homeomorphism, so $g(U)$ is also open. $f^{Pre}(U)$ is a union of open sets and is therefore open. \qed
+
+    \textbf{(d)} It doesn't matter if the open set meets the crease. The above proof still holds. \qed
+
+    \textbf{(e)} We freely use the fact that if $x \in [0, 1]$, $x$ can be decomposed into the unique following binary representation:
+    \[
+    x = \frac{a_1}{2} + \frac{a_2}{2^2} + \cdots + \frac{a_n}{2^n} + \cdots
+    \]
+    i.e., each $x \in [0, 1]$ corresponds to a unique sequence $\{a_{x, n}\} $ with $a_{x, n} \in \{0, 1\}$.
+
+    Note that 0 corresponds to the zero-sequence, while 1 corresponds to the one-sequence.
+
+    Let $x \in [0, 1]$. To be concise, we label $\{a_{x, n}\}$ as $\{a_n\}$. We pay attention to how the sequence changes as $f$ is applied continually to $x$.
+    
+    Rewriting $f$, we have: \[
+    f(x) = \begin{cases}
+        2x & \:\text{for}\: x < 0.5 \\
+        2 - 2x & \:\text{for}\: x \geq 0.5
+    \end{cases}
+    \]
+    
+    When $x < 0.5$, it is clear that $a_1 = 0$. Then we have \[
+     2x = 2 \left(\frac{a_2}{2^2} + \cdots \right) = \frac{a_2}{2} + \frac{a_3}{2^2} + \cdots
+    \]
+    which corresponds to sequence $(a_2, a_3, \cdots)$ (sequence shifts left)
+
+    $(a_1, a_2, \dots ) \mapsto (a_2, a_3, \dots)$.
+    
+    When $x \geq 0.5$, it is clear that $a_1 = 1$. We have \[
+    2 - 2x = \left(1 + \frac{1}{2} + \frac{1}{2^2} + \cdots\right) - \left(1 + \frac{a_2}{2} + \frac{a_3}{2^2} + \cdots \right) = \frac{1-a_2}{2} + \frac{1-a_3}{2} + \cdots
+    \]
+    which corresponds to sequence $(1-a_2, 1-a_3, \cdots)$ (sequence shifts left then subtracted from one-sequence).
+
+    Now, we also freely use the fact that if $x$ is rational then the sequence eventually repeats itself, i.e. there exists $N, k \in \bbn$ such that $\forall n \geq N, a_{x, n} = a_{x, n+k}$. Otherwise, the sequence doesn't.
+
+    Let $x$ be such a rational, then there exists fixed $N, k \in \bbn$ satisfying the conditions above.
+
+    Then, after $N-1$ applications of $f$, from the only 2 possible transitions above, we either get the sequence \[
+    A_1 = (a_N, a_{N+1}, \cdots)
+    \]
+    or \[
+    A_2 = (1 - a_N, 1 - a_{N+1}, \cdots)
+    \]
+    
+    WLOG, suppose we get $A_1$. $k$ steps later, we either get $A_1$ or $A_2$. 
+    
+    If we get $A_1$, that means we have entered a loop, and so values $f^{N-1 + kj}(x)$ for all $j \in \bbn$ have already appeared as $f^{N-1 + k}(x)$ in the orbit of $x$. Thus the orbit is finite ($\leq N-1 + k$).
+
+    If we get $A_2$, $k$ steps later, we either get $A_1$ or $A_2$. It's trivial now that there is now a loop of either length $k$ or length $2k$. So the orbit is finite. \qed
+
+    \textbf{(f)} It is clear that the orbit of $x$ is countable. If $x$ is irrational, then we claim that its orbit of $x$ is a denumerable (infinite countable) subset of $[0, 1]$.
+
+    Suppose not. Then the orbit is finite. Let $N$ be the maximum index such that $f^N(x)$ is in the orbit of $x$. This implies that \[
+    f^{N+1}(x) = f^k(x)
+    \]
+    for some $k \leq N$. Then $f^{N+2}(x) = f^{k+1}(x), \dots, f^{2N+1-k}(x) = f^N(x), \dots$
+
+    In short, 
+    \begin{equation} \label{loop}
+        f^{k + (N+1 - k)t}(x) = f^k(x)
+    \end{equation}
+    for all $t \in \bbn$.
+
+    Let $f^k(x) = (b_{k+1}, b_{k+2}, \dots)$ ($b_i$ can either all be $a_i$ or all be $1-a_i$, this doesn't matter). Then by referring to the 2 possible transitions we have as represented above in part (e), after $2(N+1-k)t, t \in \bbn$ transitions (an even number), we must reach \[
+    f^{k + 2(N+1-k)t}(x) = (b_{k + 2(N+1-k)t + 1}, b_{k + 2(N+1-k)t + 2}, \dots)
+    \]
+    or more specifically, not $(1 - b_{k + 2(N+1-k)t + 1}, 1 - b_{k + 2(N+1-k)t + 2}, \dots)$, since the number of transitions is even.
+
+    Then \eqref{loop} implies that \[
+    b_{k+1} = b_{k+2(N+1-k)t + 1}, b_{k+1} = b_{k+2(N+1-k)t + 1}, \dots
+    \]
+    which is to suggest that $\{b_n\}$ eventually repeats, with maximum period of $2(N+1-k)$.
+
+    This implies that $x$ is rational. \contra
+
+    So the orbit of $x$ must be an infinite countable set (subset of [0, 1])
+\end{solution}
+\begin{problem} [2.81* (EC)]
+The topologist's sine curve is the set \[
+    \{(x, y) \mid x = 0 \:\text{and}\:  |y| \leq 1 \:\text{or}\: 0 < x < 1 \:\text{and}\:  y = \sin (\frac{1}{x})\}
+\]
+(It is the union of a circular arc and the topologist's sine curve.) Prove that it is path-connected but not locally path-connected. ($M$ is \textbf{locally path-connected} if for each $p \in M$ and each neighborhood $U$ of $p$ there is a path-connected subneighborhood $V$ of $p$.)
+\end{problem}
+\begin{solution}
+\end{solution}
+\end{document}
