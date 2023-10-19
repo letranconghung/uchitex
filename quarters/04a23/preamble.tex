@@ -656,9 +656,7 @@
 
 
 %%%% MATH SHORTHANDS %%%%
-%% blackboard bold math capitals
-\DeclareMathOperator*{\esssup}{ess\,sup}
-\DeclareMathOperator*{\Hom}{Hom}
+% Fonts
 \newcommand{\bbf}{\mathbb{F}}
 \newcommand{\bbn}{\mathbb{N}}
 \newcommand{\bbq}{\mathbb{Q}}
@@ -680,22 +678,28 @@
 \newcommand{\calf}{\mathcal{F}}
 \newcommand{\calt}{\mathcal{T}}
 \newcommand{\call}{\mathcal{L}}
-\renewcommand{\phi}{\varphi}
 
-% Universal Math Shortcuts
+\newcommand{\rme}{\mathrm{e}}
+\newcommand{\rmosc}{\mathrm{osc}}
+
+\newcommand{\frake}{\mathfrak{e}}
+% Proof Writing
 \newcommand{\st}{\hspace*{2pt}\text{s.t.}\hspace*{2pt}}
 \newcommand{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
 \newcommand{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
 \newcommand{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
+
+% Shorthands
 \newcommand{\cvgn}{\xrightarrow{n \to \infty}}
 \newcommand{\cvgj}{\xrightarrow{j \to \infty}}
-
 \newcommand{\im}{\mathrm{im}}
 \newcommand{\innerproduct}[2]{\langle #1, #2 \rangle}
 \newcommand*{\conj}[1]{\overline{#1}}
 
+% Symbols
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
 % https://tex.stackexchange.com/questions/22798/nice-looking-empty-set
+\renewcommand{\phi}{\varphi}
 \let\oldforall\forall
 \renewcommand{\forall}{\;\oldforall\; }
 \let\oldexist\exists
@@ -703,16 +707,21 @@
 \newcommand\existu{\;\oldexist!\: }
 \let\oldemptyset\emptyset
 \let\emptyset\varnothing
-
-
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\Hom}{Hom}
 \renewcommand{\_}[1]{\underline{#1}}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% Page Layout
 \setlength\parindent{0pt}
 \setlength{\headheight}{12.0pt}
 \addtolength{\topmargin}{-12.0pt}
+
+% Formatting
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
 
 
 % Default skipping, change if you want more spacing
