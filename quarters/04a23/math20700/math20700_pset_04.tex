@@ -1,0 +1,477 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 20700: Honors Analysis in Rn I \\ \large Problem Set 4}
+\date{22 Oct 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{4}
+\textbf{Textbook: Pugh's Real Mathematical Analysis}
+
+\textit{Collaborators: Lucio, Hung Pham, Duc}
+\begin{problem} [3.39 \redtext{done}]
+Consider the characteristic functions $f(x)$ and $g(x)$ of the intervals $[1, 4]$ and $[2, 5]$. The derivatives $f'$ and $g'$ exist almost everywhere. The integration-by-parts formula says that \[
+    \int_0^3 f(x) g'(x) dx = f(3)g(3) - f(0)g(0) - \int_0^3f'(x) g(x) dx
+\]
+But both integrals are zero, while $f(3) g(3) - f(0)g(0) = 1$. Where is the error?
+\end{problem}
+\begin{solution}
+    $f = \chi_{[1, 4]}, g = \chi_{[2, 5]}$ are not differentiable on $[0, 3]$ to be able to apply IBP. Specifically, $f$ is not differentiable at 1:
+    \[
+        \lim_{t \to 1+} \frac{f(t) - f(1)}{t - 1} = 0
+    \]
+    \[
+        \lim_{t \to 1-} \frac{f(t) - f(1)}{t - 1} = \lim_{t \to 1-}\frac{-1}{t - 1} = \infty
+    \]
+    Similarly, $g$ is not differentiable at 2.
+
+    Therefore IBP is not applicable.
+\end{solution}
+\begin{problem} [3.42 \redtext{done}]
+Suppose that $\psi: [c, d] \to [a, b]$ is continuous and for every zero set $Z \subset [a, b]$, $\psi^{pre}(Z)$ is a zero set in $[c, d]$.
+\begin{enumerate} [(a)]
+    \item If $f$ is RI, prove that $f \circ \psi$ is RI.
+    \item Derive Corollary 32 from (a)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    $f: [a, b] \to \bbr$
+
+    \textbf{(a)} Let $D$ be the set of discontinuities of $f$. Since $f$ is RI, $D$ is a zero set.
+
+    Since $\psi$ is continuous, $\psi^{Pre}(D)$ is the set of discontinuities of $f \circ \psi$ (Pugh). $D$ is a zero set, so it follows that $\psi^{Pre}(D)$ is a zero set too. Thus the set of discontinuities of $f \circ \psi$ is a zero set. $f \circ \psi$ is RI. \qed
+
+    \textbf{(b)} Want to show Corollary 32: If $f: [a, b] \to \bbr$ is RI and $\psi: [c, d] \to [a, b]$ is a homeomorphism whose inverse satisfies a Lipschitz condition then $f \circ \psi$ is RI.
+
+    Let $\psi^{-1}$ be $L-$Lipschitz.
+
+    We want to show that $\psi$ satisfies the conditions above in (a), i.e., that for every set $Z \subset [a, b]$, $\psi^{Pre}(Z)$ is a zero set.
+
+    Fix $\epsilon > 0$. Given zero set $Z \subset [a, b]$. Then $Z$ can be covered by finitely many open intervals $\{(a_i, b_i) \mid i \leq k\}$ whose lengths add up to less than $\epsilon / L$. Since $\psi$ is a homeomorphism, $\psi^{-1}(Z)$ is covered by the finitely many open intervals $(a'_i, b'_i) = \psi^{-1}[(a_i, b_i)]$. And we have \[
+        \sum |b'_i - a'_i| \leq \sum L(b_i - a_i) < L \frac{\epsilon}{L} = \epsilon
+    \]
+    so $\psi^{Pre}(Z) = \psi^{-1}(Z)$ is indeed a zero set. Now we can apply (a) to get that $f \circ \psi$ is RI.
+\end{solution}
+\begin{problem} [3.43 \redtext{done}]
+Let $\psi(x) = x \sin (1/x)$ for $0 < x \leq 1$ and $\psi(0) = 0$.
+\begin{enumerate} [(a)]
+    \item If $f: [-1, 1] \to \bbr$ is RI, prove that $f \circ \psi$ is RI.
+    \item What happens for $\psi(x) = \sqrt{x} \sin 1/x$?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} 
+    $\psi$ is differentiable on (0, 1):
+    \[
+        \psi'(x) = \sin(1/x) + x\cos(1/x)(-1)x^{-2} = \sin(1/x) - \cos(1/x)/x.
+    \]
+    Therefore, $\psi$ has critical points satisfying: \[
+    \sin(1/x_c) = \cos(1/x_c)/x_c
+    \]
+    Crucially, at these critical points, $\sin(1/x_c) \neq 0 $ because if so then $\cos(1/x_c) = 0 $ too, a contradiction.
+    \begin{align*}
+        \psi''(x) &= \cos(1/x)(-x^{-2}) - \frac{x(-\sin(1/x))(-x^{-2}) - \cos(1/x)}{x^2} \\
+        &= -\cos(1/x)x^{-2} - \sin(1/x)x^{-3} + \cos(1/x)x^{-2}\\
+        &= -\sin(1/x)x^{-3} \\
+        \implies \psi''(x_c) &= -\sin(1/x_c)x_c^{-3} \neq 0
+    \end{align*}
+    WLOG, assume $\psi''(x_c) > 0$. Since $\psi''$ is continuous, there exists $\delta_1 > 0$ such that $t \in (x_c, x_c + \delta_1) \implies \psi''(t) > 0$, which implies \[
+    \psi'(t) = \psi'(x_c) + \int_{x_c}^{x_c+t} \psi''(s) ds > \psi'(x_c) > 0
+    \]
+    Similarly, there also exist $\delta_2 > 0$ such that $t \in (x_c - \delta_2, x_c) \implies \psi''(t) > 0$, which implies $\psi'(t) < 0$ on $(x_c - \delta_2, x_c)$. Therefore, it can be concluded that for each $x_c$, there exists an open interval $(x_c - \min\{\delta_1, \delta_2\}, x_c + \min\{\delta_1, \delta_2\})$ that has no other critical points. Since $\bbq$ is dense in $\bbr$, there exists $q_c \in \bbq \cap (x_c - \min\{\delta_1, \delta_2\}, x_c + \min\{\delta_1, \delta_2\})$.
+
+    Let $D$ be the set of critical points of $\psi$ on $(0, 1]$. The mapping above from $x_c \mapsto q_c$ describes an injective mapping from $D \to \bbq$. Thus $D$ is countable.
+
+    We may now enumerate the countable critical points with the endpoints 0 and 1:
+    \[
+    x_1 = 0 < x_2 < x_3 < \cdots < 1
+    \]
+
+    Consider $\psi$ restricted to $I_k = (x_k, x_{k+1})$. Since $\psi'$ is continuous and can't achieve 0 in the interval (otherwise there would be another critical point in between), it has to be positive throughout or negative throughout. WLOG, suppose $\psi' > 0$ on $I_k$. Therefore $\psi$ is monotone thus surjective onto $(\psi(x_{k+1}), \psi(x_k))$. Using Inverse Function Theorem, $\psi$ is a homeomorphism. In fact, a $C^1$ homeomorphism, since $\psi'$ is continuous. Using Corollary 15 (Section 3.1), $\psi$ is a $C^1$ diffeomorphism.
+
+    Now, we want to show that $\psi^{-1}$ maps zero sets to zero sets on $I_k$. Restrict $\psi$ to $I_k$, call it $\psi_k = \psi|_k$.
+
+    $I_k = \bigcup_{n \in \bbn} [x_{k+1} + 1/n, x_{k} - 1/n] \eqqcolon \bigcup_{n \in \bbn}J_n$. On each compact $J_n$, we know that $\psi_k'$ is continuous so $\frac{1}{\psi_k'}$ is continuous. It is continuous on compact $J_n$ so it is bounded by $L$. Then Inverse Function Theorem implies \[
+    |(\psi_k^{-1})'| = \abs*{\frac{1}{\psi_k' \circ \psi_k}} \leq L
+    \]
+    Therefore $\psi_k^{-1}$ is $L$-Lipschitz. As shown in 3.42(b), this implies that $\psi_k^{-1}$ maps zero sets to zero sets.
+
+    However, this is only on $J_n$. But if we let $Z$ be a zero set in $I_k$, then $Z = Z \cap I_k = \bigcup (Z \cap J_n) \eqqcolon \bigcup Z_n$. Each $Z_n$ is a zero set so \[
+    \psi_k^{-1}(Z) = \bigcup \psi_k^{-1}(Z_n) 
+    \]
+    is a countable union of zero sets, and is therefore a zero set.
+
+    Therefore, $\psi_k^{-1}$ maps zero sets to zero sets.
+
+    Now, take zero set $Y$ in [-1, 1], then 
+    \begin{align*}
+        \psi^{Pre}(Y) &= \bigcup_{k\in \bbn}\psi^{Pre}(Y \cap \psi(I_k)) \cup \bigcup_{k\in \bbn}\psi^{Pre}(Y \cap \{\psi(x_k)\}) \\
+        &= \bigcup_{k \in \bbn} \psi_k^{-1}(Y \cap \psi(I_k)) \cup \bigcup_{k\in \bbn}\psi^{Pre}(Y \cap \{\psi(x_k)\})
+    \end{align*}
+    is a union of:
+\begin{itemize}
+    \item a countable union of zero sets, and 
+    \item a countable union of finite sets
+\end{itemize}
+    is therefore a zero set.
+\end{solution}
+
+Then, let $E$ be the set of discontinuities of $f$. Since $f$ is RI, $E$ is zero set. Since $\psi$ is continuous, it follows that the set of discontinuities of $f \circ \psi$ is $\psi^{Pre}(E)$, which is a zero set. $f \circ \psi$ is therefore RI.
+
+
+\textbf{(b)} The result still holds. It only remains for us to prove that $\psi''$ is continuous on (0, 1) and $\psi'' \neq 0$ at critical points.
+\[
+\psi'(x) = x^{-3/2}(\sin(1/x)x - 2\cos(1/x))
+\]
+\[
+\psi''(x) = -4x^{-7/2}(\sin(1/x)x^2 -4\cos(1/x)x + 4\sin(1/x))
+\]
+So $\psi''(x)$ is continuous. Critical points satisfy:
+\[
+\sin(1/x_c)x_c = 2\cos(1/x_c) \implies \cos(1/x_c) \neq 0, \tan(1/x_c) = 2/x_c
+\]
+so 
+\[
+    \begin{aligned}
+        &0 &&= \psi''(x_c) \\
+        \Leftrightarrow &0 &&= -4x_c^{-7/2}(\sin(1/x_c)x_c^2 -4\cos(1/x_c)x_c + 4\sin(1/x_c))\\
+        \Leftrightarrow &0 &&= \sin(1/x_c)(x_c^2 + 4) - 4\cos(1/x_c)x_c \\
+        \Leftrightarrow &\tan(1/x_c)(x_c^2 + 4) &&= 4x_c \\
+        \Leftrightarrow & \frac{2(x_c^2 + 4)}{x_c} &&=4x_c \\
+        \Leftrightarrow & x_c^2 + 4 &&= 2x_c^2 \\
+        \Leftrightarrow & x_c && \in \{\pm 2\} \\
+    \end{aligned}
+\]
+so $\psi'' \neq 0$ on $(0, 1)$. Therefore, the same proof in (a) applies. $f \circ \psi$ is therefore RI.
+\begin{problem} [4.4a \redtext{done}]
+If $f_n: \bbr \to \bbr$ is uniformly continuous for each $n \in \bbn$ and if $f_n \unicvg f$ as $n \to \infty$, prove or disprove that $f$ is uniformly continuous.
+\end{problem}
+\begin{solution}
+    WTS $f$ is uniformly continuous.
+
+    Fix $\epsilon > 0$. Since $f_n \unicvg f$, there exists $N =  N_\epsilon \in \bbn$ such that \[
+        \forall n \geq N_\epsilon, d_{sup}(f_n, f) < \epsilon /3
+    \]
+    Since $f_N$ is uniformly continuous, there exists $\delta = \delta_{N_\epsilon} = \delta_\epsilon$ such that \[
+        |x - y| < \delta \implies |f_N(x) - f_N(y)| <
+        \epsilon / 3
+    \]
+    Then we can estimate, for $|x - y| < \delta$:
+    \[
+        |f(x) - f(y)| \leq |f(x) - f_N(x)| + |f_N(x) - f_N(y) | + |f_N(y) - f(x) | \leq 3 \epsilon /3 = \epsilon
+    \]
+    $f$ is therefore uniformly continuous.
+\end{solution}
+\begin{problem} [4.8 \redtext{done}]
+Is the sequence of functions $f_n: \bbr \to \bbr$ defined by \[
+    f_n(x) = \cos(n+ x) + \log \left(1 + \frac{1}{\sqrt{n+2}} \sin^2(n^nx)\right)
+\]
+equicontinuous? Prove or disprove.
+\end{problem}
+\begin{solution}
+    (Joshua's hint on Discord)
+
+    We want to show separately that $a_n(x) = \cos(n+x)$, $b_n(x) = \log \left(1 + \frac{1}{\sqrt{n+2}} \sin^2(n^nx)\right)$ are equicontinuous.
+
+    \textbf{1.} \[
+        |a_n'(x)| = |-\sin(n+x)| \leq 1
+    \]
+    Since $a_n(x)$ is continuous and differentiable everywhere on $\bbr$, MVT gives us the equicontinuity of $\{f_n\}$: given $\epsilon > 0$, then choose $\delta = \epsilon$, then \[
+        |s - t| < \delta \implies |\cos(n+ s) - \cos(n+ t)| = |-\sin(n+ \theta)| |s - t| < 1\delta < \epsilon
+    \]
+    so $\cos(n+x)$ is equicontinuous.
+
+    \textbf{2.} WTS $(b_n) $ is uniformly equicontinuous.
+
+    \textbf{2.1.} WTS each $b_n$ is uniformly continuous.
+
+    We do this by showing that $b_n$ is Lipschitz. \[
+    |b_n'(x)| = \abs*{\frac{1}{1+\frac{1}{\sqrt{n+2}}\sin^2(n^nx)}\left(\frac{2n^n}{\sqrt{n+2}}\sin(n^nx)\cos(n^nx)\right)} \leq \abs*{\frac{n^n}{\sqrt{n+2}}\sin(2n^nx)} \leq C_n
+    \]
+    Similar to \textbf{1.}, $b_n$ is $C_n$-Lipschitz. Given $\epsilon > 0$, then we can choose $\delta_n = \epsilon /C_n$, then \[
+    |s - t| < \delta_n \implies |b_n(s) - b_n(t)| \leq C_n |s-t| < \epsilon
+    \]
+    Therefore $b_n$ is uniformly continuous.
+
+    \textbf{2.2.} WTS $(b_n)$ is uniformly Cauchy.
+
+    Note that for fixed $n$, \[
+    0 = \log 1 \leq |b_n(x)| \leq \log\left(1 + \frac{1}{\sqrt{n+2}}\right)
+    \]
+
+    Therefore, for all $\epsilon > 0$, choose $N \in \bbn$ such that $ \log\left(1 + \frac{1}{\sqrt{n+2}} \right)< \epsilon /2$. Then for all $n, m \geq N$, for all $x \in \bbr$,
+    \begin{align*}
+        |b_n(x) - b_m(x)| &\leq |b_n(x)| + |b_m(x)| \\
+        &\leq 2\log\left(1 + \frac{1}{\sqrt{N+2}}\right) < \epsilon
+    \end{align*}
+    Therefore for all $n, m \geq N$, \[
+    d_{sup}(b_n, b_m) < \epsilon
+    \]
+    $(b_n)$ is therefore uniformly Cauchy.
+
+    \textbf{2.3.} Given $\epsilon > 0$, then since $(b_n)$ is Cauchy, there exists $N \in \bbn$ such that \[
+    n, m \geq N \implies d_{sup}(b_n, b_m) < \epsilon /3
+    \]
+
+    Since each $\{b_n\}_{1 \leq n \leq N}$ is uniformly continuous, there exists $\{\delta_n\}_{1\leq n \leq N}$ such that \[
+    |s - t| < \delta_n \implies |b_n(s) - b_n(t)| < \epsilon /3
+    \]
+    Take $\delta = \min\{\delta_n : 1 \leq n \leq N\}$. Then, for $|s - t| < \delta$, 
+    \begin{itemize}
+        \item If $1 \leq n \leq N$ then $|b_n(s) - b_n(t)| < \epsilon / 3 < \epsilon$, since $\delta \leq \delta_n$. 
+        \item If $n > N$ then \[
+        |b_n(s) - b_n(t)| \leq |b_n(s) - b_N(s)| + |b_N(s) - b_N(t)| + |b_N(t) - b_n(t) < 3\epsilon / 3 = \epsilon
+        \]
+    \end{itemize}
+
+    It follows that \[
+    |s - t| < \delta \implies |b_n(s) - b_n(t)| < \epsilon \forall n \in \bbn
+    \]
+    $(b_n)$ is therefore uniformly equicontinuous.
+
+    \textbf{3.} Since $(a_n)$ and $(b_n)$ are both uniformly equicontinuous, given $\epsilon > 0$, there exists $\delta_a, \delta_b > 0$ such that \[
+    |s-t| < \delta_a \implies |a_n(s) - a_n(t)| < \epsilon /2, |s-t| < \delta_b \implies |b_n(s) - b_n(t)| < \epsilon/2
+    \]
+    Take $\delta = \min\{\delta_a, \delta_b\}$ then \[
+    |s-t| < \delta \implies |f_n(s) - f_n(t)| \leq |a_n(s) - a_n(t)| + |b_n(s) - b_n(t)| < 2\epsilon / 2 = \epsilon 
+    \]
+    $(f_n)$ is therefore uniformly equicontinuous.
+\end{solution}
+\begin{problem} [4.9 \redtext{done}]
+If $f: \bbr \to \bbr$ is continuous and the sequence $f_n(x) = f(nx)$ is equicontinuous, what can be said about $f$?
+\end{problem}
+\begin{solution}
+    WTS $f$ is a constant function, i.e. $f(x) = C \forall x$ for some $C \in \bbr$.
+
+    Suppose not. Then there exists $a \neq b \in \bbr$ such that $f(a) \neq f(b)$.
+
+    Let $\epsilon = \frac{|f(b) - f(a)|}{2}$. Then there exists $\delta$ such that \[
+        |x-y| < \delta \implies |f(nx) - f(ny)| < \epsilon \forall n \in \bbn
+    \]
+    Choose $N$ sufficiently large, such that $|\frac{b-a}{N}| < \delta$, i.e. $N > \frac{|b-a|}{\delta}$. Then that implies \[
+        |b/N - a/N| < \delta \implies |f(b) - f(a)| = |f(N(b/N)) - f(N(a/N))| < \epsilon = \frac{|f(b) - f(a)|}{2} \contra
+    \]
+    It follows that $f$ is a constant function.
+\end{solution}
+
+\begin{problem} [4.14 \redtext{done}]
+Recall from Exercise 2.78 that a metric space $M$ is chain connected if for each $\epsilon > 0$ and each $p, q \in M$ there is a chain $p = p_0, \dots, p_n = q$ in $M$ such that \[
+    d(p_{k-1}, p_k) < \epsilon \:\text{for}\:  1\leq k \leq n.
+\]
+A family $\calf$ of functions $f: M \to \bbr$ is bounded at $p \in M$ if the set $\{f(p) : f \in \calf\}$ is bounded in $\bbr$.
+
+Show that $M$ is chain connected if and only if pointwise boundedness of an equicontinuous family at one point of $M$ implies pointwise boundedness at every point of $M$.
+\end{problem}
+\begin{solution}
+    \pffwd Let $M$ be chain connected. And let $\calf$ be an equicontinuous family of functions that is bounded at some $p \in M$, i.e. $\{f(p) : f \in \calf\}$ is bounded in $\bbr$. WTS $\calf$ is pointwise bounded at every point $q \in M$.
+
+    $\{f(p) : f \in \calf\}$ is bounded in $\bbr$. Thus there exists $L \in \bbr$ such that $|f(p)| < L$ for all $f \in \calf$
+
+    Take arbitrary $q \in M$. Fix $\epsilon = 1$. Since $\calf$ is equicontinuous, there exists $\delta > 0$ such that \[
+        |x- y| < \delta \implies |f(x) - f(y)| < 1 \forall f \in \calf
+    \]
+    Since $M$ is chain connected, there exists a chain $p = p_0, \dots, p_N = q$ in $M$ such that $d(p_{k-1}, p_k) < \delta \forall 1 \leq k \leq N$.
+    Now we can make the estimate for all $f \in \calf$,  \[
+        |f(q) - f(p)| \leq \sum_{k=1}^{N}|f(p_{k}) - f(p_{k-1})| < N
+    \]
+    therefore for all $f \in \calf$ \[
+        |f(q)| \leq N + |f(p)| < N + L
+    \]
+    so $\calf$ is pointwise bounded at $q \in M$. \qed
+
+    \pfbwd We have that for all equicontinuous family $\calf$ that is pointwise bounded at one point $p \in M$, it is pointwise boundedness at every point in $M$.
+
+    % If $M$ has one element, then we have $M$ is chain-connected trivially. Consider when it has more than one.
+
+    % Construct $\calf = \{f_n(x) = n \inf_{y \in M \backslash \{x\}} d(x, y) \}_{n \in \bbn}$. Note that $\inf_{y \in M \backslash \{x\}, y \neq x} d(x, y)$ is well-defined because the set $\{d(x, y) : y \in M \backslash \{x\}\}$ is non-empty and has 0 as a lower bound.
+
+    % We first show that $\calf$ is indeed equicontinuous. Indeed, given $\epsilon > 0$, we can choose $\delta = \epsilon/2$. Then, 
+    % \[
+    % d(x, y) < \delta \implies |f_n(x) - f_n(y)| \leq |f_n(x)| + |f_n(y)| 
+    % \]
+    Let's prove by contradiction. Suppose $M$ is not chain-connected. Then there exists $\epsilon_0 > 0; p, q \in M$ such that there is no $\epsilon_0-$chain from $p$ to $q$. Let $A$ be the set of points that can be $\epsilon_0$-chain-connected from $p$, and let $B$ be the set of points that cannot. Then $p \in A, q \in B$. Also, \[
+    M = A \sqcup B
+    \]
+    so if $c \in M$ then $c \in A$ or $c \in B$. Define family $\calf = \{f_n: M \to \bbr\}$ as follows \[
+    f_n(x) = \begin{cases}
+        0 &\:\text{for}\: x \in A \\
+        n &\:\text{for}\: x \in B
+    \end{cases}
+    \]
+    then $f_n(p) = 0 \forall n \in \bbn$, since $p \in A$. Thus $\calf$ is pointwise bounded at $p$.
+
+    Also note that for all $a \in A, b \in B$, we have $d(a, b) \geq \epsilon_0$. Because otherwise, since there exists an $\epsilon_0$-chain from $p$ to $a$, we can concatenate this chain with $b$ as the last node to get an $\epsilon_0$-chain from $p$ to $b$, making $b \in A$.
+    
+    Now, given any $\epsilon > 0$, we can choose $\delta = \epsilon_0$. Then for $d(s, t) < \delta$, since if one of $s$ and $t$ is in $A$ and the other in $B$ then $d(s, t) \geq \epsilon_0 > \delta$, so they must be both in $A$ or both in $B$. Therefore $f_n(s) = f_n(t) \implies d(f_n(s), f_n(t)) = 0 < \epsilon$.
+
+    Therefore, $\calf$ is uniformly equicontinuous.
+
+    The problem's assumption then yields that $\calf$ is pointwise bounded at every point in $M$. But $\{f_n(q)\} = \bbn$ is clearly NOT bounded! \contra
+
+    By contradiction, $M$ must therefore be chain-connected.
+\end{solution}
+
+\begin{problem} [4.23 a-c \redtext{done}]
+Let $M$ be a compact metric space, and let $(i_n)$ be a sequence of isometries $i_n : M \to M$. \begin{enumerate} [(a)]
+    \item Prove that there exists a subsequence $i_{n_k}$ that converges to an isometry $i$ as $k\to \infty$.
+    \item Infer that the space of self-isometries of $M$ is compact.
+    \item Does the inverse isometry $i_{n_k}^{-1}$ converge to $i^{-1}$? (Proof or counterexample.)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} We want to show that the familiy of functions $i_n: X \to Y$ is uniformly equicontinuous. In fact, given $\epsilon > 0$, we can choose $\delta = \epsilon$. Then, \[
+        d(x, y) < \delta \implies d(i_n(x), i_n(y)) = d(x, y) < \delta = \epsilon \forall n \in \bbn
+    \]
+    which gives us uniformly equicontinuous $(i_n)$.
+
+    Now we want to show that the space of self-isometries $S = \{i: M \to M\}$ is complete. As a result from above, we've seen that each self-isometry is continuous. Thus, since $C^0(M, \bbr)$ is complete, if the sequence of isometries $i_n$ is Cauchy then $i_n \cvgn i \in C^0$. Now we want to show $i \in S$. Indeed, since $(i_n)$ is uniformly equicontinuous, given $\epsilon > 0$, there exists $N = N_\epsilon \in \bbn$ such that for all $n \geq N$, $d_{sup}(i_n, i) < \epsilon / 2$. It follows that, for all $x, y \in M$,
+    \[
+        d(i(x), i(y)) \leq d(i(x), i_N(x)) + d(i_N(x), i_N(y)) + d(i_N(y), i(y)) < \epsilon + d(x, y)
+    \]
+    and \[
+        d(x, y) = d(i_N(x), i_N(y)) \leq d(i_N(x), i(x)) + d(i(x), i(y)) + d(i(y), i_N(y)) < \epsilon + d(i(x),i(y))
+    \]
+    We therefore have the inequalities:
+    \[
+        d(x, y) - \epsilon < d(i(x), i(y)) < d(x, y) + \epsilon
+    \]
+    that holds for all $\epsilon > 0; x, y \in M$. It follows that $d(i(x), i(y)) = d(x, y) \forall x, y \in M$ and $i$ is indeed an isometry.
+
+    Therefore the space of self-isometries $S$ is complete.
+
+
+    For each $x \in M$, we have that $(i_n(x))_{n \in \bbn}$ lies in a compact subset of $M$, namely $M$ itself. Therefore, using Theorem 37 (Section 4.8), $(i_n)$ has a uniformly Cauchy subsequence. Since $S$ is complete, the uniformly Cauchy subsequence is convergent. \qed
+
+    \textbf{(b)} Restating what we proved from (a): for all $\{i_n\} \subseteq S$, there exists a convergent subsequence $\{i_{n_k}\}$. $S$, the space of self-isometries from $M$ to $M$, is therefore compact. \qed
+
+    \textbf{(c)} (With Prof Wilkinson's provided hint)
+    We first show that the inverse $i_n^{-1}$ is well-defined, i.e., that all self-isometries $f: M \to M$ for $M$ compact is a bijection.
+
+    Take arbitrary $x_0 \in M$ and arbitrary isometry $f: M \to M$. Then we can construct the following sequence:
+    \[
+        x_1 = f(x_0), x_2 = (f \circ f)(x_0), \dots, x_n = f^{\circ n}(x_0), \dots
+    \]
+    Clearly, $\{x_n\} \subseteq f(M)$. Since $M$ is compact, there exists a subsequence $(x_{n_j})_{j \in \bbn}$ that converges to some $x \in M$.
+
+    Fix $\epsilon > 0$. Then there exists $J \in \bbn$ such that for all $j \geq J$, \[
+        d(x_{n_j}, x) < \epsilon/2
+    \]
+    Then choose $J_1 > J_2 \geq J$. Let $N_1 = n_{J_1} > N_2 = n_{J_2}$ then we have \[
+        d(x_{N_1}, x), d(x_{N_2}, x) < \epsilon / 2 \implies d(x_{N_1}, x_{N_2}) \leq d(x_{N_1}, x) + d(x_{N_2}, x) < \epsilon
+    \]
+    But by construction of $(x_n)$, \[
+        \epsilon > d(x_{N_1}, x_{N_2}) = d(f^{\circ N_1}(x_0), f^{\circ N_2}(x_0)) = d(f^{\circ (N_1 - N_2)}(x_0), x_0) = d(x_{N_2 - N_1}, x_0)
+    \]
+    It follows that for all $\epsilon > 0$, there always exists $K = K_\epsilon, x_K \in M$ such that $d(x_K, x_0) < \epsilon$. Therefore $x_0$ is a cluster point of $f(M)$.
+
+    From above, every isometry is continuous. $f$ is therefore continuous and $M$ is compact so $f(M)$ is compact, and therefore closed. $x_0$ is a cluster point of a closed set and is therefore in the set.
+
+    It follows that every self-isometry of $M$ compact is surjective. It is clear that every isometry is also injective, because \[
+    x \neq y \implies d(x, y) > 0 \implies d(f(x), f(y)) = d(x, y) > 0 \implies f(x) \neq f(y)
+    \]
+    Thus, every self-isometry of $M$ compact is bijective and $f^{-1}$ is well-defined. It is also clear that $f^{-1}$ is an isometry: \[
+    d(f^{-1}(x), f^{-1}(y)) = d(f(f^{-1}(x)), f(f^{-1})(y)) = d(x, y)
+    \]
+
+    Now, we want to show that yes, if self-isometries $(i_{n_k})$ converge to $i$ then $(i_{n_k}^{-1})$ also converge to $i^{-1}$.
+
+    For simplicity, relabel $i_{n_k}$ as $g_k$. Then since $g_k$ converges to $i$, given $\epsilon > 0$, there exists $K \in \bbn$ such that for all $k \geq K$, \[
+    \sup_{x \in M}\{d_M(g_k(x), i(x))\} < \epsilon
+    \]
+    Then for all $k \geq K$, \begin{align*}
+    \sup_{x \in M}\{d(g_k^{-1}(x), i^{-1}(x))\} &= \sup_{x \in M}\{d(i(g_k^{-1}(x)), x) \} \\
+    &= \sup_{x \in M}\{d(i(g_k^{-1}(x)), g_k(g_k^{-1}(x)))\} \\
+    &\leq \sup_{x \in M}\{d(i(x), g_k(x))\} < \epsilon
+    \end{align*}
+    Therefore $g_k^{-1}$ does converge to $i^{-1}$.
+\end{solution}
+
+\begin{problem} [Prelim 4.8 \redtext{done}]
+Let $h: [0, 1) \to \bbr$ be a uniformly continuous function where [0, 1) is the half-open interval. Prove that there is a unique continuous map $g: [0, 1] \to \bbr$ such that $g(x) = h(x)$ for all $x \in [0, 1)$.
+\end{problem}
+\begin{solution}
+    Let $a_n \coloneqq h\left(1-\frac{1}{n}\right)$. We want to show that $(a_n)$ is Cauchy. Given $\epsilon > 0$, then since $h$ is uniformly continuous, there exists $\delta_1 > 0$ such that \[
+        |x-y| < \delta_1 \implies |h(x) - h(y)| < \epsilon
+    \]
+    Choose $N_1 \in \bbn$ such that $2/N_1 < \delta_1$. It then follows that for $m, n \geq N_1$, \[
+        \abs*{\left(1-\frac{1}{m}\right) - \left(1 - \frac{1}{n}\right)} \leq \frac{2}{\min\{m, n\}} \leq \frac{2}{N_1} < \delta_1
+    \]
+    which implies \[
+        |a_m - a_n| = |h(1 - 1/m) - h(1-1/n)| < \epsilon
+    \]
+    $(a_n)$ is therefore Cauchy and converges to unique $L \in \bbr$.
+
+    We now want to show that $\lim_{t \to 1-} g(t) = \lim_{t \to 1-} h(t) = L$.
+
+    Indeed, given $\epsilon > 0$, there exists $\delta_2 > 0$ such that \[
+        |x - y| < \delta_2 \implies |h(x) - h(y)| < \epsilon / 2
+    \]
+    Furthermore, since $(a_n)$ converges to $L$, there exists $N_2 \in \bbn$ such that for all $n \in \bbn$, \[
+        |a_n - L| < \epsilon/2
+    \]
+    Therefore, for $0 < 1 - t < \frac{\delta_2}{2}$, we can choose $N_3 \geq N_2$ such that $\frac{1}{N_3} < \frac{\delta_2}{2}$. Then
+    \[
+        |t - (1-1/N_3)| \leq |1-t| + |1/N_3| < 2\delta_2/2 = \delta_2
+    \]
+    which implies
+    \[
+        |h(t) - L| \leq |h(t) - h(1-1/N_3)| + |h(1-1/N_3) - L| < \epsilon/2 + \epsilon/2 = \epsilon
+    \]
+    In short, there exists $\delta = \delta_2/2$ such that \[
+        1 - t < \delta \implies |h(t) - L| < \epsilon
+    \]
+    Therefore $\lim_{h \to 1-} h(t) = L$.
+
+    Since $g$ is continuous, it follows that $g(1) = \lim_{t \to 1-}g(t) = L$ is unique. $g$ is therefore unique, since it is already defined on [0, 1).
+\end{solution}
+
+\begin{problem} [Prelim 4.12 \redtext{done}]
+Let $f: [0, 1] \to \bbr$ be continuously differentiable, with $f(0) = 0$. Prove that \[
+    \norm{f}^2 \leq \int_0^1 (f'(x))^2 dx
+\]
+where $\norm{f} = \sup\{|f(t)|: 0\leq t \leq 1\}$.
+\end{problem}
+\begin{solution}
+    Since $f$ is continuously differentiable, $|f|$ is continuous on $[0, 1]$. Therefore it achieves its maximum at $x_0 \in [0, 1]$, i.e. \[
+        \norm{f} = \sup\{|f(t)|: 0\leq t \leq 1\} = |f(x_0)|
+    \]
+    Therefore, using 2nd FTC and Cauchy-Schwarz,
+    \begin{align*}
+        \norm{f}^2 & = |f(x_0)|^2                                                      \\
+                   & = \abs*{f(0) + \int_{0}^{x_0}f'(t) dt}^2                          \\
+                   & = \abs*{\int_{0}^{x_0}f'(t) dt}^2                                 \\
+                   & \leq \left(\int_{0}^{x_0}(f'(t))^2 dt\right) \int_{0}^{x_0}1^2 dt \\
+                   & \leq \left(\int_{0}^{1}(f'(t))^2 dt \right) x_0                   \\
+                   & \leq \int_{0}^{1}(f'(t))^2 dt
+    \end{align*}
+    since $x_0 \in [0, 1]$.
+\end{solution}
+
+\begin{problem} [Prelim 4.20 \redtext{done}]
+Let $(g_n)$ be a sequence of RI functions from [0, 1] into $\bbr$ such that $|g_n(x)| \leq 1$ for all $n, x$. Define \[
+    G_n(x) = \int_0^xg_n(t) dt.
+\]
+Prove that a subsequence of $(G_n)$ converges uniformly.
+\end{problem}
+\begin{solution}
+    Note that $G_n$ is only defined on $[0, 1]$.
+
+    We first want to show that $G_n$ is uniformly equicontinuous. Indeed,
+    \begin{align*}
+        \abs{G_n(x) - G_n(y)} & = \abs*{\int_{0}^{x}g_n(t)dt - \int_{0}^{y}g_n(t)dt} \\
+                              & = \abs*{\int_{x}^{y}g_n(t) dt}                       \\
+                              & \leq \abs*{\int_{x}^{y}\abs{g_n(t)}dt}               \\
+                              & \leq \abs{x-y}
+    \end{align*}
+    Thus, given $\epsilon > 0$, we can choose $\delta = \epsilon$, then for all $G_n$, \[
+        \abs{G_n(x) - G_n(y)} \leq \abs{x-y} < \delta = \epsilon
+    \]
+
+    Secondly, we want to show that $G_n$ is bounded. Indeed,
+    \[
+        |G_n(x)| = \left|\int_{0}^{x}g_n(t) dt \right| \leq \left|\int_{0}^{x}|g_n(t)| dt\right| \leq \abs*{x} \leq 1
+    \]
+
+    Therefore, combining the 2 facts above, using Arzela-Ascoli, it follows that $(G_n)$ has a convergent subsequence.
+\end{solution}
+\end{document}
