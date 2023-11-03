@@ -1,0 +1,332 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 20700: Honors Analysis in Rn I \\ \large Problem Set 5}
+\date{31 Oct 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{5}
+\textbf{Textbook: Pugh's Real Mathematical Analysis}
+\begin{problem} [2.13 \redtext{done}]
+Assume $f: M \to N$  is a function from one metric space to another, satisfying the following condition: If a sequence $(p_n) \subseteq M$ converges then the sequence $(f(p_n)) \subseteq N$ converges. Prove that $f$ is continuous.
+\end{problem}
+\begin{solution}
+    Let $(p_n) \subseteq M$ and $p_n \cvgn p \in M$. Then WTS $(f(p_n)) \cvgn f(p)$. Consider $(q_n) \subseteq M$ defined as follows: \[
+        q_{2i -1} = p_i, q_{2i} = p \forall i \in \bbn
+    \]
+    then $(q_n)$ is a well-defined sequence in $M$. Does it converge? Yes. Given $\epsilon > 0$, since $p_n \cvgn p$, there exists $N_1 \in \bbn $ such that \[
+        \forall n \geq N_1, d(p_n, p) < \epsilon
+    \]
+    Then choose $N_2 = 2N_1$, then for all $n \geq N_2$, we have if $n$ is even then \[
+        d(q_n, p) = d(p, p) = 0 < \epsilon
+    \]
+    and if $n$ is odd \[
+        \frac{n+ 1}{2} > N_1 \implies d(q_n, p) = d(p_{\frac{n+1}{2}}, p) < \epsilon
+    \]
+    Therefore $q_n \cvgn p$. It follows that $f(q_n) \cvgn y \in N$. WTS $y = f(p)$.
+
+    Suppose not, then since $f(q_n) \cvgn y$, for $\epsilon' = d(y, f(p))/2$, there exists $N_3$ such that for all $n \geq N_3$, \[
+        d(f(q_n),  y) < \epsilon' / 2
+    \]
+    Take $N_4 = 2N_3 - 1 \geq N_3$ then \[
+        d(y, f(p))/2 > d(f(q_{N_4}), y) = d(f(q_{(2N_3 - 1)}), y) = d(f(p), y) \contra
+    \]
+    It follows that $y = f(p)$. Therefore $f(q_n) \cvgn f(p)$.
+
+    But then $(f(p_n))$ is a convergent subsequence of $(f(q_n))$, so it has to converge to the same limit. Thus $f(p_n) \cvgn f(p)$. $f$ is therefore continuous.
+\end{solution}
+\begin{problem} [2.27 \redtext{done}]
+If $S, T \subseteq M$, a metric space, and $S \subseteq T$, prove that \begin{enumerate} [(a)]
+    \item $\overline{S} \subseteq \overline{T}$
+    \item $int(S) \subseteq int(T)$
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Let $s \in \overline{S}$. Then there exists a sequence $(p_n) \subseteq S$ such that $p_n \cvgn s$. But $S \subseteq T \implies (p_n) \subseteq T$ too. And $p_n \cvgn s \in M$ so $s$ is a limit point of $T$. In other words, $s \in \overline{T}$. Therefore $\overline{S} \subseteq \overline{T}$. \qed
+
+    \textbf{(b)} Recall that $int(S)$ is the largest open set in $M$ that is a subset of $S$. Let $s \in int(S)$. Then there exists $r > 0$ such that \[
+        B_M(s, r) \subseteq S
+    \]
+    But $S \subseteq T \subseteq M$ so $B_M(s, r) \subseteq T$.
+
+    Suppose that $s \not \in int(T)$ then we can construct \[
+        I = int(T) \cup B_M(s, r)
+    \]
+    is a union of open sets in $M$ and is therefore open. Also, $int(T), B_M(s, r) \subseteq T \implies I \subseteq T$.
+
+    However, $int(T) \subseteq I, s \in I, s \not \in int(T)$ so $int(T)$ is not the largest open set in $M$ that is a subset of $T$. \contra
+
+    It follows that $s \in int(T)$. Therefore $int(S) \subseteq int(T)$.
+\end{solution}
+\begin{problem} [2.41 \redtext{done}]
+Let $\norm{\cdot}$ be any norm on $\bbr^m$ and let $B = \{x \in \bbr^m : \norm{x} \leq 1\}$. Prove that $B$ is compact. [Hint: It suffices to show that $B$ is closed and bounded with respect to the Euclidean matrix.]
+\end{problem}
+\begin{solution}
+    Notation: Let $|\cdot|$ be the standard Euclidean norm.
+
+    $\norm{\cdot}$ induces a metric $d$ on $\bbr^m$. Consider the identity map between 2 metric spaces \[
+        id: (\bbr^m, d_E) \to (\bbr^m, d), x \mapsto x.
+    \]
+    It is clearly a bijection.
+
+    % We want to show that $id$ is a homeomorphism.
+    Denote $e_i \in \bbr^m, e_i = (0, \dots, 1, \dots, 0)$ with its $i^{th}$ entry as 1, and the rest as 0. Define \[
+        L \coloneqq \max_{1 \leq i \leq m}{\norm{e_i}} < \infty
+    \]
+
+    Note that $B = id(B) = id^{-1}(B)$.
+
+    \textbf{1.} Claim that $B$ is closed in $(\bbr^m, d_E)$.
+
+    For any $a, b \in (\bbr^m, d)$, we have:
+    \begin{align*}
+        d(a, b) & = \norm{a - b}                                 \\
+                & = \norm{(a_1, \dots, a_m) - (b_1, \dots, b_m)} \\
+                & = \norm*{\sum_{i=1}^m (a_i-b_i) e_i}           \\
+                & \leq \sum_{i=1}^m |a_i-b_i|\norm{e_i}          \\
+                & \leq L\sum_{i=1}^m |a_i-b_i|                   \\
+                & \leq Lm \sqrt{\sum_{i=1}^m (a_i-b_i)^2}        \\
+                & \leq Lm d_E(a, b)
+    \end{align*}
+    so $id$ is $Lm-$Lipschitz. $id$ is therefore continuous. $B$ is the closed unit ball in $(\bbr^m, d)$, so its preimage, $B$ itself, is closed in $(\bbr^m, d_E)$.
+
+    \textbf{2.} Claim that $B$ is bounded in $(\bbr^m, d_E)$.
+
+    \textbf{2.1.}
+    Take $S = S^{m-1}(\bbr^m, d_E) \subset \bbr^m$. It is compact. Since $id$ is continuous, $S = id(S)$ is compact in $(\bbr^m, d)$. Clearly, $0 \not \in S$.
+
+    Claim that there exists $c > 0$ such that $d(u, 0) \geq c \forall u \in S$.
+
+    Suppose not. Then for all $n \in \bbn$, there exists $u_n \in S$ such that \[
+        d(u_n, 0) < \frac{1}{n}
+    \]
+    $(u_n)$ is a sequence in $(\bbr^m, d)$. Trivially, $u_n \cvgn 0$ in $(\bbr^m, d)$. However, since $S$ is compact in $(\bbr^m, d)$, there exists a subsequence $(u_{n_j})$ that converges in $S$. But since $u_n \cvgn 0$,  $u_{n_j} \cvgj 0$ too. But $0 \not \in S$. \contra
+
+    It follows that there does exist such a $c > 0$. Which means \[
+        \forall u \in S, \norm{u} = d(u, 0) \geq c
+    \]
+
+    \textbf{2.2.} For any $v \in B \subseteq \bbr^m$, let $w = \frac{1}{|v|}v$. Then $|w| = \frac{|v|}{|v|} = 1 \implies w \in S$. Then
+    \begin{align*}
+        |v| & = \frac{\norm{v}}{\norm{\frac{1}{|v|}v}}                            \\
+            & = \frac{\norm{v}}{\norm{w}} \leq \frac{1}{c} \norm{v} = \frac{1}{c}
+    \end{align*}
+
+    Therefore $B$ is bounded in in $(\bbr^m, d_E)$.
+
+    \textbf{3.} Since $B$ is closed and bounded in  $(\bbr^m, d_E)$, it follows that $B$ is compact in $(\bbr^m, d_E)$ (H-B). $id$ is continuous, so $B = id(B)$ is compact in $(\bbr^m, d)$.
+\end{solution}
+
+\begin{problem} [2.96 \redtext{done}]
+If $A \subseteq B \subseteq C$, $A$ is dense in $B$, $B$ is dense in $C$, prove that $A$ is dense in $C$.
+\end{problem}
+\begin{solution}
+    Let $c \in C$ and $\epsilon > 0$.
+
+    Since $B$ is dense in $C$, there exists $b \in B$ such that $d(b, c) < \epsilon/2$.
+
+    Since $A$ is dense in $B$, there exists $a \in A$ such that $d(a, b) < \epsilon / 2$. Thus, we can always pick $a \in A$ satisfying:
+    \[
+        d(a, c) \leq d(a, b) + d(b, c) < \epsilon
+    \]
+    Thus $A$ is dense in $C$.
+\end{solution}
+\begin{problem} [3.37 \redtext{done}]
+Suppose that $f: \bbr \to [-M, M]$ has no jump discontinuities. Does $f$ have the intermediate value property? (Proof or counterexample)
+\end{problem}
+\begin{solution}
+    No. Define \[
+        f(x) = \begin{cases}
+            \sin(1/x) & \:\text{for}\: x > 0 \\
+            0         & \:\text{for}\: x = 0 \\
+            2         & \:\text{for}\: x < 0
+        \end{cases}
+    \]
+    Then \begin{enumerate}
+        \item $|\sin(1/x)|, |0|, |2| \leq 2 \implies |f| \leq 2$.
+        \item $f = \sin(1/x)$ is continuous on $ x > 0$ and $f = 2$ is continuous on $x < 0$.
+        \item Claim that $f$ is discontinuous at 0, but it is not a jump discontinuity. We want to show that $\lim_{x \to 0+} f(x)$ doesn't exist.
+
+              Suppose that it does, that $\lim_{x \to 0+} f(x) = L$. Choose $\epsilon = 1$, then there exists $\delta > 0$ such that $x \in (0, \delta) \implies |f(x) - L| < \epsilon$.
+
+              Choose $N \in \bbn$ sufficiently large such that $\frac{1}{N} < \delta$, then we can construct $x_1, x_2 \in (0, \delta)$ \[
+                  x_1 = \frac{1}{2N\pi + \frac{\pi}{2}}, x_2 = \frac{1}{2N\pi - \frac{\pi}{2}}
+              \]
+              which yields \[
+                  f(x_1) = \sin(1/x_1) = 1, f(x_2) =  \sin(1/x_2) = -1
+              \]
+              But \[
+                  2 = |f(x_1) - f(x_2)| \leq |f(x_1) - L| + |f(x_2) - L| < 2\epsilon = 2 \contra
+              \]
+              Therefore $\lim_{x \to 0+}f(x)$ doesn't exist.
+
+              The non-existence of the right limit of $f$ at 0 implies that it is a nonjump discontinuous. (A jump discontinuity requires both right and left limits to exist).
+        \item $f$ does not have the intermediate value property. There doesn't exist $x_0 \in \bbr$ such that $f(x_0) = 1.5$.
+    \end{enumerate}
+\end{solution}
+\begin{problem} [4.34a \redtext{done}]
+Consider the ODE $y' = 2\sqrt{|y|}$ where $y \in \bbr$. Show that there are many solutions to this ODE, all with the same initial condition $y(0) = 0$. Not only does $y(t) = 0$ solve the ODE, but also $y(t) = t^2$ does for $t \geq 0$.
+\end{problem}
+\begin{solution}
+    WTS that every member of the family of functions \[
+        \calf \coloneqq \left\{y_{a, b}: (-1, 1) \to \bbr,  y_{a, b}(x) = \begin{cases}
+            -(t-a)^2 & \:\text{for}\: t \in (-1, a) \\
+            0        & \:\text{for}\: t \in [a, b]  \\
+            (t-b)^2  & \:\text{for}\: t \in (b, 1)
+        \end{cases} \Bigg| a \in (-1, 0), b \in (0, 1)\right\}
+    \]
+    is a solution to the ODE $y' = 2\sqrt{|y|}$. Take any $y = y_{a, b}$. Then
+    \begin{enumerate}
+        \item $y(0) = 0$ by definition.
+        \item On $(-1, a), y' = 2(a-t) = 2\sqrt{(t-a)^2} = 2\sqrt{|y|}$
+        \item On $(b, 1), y' = 2(t-b) = 2\sqrt{(t-b)^2} = 2\sqrt{|y|}$
+        \item On $(a, b), y' = 0 = 2\sqrt{|y|}$
+        \item We have\[
+                  \lim_{t \to a-}\frac{y(t) - y(a)}{t-a} = \lim_{t \to a-} \frac{-(t-a)^2}{t-a} = \lim_{t \to a-} (a-t) = 0
+              \]
+              \[
+                  \lim_{t \to a+}\frac{y(t) - y(a)}{t-a} = 0
+              \]
+              It follows that $y'(a) = 0 = \sqrt{|y(a)|}$.
+        \item  We have\[
+                  \lim_{t \to b+}\frac{y(t) - y(b)}{t-b} = \lim_{t \to b+} \frac{(t-b)^2}{t-b} = \lim_{t \to b+} (t-b) = 0
+              \]
+              \[
+                  \lim_{t \to b-}\frac{y(t) - y(b)}{t-b} = 0
+              \]
+              It follows that $y'(b) = 0 = \sqrt{|y(b)|}$.
+    \end{enumerate}
+    Therefore $y = y_{a, b}$ solves the ODE with initial condition $y(0) = 0$.
+\end{solution}
+\begin{problem} [5.1 \redtext{done}]
+Let $T: V \to W$ be a linear transformation, and let $p \in V$ be given. Prove that the following are equivalent: \begin{enumerate} [(a)]
+    \item $T$ is continuous at the origin.
+    \item $T$ is continuous at $p$.
+    \item $T$ is continuous at at least one point of $V$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+    WTS (c) implies (a). Then suppose $T$ is continuous at some $q \in V$. Then for all $\epsilon > 0$, there exists $\delta > 0$ such that \[
+        |u - q| < \delta \implies |Tu - Tq| < \epsilon
+    \]
+    Use the same $\delta$. Then \[
+        |v - 0| < \delta \implies |(q+v) - q| < \delta \implies |T(q+ v) - Tq| < \epsilon \implies |T(v)| < \epsilon
+    \]
+    And $T(0) = 0$ so that implies $|T(v) - T(0)| < \epsilon$.
+
+    $T$ is therefore continuous at the origin. Therefore (c) implies (a).
+
+    (b) implies (c) and (a) implies (c), since $0, p \in V$. By Theorem 2, (a) implies that $f$ is continuous everywhere, which implies (b) and (c).
+\end{solution}
+\begin{problem} [5.4 \redtext{done}]
+The \textbf{conorm} of a linear transformation $T: \bbr^n \to \bbr^m$ is \[
+    \mathfrak{m}(T) = \inf \left\{\frac{|Tv|}{|v|} : v \neq 0\right\}
+\]
+It is the \textbf{minimum stretch} that $T$ imparts to vectors in $\bbr^n$. Let $U$ be the unit ball in $\bbr^n$.\begin{enumerate} [(a)]
+    \item Show that the norm and conorm of $T$ are the radii of the smallest ball that contains TU and, when $n = m$, the largest ball contained in $TU$.
+    \item If $T$ is an isomorphism, prove that $\mathfrak{m}(T) = \norm{T^{-1}}^{-1}$.
+    \item If $m = n, T = I + S$, and $\norm{S} < 1$, prove that $\mathfrak{m}(T) > 0$. [Hint: The inequality $\abs{u + v} \geq \abs{u} - \abs{v}$ is useful because it implies $|Tu| \geq |u| - |Su|$.] How can you infer that $T$ is an isomorphism?
+    \item If the norm and conorm of $T$ are equal, what can you say about $T$?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    Reiterate that $U$ is the closed unit ball (Chapter 1):
+    \[
+        U = \{v : |v| \leq 1\}
+    \]
+    Observe that for a fixed $k > 0$, for all $v \in \bbr^n, v \neq 0$, there exists $u \in \bbr^n$ such that $|u| = k$ and \[
+        \frac{|Tv|}{|v|} = \frac{|Tu|}{|u|}
+    \]
+    with \[
+        u \coloneqq k\frac{v}{|v|} (\implies |u| = k|v|/|v| = k)
+    \]
+    It follows that \[
+        \left\{\frac{|Tv|}{|v|} : v \neq 0\right\} = \left\{\frac{|Tv|}{|v|} : v \in U\right\}= \left\{\frac{|Tv|}{|v|} : |v| = 1\right\} = \left\{|Tv| : |v| = 1\right\}
+    \]
+    Intuitively, one can always project any $v \neq 0$ or $v \in U$ onto the unit sphere (and vice versa). $T$ being a linear transformation keeps the quotient $\frac{|Tv|}{|v|}$ invariant.
+
+    Then, \[
+        \norm{T} = \sup \left\{\frac{|Tv|}{|v|} : v \neq 0 \right\} = \sup_{|u| = 1}\{|Tu|\}
+    \]
+    Similarly,
+    \[
+        \mathfrak{m}(T) = \inf_{|u| = 1}\{|Tu|\}
+    \]
+
+
+    \textbf{(a)}
+    Take $u \in \bbr^n$ with $|u| = 1$. Then $u, -u \in U$. Therefore any ball that contains $TU$ has to have diameter:
+    \[
+        diam \geq |Tu - (T(-u))| = 2|Tu|
+    \]
+    Therefore the radius $R$ of the smallest ball that contains $TU$ has to satisfy:
+    \[
+        R \geq \frac{1}{2}\sup_{|u| = 1}\{2 |Tu|\} = \sup_{|u| = 1}\{|Tu|\} = \norm{T}
+    \]
+    Similarly, any ball that is contained in $TU$ has to have diameter: \[
+        diam \leq 2|Tu|
+    \]
+    so the radius $r$ of the largest ball that is contained in $TU$ has to satisfy: \[
+        r \leq \frac{1}{2}\inf_{|u| = 1}\{2 |Tu|\} = \inf_{|u| = 1}\{|Tu|\} = \mathfrak{m}(T)
+    \]
+    We show that equality can be achieved with closed ball $B_1$ of radius $\norm{T}$ and closed ball $B_2$ of radius $\mathfrak{m}(T)$, centered at the origin, i.e., $B_1$ is sufficient to contain $TU$, and $B_2$ is sufficient to be contained in $TU$.
+
+    \textbf{1.} If $\norm{T} = \infty \implies TU \subseteq \bbr^m = B_1$ and we're done.
+
+    If $\norm{T} < \infty$, WTS \[
+        \sup_{|u| = 1}\{|Tu|\} \geq \sup_{v \in U} \{|Tv|\}
+    \]
+    For all $v \in U$, there exists $u = v/|v|$, which satisfies $|u| = 1$. Then \[
+        |Tu| = |Tv||u|/|v| = |Tv|/|v| \geq |Tv|
+    \]
+    It follows that  \[
+        \norm{T} = \sup_{|u| = 1}\{|Tu|\} \geq \sup_{v \in U} \{|Tv|\}
+    \]
+    so $B_1$ is sufficient to contain $TU$. \qed
+
+    \textbf{2.} If $m = n$, then $T: \bbr^n \to \bbr^n$.
+    
+    \textbf{Case 1:} $\ker(T) \neq \{0\}$, i.e., $T$ has a non-trivial kernel. That means there exists $w \in \bbr^n, w \neq 0$ such that $Tw = 0 \implies |Tw| = 0$. Then there exists $u = w/|w|$ with $|u| = 1 \implies |Tu| = 0$ too. Thus \[
+    \mathfrak{m}(T) = \inf_{|u| = 1} \{|Tu|\} = 0
+    \]
+    Ball $B_2$ with radius 0 is trivially contained in $TU$.
+
+    \textbf{Case 2: }$\ker(T) = \{0\}$, i.e., $T$ has a trivial kernel. Then since $T: \bbr^n \to \bbr^n$, it is an isomorphism. Therefore, if $w$ satisfies $|Tw| \leq \mathfrak{m}(T)$ (i.e., $w \in B_2$), then \[
+    |Tw| \leq \inf_{v \neq 0} \left\{\frac{|Tv|}{|v|}\right\} \leq \frac{|Tw|}{|w|} \implies |w| \leq 1
+    \]
+    therefore $w \in U \implies Tw \in TU \implies B_2 \subseteq TU$. \qed
+
+    \textbf{(b)} $T$ is an isomorphism. We first claim for a set $A = \{x : x > 0\}$ that \[
+    \inf A = 1/\sup \{1/x: x \in A\} \eqqcolon 1/S
+    \]
+    First, $S \geq 1/x \forall x \in A \implies 1/S \leq x \forall x \in A$ so $1/S$ is a lower bound of $A$. Suppose $\inf A < 1/S$ then there exists $y \in A: 0 \leq \inf A < y < 1/S$. Then \[
+    y < 1/S \implies 1/y > S \geq 1/y \contra
+    \]
+    and we are done with our claim. Since $T$ is an isomorphism, $\ker(T) = \{0\} \implies |Tv|/|v| > 0 \forall v \neq 0$.
+
+    Then, \begin{align*}
+    \mathfrak{m}(T) &= \inf_{v \neq 0}\{|Tv|/|v|\} \\
+    &= \frac{1}{\sup_{v \neq 0}\{|v|/|Tv|\}} \\
+    &= \frac{1}{\sup_{w \neq 0}\{|T^{-1}w|/|w|\}}\\
+    &= \norm{T^{-1}}^{-1} \qed
+    \end{align*}
+
+    \textbf{(c)} Since $T = I + S$, we have \[
+    Tu = Iu + Su = u + Su \implies |u| = |Tu - Su| \leq |Tu| + |Su| \implies |Tu| \geq |u| - |Su|
+    \]
+    Therefore, \[
+    \mathfrak{m}(T) = \inf_{|u| = 1}\{|Tu|\} \geq \inf_{|u| = 1}\{|u| - |Su|\} = 1 - \mathfrak{m}(S) \geq 1 - \norm{S} > 0
+    \]
+    as required.
+
+    Then if $\ker(T) \neq \{0\} \implies \exists v \neq 0: Tv = 0 \implies \mathfrak{m}(T) = 0$, a contradiction. So $\ker(T) = \{0\}$.
+    
+    $m = n \implies T$ is an isomorphism.
+
+    \textbf{(d)} $\norm{T} = \mathfrak{m}(T) \implies \frac{|Tv|}{|v|} = c \in \bbr \forall v \neq 0$, i.e. \[
+    |Tv| = c|v|
+    \]
+    $T$ scales norm of all vectors with constant $c$.
+\end{solution}
+\end{document}
