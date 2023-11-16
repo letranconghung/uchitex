@@ -1,5 +1,5 @@
 # Set up
-- Virtual environment and set up necessary packages
+- Virtual environment and set up necessary packages. In the root folder (of the project):
 ```
 python3 -m venv venv
 source venv/bin/activate

@@ -121,9 +121,10 @@
                                  0 & 1 & 0
                              \end{pmatrix}  + \cdots
     \end{align*}
-    Note that every \(D(I')\) in the last expression evaluates to \(\pm 1\), since every \(I'\) is some row-swapping of the identity matrix, making \(D(I') = \pm D(I) = \pm 1\). It naturally follows that \(D\) is unique for \(n = 3\). Though a tedious procedure, we can carry out the same simplifying steps for all other values of \(n\) - therefore we can conclude that if \(D\) exists in the first place (if not, we can't even evaluate the last steps), then it must be unique.
-\end{proof}
+    Note that every \(D(I')\) in the last expression evaluates to \(\pm 1\), since every \(I'\) is some row-swapping of the identity matrix, making \(D(I') = \pm D(I) = \pm 1\). It naturally follows that \(D\) is unique for \(n = 3\).
 
+    For other values of $n$ (given that $\det$ exists), we carry out the same expansion process, reaching the last step, and it must therefore follow that the value of $\det_n$ for a specific $A$ can only take 1 value. $\det$ is therefore unique (given existence).
+\end{proof}
 In the next section, we shall inductively construct a determinant function to prove its existence.
 
 \subsection{Inductive Construction of Determinant Function}
