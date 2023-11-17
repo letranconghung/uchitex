@@ -191,7 +191,7 @@ Let $f\colon B^m(0,1)\to \bbr^m$ be a $C^1$ map with the property that for every
         |f(x)| = C \forall x \in B^m(0, 1)
     \]
 
-    If $C = 0 \implies f(x) = 0 \forall x \in B^m{0, 1} \implies Jf_0 = 0, \contra$
+    If $C = 0 \implies f(x) = 0 \forall x \in B^m(0, 1) \implies Jf_0 = 0 \contra$
 
     Therefore $C > 0, f(x) \neq 0$ in $B^m(0, 1)$.
 
@@ -203,7 +203,7 @@ Let $f\colon B^m(0,1)\to \bbr^m$ be a $C^1$ map with the property that for every
                                 & = f(0) + tf(0) + R(tv)                        \\
                                 & = (1+t) f(0) + R(tv)                          \\
         \implies |f(tv)|        & \leq (1+t)|f(0)| + |R(tv)|                    \\
-        |f(0)|                  & = \leq (1+t)|f(0)| + |R(tv)|                  \\
+        |f(0)|                  & \leq (1+t)|f(0)| + |R(tv)|                  \\
         \implies -t|f(0)|       & \leq |R(tv)|                                  \\
         \implies 0 < C = |f(0)| & \leq \frac{|R(tv)|}{-t} = \frac{|R(tv)|}{|t|}
     \end{align*}
@@ -529,40 +529,33 @@ where $\phi(x) = -x\log x$, for $x\in (0,1)$, and $0$, for $x\in\{0,1\}$.
 
     It is clear that $G$ is $C^1$ since it is linear.
 
-    \textbf{1.2.} WTS $S = G^{Pre}(1)$ is compact, non-empty and $grad_{q}G \neq  0\forall q \in S$.
+    \textbf{1.2.} On $U,$
 
-    $G^{Pre}(1) = \{p : p_i \geq 0 \forall i, \sum_{i=1}^n p_i = 1 \}$ is compact because it is closed and bounded.
-
-    If a sequence $(p^{(n)})_{n \in \bbn} \subseteq G^{Pre}(1)$ such that $p^{(n)} \cvgn p \in \bbr^n$, then \[
-        \sum p_i - 1 = \sum (p_i - p^{(n)}_i) \leq \norm{p - p^{(n)}}_{L^1} \cvgn 0
-    \]
-    so $\sum p_i = 1$ too. $G^{Pre}(1)$ is thus closed.
-
-    Boundedness is clear; it is contained $B(0, 2)$.
-
-    Therefore $G^{Pre}(1)$ is compact. And $S$ is trivially non-empty.
-
-    $grad_{q}G = \begin{pmatrix}
+    \[
+        grad_{q}G = \begin{pmatrix}
             1 \\
             1 \\
             \vdots
-        \end{pmatrix} \neq 0 \forall q \in S$.
+        \end{pmatrix} \neq 0 \forall q \in S.
+        \]
 
-    All conditions have been checked.
+    We do not have to assert that the domain is compact, since this only guarantees that the extremal values will be achieved within the domain. We will instead do this by directly verifying that the critical points are indeed within $U$.
 
     \textbf{2.} Let \[
         L(p) = H(p) - \lambda \left(\sum_{i=1}^{n} p_i - 1\right)
     \]
-    then using Lagrange multipliers:
+    then using Lagrange multipliers, extremal values are achieved when
     \begin{align*}
-        0            & = \frac{\partial L}{\partial x_i}          \\
+        0            & = \frac{\partial L}{\partial p_i}          \\
                      & = - (\log p_i + \frac{p_i}{p_i}) - \lambda \\
                      & = - \log p_i - 1 - \lambda                 \\
         \implies p_i & = e^{-\lambda -1}
     \end{align*}
     Thus we have that $p_i$ are all equal, $p_i = 1/n$.
 
-    Therefore maximum value of $H$ on $\Delta$ is \[
+    Directly verify that indeed, $(1/n, 1/n, \cdots) \in U$.
+
+    Therefore maximum value of $H$ on $U$, consequently on $\Delta$ is \[
         H(1/n, 1/n, \cdots) = -n (1/n) \log(1/n) = \log n
     \]
 
@@ -578,12 +571,11 @@ where $\phi(x) = -x\log x$, for $x\in (0,1)$, and $0$, for $x\in\{0,1\}$.
     % \end{align*}
 
     \textbf{(b)} Since $-x \log x$ is concave, we can apply Jensen's inequality:
-
     \begin{align*}
         \frac{1}{n} \sum_{i=1}^{n} -p_i \log (p_i) & \leq -\frac{1}{n} \log\left(\frac{\sum p_i}{n}\right) \\
         \implies H(p)                              & \leq - \log(1/n) = \log n
     \end{align*}
-    Equality holds when $p_1 = p_2 = \cdots = p_n$, which is achieved, $p_i = 1/n \forall i$. $H$ is therefore maximal at $(1/n, 1/n, \ldots, 1/n)$, with value $\log n$.
+    Equality holds when $p_1 = p_2 = \cdots = p_n$, which is achievable, $p_i = 1/n \forall i$. $H$ is therefore maximal at $(1/n, 1/n, \ldots, 1/n)$, with value $\log n$.
 \end{solution}
 
 \begin{problem} [VII \redtext{done}]
