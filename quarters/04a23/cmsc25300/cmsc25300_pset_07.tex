@@ -1,0 +1,191 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{CMSC 25300: Mathematical Foundations of ML \\ \large Problem Set 7}
+\date{25 Nov 2023}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{7}
+\begin{problem} [Problem 2]
+\end{problem}
+\begin{solution}
+    \textbf{(a)} \[
+        p = 2      
+    \]
+    \textbf{(b)}
+    We were given \begin{align*}
+        \:\text{Input}\: A^{(0)} &= \begin{bmatrix}
+            .05 \\
+            .10
+            \end{bmatrix} \\
+            W^{(1)} &= \begin{bmatrix}
+            0.15 & 0.20 \\
+            0.25 & 0.30
+            \end{bmatrix} \\
+            W^{(2)} &= \begin{bmatrix}
+            0.40 & 0.45 \\
+            0.50 & 0.55
+            \end{bmatrix}
+    \end{align*}
+    Calculating forward pass:
+    \begin{align*}
+        Z^{(1)} &= W^{(1)} A^{(0)} + B^{(1)} \\
+        &= \begin{bmatrix}
+        .15 & .20 \\
+        .25 & .30
+        \end{bmatrix} \begin{bmatrix}
+        .05\\
+        .10
+        \end{bmatrix} + \begin{bmatrix}
+        .35 \\
+        .35
+        \end{bmatrix} \\
+        &= \begin{bmatrix}
+        0.3775\\
+        0.3925
+        \end{bmatrix}
+    \end{align*}
+    \begin{align*}
+        A^{(1)} &= sigmoid(Z^{(1)}) = \begin{bmatrix}
+        0.59326999 \\ 0.59688438
+        \end{bmatrix} \\
+        Z^{(2)} &= W^{(2)} A^{(1)} + B^{(2)} \\
+        &= \begin{bmatrix}
+        .40 & .45 \\
+        .50 & .55
+        \end{bmatrix} \begin{bmatrix}
+            0.59326999 \\ 0.59688438
+            \end{bmatrix}  + \begin{bmatrix}
+            .60 \\.60
+            \end{bmatrix} \\
+            &= \begin{bmatrix}
+                1.10590597 \\1.2249214
+            \end{bmatrix} \\
+            \:\text{Output}\: A^{(2)} &= \begin{bmatrix}
+                0.75136507 \\
+                0.77292847
+            \end{bmatrix}
+    \end{align*}
+    Therefore $a^{(2)}_1 = o_1 = 0.75136507, a^{(2)}_2 = o_2 = 0.77292847 $.
+
+    \textbf{(c)} Using the usual mean-squared error (not the one used in the article):
+    \[
+    L = \sum_{k=1}^{2} (o_k - y_k)^2 = (0.75136507 - 0.01)^2 + (0.77292847 - 0.99)^2 = 0.59674
+    \]
+
+    \textbf{(d)} First note that $\sigma'(z) = \sigma(z)(1-\sigma(z))$. We want to first calculuate $\delta^{(2)}$:
+    \begin{align*}
+    \frac{dL}{do_1} = \frac{dL}{da^{(2)}_1} &= 2(a^{(2)}_1 - y_1) \\
+    &= 2(0.75136507 - 0.01) = 1.48273014 \\
+    \frac{dL}{do_2} = \frac{dL}{da^{(2)}_2} &= 2(a^{(2)}_2 - y_2) \\
+    &= 2( 0.77292847 - 0.99) = -0.43414306 \\
+    \implies \delta^{(2)} &= \begin{bmatrix}
+        1.48273014 \\
+        -0.43414306
+    \end{bmatrix} \odot \begin{bmatrix}
+        a^{(2)}_1 (1 - a^{(2)}_1) \\
+        a^{(2)}_2 (1 - a^{(2)}_2) \\
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+        1.48273014 \\
+        -0.43414306
+    \end{bmatrix} \odot \begin{bmatrix}
+        0.1868156  \\ 0.17551005
+    \end{bmatrix} \\
+    &=\begin{bmatrix}
+        0.27699712 \\
+        -0.07619647
+    \end{bmatrix}
+    \end{align*}
+    It follows that \begin{align*}
+    \nabla_{W^{(2)}}L &= \delta^{(2)} A^{(1)^T} \\
+    &= \begin{bmatrix}
+        0.27699712 \\
+        -0.07619647
+    \end{bmatrix}
+    \begin{bmatrix}
+        0.75136507 & 0.77292847
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+        0.16433408 &  0.16533526 \\
+    -0.04520508  & -0.04548048
+    \end{bmatrix}
+    \end{align*}
+    which means that \begin{align*}
+    \frac{dL}{dw_5} &= \frac{dL}{dw^{(2)}_{11}} =  0.16433408\\
+        \frac{dL}{dw_6} &= \frac{dL}{dw^{(2)}_{12}} = 0.16533526\\
+        \frac{dL}{dw_7} &= \frac{dL}{dw^{(2)}_{21}} = -0.04520508 \\
+        \frac{dL}{dw_8} &= \frac{dL}{dw^{(2)}_{22}} = -0.04548048
+    \end{align*}
+    We can continue to calculate $\delta^{(1)}$:
+    \begin{align*}
+    \delta^{(1)} &= [W^{(2)^T} \delta^{(2)}] \odot \sigma'(Z^{(1)}) \\
+    &= \left[\begin{bmatrix}
+        0.40 & 0.50 \\
+        0.45 & 0.55
+    \end{bmatrix}\begin{bmatrix}
+        0.27699712 \\
+        -0.07619647
+    \end{bmatrix}\right]  \odot A^{(1)} \odot (1-A^{(1)}) \\
+    &= \begin{bmatrix}
+        0.07270061 \\ 0.08274065
+    \end{bmatrix}
+    \odot \begin{bmatrix}
+        0.59326999 \\ 0.59688438
+        \end{bmatrix} \odot \left(1 - \begin{bmatrix}
+            0.59326999 \\ 0.59688438
+            \end{bmatrix}\right) \\
+    &= \begin{bmatrix}
+        0.01754271 \\ 0.01990851
+    \end{bmatrix}
+    \end{align*}
+    which implies
+    \begin{align*}
+    \nabla_{W^{(1)}} L &= \delta^{(1)} A^{(0)^T} \\
+    &= \begin{bmatrix}
+        0.01754271 \\ 0.01990851
+    \end{bmatrix}
+    \begin{bmatrix}
+    0.05 & 0.10
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+        0.00087714 & 0.00175427 \\
+        0.00099543 & 0.00199085
+    \end{bmatrix}
+    \end{align*}
+    which means that \begin{align*}
+        \frac{dL}{dw_1} &= \frac{dL}{dw^{(1)}_{11}} = 0.00087714 \\
+        \frac{dL}{dw_2} &= \frac{dL}{dw^{(1)}_{12}} = 0.00175427\\
+        \frac{dL}{dw_3} &= \frac{dL}{dw^{(1)}_{21}} = 0.00099543 \\
+        \frac{dL}{dw_4} &= \frac{dL}{dw^{(1)}_{22}} = 0.00199085
+    \end{align*}
+
+    \textbf{(e)}
+    \begin{align*}
+    \:\text{Update}\: \begin{bmatrix}
+    w_5 & w_6 \\
+    w_7 & w_8
+    \end{bmatrix} = W^{(2)} &\leftarrow W^{(2)} - \tau \nabla_{W^{(2)}}L \\
+    &= \begin{bmatrix}
+        0.40 & 0.45 \\
+        0.50 & 0.55
+        \end{bmatrix} - \tau \begin{bmatrix}
+            0.16433408 &  0.16533526 \\
+        -0.04520508  & -0.04548048
+        \end{bmatrix} \\
+    \:\text{Update}\: \begin{bmatrix}
+        w_1 & w_2 \\
+        w_3 & w_4
+        \end{bmatrix} = W^{(1)} &\leftarrow W^{(1)} - \tau \nabla_{W^{(1)}}L \\
+        &= \begin{bmatrix}
+            0.15 & 0.20 \\
+            0.25 & 0.30
+            \end{bmatrix} - \tau \begin{bmatrix}
+                0.00087714 & 0.00175427 \\
+                0.00099543 & 0.00199085
+            \end{bmatrix}
+    \end{align*}
+\end{solution}
+
+
+\end{document}
