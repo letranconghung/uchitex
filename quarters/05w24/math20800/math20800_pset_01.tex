@@ -1,0 +1,256 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 20800: Honors Analysis in Rn II \\ \large Problem Set 1}
+\date{07 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{1}
+\begin{problem} [5.57 \redtext{done}]
+    Show that $\rmd: \Omega^k \to \Omega^{k+1}$ is a linear vector space homomorphism.
+\end{problem}
+\begin{solution}
+    Let $\alpha, \beta \in \Omega^k; c \in \bbr$. WLOG, $\alpha = f \rmd x_{I}, \beta = g \rmd x_{J}$ where $I, J$ are increasing $k-$tuples. The linearity of $\rmd$ for simple forms trivially implies linearity for general forms.f
+
+    To show that $\rmd$ is a linear transformation, WTS $\rmd (\alpha + c \beta) = \rmd \alpha + c \rmd \beta$.
+
+    If $I, J$ are the same tuple, then: \begin{align*} 
+        \rmd(\alpha + c \beta) &= \rmd ((f + cg) \rmd x_I) \\
+        &= \rmd (f + cg) \wedge \rmd x_I \\
+        &= \left(\sum_{i=1}^{n} \frac{\partial (f + cg)}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I \\
+        &= \left(\sum_{i=1}^{n} \frac{\partial f}{\partial x_i}(x) \rmd x_i + \sum_{i=1}^{n} c \frac{\partial g}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I \\
+        &= \left(\sum_{i=1}^{n} \frac{\partial f}{\partial x_i}(x) \rmd x_i \right) \wedge dx_I + \left(\sum_{i=1}^{n} c \frac{\partial g}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I \quad \:\text{(wedge product distributes)}\: \\
+        &= \left(\sum_{i=1}^{n} \frac{\partial f}{\partial x_i}(x) \rmd x_i \right) \wedge dx_I + c\left(\sum_{i=1}^{n}\frac{\partial g}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I \\
+        &= \rmd f \wedge \rmd x_I + c \rmd g \wedge \rmd x_I \\
+        &= \rmd \alpha + c \rmd \beta
+    \end{align*}
+    Otherwise,
+    \begin{align*}
+        \rmd (\alpha + c \beta ) &= \rmd (f \rmd x_I + cg \rmd x_J) \\
+        &= \rmd f \wedge \rmd x_I + \rmd (cg) \wedge \rmd x_J \\
+        &= \rmd \alpha + \left( \sum_{i=1}^{n} \frac{\partial (cg)}{\partial x_i} (x) \rmd x_i \right) \wedge \rmd x_J \\
+        &= \rmd \alpha + \left(\sum_{i=1}^{n} c \frac{\partial g}{\partial x_i}(x) \rmd x_i \right) \wedge \rmd x_J \\
+        &= \rmd \alpha + c \left(\sum_{i=1}^{n} \frac{\partial g}{\partial x_i}(x) \rmd x_i \right) \wedge \rmd x_J \\
+        &= \rmd \alpha + c \rmd g \wedge \rmd x_J \\
+        &= \rmd \alpha + c \rmd \beta
+    \end{align*}
+\end{solution}
+
+\begin{problem} [5.61 \redtext{done}]
+Assume $\rmd^2 f = 0$ for all smooth functions $f$, and prove that $\rmd^2 \omega = 0$ for all smooth $k$-forms $\omega$.
+\end{problem}
+\begin{solution}
+    Let $\omega$ be any smooth $k-$form. If $k = 0$, then $\omega$ is a smooth function so $\rmd^2 \omega = 0$ by assumption. Otherwise, WLOG, let $\omega = f \rmd x_I$ for some increasing $k$-tuple $I$. Then 
+    \begin{align*}
+        \rmd^2 \lambda = \rmd (\rmd \lambda) &= \rmd (\rmd f \wedge \rmd x_I) \\
+        &= \rmd^2 f  \wedge \rmd x_I + (-1)^{l+1} \rmd f \wedge \rmd (\rmd x_I) \\
+        &= (-1)^{l+1} \rmd f \wedge \rmd (\rmd x_I)
+    \end{align*}
+
+    We compute \begin{equation*}
+        \rmd (\rmd x_I) = \left(\sum_{i=1}^{n} \frac{\partial (1)}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I = 0
+    \end{equation*}
+
+    Therefore $\rmd^2 \lambda = (-1)^{l+1} \rmd f \wedge 0 = 0$ as required.
+\end{solution}
+
+\begin{problem} [5.62 \redtext{done}]
+Does there exist a continuous mapping from the circle to itself that has no fixed-point? What about the 2-torus? The 2-sphere?
+\end{problem}
+\begin{solution}
+    Yes. We note that there exists a center for each of the 3 shapes. Taking each point to its reflection across that center is a continuous mapping, and there is no fixed point for that mapping.
+\end{solution}
+
+\begin{problem} [5.63 \redtext{done}]
+Show that a smooth map $T: U \to V$ induces a linear map of cohomology groups $H^k (V) \to H^k (U)$ defined by \[
+ T^*: [\omega] \mapsto [T^* \omega]
+ \]
+
+Here, $[\omega]$ denotes the equivalence class of $\omega \in Z^k (V)$ in $H^k(V)$. The question amounts to showing that the pullback of a closed form $\omega$ is closed and that its cohomology class depends only on the cohomology class of $\omega$.
+\end{problem}
+\begin{solution}
+    \textbf{1.} WTS if $\omega \in Z^k(V)$ then $T^* \omega \in Z^k(U)$, so that the mapping $T^*$ is indeed $H^k(V) \to H^k(U)$ and thus the cohomology class $[T^* \omega]$ is well-defined.
+
+    Let $\omega \in Z^k(V)$, which means $\rmd \omega = 0$.
+
+    Then $\rmd T^* \omega = T^* \rmd \omega = T^* 0 = 0$ so $\rmd T^* \omega \in Z^k(U)$ as required.
+
+    \textbf{2.} WTS if $\omega_1 \in [\omega]$ then $T^* \omega_1 \in [T^* \omega]$, i.e., that the mapping between the equivalence classes is independent of representative.
+
+    Since $\omega_1 \in [\omega] \in H^k(V) = B^k(V)/Z_k(V)$, there exists $\lambda \in \Omega^{k-1} (V)$ such that \begin{equation*}
+    \omega_1 = \omega + \rmd \lambda
+    \end{equation*}
+
+    Then \begin{align*}
+        T^* \omega_1 &= T^* (\omega + \rmd \lambda) \\
+        &= T^* \omega + T^* \rmd \lambda \\
+        &= T^* \omega + d T^* \lambda
+    \end{align*}
+    But $T^* \omega \in Z^k(U), \rmd T^* \lambda \in B^k(U)$ so $T^* \omega + \rmd T^* \lambda \in [T^* \omega] \in H^k(U)$. Thus $T^* \omega_1 \in [T^* \omega]$ as required.
+    
+    The linearity of $T^*$ on cohomology classes is trivial from the linearity of $T^*$ on forms.
+\end{solution}
+
+\begin{problem} [Problem 1 \redtext{done}]
+If $\omega$ and $\lambda$ are $k$- and $m$-forms respectively, prove that \[
+\omega \wedge \lambda = (-1)^{km} \lambda \wedge \omega
+\]
+\end{problem}
+\begin{solution}
+    WLOG, let $\omega = f \rmd x_I, \lambda = g \rmd x_J$ where $I$ and $J$ are $k$- and $m$-tuples respectively.
+
+    Then \begin{align*}
+        \omega \wedge \lambda &= (f \rmd x_I) \wedge (g \rmd x_J) \\
+        &= (fg) \rmd x_{i_1} \wedge \rmd x_{i_2} \ldots \wedge \rmd x_{i_k} \wedge \rmd x_{j_1} \wedge \rmd x_{j_2} \ldots \wedge \rmd x_{j_m} \\
+        &= (fg) (-1)^m \rmd x_{i_1} \wedge \rmd x_{i_2} \ldots \wedge \rmd x_{i_k-1} \wedge \rmd x_{j_1} \wedge \rmd x_{j_2} \ldots \wedge \rmd x_{j_m} \wedge \rmd x_{i_k} \\
+        & \:\text{(perform the same ``movement'' $(k-1)$ more times)}\: \\
+        &= (fg)(-1)^{km} \rmd x_J \wedge \rmd x_I\\
+        &= (-1)^{km} (g \rmd x_J) \wedge (f \rmd x_I) = (-1)^{km} \lambda \wedge \omega
+    \end{align*}
+
+    The linearity of wedge product promotes the result for simple forms to general forms.
+\end{solution}
+
+\begin{problem} [Problem 2 \redtext{done}]
+Consider the 1-form $\eta = \frac{x \rmd y - y \rmd x}{x^2 + y^2}$ on $\bbr^2 \backslash \{0\}$.
+
+\begin{enumerate} [(a)]
+\item Prove that $\rmd \eta = 0$.
+\item Let $\gamma = (r \cos t, r \sin t)$ for some $r > 0$, and let $\Gamma$ be $C^1$-curve in $\bbr^2 \backslash \{0\}$ with parameter interval $[0, 2\pi]$ and $\Gamma(0) = \Gamma(2 \pi)$, such that the intervals $[\gamma(t), \Gamma(t)]$ do not contain $(0, 0)$ for any $t \in [0, 2\pi]$.
+
+Prove that \[
+\int_{\Gamma} \eta = 2\pi
+\]
+
+(Hint: For $t \in [0, 2\pi], u \in [0, 1]$, define $\Phi(t, u) = (1-u) \Gamma(t) + u \gamma(t)$. Then $\Phi$ is a 2-surface in $\bbr^2 \backslash \{0\}$ with domain $[0, 2\pi] \times [0, 1]$. Show $\partial \Phi = \Gamma - \gamma$. Deduce that $\int_{\Gamma} \eta = \int_{\gamma} \eta$ and compute $\int_{\gamma} \eta$.)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Let $f(x, y) = \frac{-y}{x^2 + y^2}, g(x, y) = \frac{x}{x^2 + y^2}$ then $\eta = f \rmd x + g \rmd y$.
+
+    Then $f_y = g_x = \frac{y^2 - x^2}{(x^2 + y^2)^2}$, so 
+    \begin{align*}
+        \rmd \eta &= \rmd (f \rmd x + g \rmd y) \\
+        &= \rmd f \wedge \rmd x + \rmd g \wedge \rmd y \\
+        &= \left(f_x \rmd x + f_y \rmd y\right) \wedge \rmd x + \left(g_x \rmd x + g_y \rmd y\right) \wedge \rmd y \\
+        &= f_y \rmd y \wedge \rmd x + g_x \rmd x \wedge \rmd y \\
+        &= (g_x - f_y) \rmd x \wedge \rmd y = 0 \qed
+    \end{align*}
+
+    \textbf{(b)}
+    $\partial \Phi$ is the 1-surface:
+    \begin{align*}
+        \partial \Phi (x) &= \delta^1 \Phi(x) - \delta^2 \Phi (x) \\
+        &= ((1-x) \Gamma(2\pi) + x \gamma(2\pi)) - ((1-x) \Gamma(0) + x \gamma(0)) \\
+        &- (\gamma(x) - \Gamma(x)) \\
+        &= (1-x) (\Gamma(2\pi) - \Gamma(0)) + x(\gamma(2\pi) - \gamma(0)) + \Gamma(x) - \gamma(x) \\
+        &= \Gamma(x) - \gamma(x)
+    \end{align*}
+
+    By Stokes' Theorem, since $\rmd \eta = 0$, we therefore get: 
+    \begin{equation*}
+        0 = \int_{\Phi} \rmd \eta = \int_{\partial \Phi} \eta = \int_{\Gamma - \gamma} \eta = \int_{\Gamma} \eta - \int_{\gamma} \eta
+    \end{equation*}
+    which implies \begin{equation*}
+        \int_{\Gamma} \eta = \int_{\gamma} \eta
+    \end{equation*}
+We can compute: \begin{align*}
+        \int_{\gamma} \eta &= \int_{0}^{2\pi} \frac{-r \cos t}{r^2} (-r \sin t) + \frac{r \sin t}{r^2} (r \cos t) dt \\
+        &= \int_{0}^{2\pi} 2 \sin t \cos t dt \\
+        &= \int_{0}^{2\pi} \sin (2t) dt = \left[\frac{-\cos (2t)}{2}\right]^{2\pi}_{0} = 0
+    \end{align*}
+    Therefore \begin{equation*}
+        \int_{\Gamma} \eta = \int_{\gamma} \eta = 0
+    \end{equation*}
+    as required.
+\end{solution}
+
+\begin{problem} [Problem 3]
+Define $\zeta$ on $\bbr^3 \backslash \{0\}$ by \begin{equation*}
+\zeta = \frac{x \rmd y \wedge \rmd z + y \rmd z \wedge \rmd x + z \rmd x \wedge \rmd y}{r^3} \quad (r = (x^2 + y^2 + z^2)^{1/2}),
+\end{equation*}
+
+Let $D = [0, \pi] \times [0, 2\pi]$ and let $\Sigma$ be the 2-surface in $\bbr^3$ defined on $D$ given by \begin{equation*}
+x = \sin u \cos v, y = \sin u \sin v, z = \cos u \quad (u \in [0, \pi], v \in [0, 2\pi])
+\end{equation*}
+
+\begin{enumerate} [(a)]
+\item Prove $\rmd \zeta = 0$ in $\bbr^3 \backslash \{0\}$
+\item Let $S$ denote the restriction of $\Sigma$ to $E \subset D$. Prove \begin{equation*}
+\int_S \zeta = \int_E \sin u \rmd u \rmd v
+\end{equation*}
+\item Suppose $g, h_1, h_2, h_3$ are $C^2-$functions on $[0, 1]$ and let $(x, y, z) = \Phi(s, t)$ be the 2-surface $x = g(t)h_1(s), y = g(t) h_2(s), z = g(t) h_3(s)$. Prove, using the definition of forms, that \begin{equation*}
+\int_{\Phi} \zeta = 0
+\end{equation*}
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\textbf{(a)}
+We note that all basic 3-forms with overlapping indices are 0, so the only relevant basic 3-forms in this computation are those in which all 3 indices appear. 
+Preliminarily, 
+\begin{equation*}
+    \frac{\partial}{\partial x}\left( \frac{x}{(x^2 + y^2 + z^2)^{3/2}} \right)= \frac{y^2 + z^2 - 2x^2}{r^2}
+\end{equation*}
+and similarly for $y, z$. Then,
+\begin{align*}
+\rmd \zeta &= \frac{y^2 + z^2 - 2x^2}{r^2} \dx \wedge \dy \wedge \dz + \frac{z^2 + x^2 - 2y^2}{r^2} \dy \wedge \dz \wedge \dx \\
+&+ \frac{x^2 + y^2 - 2z^2}{r^2} \dz \wedge \dx \wedge \dy \\
+&= \left(\frac{y^2 + z^2 - 2x^2}{r^2} + \frac{z^2 + x^2 - 2y^2}{r^2} + \frac{x^2 + y^2 - 2z^2}{r^2}\right) \dx \wedge \dy \wedge \dz \\
+&= 0 \qed
+\end{align*}
+
+\textbf{(b)}
+Since $x = \sin u \cos v, y = \sin u \sin v, z = \cos u$, we can preliminarily compute:
+\begin{align*}
+    \frac{\partial \Sigma_{(2, 3)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        \cos u \sin v & \sin u \cos v \\
+        -\sin u & 0
+    \end{bmatrix} = \sin^2 u \cos v \\
+    \frac{\partial \Sigma_{(3, 1)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        -\sin u & 0 \\
+        \cos u \cos v & -\sin u \sin v
+    \end{bmatrix} = \sin^2 u \sin v \\
+    \frac{\partial \Sigma_{(1, 2)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        \cos u \cos v & -\sin u \sin v \\
+        \cos u \sin v & \sin u \cos v
+    \end{bmatrix} = \sin u \cos u (\cos^2 v + \sin^2 v) = \sin u \cos u
+\end{align*}
+therefore
+\begin{align*}
+    \int_S \zeta &= \int_S \frac{x}{r^3}\dy \wedge \dz + \frac{y}{r^3} \dz \wedge \dx + \frac{z}{r^3} \dx \wedge \dy \\
+    &= \int_E \left(\sin u \cos v \frac{\partial \Sigma_{(2, 3)}}{\partial (u, v)} + \sin u \sin v \frac{\partial \Sigma_{(3, 1)}}{\partial (u, v)} + \cos u \frac{\partial \Sigma_{(1, 2)}}{\partial (u, v)} \right) \du \dv\\
+    &= \int_E \left(\sin u \cos v \sin^2 u \cos v + \sin u \sin v \sin^2 u \sin v + \cos u \sin u \cos v\right) \du \dv\\
+    &= \int_E (\sin^3 u (\cos^2 v + \sin^2 v) + \cos^2 u \sin u) \du \dv \\
+    &= \int_E (\sin u (\sin^2 u + \cos^2 u)) \du \dv \\
+    &= \int_E \sin u \du \dv
+\end{align*}
+as required. \qed 
+
+\textbf{(c)}
+Restate that $\Phi$ is the 2-surface in $\bbr^3$, mapping $(s, t) \mapsto (g(t)h_1(s), g(t) h_2(s), g(t) h_3(s))$.
+
+First computing the Jacobians (abuse of notation: suppressing the arguments for conciseness):
+\begin{align*}
+    \frac{\partial \Phi_{(2, 3)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        g h_2' & g' h_2 \\
+        g h_3' & g' h_3
+    \end{bmatrix} = gg' (h_3 h_2' - h_2 h_3')\\
+    \frac{\partial \Phi_{(3, 1)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        g h_3' & g' h_3 \\
+        g h_1' & g' h_1
+    \end{bmatrix}  = gg'(h_1 h_3' - h_3 h_1') \\
+    \frac{\partial \Phi_{(1, 2)}}{\partial (u, v)} &= \det \begin{bmatrix}
+        g h_1' & g' h_1 \\
+        g h_2' & g' h_2
+    \end{bmatrix}  = gg' (h_2 h_1' - h_1 h_2') \\
+    r^3 &= (g^2(h_1^2 + h_2^2 + h_3^2))^{3/2}
+\end{align*}
+therefore
+\begin{align*}
+    \int_\Phi \zeta &= \int_{I^2} \frac{1}{(g^2(h_1^2 + h_2^2 + h_3^2))^{3/2}}\left(gh_1 \frac{\partial \Phi_{(2, 3)}}{\partial (u, v)} + gh_2 \frac{\partial \Phi_{(3, 1)}}{\partial (u, v)} + gh_3 \frac{\partial \Phi_{(1, 2)}}{\partial (u, v)}\right) \du \dv \\
+    &= \int_{I^2} \frac{gh_1  gg' (h_3 h_2' - h_2 h_3') + gh_2gg'(h_1 h_3' - h_3 h_1') + gh_3 gg' (h_2 h_1' - h_1 h_2')}{(g^2(h_1^2 + h_2^2 + h_3^2))^{3/2}} \du \dv \\
+    &= \int_{I^2} \frac{g^2 g' (h_1h_3h_2' - h_1h_2h_3' + h_2h_1h_3' - h_2h_3h_1' + h_3h_2h_1' - h_3 h_1 h_2')}{(g^2(h_1^2 + h_2^2 + h_3^2))^{3/2}} \du \dv \\
+    &= \int_{I^2} 0 \du \dv = 0
+\end{align*}
+\end{solution}
+\end{document}

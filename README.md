@@ -1,8 +1,8 @@
 # Set up
 - Virtual environment and set up necessary packages. In the root folder (of the project):
 ```
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 - If needed, deactivate the virtual environment
