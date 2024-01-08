@@ -1,51 +1,38 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                Basic Packages                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 0. Meta
+\def\class{article}
+\author{Hung C. Le Tran}
 
-% Gives us multiple colors.
+% Formatting
+% 1. Basic packages
 \usepackage[usenames,dvipsnames,pdftex]{xcolor}
-% Lets us style link colors.
 \usepackage{hyperref}
-% Lets us import images and graphics.
 \usepackage{graphicx}
-% Lets us use figures in floating environments.
 \usepackage{float}
-% Lets us create multiple columns.
-\usepackage{multicol}
-% Gives us better math syntax.
 \usepackage{amsmath,amsfonts,mathtools,amsthm,amssymb}
-% Lets us strikethrough text.
-\usepackage{cancel}
-% Lets us edit the caption of a figure.
 \usepackage{caption}
-% Lets us import pdf directly in our tex code.
-\usepackage{pdfpages}
-% Lets us do algorithm stuff.
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-% Use a smiley face for our qed symbol.
 \usepackage{tikzsymbols}
-% \usepackage{fullpage} %%smaller margins
 \usepackage[shortlabels]{enumitem}
-
-\setlist[enumerate]{font={\bfseries}} % global settings, for all lists
-
 \usepackage{setspace}
 \usepackage[margin=1in, headsep=12pt]{geometry}
 \usepackage{wrapfig}
 \usepackage{listings}
 \usepackage{parskip}
 \usepackage{dsfont}
-% \usepackage{bm}
+\usepackage{xifthen}
 
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+% 2. Custom package settings
+% Units:
+\usepackage{siunitx}
+\sisetup{locale = FR}
 
+% Enum: Set counters bold
+\setlist[enumerate]{font={\bfseries}}
+
+% Lst: Define styling for code environments
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{codebg},   
     commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
+    keywordstyle=\color{codemagenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
@@ -61,41 +48,13 @@
     tabsize=2,
     numbers=none
 }
-
 \lstset{style=mystyle}
-\def\class{article}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                Basic Settings                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%
-%  Symbols  %
-%%%%%%%%%%%%%
-
-\let\implies\Rightarrow
-\let\impliedby\Leftarrow
-\let\iff\Leftrightarrow
-\let\epsilon\varepsilon
-%%%%%%%%%%%%
-%  Tables  %
-%%%%%%%%%%%%
-
+% Tables: Just in case we need some tables
 \setlength{\tabcolsep}{5pt}
 \renewcommand\arraystretch{1.5}
 
-%%%%%%%%%%%%%%
-%  SI Unitx  %
-%%%%%%%%%%%%%%
-
-\usepackage{siunitx}
-\sisetup{locale = FR}
-
-%%%%%%%%%%
-%  TikZ  %
-%%%%%%%%%%
-
+% Tikz: Some tikz things
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{tikz}
 \usepackage{tikz-cd}
@@ -108,48 +67,16 @@
     force/.style={thick, {Circle[length=2pt]}-stealth, shorten <=-1pt}
 }
 
-%%%%%%%%%%%%%%%
-%  PGF Plots  %
-%%%%%%%%%%%%%%%
-
+% Pgfplots: Essential with tikz for plotting things
 \usepackage{pgfplots}
 \pgfplotsset{width=10cm, compat=newest}
 
-%%%%%%%%%%%%%%%%%%%%%%%
-%  Center Title Page  %
-%%%%%%%%%%%%%%%%%%%%%%%
-
+% Titling: Center title page
 \usepackage{titling}
 \renewcommand\maketitlehooka{\null\mbox{}\vfill}
 \renewcommand\maketitlehookd{\vfill\null}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Create a grey background in the middle of the PDF  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{eso-pic}
-\newcommand\definegraybackground{
-    \definecolor{reallylightgray}{HTML}{FAFAFA}
-    \AddToShipoutPicture{
-        \ifthenelse{\isodd{\thepage}}{
-            \AtPageLowerLeft{
-                \put(\LenToUnit{\dimexpr\paperwidth-222pt},0){
-                    \color{reallylightgray}\rule{222pt}{297mm}
-                }
-            }
-        }
-        {
-            \AtPageLowerLeft{
-                \color{reallylightgray}\rule{222pt}{297mm}
-            }
-        }
-    }
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-%  Modify Links Color  %
-%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Hyperref: Link colors
 \hypersetup{
     % Enable highlighting links.
     colorlinks,
@@ -161,65 +88,19 @@
     linkcolor={blue!80!black}
 }
 
-%%%%%%%%%%%%%%%%%%
-% Fix WrapFigure %
-%%%%%%%%%%%%%%%%%%
-
-\newcommand{\wrapfill}{\par\ifnum\value{WF@wrappedlines}>0
-        \parskip=0pt
-        \addtocounter{WF@wrappedlines}{-1}%
-        \null\vspace{\arabic{WF@wrappedlines}\baselineskip}%
-        \WFclear
-    \fi}
-
-%%%%%%%%%%%%%%%%%
-% Multi Columns %
-%%%%%%%%%%%%%%%%%
-
-\let\multicolmulticols\multicols
-\let\endmulticolmulticols\endmulticols
-
-\RenewDocumentEnvironment{multicols}{mO{}}
-{%
-    \ifnum#1=1
-        #2%
-    \else % More than 1 column
-        \multicolmulticols{#1}[#2]
-    \fi
-}
-{%
-    \ifnum#1=1
-    \else % More than 1 column
-        \endmulticolmulticols
-    \fi
-}
-
-\newlength{\thickarrayrulewidth}
-\setlength{\thickarrayrulewidth}{5\arrayrulewidth}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                           School Specific Commands                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Initiate New Counters  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% 3. School
+% 3.1. Lectures
+% Initiate new lecture counter
 \newcounter{lecturecounter}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Helpful New Commands  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \makeatletter
-
+% Reset counters
 \newcommand\resetcounters{
     % Reset the counters for subsection, subsubsection and the definition
     % all the custom environments.
     \setcounter{subsection}{0}
     \setcounter{subsubsection}{0}
-    \setcounter{definition0}{0}
+    \setcounter{definition}{0}
     \setcounter{paragraph}{0}
     \setcounter{theorem}{0}
     \setcounter{claim}{0}
@@ -235,12 +116,7 @@
     % }{}
 }
 
-%%%%%%%%%%%%%%%%%%%%%
-%  Lecture Command  %
-%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{xifthen}
-
+% New lecture command
 % EXAMPLE:
 % 1. \lecture{Oct 17 2022 Mon (08:46:48)}{Lecture Title}
 % 2. \lecture[4]{Oct 17 2022 Mon (08:46:48)}{Lecture Title}
@@ -255,7 +131,6 @@
 \def\@leccount{}
 \newcommand\lecture[3]{
     \newpage
-
     % Check if user passed the lecture title or not.
     \def\@leccount{Lecture #1}
     \ifthenelse{\isempty{#3}}{
@@ -281,18 +156,13 @@
             
             \large \@lectitle
             
-            
             \vspace*{0.2cm}
 
             \normalsize #2
         \end{center}
     \end{mdframed}
-
 }
-
-%%%%%%%%%%%%%%%%%%%%
-%  Import Figures  %
-%%%%%%%%%%%%%%%%%%%%
+% 3.2. Import figures
 
 \usepackage{import}
 \pdfminorversion=7
@@ -314,16 +184,12 @@
     \pdfsuppresswarningpagegroup=1\relax
 \fi
 
-%%%%%%%%%%%%%%%%%
-% Fancy Headers %
-%%%%%%%%%%%%%%%%%
-
+% 3.3. Fancy headers=
 \usepackage{fancyhdr}
 
-% Force a new page.
 \newcommand\forcenewpage{\clearpage\mbox{~}\clearpage\newpage}
 
-% This command makes it easier to manage my headers and footers.
+% Createintro command, essentially like <header/>
 \newcommand\createintro{
     % Use roman page numbers (e.g. i, v, vi, x, ...)
     \pagenumbering{roman}
@@ -396,109 +262,24 @@
 
 \makeatother
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                               Custom Commands                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%
-%  Circle  %
-%%%%%%%%%%%%
-
-\newcommand*\circled[1]{\tikz[baseline= (char.base)]{
-        \node[shape=circle,draw,inner sep=1pt] (char) {#1};}
-}
-
-%%%%%%%%%%%%%%%%%%%
-%  Todo Commands  %
-%%%%%%%%%%%%%%%%%%%
-
-% \usepackage{xargs}
-% \usepackage[colorinlistoftodos]{todonotes}
-
-% \makeatletter
-
-% \@ifclasswith\class{working}{
-%     \newcommandx\unsure[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-%     \newcommandx\change[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-%     \newcommandx\info[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
-%     \newcommandx\improvement[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
-
-%     \newcommand\listnotes{
-%         \newpage
-%         \listoftodos[Notes]
-%     }
-% }{
-%     \newcommandx\unsure[2][1=]{}
-%     \newcommandx\change[2][1=]{}
-%     \newcommandx\info[2][1=]{}
-%     \newcommandx\improvement[2][1=]{}
-
-%     \newcommand\listnotes{}
-% }
-
-% \makeatother
-
-%%%%%%%%%%%%%
-%  Correct  %
-%%%%%%%%%%%%%
-
-% EXAMPLE:
-% 1. \correct{INCORRECT}{CORRECT}
-% Parameters:
-% 1. The incorrect statement.
-% 2. The correct statement.
-\definecolor{correct}{HTML}{009900}
-\newcommand\correct[2]{{\color{red}{#1 }}\ensuremath{\to}{\color{correct}{ #2}}}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                 Environments                                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% 4. Environments
 \usepackage{varwidth}
 \usepackage{thmtools}
 \usepackage[most,many,breakable]{tcolorbox}
-
 \tcbuselibrary{theorems,skins,hooks}
 \usetikzlibrary{arrows,calc,shadows.blur}
 
-%%%%%%%%%%%%%%%%%%%
-%  Define Colors  %
-%%%%%%%%%%%%%%%%%%%
-
-% color prototype
-% \definecolor{color}{RGB}{45, 111, 177}
-
-% ESSENTIALS: 
+% 4.1. Colors
 \definecolor{myred}{HTML}{c74540}
 \definecolor{myblue}{HTML}{072b85}
 \definecolor{mygreen}{HTML}{388c46}
-\definecolor{myblack}{HTML}{000000}
+\definecolor{codegreen}{HTML}{009900}
+\definecolor{codegray}{HTML}{7f7f7f}
+\definecolor{codepurple}{HTML}{9400d1}
+\definecolor{codemagenta}{HTML}{ff00ff}
+\definecolor{codebg}{HTML}{f2f2f2}
 
-\colorlet{definition_color}{myred}
-
-\colorlet{theorem_color}{myblue}
-\colorlet{lemma_color}{myblue}
-\colorlet{prop_color}{myblue}
-\colorlet{corollary_color}{myblue}
-\colorlet{claim_color}{myblue}
-
-\colorlet{proof_color}{myblack}
-\colorlet{example_color}{myblack}
-\colorlet{exercise_color}{myblack}
-
-% MISCS: 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Create Environments Styles Based on Given Parameter  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \mdfsetup{skipabove=1em,skipbelow=0em}
-
-%%%%%%%%%%%%%%%%%%%%%%
-%  Helpful Commands  %
-%%%%%%%%%%%%%%%%%%%%%%
-
+% 4.2. Define meta-commands /createnewtheoremstyle and /createnewcoloredtheoremstyle
 % EXAMPLE:
 % 1. \createnewtheoremstyle{thmdefinitionbox}{}{}
 % 2. \createnewtheoremstyle{thmtheorembox}{}{}
@@ -555,110 +336,70 @@
                 leftmargin = -6pt,
                 #4,
             },
+        spaceabove=5pt,
+        spacebelow=0pt
     ]{#1}
 }
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Create the Environment Styles  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% 4.3. Create environment styles using above meta-commands
 \makeatletter
 \@ifclasswith\class{nocolor}{
     % Environments without color.
-
-    % ESSENTIALS:
     \createnewtheoremstyle{thmdefinitionbox}{}{}
     \createnewtheoremstyle{thmtheorembox}{}{}
+    \createnewtheoremstyle{thmblackbox}{}{}
     \createnewtheoremstyle{thmproofbox}{qed=\qedsymbol}{}
-    \createnewtheoremstyle{thmcorollarybox}{}{}
-    \createnewtheoremstyle{thmlemmabox}{}{}
-    \createnewtheoremstyle{thmclaimbox}{}{}
-    \createnewtheoremstyle{thmexamplebox}{}{}
+    \createnewtheoremstyle{thmsolutionbox}{}{qed=\qedsymbol}{}
 
-    % MISCS: 
-    \createnewtheoremstyle{thmpropbox}{}{}
-    \createnewtheoremstyle{thmexercisebox}{}{}
-    \createnewtheoremstyle{thmexplanationbox}{}{}
-    \createnewtheoremstyle{thmremarkbox}{}{}
-    
-    % STYLIZED MORE BELOW
-    \createnewtheoremstyle{thmquestionbox}{}{}
-    \createnewtheoremstyle{thmsolutionbox}{qed=\qedsymbol}{}
 }{
     % Environments with color.
-
-    % ESSENTIALS: definition, theorem, proof, corollary, lemma, claim, example
-    \createnewcoloredtheoremstyle{thmdefinitionbox}{definition_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmtheorembox}{theorem_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmproofbox}{proof_color}{qed=\qedsymbol}{}
-    \createnewcoloredtheoremstyle{thmcorollarybox}{corollary_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmlemmabox}{lemma_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmpropbox}{prop_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmclaimbox}{claim_color}{}{leftline=false}
-    \createnewcoloredtheoremstyle{thmexamplebox}{example_color}{}{}
-    \createnewcoloredtheoremstyle{thmexplanationbox}{example_color}{qed=\qedsymbol}{}
-    \createnewcoloredtheoremstyle{thmremarkbox}{theorem_color}{}{}
-
-    \createnewcoloredtheoremstyle{thmmiscbox}{black}{}{}
-
-    \createnewcoloredtheoremstyle{thmexercisebox}{exercise_color}{}{}
-    \createnewcoloredtheoremstyle{thmproblembox}{theorem_color}{}{leftline=false}
+    \createnewcoloredtheoremstyle{thmdefinitionbox}{myred}{}{}
+    \createnewcoloredtheoremstyle{thmtheorembox}{myblue}{}{}
+    \createnewcoloredtheoremstyle{thmblackbox}{black}{}{}
+    \createnewcoloredtheoremstyle{thmproofbox}{black}{qed=\qedsymbol}{}
     \createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
 }
 \makeatother
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Create the Environments  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\declaretheorem[numberwithin=section, style=thmdefinitionbox,     name=Definition]{definition}
-\declaretheorem[numberwithin=section, style=thmtheorembox,     name=Theorem]{theorem}
-\declaretheorem[numbered=no,          style=thmexamplebox,     name=Example]{example}
-\declaretheorem[numberwithin=section, style=thmtheorembox,       name=Claim]{claim}
-\declaretheorem[numberwithin=section, style=thmcorollarybox,   name=Corollary]{corollary}
-\declaretheorem[numberwithin=section, style=thmpropbox,        name=Proposition]{proposition}
-\declaretheorem[numberwithin=section, style=thmlemmabox,       name=Lemma]{lemma}
-\declaretheorem[numberwithin=section, style=thmexercisebox,    name=Exercise]{exercise}
-\declaretheorem[numbered=no,          style=thmproofbox,       name=Proof]{proof0}
-\declaretheorem[numbered=no,          style=thmexplanationbox, name=Explanation]{explanation}
-\declaretheorem[numbered=no,          style=thmsolutionbox,    name=Solution]{solution}
-\declaretheorem[numberwithin=section,          style=thmproblembox,     name=Problem]{problem}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Intuition]{intuition}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Goal]{goal}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Recall]{recall}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Motivation]{motivation}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Remark]{remark}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Observe]{observe}
-\declaretheorem[numbered=no,          style=thmmiscbox,    name=Question]{question}
+% 4.4. Create environments based on environment styles
+\declaretheorem[numberwithin=section, style=thmdefinitionbox, name=Definition]{definition}
+\declaretheorem[sibling=definition, style=thmtheorembox, name=Theorem]{theorem}
+\declaretheorem[sibling=definition, style=thmtheorembox, name=Proposition]{proposition}
+\declaretheorem[sibling=definition, style=thmtheorembox, name=Corollary]{corollary}
+\declaretheorem[sibling=definition, style=thmtheorembox, name=Lemma]{lemma}
+\declaretheorem[sibling=definition, style=thmtheorembox, name=Claim]{claim}
+\declaretheorem[numbered=no, style=thmblackbox, name=Example]{example}
+\declaretheorem[numbered=no, style=thmblackbox, name=Remark]{remark}
+\declaretheorem[numberwithin=section, style=thmblackbox, name=Exercise]{exercise}
+\declaretheorem[numbered=no, style=thmproofbox, name=Proof]{proof0}
+\declaretheorem[numbered=no, style=thmblackbox, name=Properties]{properties}
+\declaretheorem[numbered=no, style=thmblackbox, name=Notation]{notation}
+\declaretheorem[numbered=no, style=thmsolutionbox, name=Solution]{solution}
+\declaretheorem[numberwithin=section, style=thmtheorembox, name=Problem]{problem}
+\declaretheorem[numbered=no, style=thmblackbox, name=Intuition]{intuition}
+\declaretheorem[numbered=no, style=thmblackbox, name=Goal]{goal}
+\declaretheorem[numbered=no, style=thmblackbox, name=Recall]{recall}
+\declaretheorem[numbered=no, style=thmblackbox, name=Motivation]{motivation}
+\declaretheorem[numbered=no, style=thmblackbox, name=Observe]{observe}
+\declaretheorem[numbered=no, style=thmblackbox, name=Question]{question}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Edit Proof Environment  %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4.5. Wrapper environments
+\renewenvironment{proof}[1][]
+{
+    \ifthenelse{\equal{#1}{}}{
+        \begin {proof0}
+    }{
+        \begin {proof0} [#1]
+    }
+}
+{
+    \end{proof0}    
+}
 
-\renewenvironment{proof}[2][\proofname]{
-    % \vspace{-12pt}
-    \begin{proof0} [#2]
-        }{\end{proof0}}
-
-\theoremstyle{definition}
-
-\newtheorem*{notation}{Notation}
-\newtheorem*{previouslyseen}{As previously seen}
-\newtheorem*{property}{Property}
-% \newtheorem*{intuition}{Intuition}
-% \newtheorem*{goal}{Goal}
-% \newtheorem*{recall}{Recall}
-% \newtheorem*{motivation}{Motivation}
-% \newtheorem*{remark}{Remark}
-% \newtheorem*{observe}{Observe}
-
-\author{Hung C. Le Tran}
-
-
-%%%% MATH SHORTHANDS %%%%
-% Fonts
+% 5. Math shorthands
+% 5.1. Fonts
 \newcommand{\bbf}{\mathbb{F}}
 \newcommand{\bbn}{\mathbb{N}}
 \newcommand{\bbq}{\mathbb{Q}}
@@ -711,9 +452,13 @@
 \newcommand{\iprod}[2]{\langle #1, #2 \rangle}
 \newcommand*{\conj}[1]{\overline{#1}}
 
-% Symbols
+% 5.2. Symbols maneuvering
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
 % https://tex.stackexchange.com/questions/22798/nice-looking-empty-set
+\let\implies\Rightarrow
+\let\impliedby\Leftarrow
+\let\iff\Leftrightarrow
+\let\epsilon\varepsilon
 \renewcommand{\phi}{\varphi}
 \let\oldforall\forall
 \renewcommand{\forall}{\;\oldforall\; }
@@ -722,28 +467,21 @@
 \newcommand\existu{\;\oldexist!\: }
 \let\oldemptyset\emptyset
 \let\emptyset\varnothing
+
+% 5.3. New math operators
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator*{\Hom}{Hom}
 \DeclareMathOperator*{\im}{\mathrm{im}}
-\renewcommand{\_}[1]{\underline{#1}}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
-% Page Layout
+% 5.4. Formatting
+\newcommand{\redtext}[1]{\textcolor{red}{#1}}
+
+% 6. Misc but important
+% No paragraph indenting, and changing margins especially for lecture headers
 \setlength\parindent{0pt}
 \setlength{\headheight}{12.0pt}
 \addtolength{\topmargin}{-12.0pt}
-
-% Formatting
-\newcommand{\redtext}[1]{\textcolor{red}{#1}}
-
-
-% Default skipping, change if you want more spacing
-% \thinmuskip=3mu
-% \medmuskip=4mu plus 2mu minus 4mu
-% \thickmuskip=5mu plus 5mu
-
-% \DeclareMathOperator{\ext}{ext}
-% \DeclareMathOperator{\bridge}{bridge}

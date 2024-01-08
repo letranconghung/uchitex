@@ -1,0 +1,89 @@
+\lecture{1}{27 Sep 2023}{Construction of Reals}
+\subsection{Overview of the construction of reals in 3 easy steps}
+\begin{enumerate}
+\item Use set theory (axiomatic) to construct $\bbn$ and $\bbz$, with notions of $<, +, \cdot, \abs{\cdot}$.
+\item Construct $\bbq$:
+\[
+\bbq = \{(p, q): p \in \bbz, q \in \bbz_{\geq 0}\}/\sim
+\]
+where $(p, q) \sim (r, s) \Leftrightarrow ps - qr = 0$.
+
+Subsequently define $<, +, \cdot, \abs{\cdot}$ on $\bbq$. Let us note that $\bbz$ naturally embeds in $\bbq$, with the correspondence $n \mapsto [(n, 1)]$.
+
+\item Construct $\bbr$. There are 2 ways to perform this step:
+\begin{itemize}
+    \item  Dedekind cuts. This is the natural, elegant way of doing it. It is a method adapted to extend the ordering notion $<$ to a bigger field ($\bbr$).
+    \item Cauchy sequences. This method is adapted to extend $\abs{\cdot}$ to a bigger field. Overall, this is a more general method for other ``completions''.
+\end{itemize}
+
+Both methods ``complete'' $\bbq$, but in a priori different ways: Cuts make $<$ complete, and thus giving rise to the LUB property; while Cauchy sequences make $\abs{\cdot}$    complete, and thus Cauchy sequences converge (in the field). They both produce the same isomorphic $\bbr$, and $\bbq$ is dense in $\bbr$ in both constructions.
+\end{enumerate}
+
+\subsection{Dedekind cuts}
+The big idea of Dedekind cuts is to fill in the holes between the rationals.
+\begin{definition} [Dedekind cut]
+A \textbf{Dedekind cut} is a pair $A \mid B$ with $A, B \subseteq \bbq$ such that \begin{enumerate}
+\item $A \sqcup B = \bbq$
+\item $\forall x \in A, y \in B, x < y$
+\item $A$ has no greatest element in $\bbq$
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+\begin{enumerate}
+    \item []
+    \item  $A = \{x : x < \frac{1}{2} \} \mid A^C$
+    
+    Then this cut is a rational cut, since $B$ has a least element in $\bbq$, namely $\frac{1}{2}$. Generalizing this, for all $z \in \bbq$, there exists a cut: \[
+    z^* = \{x: x < z\} \mid rest
+    \]
+    that corresponds to that rational.
+    \item $A = \{x: x^2 < 2\} \mid A^C $
+    
+    This is an irrational cut, since $B$ has no least element in $\bbq$.
+\end{enumerate}
+\end{example}
+
+\begin{definition} [Reals from Dedekind cuts]
+Let $\bbr = \bbr_{Ded}$ be the set of all Dedekind cuts.
+\end{definition}
+\begin{properties}
+\begin{enumerate}
+    \item []
+    \item $\bbq \subset \bbr$ with the naturally embedding $z \mapsto z^*$ above.
+    \item $<, +, \cdot$ extend naturallly.
+    
+    Note, that by ``extending'' we mean that the operation on $\bbr$ agrees with the notion on $\bbq$.
+    \item We can also define $0, -x$, so the constructed $\bbr$ is indeed an ordered field.
+    \item Define $\abs{x} = \begin{cases}
+    x & \:\text{if}\: x \geq 0 \\
+    -x & \:\text{if}\: x < 0
+    \end{cases}$
+    \item Lastly, it is nontrivial that $\bbr$ has the LUB property, and that Cauchy sequences converge.
+    \item And that $\bbq$ and $\bbr \backslash \bbq$ are dense in $\bbr$.
+\end{enumerate}
+\end{properties}
+\begin{definition} [Cauchy sequences in $\bbr$]
+$(a_n)_{n \geq 1} \subseteq \bbr$ is \textbf{Cauchy} if $\forall \epsilon > 0 \in \bbr, \exists N \in \bbn $ such that $n, m \geq N \implies |a_n - a_m| < \epsilon$.
+\end{definition}
+
+\subsection{Cauchy sequences}
+The big idea of Cauchy sequences is to ``complete the voyages'' in $\bbq$, in which the $<$ is not used in the construction, and only $\abs{\cdot}$.
+
+\begin{definition} [Cauchy sequences in $\bbq$]
+    $(a_n)_{n \geq 1} \subseteq \bbq$ is \textbf{Cauchy} if $\forall \epsilon > 0 \in \bbq, \exists N \in \bbn $ such that $n, m \geq N \implies |a_n - a_m| < \epsilon$.
+\end{definition}
+\begin{definition} [Reals from Cauchy sequences]
+\[\bbr = \bbr_{Cau} = \{\:\text{Cauchy sequences}\:  (a_n)\}/\sim\]
+where $(a_n) \sim (b_n) \Leftrightarrow \forall \epsilon > 0, \exists N \in \bbn$ such that $n \geq N \implies |a_n - b_n| < \epsilon$.
+
+In short, $\bbr = \{[(a_n)] : a_n \:\text{Cauchy}\: \}$
+\end{definition}
+\begin{properties}
+We then check the operations:
+\begin{enumerate}
+    \item $+, \cdot: [(a_n)] + [(b_n)] = [(a_n + b_n)]$
+    \item $\abs{\cdot}: \abs{[(a_n)]} = [(\abs{a_n})]$
+    \item $<$ takes work: $[(a_n)] < [(b_n)]$ if $a_n < b_n$ for infinitely many $n$.
+\end{enumerate}
+\end{properties}

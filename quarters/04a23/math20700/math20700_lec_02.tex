@@ -1,0 +1,98 @@
+\lecture{2}{29 Sep 2023}{Metric Spaces}
+\subsection{Metric spaces}
+The goal of metric spaces is to generalize the notion of distance, which can just be a function that takes in 2 arguments and returns the distance between them, such that this distance satisfies certain reasonable properties.
+\begin{definition} [Metric spaces]
+A \textbf{metric space} is a pair $(M, d)$ where $M$ is a set and $d: M \times M \to \bbr_{\geq 0}$ such that for all $x, x', y, z \in M$:
+\begin{enumerate}
+\item (Positive definite) $d(x, x') \geq 0$, equality holds iff $x = x'$.
+\item (Symmetry) $d(x, x') = d(x', x)$.
+\item (Triangle inequality) $d(x, y) + d(y, z) \geq d(x, z)$.
+\end{enumerate}
+\end{definition}
+\begin{example}
+\begin{enumerate}
+\item []
+\item $M = \bbr, d(x, y) = \abs{x-y}$.
+\item $M = \bbr^n, d(x, y) = \norm{x-y}$ where $\norm{v} = (v \cdot v)^{1/2}$. This $d$ is the usual Euclidean distance.
+\item (Induced metric) $X \subseteq (M, d)$, and define $d_X(x, x') = d_M(x, x')$. The metric on $X$ is induced by the metric on $M$.
+\item Using $M = \bbr^n$ (with appropriate choice of $n$ in the examples below, the set $M$ can really be anything):
+\redtext{insert figure}
+\item (Discrete metric) \[
+d(x, x') = \begin{cases}
+1 & \:\text{if}\: x \neq x' \\
+0 & \:\text{otherwise}\: 
+\end{cases}
+\]
+\end{enumerate}
+\end{example}
+
+\subsection{Isometry and equivalence}
+When are $(X, d_X)$ and $(Y, d_Y)$ the same?
+
+\begin{definition} [Isometry]
+$f: X \to Y$ is an \textbf{isometry} if $f$ is bijective and \[
+d_X(x, x') = d_Y(fx, fx')
+\]
+We say that $(X, d_X)$ and $(Y, d_Y)$ are \textbf{isometric} if there exists such an isometry.
+
+This is an equivalence relation!
+\end{definition}
+
+\begin{remark}
+Fix a metric space $(X, d_X)$, the isometries $f: X \to X$ are (sometimes) interesting! They form a group! For exapmle, on the circle $S^1 \subset \bbr^2$, its isometries are rotations and line reflections.
+\end{remark}
+
+\begin{remark}
+Consider $\bbz \subset \bbr$. Are $(\bbz, d_{discrete})$ and $(\bbz, d_\bbr)$ isometric? Clearly no. Because if there exists $f: (\bbz, d_{discrete}) \to (\bbz, d_\bbr)$ then $d_{discrete}(f^{-1}(0), f^{-1}(2)) = d_\bbr(0, 2) = 2, \contra$
+\end{remark}
+
+\subsection{Convergence and limit points}
+An important point (pun intended) of consideration, perhaps the most as I recognized it so far, for metric spaces is \textit{convergence}. This consideration takes place in many shapes and forms. Does a sequence converge in the metric space at all? If it does, and the points of the sequence are from a certain subset of the metric space, is this point of convergence in the subset? If a sequence doesn't converge, does then exist a convergent subsequence? And many, many more. 
+
+\begin{definition} [Convergence]
+A sequence $(x_n)_{n \geq 1}$ in $(X, d)$ \textbf{converges} if $\exists x \in X$ such that \[
+\forall \epsilon > 0, \exists N \in \bbn \:\text{such that}\: n \geq N \implies d(x_n, x) < \epsilon
+\]
+We write $x_n \cvgn x$.
+\end{definition}
+
+\begin{definition} [Limit point]
+Given $Y \subseteq X$. Say $x \in X$ is a \textbf{limit point} of $Y$ if there exists a sequence $(y_n) \subseteq Y$ such that $y_n \cvgn x$.
+
+A word of caution: The limit point might not be in $Y$ itself!
+\end{definition}
+\begin{example}
+The set of limit points of $S^1$ in $\bbr^2$  $S^1$ itself. The set of limit points of $(0, 1)$ is $[0, 1]$.
+\end{example}
+
+\begin{definition} [Closed set]
+$K \subseteq X$ is \textbf{closed} if it contains (and therefore equals to) all of its limit points.
+\end{definition}
+
+\begin{definition} [Open set]
+$U \subseteq X$ is \textbf{open} if $\forall x \in U, \exists r > 0$ such that $\forall x' \in X, d(x, x') < r \implies x' \in U$.
+
+In words, it is open if we can draw a positive-radius open ball around every point of the set, so that this ball is wholly contained in the set $U$.
+\end{definition}
+
+\begin{notation}
+In $(X, d)$, $x \in X, r > 0$, denote: \[
+B_X(x, r) = \{x' : d(x, x') < r\}
+\]
+Then as mentioned, $U$ open if $\forall x \in U, \exists r > 0$ such that $B_X(x, r) \subseteq U$.
+\end{notation}
+
+Here comes the first non-trivial statement:
+\begin{proposition}
+fdfsd
+\end{proposition}
+
+\begin{proof}
+fdsfds
+\end{proof}
+
+\begin{proof} [Name]
+    fdsfds
+\end{proof}
+
+
