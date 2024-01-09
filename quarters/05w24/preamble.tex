@@ -26,7 +26,7 @@
 \sisetup{locale = FR}
 
 % Enum: Set counters bold
-\setlist[enumerate]{font={\bfseries}}
+\setlist[enumerate]{font={\bfseries}, label = (\alph*)}
 
 % Lst: Define styling for code environments
 \lstdefinestyle{mystyle}{
@@ -87,6 +87,8 @@
     % Change the color of url's to blue with some black.
     linkcolor={blue!80!black}
 }
+
+% Enum
 
 % 3. School
 % 3.1. Lectures
@@ -431,6 +433,8 @@
 \newcommand{\calt}{\mathcal{T}}
 \newcommand{\call}{\mathcal{L}}
 \newcommand{\calm}{\mathcal{M}}
+\newcommand{\calu}{\mathcal{U}}
+\newcommand{\calh}{\mathcal{H}}
 
 \newcommand{\rme}{\mathrm{e}}
 \newcommand{\rmd}{\mathrm{d}}
@@ -456,6 +460,7 @@
 % \newcommand{\im}{\mathrm{im}}
 \newcommand{\iprod}[2]{\langle #1, #2 \rangle}
 \newcommand*{\conj}[1]{\overline{#1}}
+\newcommand*{\sign}[1]{\mathrm{sgn}(#1)}
 
 % 5.2. Symbols maneuvering
 % https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall

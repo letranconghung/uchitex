@@ -6,6 +6,7 @@
 \begin{document}
 \maketitle
 \setcounter{section}{1}
+\textbf{Textbook:} Pugh, \textit{Real Mathematical Analysis}
 \begin{problem} [5.57 \redtext{done}]
     Show that $\rmd: \Omega^k \to \Omega^{k+1}$ is a linear vector space homomorphism.
 \end{problem}
@@ -42,7 +43,7 @@ Assume $\rmd^2 f = 0$ for all smooth functions $f$, and prove that $\rmd^2 \omeg
 \begin{solution}
     Let $\omega$ be any smooth $k-$form. If $k = 0$, then $\omega$ is a smooth function so $\rmd^2 \omega = 0$ by assumption. Otherwise, WLOG, let $\omega = f \rmd x_I$ for some increasing $k$-tuple $I$. Then 
     \begin{align*}
-        \rmd^2 \lambda = \rmd (\rmd \lambda) &= \rmd (\rmd f \wedge \rmd x_I) \\
+        \rmd^2 \omega = \rmd (\rmd \omega) &= \rmd (\rmd f \wedge \rmd x_I) \\
         &= \rmd^2 f  \wedge \rmd x_I + (-1)^{l+1} \rmd f \wedge \rmd (\rmd x_I) \\
         &= (-1)^{l+1} \rmd f \wedge \rmd (\rmd x_I)
     \end{align*}
@@ -51,7 +52,7 @@ Assume $\rmd^2 f = 0$ for all smooth functions $f$, and prove that $\rmd^2 \omeg
         \rmd (\rmd x_I) = \left(\sum_{i=1}^{n} \frac{\partial (1)}{\partial x_i}(x) \rmd x_i\right) \wedge \rmd x_I = 0
     \end{equation*}
 
-    Therefore $\rmd^2 \lambda = (-1)^{l+1} \rmd f \wedge 0 = 0$ as required.
+    Therefore $\rmd^2 \omega = (-1)^{l+1} \rmd f \wedge 0 = 0$ as required.
 \end{solution}
 
 \begin{problem} [5.62 \redtext{done}]
@@ -86,7 +87,7 @@ Here, $[\omega]$ denotes the equivalence class of $\omega \in Z^k (V)$ in $H^k(V
         &= T^* \omega + T^* \rmd \lambda \\
         &= T^* \omega + d T^* \lambda
     \end{align*}
-    But $T^* \omega \in Z^k(U), \rmd T^* \lambda \in B^k(U)$ so $T^* \omega + \rmd T^* \lambda \in [T^* \omega] \in H^k(U)$. Thus $T^* \omega_1 \in [T^* \omega]$ as required.
+    But $T^* \omega \in Z^k(U), \rmd T^* \lambda \in B^k(U)$ so $T^* \omega + \rmd T^* \lambda \in [T^* \omega]$. Thus $T^* \omega_1 \in [T^* \omega]$ as required.
     
     The linearity of $T^*$ on cohomology classes is trivial from the linearity of $T^*$ on forms.
 \end{solution}
@@ -103,7 +104,7 @@ If $\omega$ and $\lambda$ are $k$- and $m$-forms respectively, prove that \[
         \omega \wedge \lambda &= (f \rmd x_I) \wedge (g \rmd x_J) \\
         &= (fg) \rmd x_{i_1} \wedge \rmd x_{i_2} \ldots \wedge \rmd x_{i_k} \wedge \rmd x_{j_1} \wedge \rmd x_{j_2} \ldots \wedge \rmd x_{j_m} \\
         &= (fg) (-1)^m \rmd x_{i_1} \wedge \rmd x_{i_2} \ldots \wedge \rmd x_{i_k-1} \wedge \rmd x_{j_1} \wedge \rmd x_{j_2} \ldots \wedge \rmd x_{j_m} \wedge \rmd x_{i_k} \\
-        & \:\text{(perform the same ``movement'' $(k-1)$ more times)}\: \\
+        & \:\text{(perform the same permutation $(k-1)$ more times)}\: \\
         &= (fg)(-1)^{km} \rmd x_J \wedge \rmd x_I\\
         &= (-1)^{km} (g \rmd x_J) \wedge (f \rmd x_I) = (-1)^{km} \lambda \wedge \omega
     \end{align*}
@@ -165,7 +166,7 @@ We can compute: \begin{align*}
     as required.
 \end{solution}
 
-\begin{problem} [Problem 3]
+\begin{problem} [Problem 3 \redtext{done}]
 Define $\zeta$ on $\bbr^3 \backslash \{0\}$ by \begin{equation*}
 \zeta = \frac{x \rmd y \wedge \rmd z + y \rmd z \wedge \rmd x + z \rmd x \wedge \rmd y}{r^3} \quad (r = (x^2 + y^2 + z^2)^{1/2}),
 \end{equation*}
