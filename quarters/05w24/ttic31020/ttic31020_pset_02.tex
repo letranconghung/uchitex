@@ -1,0 +1,176 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 2}
+\date{15 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{2}
+\begin{problem} [Problem 1]
+\textbf{(a)} Since $\rho(x, x_i)$ is shift invariant, $\int_x K(x, x_i) \dx$ is the same constant for all $x_i$. Let us denote that $C \coloneqq \int_x K(x, x_i) \dx$.
+
+In the binary classification context, then, let $m_+ \coloneqq \abs{\{i \mid y_i = 1\}}, m_- \coloneqq  \abs{\{i \mid y_i = -1\}} = m-m_+$. Then 
+\begin{align*}
+    1 &= \int_x \hat{f} (x \mid Y = 1) \\
+    &= \int_x Z_{1} \sum_{y_i = y} {K(x, x_i)} \\
+    &= Z_1 \int_x \sum_{y_i = y} {K(x, x_i)} \\
+    &= Z_1 m_+ C \\
+    \implies Z_1 &= \frac{1}{m_+ C}
+\end{align*}
+Similarly, $Z_{-1} = \frac{1}{m_-C}$.
+Also, $\hat{p}(y = 1) = \frac{m_+}{m}, \hat{p} (y = -1) = \frac{m_-}{m}$.
+
+It follows that \begin{align*}
+    \hat{f}(y = +1 \mid x) &= \frac{\hat{f}(x \mid y = +1) \hat{p}(y = +1)}{\hat{f}(x \mid y = +1) \hat{p}(y = +1) + \hat{f}(x \mid y = -1) \hat{p}(y = -1)} \\
+    &= \frac{\left(Z_1 \sum_{y_i = 1} K(x, x_i)\right) \frac{m_+}{m}}{\left(Z_1 \sum_{y_i = 1} K(x, x_i)\right) \frac{m_+}{m} + \left(Z_{-1}\sum_{y_i = -1} K(x, x_i)\right) \frac{m_-}{m}} \\
+    &= \frac{\sum_{y_i = 1} K(x, x_i)}{\sum_{y_i = 1} K(x, x_i) + \sum_{y_i = -1} K(x, x_i)}
+\end{align*}
+Similarly, \begin{equation*}
+\hat{f}(y = -1 \mid x) = \frac{\sum_{y_i = -1} K(x, x_i)}{\sum_{y_i = 1} K(x, x_i) + \sum_{y_i = -1} K(x, x_i)}
+\end{equation*}
+
+The Parzen Predictor, as the Bayes Optimal Predictor for $\hat{\cald}$, predicts 1 when the first conditional density is greater than the second, and -1 otherwise. Therefore, 
+\begin{align*}
+    h(x) &= \sign{\sum_{y_i = 1} K(x, x_i) - \sum_{y_i = -1} K(x, x_i)} \\
+    &= \sign{\sum_{i=1}^{m} y_i K(x, x_i)}
+\end{align*}
+as required.
+
+\textbf{(b)} In the limit $\sigma \to \infty$, \begin{align*}
+   K(x, x') &= e^{-\rho(x, x')^2/\sigma^2} \xrightarrow{\sigma \to \infty} 1
+\end{align*}
+therefore \begin{align*}
+    h(x) &= \sign{\sum_{i=1}^{m} y_i}
+\end{align*}
+taking the average of all $y_i$.
+
+\textbf{(c)} In the limit $\sigma \to 0$, if $0 \leq \rho(x, x_i) \leq  \rho(x, x_j) - \epsilon$ then $K(x, x_i) \gg K(x, x_j)$ as $\sigma \to 0$.
+
+It follows that as $\sigma \to 0$, \begin{align*}
+h(x) &= \sign{\sum_{i=1}^{m} y_i K(x, x_i)} \\
+&\stackrel{\sigma \to 0}{=} \sign{\sum_{x_i \:\text{closest to}\: x} y_i K(x, x_i)} \\
+&= \sign{\sum_{x_i \:\text{closest to}\: x} y_i}
+\end{align*}
+
+\textbf{(d)} The Parzen predictor also predicts the label for $x$ using the labels of the $x_i's$ that are closets to $x$, in this case, summing up the labels of $y_i$'s. The sign of the sum will therefore take the sign of the sign of the majority of the labels; the Parzen predictor (as $\sigma \to 0$) breaks ties by following the majority of closest points.
+
+
+\end{problem}
+\begin{problem} [Problem 2]
+\textbf{(a)} We're given \begin{equation*}
+\bbp_\cald(Y = +1 \mid x) = \begin{cases}
+    0.8 & \:\text{if}\: x \geq 0 \\
+    0.2 & \:\text{if}\: x < 0
+\end{cases}
+\end{equation*}
+and it follows that the bayes Optimal Predictor is
+\begin{equation*}
+h_{Bayes}(\cald)(x) = \sign{\eta_\cald(x) - 0.5} = \begin{cases}
+1 & \:\text{if}\: x \geq 0 \\
+-1 & \:\text{if}\: x < 0
+\end{cases}
+\end{equation*}
+The Bayes Error is \begin{align*}
+L_\cald (h_{Bayes}(\cald)) &= \bbp_{(x, y) \sim \cald}[h_{Bayes}(\cald)(x) \neq y] \\
+&= \frac{1}{2} 0.2 + \frac{1}{2} 0.2 = 0.2
+\end{align*}
+
+\textbf{(b)} As $m \to \infty$, the nearest neighbor of $x_{neighbor}$ of most $x$ in $S$ would have the same sign as $x$. When $x \geq 0$, $x_{neighbor}$ has the label distribution \begin{equation*}
+    \bbp(y_{neighbor} = +1 \mid x \geq 0) = 0.8, \bbp(y_{neighbor} = -1 \mid x \geq 0) = 0.2
+\end{equation*}
+and thus corresponding labeling probabilities for the label of $x$ itself. Therefore \begin{align*}
+    L_{x \geq 0, (x, y) \sim \cald} (h_m) &= \bbp(y_{neighbor} = +1, y = -1 \mid x \geq 0) + \bbp(y_{neighbor} = -1, y = +1 \mid x \geq 0) \\
+    &= 0.8 \times 0.2 + 0.2 \times 0.8 = 0.32
+\end{align*}
+and similarly, $L_{x < 0, (x, y) \sim \cald}(h_m) = 0.32$.
+
+It follows that $L_{(x, y) \sim \cald} (h_m) = 0.32 \times \frac{1}{2} + 0.32 \times \frac{1}{2} = 0.32$
+\end{problem}
+
+\begin{problem} [Problem 3]
+\textbf{(a)}
+\begin{center}
+    \includegraphics[width=15cm]{./figures/3.3a.jpeg}
+\end{center}
+
+\textbf{(b)}
+Using the feature map $\phi: \bbr^2 \to \bbr^5, (x_1, x_2) \mapsto (x_1^2, x_1, x_2^2, x_2, 1)$ then
+\begin{align*}
+   \1\left[\frac{(x_1 - c_1)^2}{a_1^2} + \frac{(x_2 - c_2)^2}{a_2^2} \leq r\right]&= \1\left[\iprod{\phi(x_1, x_2)}{\left(\frac{1}{a_1^2}, \frac{-2c_1}{a_1^2}, \frac{1}{a_2^2}, \frac{-2c_2}{a_2^2}, \frac{c_1^2}{a_1^2} + \frac{c_2^2}{a_2^2} - r\right)} \leq 0\right]
+\end{align*}
+Thus \begin{equation*}
+\calh = \left\{\1\left[\iprod{\phi(x_1, x_2)}{\left(\frac{1}{a_1^2}, \frac{-2c_1}{a_1^2}, \frac{1}{a_2^2}, \frac{-2c_2}{a_2^2}, \frac{c_1^2}{a_1^2} + \frac{c_2^2}{a_2^2} - r\right)} \leq 0\right] : c_1, c_2, a_1, a_2, r \in \bbr; a_1 \neq a_2\right\}
+\end{equation*}
+is a hypothesis class of linear predictors, and therefore a subset of $H^{linear}_\phi$, the hypothesis class of all linear predictors in $\phi(x_1, x_2)$:
+\begin{equation*}
+\calh^{linear}_\phi = \{\1 \left[\iprod{\phi(x_1, x_2)}{w} \leq 0\right] : w \in \bbr^5\}
+\end{equation*}
+
+\textbf{(c)} Since we have represented in (b) that $\calh$ is a subset of $\calh^{linear}_\phi$, \begin{equation*}
+VCDim(\calh) \leq VCDim(\calh^{linear}_\phi) = 5
+\end{equation*}
+We have shattered 4 points in (a), which demonstrates that \begin{equation*}
+VCDim(\calh) \geq 4
+\end{equation*}
+
+There is a difference of $5 - 4 = 1$ between the VCDim bounds. The gap can be explained by that in the linear representation of $\calh$, $w[0] = \frac{1}{a_1^2}, w[2] = \frac{1}{a_2^2} > 0$ are forced to be positive; in other words, the predictors with negative values in either $w[0]$ or $w[2]$ are included in $\calh^{linear}_\phi$ but are not included in $\calh$, which potentially decreases the VCDim.
+\end{problem}
+
+\begin{problem} [Problem 4]
+\textbf{(a)} We write out explicitly the definition for $\calh_1$:
+\begin{equation*}
+\calh_1 = \{y = \sign{\iprod{w}{x}}: w \in \bbr^d, \norm{w}_0 = 1\}
+\end{equation*}
+$\norm{w}_0 = 1$ means that $w$ can have 1 non-zero coordinate, say, $i$-th coordinate. It follows that \begin{equation*}
+\calh_1 = \{y = \sign{\alpha x[i]}: i \in [d], \alpha \in \bbr \backslash \{0\}\}
+\end{equation*}
+And therefore for a set of points to be classified into the same label, all the points must share at least 1 index $i$.
+
+We can therefore construct a set of $\log_2 d$ points, $A$, in the following manner. Initialize all points to have (-1) as their default coordinate for all coordinates. Within $[\log_2 d] (\coloneqq \{1, \ldots, \log_2 d\})$, there are $2^{\log_2 d} = d$ subsets of indices. We then iterate through the subsets in some, but fixed, order:
+\begin{lstlisting} [language=python]
+subsets = all_subsets(A)
+for i in range(d):
+    subset = subsets[i]
+    for point in subset:
+        point[i] = 1
+\end{lstlisting}
+i.e. assigning 1 to be the value of the $i$-th index of points in the $i$-th subset.
+
+Then, with this $A$, for any $(y_1, \ldots, y_{\log_2 d}) \in \{\pm 1\}^{\log_2 d}$, let \begin{equation*}
+B = \{ j : y_j = +1\}
+\end{equation*}
+is a subset of $[\log_2 d]$. Let its position, in the fixed order above (0-index), be $i_B$.
+
+Then the predictor $h(x) = \sign{x[i_B]}$ would give us $h(x_i) = y_i \forall 1 \leq i \leq \abs{A}$, since $x_k[i_B] > 0 \Leftrightarrow x_k \in B \Leftrightarrow y_k = +1$. 
+
+We have thus shattered $\log_2 d$ points using $\calh_1$.
+
+\textbf{(b)}
+We write out $\calh_k$:
+\begin{equation*}
+\calh_k = \{y = \sign{\iprod{w}{x}} : w \in \bbr^d, \norm{w}_0 = k\}
+\end{equation*}
+
+If $k < \log d$ then we have completed this in (a), by using the same method as $\calh_1$ for any index of $w$ and setting the remaining $(k-1)$ non-zero coordinates of $w$ to be infinitesimally small so that their contribution to $\sign{\iprod{w}{x}}$ is negligible, so that same reasoning works.
+
+When $k \geq \log d$, then $ \max\{k, \log d\} = k$. Note that $k \leq d$, since $w \in \bbr^d$.
+
+Our job now is to shatter $k$ points with $\calh_k$. Define $x_j$ to have all (-1) except in the $j$-th coordinate, and $2d$ for the $j$-th coordinate, for $1 \leq j \leq k$.
+
+Then for any $(y_1, \ldots, y_k) \in \{\pm 1\}^k$, let \begin{equation*}
+B = \{j : y_j = +1\}
+\end{equation*}
+Then we construct $\hat{w}$ by assigning $1$ in coordinates that are in $B$, and $\epsilon \ll 1$ or 0 everywhere else (fill $\epsilon$ in $(k-\abs{B})$ coordinates to get a total of $k$ non-zero coordinates for $\hat{w}$ (so that $\norm{\hat{w}}_0 = k$), then assign 0 to remaining coordinates; it does not matter which coordinates we choose for $\epsilon$ and which for $0$).
+
+Then $\hat{h} = \sign{\iprod{\hat{w}}{x}}$ would give predictions:
+\begin{align*}
+    \iprod{\hat{w}}{x_j} &\geq 2d \times 1 + (-1) \times (\abs{B} - 1) + (-1) \times \epsilon \times (k - \abs{B}) > 0 \:\text{(since $\abs{B} \leq d$), for $j \in B$}\: \\
+    \implies \hat{h}(x_j) &= 1, \:\text{for $j \in B$}\: \\
+    \iprod{\hat{w}}{x_j}&\leq 2d \times \epsilon + (-1) \times \abs{B} < 0,  \:\text{for $j \not \in B$}\:  \\
+    \implies \hat{h}(x_j) &= -1, \:\text{for $j \not \in B$}\:
+\end{align*}
+as required.
+
+We have thus shattered $\max\{k, \log d\}$ points with $\calh_k$.
+\end{problem}
+\end{document}

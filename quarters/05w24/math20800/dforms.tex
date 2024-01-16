@@ -1,0 +1,125 @@
+\documentclass[a4paper, 11pt]{article}
+\input{../macro.tex}
+\input{../env.tex}
+\title{On differential forms}
+\author{Hung C. Le Tran}
+\begin{document}
+\maketitle
+\section{Preface}
+This short exposition is in no way an ultra-rigorous study of differential forms, but is hopefully helpful for students who are struggling to get some grasp of what forms sort of mean. The accompanying text should be Pugh's \textit{Real Mathematical Analysis}. I've tried reading MIT's course notes on differential forms, but ramming through the multilinear algebra was a little bit too much. Terence Tao's short notes on differential forms also give proper motivation to this subject as well.
+
+\section{Motivation}
+I quote Tao's notes:
+
+\begin{quotation}
+    The concept of integration is of course fundamental in single-variable calculus.
+Actually, there are three concepts of integration which appear in the subject: the \textit{indefinite integral} $\int_f$ (also known as the anti-derivative), the \textit{unsigned definite integral} $\int_{[a, b]} f(x) dx$ (which one would use to find area under a curve, or the mass of a one-dimensional object of varying density), and the \textit{signed definite integral} $\int_a^b f(x) dx$ (which one would use for instance to compute the work required to move a particle from a to b). For simplicity we shall restrict attention here to functions $f: \bbr \to \bbr$ which are continuous on the entire real line (and similarly, when we come to differential forms, we shall only discuss forms which are continuous on the entire domain). [$\ldots$]
+
+These three integration concepts are of course closely related to each other in single-variable calculus; indeed, the fundamental theorem of calculus relates the signed definite integral $\int_a^b f(x) dx$ to any one of the indefinite integrals $F = \int f$ by the formula \begin{equation*}
+\int_a^b f(x) dx = F(b) - F(a)
+\end{equation*}
+while the signed and unsigned integral are related by the simple identity \begin{equation*}
+\int_a^b f(x) dx = -\int_b^a f(x) dx = \int_{[a,b]} f(x) dx
+\end{equation*}
+which is valid whenever $a \leq b$.
+
+When one moves from single-variable calculus to several-variable calculus, though,
+these three concepts begin to diverge significantly from each other. The \textit{indefinite integral} generalises to the notion of a \textit{solution to a differential equation}, or of an integral of a connection, vector field, or bundle. The \textit{unsigned definite integral} generalises to the \textit{Lebesgue integral}, or more generally to integration on a measure space. Finally, the \textit{signed definite integral} generalises to the \textit{integration of forms}, which will be our focus here. While these three concepts still have some relation to each other, they are not as interchangeable as they are in the single-variable setting.
+\end{quotation}
+
+For me, as for Tao, differential forms capture some sort of \textit{orientation} in taking integrals, some sort of \textit{oriented integral} that is not captured by the Lebesgue integral.
+
+Our goal: The \textbf{General Stokes' Theorem}: \begin{equation*}
+\int_M \mathrm{d} \omega = \int_{\partial M} \omega
+\end{equation*}
+
+That might have meant nothing to you; but you must have seen its instances in some particular cases: Gauss' divergence theorem, Green's identities, and so on.
+
+\section{Surfaces and Forms}
+Forms capture the integration over ``lower-dimensional'' things in ``higher dimensional'' spaces, i.e., the sphere $S^2$ in space $\bbr^3$. How can we capture that?
+\begin{definition} [$k$-surfaces $\equiv k$-cells in $\bbr^n$]
+    A $k$\textbf{-surface} in $E \subset \bbr^n$ is a smooth \textit{map} $\phi: I^k \to E \subset \bbr^n$. 
+    
+    Remember, it is a map, not the image of the map, though when we think of ``surfaces'', we can also imagine its image instead. In this way, the sphere $S^2$ is the image of some $2$-surface in $\bbr^3$, but NOT the surface itself!
+
+    Define $C_k(\bbr^n)$ to be the set of $k$-surfaces in $\bbr^n$.
+\end{definition}
+
+\begin{definition} [Functionals on surfaces]
+    Define $C^k(\bbr^n)$ to be the set of functionals on $C_k(\bbr^n)$, that is, on the set of $k$-surfaces in $\bbr^n$. That is, each $f \in C^k(\bbr^n)$ sends \begin{equation*}
+    f: C_k(\bbr^n) \to \bbr, \phi \mapsto f(\phi) \in \bbr
+    \end{equation*}
+\end{definition}
+
+We jump directly into the definition of forms.
+
+\begin{definition} [$k$-forms]
+    $\omega \in C^k(\bbr^n)$ is called a $k$-form on $E \subset \bbr^n$ if there exists $\{a_{i_1}, \ldots, a_{i_k} : E \to \bbr\}_{i_1, \ldots, i_k \in \{1, \ldots, n\}}$ (permutating through all $k$-tuples in $\{1, \ldots, n\}$) such that
+    \begin{equation*}
+    \int_\phi \omega \coloneqq \omega(\phi) = \int_{I^k} \sum_{\:\text{all $k$-tuples}\: } a_{i_1, \ldots, i_k} (\phi(u)) \frac{\partial (\phi_{i_1}, \ldots, \phi_{i_k})}{\partial (u_1, \ldots, u_k)} \du 
+    \end{equation*}
+    where the \textit{Jacobian}
+    \begin{equation*}
+        \dfrac{\partial (\phi_{i_1}, \ldots, \phi_{i_k})}{\partial (u_1, \ldots, u_k)} (u) \coloneqq \det \begin{bmatrix}
+            \dfrac{\partial \phi_{i_1}}{\partial u_1} &  \dfrac{\partial \phi_{i_1}}{\partial u_2} & \cdots & \dfrac{\partial \phi_{i_1}}{\partial u_k} \\
+            \dfrac{\partial \phi_{i_2}}{\partial u_1} &  \dfrac{\partial \phi_{i_2}}{\partial u_2} & \cdots & \dfrac{\partial \phi_{i_2}}{\partial u_k} \\
+            \vdots \\
+            \dfrac{\partial \phi_{i_k}}{\partial u_1} & \ldots & \ldots & \dfrac{\partial \phi_{i_k}}{\partial u_k}
+        \end{bmatrix} (u)
+    \end{equation*}
+
+    And we denote \begin{equation*}
+    \omega = \sum_{\:\text{all $k$-tuples}\:} a_{i_1, \ldots, i_k}(x) \dx_{i_1} \wedge \dx_{i_2} \wedge \ldots \wedge \dx_{i_k}
+    \end{equation*}
+
+    This ``wedge'' $\wedge$ thing is now meaningless to us. It's just a convenient way of encoding the way the values that $\omega$ sends surfaces to by tracking the $k$-indices and their corresponding coefficients $a_{i_1, \ldots, i_k}$.
+\end{definition}    
+
+We'll often let $I = (i_1, \ldots, i_k)$ be a $k$-tuple with numbers chosen from $\{1, \ldots, n\}$, and $\dx_I \coloneqq \dx_{i_1} \wedge \dx_{i_2} \wedge \ldots \wedge \dx_{i_k}$.
+
+\begin{remark}
+This definition seems out of place. However, what we're really doing here is doing a grand change of variables from $\phi(u)$ back to $u$, so that we can integrate over the cube $I^k$.
+\end{remark}
+
+\begin{properties}
+\begin{itemize}
+\item []
+\item Say $\omega = a(x) \dx_{i_1} \wedge \dx_{i_2} \wedge \ldots \wedge \dx_{i_k}$. Then if $\bar{\omega} = a(x) \dx_{\pi I}$ for some permutation $\pi$ then $\omega = \sign{\pi} \bar{\omega}$. This comes natural, through our usage of the Jacobian in the definition of forms.
+\end{itemize}
+\end{properties}
+
+\begin{definition} [Basic $k$-form]
+    $\dx_I$ where $I$ is increasing is a \textbf{basic $k$-form}.
+\end{definition}
+
+\begin{proposition}
+If $I$ has a repeating index then $\dx_I = 0$
+\end{proposition}
+\begin{proof}
+    This is because we can perform the permutation $\pi_0$ that switch the repeating indices and still get the same $I$, therefore \begin{equation*}
+        \dx_I = \sign{\pi}\dx_I = -\dx_I \implies \dx_I = 0
+    \end{equation*}
+\end{proof}
+\begin{corollary}
+    Every $k$-form can be written in terms of basic $k$-forms:
+    \begin{equation*}
+    \omega = \sum_{\:\text{increasing}\: I} b_I (x) \dx_I
+    \end{equation*}
+
+    Warning: The $a$ and $b$ coefficient functions are not the same!
+\end{corollary}
+
+\begin{proposition}
+$\omega = 0 \implies b_I = 0 \forall I$
+\end{proposition}
+\begin{proof}
+    Suppose not. That there exists $J, v$ such that $b_J(v) > 0$ for some increasing $J$, and $v \in I^k$. Then what does it mean for $\omega = 0$? It means that $\omega(\phi) = 0$ for all $k$-surfaces $\phi$. We shall prove by contradiction, by constructing a surface where $\int_\phi \omega$ can't be 0.
+
+    etc.
+\end{proof}
+
+\section{Wedge Product}
+Let $I, J$ be increasing $p, q$-tuples respectively. So $\dx_I, \dx_J$ are basic $p, q$-forms. Then we can define the new form \begin{equation*}
+\dx_I \wedge \dx_J = \dx_{i_1} \wedge \ldots \wedge \dx_{i_p} \wedge \dx_{j_1} \wedge \ldots \wedge \dx_{j_q}
+\end{equation*}
+\end{document}
