@@ -1,0 +1,249 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Problem Set 2}
+\date{17 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{2}
+\textbf{Textbook:} Munkres, \textit{Topology}
+\begin{problem} [17.5 \redtext{done}]
+    Let $X$ be an ordered set in the order topology. Show that $\overline{(a, b)} \subset [a, b]$. Under what conditions does equality hold?
+\end{problem}
+\begin{solution}
+    Let $x \in \overline{(a, b)}$. WTS $x \in [a, b] \Leftrightarrow x \geq a, x \leq b$.
+
+    We first prove that $x \geq a$. Suppose not, that is, $x < a$. Then there exists a neighborhood of $x$ that does not intersect $(a, b)$, namely, the open ray $(-\infty, a)$, which contains $x$, and: \begin{equation*}
+    (-\infty, a) \cap (a, b) = \emptyset
+    \end{equation*}
+    This is a contradiction, since $x \in \overline{(a, b)}$. Therefore $x \geq a$.
+
+    Similarly, $x \leq b$. Therefore $x \in [a, b]$, which implies $\overline{(a, b)} \subset [a, b]$.
+
+    Equality holds when both $a$ and $b$ are limit points of $(a, b)$.
+\end{solution}
+
+\begin{problem} [17.6 \redtext{done}]
+Let $A, B$ and $A_\alpha$ denote subsets of a space $X$. Prove the following.
+\begin{enumerate}
+\item If $A \subset B$, then $\overline{A} \subset \overline{B}$
+\item $\overline{A \cup B} = \overline{A} \cup \overline{B}$
+\item $\overline{\bigcup A_\alpha} \supset \bigcup \overline{A_\alpha}$, and give an example where equality fails.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Let $x \in \overline{A}$, WTS $x \in \overline{B}$. Take any open neighborhood $U$ of $x$.
+
+    Since $x \in \overline{A}$, $U \cap A \neq \emptyset$. But $A \subset B \implies U \cap B \neq \emptyset$ too.
+
+    This means that every open neighborhood $U$ of $x$ has non-empty intersection with $B$.
+
+    Therefore $x \in \overline{B}$. \qed
+
+    \textbf{(b) 1.} WTS $\overline{A \cup B} \subset \overline{A} \cup \overline{B}$.
+
+    $\overline{A}, \overline{B}$ are closed in $X$. It follows that $\overline{A} \cup \overline{B}$ is also closed in $X$.
+
+    Also, $A \subset \overline{A}, B \subset \overline{B} \implies A \cup B \subset \overline{A} \cup \overline{B}$.
+
+    $\overline{A \cup B}$ is the smallest subset that contains $A \cup B$, so $\overline{A \cup B} \subset \overline{A} \cup \overline{B}$.
+
+    \textbf{2.} WTS $\overline{A} \cup \overline{B} \subset \overline{A \cup B}$.
+
+    Take $x \in \overline{A} \cup \overline{B}$. WLOG, $x \in \overline{A}$. This implies every open neighborhood $U$ of $x$ satisfies:\begin{equation*}
+    U \cap A  \neq \emptyset \implies U \cap (A \cup B) \neq \emptyset
+    \end{equation*}
+    It follows that $x \in \overline{A \cup B}$. Therefore $\overline{A} \cup \overline{B} \subset \overline{A \cup B}$ as required.
+
+    \textbf{3.} From \textbf{1., 2.}, it follows that $\overline{A \cup B} = \overline{A} \cup \overline{B}$. \qed
+
+    \textbf{(c)} Take $x \in \bigcup \overline{A_\alpha}$. WTS $x \in \overline{\bigcup A_\alpha}$.
+
+    Since $x \in \bigcup \overline{A_\alpha}$, $x \in \overline{A_\beta}$ for some $\beta$.
+
+    It follows that every open neighborhood $U$ of $x$ satisfies: \begin{equation*}
+    U \cap A_\beta \neq \emptyset \implies U \cap \bigcup A_\alpha \neq \emptyset
+    \end{equation*}
+    and therefore $x \in \overline{\bigcup A_\alpha}$. It follows that $\overline{\bigcup A_\alpha} \supset \bigcup \overline{A_\alpha}$ as required.
+
+    An example of when equality fails:
+    \begin{equation*}
+    A_\alpha \coloneqq \{\alpha\} \forall \alpha \in \bbq
+    \end{equation*}
+    Then $\overline{A_\alpha} =\{ \alpha \}\implies \bigcup \overline{A_\alpha} = \bbq$, while \begin{equation*}
+    \overline{\bigcup A_\alpha} = \overline{\bbq} = \bbr \neq \bbq
+    \end{equation*}
+\end{solution}
+
+\begin{problem} [17.13 \redtext{done}]
+    Show that $X$ is Hausdorff iff the \textit{diagonal} $\Delta = \{x \times x \mid x \in X\}$ is closed in $X \times X$.
+\end{problem}
+\begin{solution}
+    \pffwd By hypothesis, $X$ is Hausdorff. WTS $\Delta = \{x \times x \mid x \in X\}$ is closed in $X \times X$. Equivalently, WTS $\cl{\Delta} = \Delta$.
+
+    Suppose not, i.e., that there exists $y \times z \in \cl{\Delta} - \Delta$. $y \times z \not \in \Delta$ so $y \neq z$. Since $X$ is Hausdorff, there exists $U \ni y, V \ni z$ open such that $U \cap V = \emptyset$.
+
+    Then, since $y \times z$ is a limit point of $\Delta$, and $U \times V$ is open $X \times X$, $y \times z \in U \times V$, it follows that \begin{equation*}
+    U \times V \cap \Delta \neq \emptyset
+    \end{equation*}
+    Say, $x_0 \times x_o \in (U \times V) \cap \Delta$. Then $x_0 \in U, x_0 \in V \implies U \cap V \neq \emptyset, \contra$.
+
+    Therefore $\Delta$ is closed in $X \times X$ as required. \qed
+
+    \pfbwd By hypothesis, $\Delta$ is closed in $X \times X$. This implies $X \times X - \Delta = \{y \times z : y, z \in X;y \neq z\}$ is open.
+
+    Take $y, z \in X;y \neq z $. Then $y \times z \in X \times X - \Delta$, so there exists $U \times V$ with $U, V$ open $X$ such that $y \times z \in U \times V \subset X \times X - \Delta$, i.e., $U \times V \cap \Delta = \emptyset$.
+
+    WTS $U \cap V = \emptyset$. Suppose not, then there exists $w \in U \cap V$, then $w \times w \in U \times V$. But $w \times w \in \Delta$ too, so $U \times V \cap \Delta \neq \emptyset, \contra$. Therefore $U \cap V = \emptyset$.
+
+    Therefore we've demonstrated $U, V$ open with $U \ni y, V \ni z, U \cap V = \emptyset$ for all $y, z \in X; y \neq z$. $X$ is therefore Hausdorff.
+\end{solution}
+
+\begin{problem} [18.12 \redtext{done}]
+Let $F: \bbr \times \bbr \to \bbr$ be defined by the equation \begin{equation*}
+F(x \times y) = \begin{cases}
+\dfrac{xy}{x^2 + y^2} & \:\text{if}\: x \times y \neq 0 \times 0 \\
+0 & \:\text{if}\: x \times y = 0 \times 0
+\end{cases}
+\end{equation*}
+\begin{enumerate}
+\item Show that $F$ is continuous in each variable separately.
+\item Compute the function $g: \bbr \to \bbr$ defined by $g(x) = F(x \times x)$.
+\item Show that $F$ is not continuous.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} We write $F$ as a function in $x$:
+    \begin{equation*}
+    G_y(x) = G(x; y) = F(x \times y) = \begin{cases}
+        \dfrac{xy}{x^2 + y^2} & \:\text{if}\: x \neq 0 \\
+        0 & \:\text{if}\: x = 0
+    \end{cases}
+    \end{equation*}
+
+    Then for $x \neq 0$, $G_y$ is clearly continuous at $x$, since it is the quotient of continuous functions in $x$, and the denominator $x^2 + y^2 > 0$.
+
+    It remains to show that $G_y$ is continuous at $x = 0$. Fix $\epsilon > 0$. Then for all $x$ such that $\abs{x} = \abs{x - 0} < \delta := \epsilon \abs{y}$:
+    \begin{equation*}
+    \abs*{\dfrac{xy}{x^2 + y^2} - 0} \leq \abs*{\dfrac{xy}{y^2}} < \dfrac{\epsilon \abs{y}^2}{y^2} = \epsilon
+    \end{equation*}
+    $G_y$ is therefore continuous at $x = 0$ too. So it is continuous.
+
+    $F$ is symmetric in $x$ and $y$, so $F$ is also continuous in $y$.
+
+    \textbf{(b)}
+    \begin{equation*}
+    g(x) = F(x \times x) = \begin{cases}
+    \dfrac{1}{2} & \:\text{if}\:  x \neq 0 \\
+    0 & \:\text{if}\: x = 0
+    \end{cases}
+    \end{equation*}
+
+    \textbf{(c)} For sake of contradiction, suppose that $F$ is indeed continuous. $\bbr$ is Hausdorff, so $\bbr \times \bbr$ is also Hausdorff. Then the diagonal $\Delta = \{x \times x \mid x \in \bbr\}$ is closed in $\bbr \times \bbr$, per the problem above.
+
+    $F$ is continuous, so $F\mid_\Delta: \Delta \to \bbr$ is also continuous.
+    
+    $\left\{\dfrac{1}{2}\right\}$ is closed in $\bbr$ so $F|_\Delta^{-1}\left(\left\{\dfrac{1}{2}\right\}\right)$ must also be closed in $\Delta$. We can explicitly state, from $\textbf{(b)}$, that:
+    \begin{equation*}
+        F_\Delta^{-1}\left(\left\{\dfrac{1}{2}\right\}\right) = (\bbr - \{0\})^2
+    \end{equation*}
+    $(\bbr - \{0\})^2$ is closed in $\Delta$, and $\Delta $ is closed in $\bbr^2$, so $(\bbr - \{0\})^2$ is closed in $\bbr^2$. But it's clear that $\bbr-\{0\}$ is open in $\bbr$, so $(\bbr - \{0\})^2$ is open in $\bbr^2$, \contra.
+
+    It follows that $F$ is not continuous.
+\end{solution}
+
+\begin{problem} [18.13 \redtext{done}]
+Let $A \subset X$; let $f: A \to Y$ be continuous; let $Y$ be Hausdorff. Show that if $f$ maybe extended to a continuous function $g: \overline{A} \to Y$, then $g$ is uniquely determined by $f$.
+\end{problem}
+\begin{solution}
+    Suppose not, i.e., that there exists $g, h: \cl{A} \to Y$ that are both continuous extension of $f$ from $A$ to $\cl{A}$, and $g \not \equiv h$, i.e., there exists $x \in \cl{A}$ where $g(x) \neq h(x)$. $x$ can't be in $A$ since $g(x) = f(x) = h(x)$, so $x$ must be a limit point of $A$.
+
+    Then since $g(x) \neq h(x); g(x), h(x) \in Y$, and $Y$ is Hausdorff, it follows that there exists $U, V$ open in $Y$ such that $g(x) \in U, h(x) \in V, U \cap V = \emptyset$.
+
+    Since $g, h$ are continuous, it follows that $g^{-1}(U)$ and $h^{-1}(V)$ are also open in $X$.
+
+    Then $W = g^{-1}(U) \cap h^{-1}(V)$ is open in $X$ and contains $x$.  $x$ is a limit point of $A$, so there exists $y \neq x, y \in W \subset A$.
+
+    But since $y \in A$, $g(y) = h(y)$. And $y \in W \implies g(y) \in U, h(y) \in V \implies U \cap V \neq \emptyset, \contra$.
+
+    We therefore have that the continuous extension of $f$ from $A$ to $\cl{A}$, if possible, must be uniquely determined.
+\end{solution}
+
+\begin{problem} [19.4 \redtext{done}]
+Show that $(X_1 \times \cdots \times X_{n-1}) \times X_n$ is homeomorphic with $X_1 \times \cdots \times X_n$.
+\end{problem}
+\begin{solution}
+    Consider \begin{align*}
+        f: (X_1 \times \cdots \times X_{n-1}) \times X_n &\to X_1 \times \cdots \times X_n \\
+        (x_1 \times \cdots \times x_{n-1}) \times x_n & \mapsto x_1 \times \cdots \times x_n
+    \end{align*}
+
+    \textbf{1.} Clearly, $f$ is bijective.
+
+    \textbf{2.} WTS $f$ is continuous. Take $U_1 \times \cdots \times U_n \in X_1 \cdots \times X_n$, a typical basis element of $X_1 \times \cdots \times X_n$, i.e., $U_i$ is open in $X_i$ for all $i \in [n]$.
+
+    Then its preimage $f^{-1}(U_1 \times \cdots \times U_n) = (U_1 \times \cdots \times U_{n-1}) \times U_n$.
+
+    Since $U_i$ is open in $X_i$ for all $i \in [n]$, particularly $i \in [n-1]$, $(U_1 \times \cdots \times U_{n-1})$ is a typical basis element in $(X_1 \times \cdots \times X_{n-1})$, so it is open. $U_n$ is also open in $X_n$, so $(U_1 \times \cdots \times U_{n-1}) \times U_n$ is a typical basis element in $(X_1 \times \cdots \times X_{n-1}) \times X_n$, so it is open. $f$ is therefore continuous.
+
+    \textbf{3.} WTS $f^{-1}$ is continuous. Take $(U_1 \times \cdots \times U_{n-1}) \times U_n \in (X_1 \times \cdots \times X_{n-1}) \times X_n$, a typical basis element of $(X_1 \times \cdots \times X_{n-1}) \times X_n$, which means that $U_n$ is open in $X_n$, and $(U_1 \times \cdots \times U_{n-1})$ is open $(X_1 \times \cdots \times X_{n-1})$, which then means that $U_i$ is open in $X_i$ for $i \in [n-1]$. In summary, $U_i$ is open in $X_i$ for $i \in [n]$.
+
+    Then its preimage through $f^{-1}$ is $f((U_1 \times \cdots U_{n-1}) \times U_n) = U_1 \times \cdots \times U_n$. It is clearly a typical basis element for $X_1 \times \cdots \times X_n$, because $U_i$ is open in $X_i$ for $i \in [n]$, and is therefore open. $f^{-1}$ is therefore also continuous.
+
+    \textbf{4.} From \textbf{1., 2., 3.}, it follows that $f$ is a homeomorphism. We have demonstrated a homeomorphism between $(X_1 \times \cdots \times X_{n-1}) \times X_n$ and $X_1 \times \cdots \times X_n$, so they are homeomorphic.
+\end{solution}
+
+\begin{problem} [19.7 \redtext{done}]
+Let $\bbr^\infty$ be the subset of $\bbr^\omega$ consisting of all sequences that are ``eventually zero,'' that is, all sequences $(x_1, x_2, \ldots)$ such that $x_i \neq 0$ for only finitely many values of $i$. What is the closure of $\bbr^\infty$ in $\bbr^\omega$ in the box and product topologies? Justify your answer.
+\end{problem}
+\begin{solution}
+    Define $A \coloneqq \bbr^\omega - \bbr^\infty$, i.e., the set of sequences such that $x_i \neq 0$ for infinitely many values of $i$, i.e., $x_i = 0$ for finitely many values of $i$.
+
+    \textbf{1.} In the box topology. WTS $\cl{\bbr^\infty} = {\bbr^\infty} \Leftrightarrow \bbr^\infty$ is closed $\Leftrightarrow A$ is open.
+    
+
+    Take $(y_i)_{i \in \bbn} = (y_1, \ldots) \in A$, i.e., $y_i = 0$ for finitely many values of $i$. WLOG, $y_1 = \ldots = y_n = 0; y_i > 0 \forall i \geq n+1$ for some $n \in \bbn$ (negative/mixed cases are handled similarly and trivially).
+
+    Then there exists $U \coloneqq (-1, 1)^n \times (\frac{y_{n+1}}{2}, \frac{3y_{n+1}}{2}) \times (\frac{y_{n+2}}{2}, \frac{3y_{n+2}}{2}) \times \ldots$ is a basis element in the box topology, and is therefore open.
+
+    Then it's clear that by construction, $(y_i) \in U$.
+
+    Furthermore, we claim that $U \subset A$. Take any $(z_i) \in U$. Since, for all $i \geq n+1$, we have that $y_i > 0$ and  $z_i \in (\frac{y_{n+1}}{2}, \frac{3y_{n+1}}{2})$, it follows that $z_i \neq 0$ for all $i \geq n+1$, i.e., infinitely many values of $i$. It follows that $(z_i) \not \in \bbr^{\infty} \implies U \subset A  $.
+
+    We have therefore demonstrated, for all $(y_i) \in A$, there exists open $U$ such that $(y_i) \in U \subset A$. $A$ is therefore open in the box topology.
+
+    It follows that $\bbr^\omega - A = \bbr^\infty$ is closed, so $\cl{\bbr^\infty} = \bbr^\infty$.
+
+    \textbf{2.} In the product topology. WTS $\cl{\bbr^\infty} = \bbr^\omega$, by showing that every point in $\bbr^\omega$ is a limit point of $\bbr^\infty$.
+
+    Take $(y_i)_{i \in \bbn} \in \bbr^\omega$. Take a typical basis element in the product topology that contains $(y_i)$, that is:
+    \begin{equation*}
+    B = \bbr \times \ldots \times \bbr \times U_{i_1} \times \bbr \times \ldots \bbr \times U_{i_2} \times \bbr \times \ldots \times U_{i_n} \times \bbr \times \ldots
+    \end{equation*}
+    where only $U_{i_1}, U_{i_2}, \ldots, U_{i_n} \neq \bbr$ at the $i_1, i_2, \ldots, i_n$-th coordinate.
+
+    For this basis element to contain $(y_i)$, it requires:
+    \begin{equation*}
+    y_{i_k} \in U_{i_k} \forall k \in [n],
+    \end{equation*}
+    with all other coordinates being trivially true (simply being in $\bbr$).
+
+    We can then immediately show that $B \cap \bbr^\infty \neq \emptyset$, by demonstrating a point of intersection $(z_i)$ defined by \begin{equation*}
+    z_{i_k} = y_{i_k} \forall k \in [n], z_i = 0 \:\text{otherwise}\: 
+    \end{equation*}
+
+    Then $(z_i) \in \bbr^\infty$ since $z_i \neq 0$ for only finitely many values of $i$. At the same time, since $z_{i_k} = y_{i_k} \in U_{i_k}$ and $0 \in \bbr$, it follows that $(z_i) \in B$ too. It follows that $B \cap \bbr^\infty \neq \emptyset$.
+
+    Therefore, $\cl{\bbr^\infty} = \bbr^{\omega}$.
+\end{solution}
+
+\begin{problem} [17.21* (Bonus)]
+(Kuratowski) Consider the collection of all subsets $A$ of the topological space $X$. The operations of closure $A \to \overline{A}$ and complementation $A \to X - A$ are functions from this collection to itself.
+\begin{enumerate}
+\item Show that starting with a given set $A$, one can form no more than 14 distinct sets by applying these two operations successively.
+\item Find a subset of $A$ of $\bbr$ (in its usual topology) for which the maximum of 14 is obtained.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\end{solution}
+\end{document}
