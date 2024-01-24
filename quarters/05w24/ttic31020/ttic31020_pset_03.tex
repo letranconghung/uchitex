@@ -1,0 +1,135 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 3}
+\date{20 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{3}
+\newcommand*{\tcala}{\tilde{\cala}}
+\begin{problem} [Problem 1]
+\end{problem}
+\textbf{(a)}
+We have chosen the training set $S$ with the assumption that $(x_i, y_i)$'s are i.i.d. It follows that
+\begin{align*}
+     \bbe_{S \sim \cald^m} [\1\{\calf(S_{-i})(x_i) \neq y_i\}] &= \bbe_{S_{-i} \sim \cald^{m-1}}\left[\bbe_{(x_i, y_i) \sim \cald}\left[\1\{\calf(S_{-i})(x_i) \neq y_i\}\right]\right] \\
+     &= \bbe_{S\sim \cald^{m-1}}[L_{\cald}(F(S))] \\
+     \implies \bbe_{S \sim \cald^m} [LOOCV_S (\calf)] &= \bbe_{S \sim \cald^m}\left[\frac{\abs{\{i : \calf(S_{-i})(x_i) \neq y_i\}}}{m} \right] \\
+     &= \frac{1}{m}\bbe_{S \sim \cald^m} \left[\sum_{i=1}^{m} \1\{\calf(S_{-i})(x_i) \neq y_i\}\right] \\
+     &= \frac{1}{m} \sum_{i=1}^{m} \bbe_{S \sim \cald^m} [\1\{\calf(S_{-i})(x_i) \neq y_i\}]   \\
+     &= \frac{m}{m} \bbe_{S\sim \cald^{m-1}}[L_{\cald}(\calf(S))] \\
+     &= \bbe_{S\sim \cald^{m-1}}[L_{\cald}(\calf(S))]
+\end{align*}
+as required.
+
+\textbf{(b)} $\cala$ enjoys mistake bound $M$ on sequences realized by $\calh$, and $S \sim \cald^m$ as given here is realized by $\calh$. Therefore it can make at most $\max \{T, M\}$ mistakes. It follows that $\tcala$ will run for at most $M$ iterations, since if it reaches $M$ iterations, $\cala$ can no longer make mistakes and the \verb|while| condition exits.
+
+\textbf{(c)} Let $N$ be the number of iterations $\tcala$ would run on $S$. This means that after collecting $N$ samples, say $S'$, then $A(S')$ no longer makes mistakes on the remaining $(m+1) - N$ samples. Then, these $(m+1) - N$ samples, when they are validation points, do not contribute to $LOOCV_S(\tcala)$ at all, since $S_{-i}$ (for $(x_i, y_i)$ among those points) would include the $N$ samples, allowing $\tcala(S_{-i})$ to successfully predict $(x_i, y_i)$. Therefore, \begin{equation*}
+    LOOCV_S (\tcala) \leq \frac{N}{m+1} \\
+\end{equation*}
+(divided by $(m+1)$ because $S$ has $(m+1)$ samples)
+
+\textbf{(c)} 
+Combining, \begin{align*}
+    \bbe_{S \sim \cald^m} [L_\cald (\tcala(S))] &= \bbe_{S \sim \cald^{m+1}} [LOOCV_S(\tcala)] \\
+    &\leq \frac{N}{m+1} \\
+    &\leq \frac{M}{m+1}
+\end{align*}
+Therefore to get $< \epsilon$, we need \begin{equation*}
+    \frac{M}{m+1} < \epsilon \implies m > \frac{M}{\epsilon} - 1
+\end{equation*}
+\begin{problem} [Problem 2]
+
+    \textbf{Part I}
+
+    \textbf{(a)} WTS 
+    \begin{equation*}
+        \frac{\iprod{w^o}{w_{t+1}}}{\norm{w^o}} \geq M_t \gamma
+    \end{equation*}
+    Indeed, when $t = 0, 0 \geq 0$.
+
+    Suppose that \begin{equation*}
+        \frac{\iprod{w^o}{w_{t}}}{\norm{w^o}} \geq M_{t-1} \gamma
+    \end{equation*}
+    Then if $w_{t+1}$ doesn't update (i.e. did not make mistake on $(x_t, y_t)$), then $M_t$ does not update too, and the inequality is trivially satisfied. When $w_{t+1}$ does update:
+    \begin{align*}
+        \frac{\iprod{w^o}{w_{t+1}}}{\norm{w^o}} &=  \frac{\iprod{w^o}{w_{t}}}{\norm{w^o}} +  \frac{\iprod{w^o}{y_t \phi(x_t)}}{\norm{w^o}} \\
+        &\geq M_{t-1}\gamma + \gamma \\
+        &= M_t \gamma
+    \end{align*}
+    as required.
+
+    \textbf{(b)} WTS 
+    \begin{equation*}
+        \norm{w_{t+1}} \leq \sqrt{M_t}
+    \end{equation*}
+    The base case is trivial.
+
+    Induction hypothesis gives us $\norm{w_{t}} \leq \sqrt{M_{t-1}}$.
+
+    Then if $w_{t+1}$ doesn't update then $M_t = M_{t-1}$, the inequality also satisfies.
+
+    When it does update, i.e., $y_t \iprod{w_t}{\phi(x_t)} \leq 0$, then \begin{align*}
+        \norm{w_{t+1}}^2 &= \norm{w_t + y_t \phi(x_t)}^2 \\
+        &= \norm{w_t}^2 + \norm{y_t \phi(x_t)}^2 + 2 \iprod{w_t}{y_t \phi(x_t)}  \\
+        &\leq M_{t-1} + 1  + 0 = M_t  \\
+        \implies \norm{w_{t+1}} & \leq \sqrt{M_t}
+    \end{align*}
+    as required.
+
+    \textbf{(c)} Combining both: \begin{equation*}
+    M_t \gamma \leq \frac{\iprod{w^o}{w_{t+1}}}{\norm{w^o}} \leq \norm{w_{t+1}} \leq \sqrt{M_t}
+    \end{equation*}
+    which implies \begin{equation*}
+    M_t \leq \frac{1}{\gamma^2}
+    \end{equation*}
+    as required.
+
+    \textbf{Part II}
+
+    \textbf{(a)} By assumption, finite $S$ is realizable by some linear predictor, say, one that corresponds to weight $w_0$. 
+    
+    Realizability implies that for all $(x_i, y_i) \in S$, \begin{equation*}
+        y_i \iprod{w_0}{\phi(x_i)} > 0 \implies \frac{y_i \iprod{w_0}{\phi(x_i)}}{\norm{w_0}} > 0
+    \end{equation*}
+
+    The minimum of finite positive numbers is positive, so \begin{equation*}
+    \min_{(x_i, y_i) \in S} \frac{y_i \iprod{w_0}{\phi(x_i)}}{\norm{w_0}} > 0
+    \end{equation*}
+
+    $\gamma(S)$ is then the supremum of a set that contains a positive number (the one above, since $w_0$ is in the set of possible weights), and is therefore positive.
+
+    \textbf{(b)}  We know that $M_t \leq \frac{1}{\gamma(S)^2} \forall t$ so \textsf{PERCEPTRON} has mistake bound $M = \frac{1}{\gamma(S)^2}$.
+
+    From question 1, we know that the number of iterations is bounded by $M = \frac{1}{\gamma(S)^2}$.
+
+    \textbf{(c)}  I would linearly iterate through $S$ to find $(x, y) \in S$ that satisfies $y \iprod{w}{\phi(x)} \leq 0$.
+
+    Required runtime per iteration: $O(md)$.
+
+    Overall runtime: $O\left(\frac{md}{\gamma(S)^2}\right)$
+
+    \textbf{(d)} For this section, let us conventionally denote $\sign{0} = +1$.
+
+    Let $S = \{(1, +1), (1, -1)\}$, $d = 1$. We start with $w_1 = 0$.
+    \begin{align*}
+        w_1 = 0, \sign{\iprod{w_1}{x_2}} = \sign{0} = +1 \neq y_2 &\implies w_2 = 0 + y_2x_2 = -1 \\
+        w_2 = -1, \sign{\iprod{w_2}{x_1}} = \sign{-1} = -1 \neq y_1 &\implies w_3 = -1 + y_1x_1 = 0
+    \end{align*}
+    and we're back to the starting point of the loop. Therefore $\widetilde{\textsf{PERCEPTRON}}$, iterating \textsf{PERCEPTRON} repeatedly, will then never terminate.
+
+    \textbf{Part III}
+
+    \textbf{(a)} Mistake bound:
+    \begin{align*}
+        \bbe_{S \sim \cald^m} \left[L_\cald(\widetilde{\textsf{PERCEPTRON}}(S))\right] \leq \frac{M}{m+1} \leq \frac{1}{(m+1)\gamma^2}
+    \end{align*}
+
+    Therefore to ensure expected generalization error at most $\epsilon$, want:
+    \begin{equation*}
+    \frac{1}{(m+1) \gamma^2} \leq \epsilon \implies m \geq \frac{1}{\epsilon \gamma^2} - 1
+    \end{equation*}
+
+    \textbf{(b)} We made the assumption that $\cald$ is separable with margin $\gamma$.
+\end{problem}
+\end{document}
