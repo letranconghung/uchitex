@@ -1,0 +1,431 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Problem Set 3}
+\date{20 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{3}
+\textbf{Textbook:} Munkres, \textit{Topology}
+\begin{problem} [20.1 \redtext{done}]
+    \begin{enumerate}
+    \item []
+    \item In $\bbr^n$, define \begin{equation*}
+    d'(x, y) = \abs{x_1 - y_1} + \cdots + \abs{x_n - y_n}
+    \end{equation*}
+    Show that $d'$ is a metric that induces the usual topology on $\bbr^n$. Sketch the basis elements under $d'$ when $n = 2$.
+    \item More generally, given $p \geq 1$, define \begin{equation*}
+    d'(x, y) = \left[\sum_{i=1}^{n} \abs{x_i - y_i}^p\right]^{1/p}
+    \end{equation*}
+    for $x, y \in \bbr^n$. Assume that $d'$ is a metric. Show that it induces the usual topology on $\bbr$.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)}
+    Recall that the usual topology on $\bbr^n$ is the topology induced by the metric \begin{equation*}
+    d(x, y) = \left[\sum_{i=1}^{n} (x_i - y_i)^2\right]^{1/2}
+    \end{equation*}
+    
+    We prove that $d'$ and $d$ are comparable, i.e., that \begin{align*}
+    d'(x, y)^2 &= \left(\sum_{i=1}^{n} \abs{x_i - y_i}\right)^2 \\
+                &\geq \sum_{i=1}^{n} (x_i - y_i)^2 = d(x, y)^2 \\
+    \implies d'(x, y) & \geq d(x, y) \\
+\end{align*}
+and 
+\begin{align*}
+    d'(x, y)^2 &= \left(\sum_{i=1}^{n} \abs{x_i - y_i}\right)^2 \\
+        &\leq \left(\sum_{i=1}^{n} d(x, y)\right)^2 \\
+        &\leq n^2d(x, y)^2 \\
+    \implies d'(x, y) &\leq n d(x, y)
+\end{align*}
+Therefore we can exhibit basis elements for the $d'$ metric topology and the usual topology:
+\begin{equation*}
+B_{d, \epsilon}(x) \subset B_{d', \epsilon}(x) \subset B_{d, \frac{\epsilon}{n}}(x)
+\end{equation*}
+thus $d'$ induces the same topology.
+
+Basis elements under $d'$ when $n=2$ are squares rotated by $\pi/4$.
+
+\textbf{(b)} In the general case, we employ the same method. Call the $d'$ in part (a) $d_1$. Then
+\begin{align*}
+d_1(x, y)^p &=  \left(\sum_{i=1}^{n} \abs{x_i - y_i}\right)^p \\
+&\geq d(x, y)^p \\
+\implies d_1(x, y) &\geq d(x, y) 
+\end{align*}
+and 
+\begin{align*}
+    d_1(x, y)^p  &= \left(\sum_{i=1}^{n} \abs{x_i - y_i}\right)^p  \\
+    &\leq \left(\sum_{i=1}^{n} d(x,y) \right)^p \\
+    \implies d_1(x, y) &\leq n d(x, y)
+\end{align*}
+then by the same argument, $d'$ induces the same metric topology as $d_1$, which is the usual topology on $\bbr^n$.
+\end{solution}
+
+\begin{problem} [20.4 \redtext{done}]
+    Consider the product, uniform and box topologies on $\bbr^\omega$.
+    \begin{enumerate}
+    \item In which topologies are the following functions from $\bbr$ to $\bbr^\omega$ continuous?
+        \begin{align*}
+            f(t) &= (t, 2t, 3t, \ldots) \\
+            g(t) &= (t, t, t, \ldots) \\
+            h(t) &= (t, \frac{1}{2} t, \frac{1}{3}t, \ldots)
+        \end{align*}
+    \item In which topologies do the following sequences converge?
+        \begin{align*}
+            w_1 &= (1, 1, 1, 1,\ldots) &x_1 &= (1, 1, 1, 1,\ldots)\\
+            w_2 &= (0, 2, 2, 2,\ldots) &x_2 &= (0, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}, \ldots) \\
+            w_3 &= (0, 0, 3, 3,\ldots)  &x_3 &= (0, 0, \frac{1}{3}, \frac{1}{3}, \ldots)\\
+            &\ldots \\
+            y_1 &= (1, 0, 0, 0, \ldots) & z_1 &= (1, 1, 0, 0, \ldots)\\
+            y_2 &= (\frac{1}{2}, \frac{1}{2}, 0, 0, \ldots) &  z_2 &= (\frac{1}{2}, \frac{1}{2}, 0, 0, \ldots) \\
+            y_3 &= (\frac{1}{3}, \frac{1}{3}, \frac{1}{3}, 0, \ldots) & z_3 &= (\frac{1}{3}, \frac{1}{3}, 0, 0, \ldots)\\
+        \end{align*}
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a) 1.} Product topology. We have, by Theorem 20.5, that the metric \begin{equation*}
+    D(\bfx, \bfy) = \sup \left\{\frac{\bar{d}(x_i, y_i)}{i}\right\}
+    \end{equation*}
+    where $\bar{d}(x_i, y_i) = \min\{\abs{x_i - y_i}, 1\} $ induces the product topology on $\bbr^\omega$. 
+    
+    \begin{itemize}
+        \item $f$ is continuous: For all $\epsilon$, we can choose $\delta = \epsilon$, then $\abs{u - v} < \delta$ implies: 
+        \begin{equation*}
+            D(f(u), f(v)) \leq \sup\left\{\frac{\abs{iu - iv}}{i}\right\} = \sup\{\abs{u - v}\} < \delta = \epsilon
+        \end{equation*}
+
+        \item $g$ is continuous. For all $\epsilon$, we can choose $\delta = \epsilon$, then $\abs{u - v} < \delta$ implies: 
+        \begin{equation*}
+            D(g(u), g(v)) \leq \sup\left\{\frac{\abs{u - v}}{i}\right\} = \abs{u - v} < \delta = \epsilon
+        \end{equation*}
+        
+        \item $h$ is continuous. For all $\epsilon$, we can choose $\delta = \epsilon$, then $\abs{u - v} < \delta$ implies: 
+        \begin{equation*}
+            D(g(u), g(v)) \leq \sup\left\{\frac{\abs{u - v}}{i^2}\right\} = \abs{u - v} < \delta = \epsilon
+        \end{equation*}
+    \end{itemize}    
+
+\textbf{2.} Uniform topology. The uniform topology is the one induced by the metric \begin{equation*}
+\bar{\rho}(\bfx, \bfy) = \sup\{\bar{d}(x_i, y_i)\}
+\end{equation*}
+\begin{itemize}
+\item $f$ is not continuous at 1. $f(1) = (1, 2, \ldots)$. Let $\epsilon = 0.5$. Then we want to show that for all $\delta > 0$, there exists some $u \in (1 - \delta, 1 + \delta)$ such that $\bar{\rho}(f(u), f(1)) > \epsilon = 0.5$.
+
+Indeed, for any $\delta$, pick $ u = 1 + \frac{\delta}{2}$. Then \begin{equation*}
+f(u) = (1 + \frac{\delta}{2}, 2 + \delta, \ldots)
+\end{equation*}
+and there exists $N$ such that $N\delta/2 > 1$. Then \begin{equation*}
+\bar{\rho}(f(u), f(1)) = \sup\{\bar{d}(f(u)_i, f(1)_i)\} \geq \bar{d}(f(u)_N, f(1)_N) = \bar{d}(N + N\delta/2, N) = 1 > 0.5
+\end{equation*}
+as required.
+
+\item $g$ is continuous. For all $\epsilon$, we can choose $\delta = \epsilon$, then $\abs{u - v} < \delta$ implies \begin{equation*}
+\bar{\rho}(g(u), g(v)) = \sup\{\bar{d} (g(u)_i, g(v)_i)\}  = \sup\{\bar{d} (u, v)\} \leq \abs{u - v} < \delta = \epsilon 
+\end{equation*}
+
+ \item $h$ is continuous. For all $\epsilon$, we can choose $\delta = \epsilon$, then $\abs{u - v} < \delta$ implies \begin{equation*}
+    \bar{\rho}(h(u), h(v)) = \sup\{\bar{d} (h(u)_i, h(v)_i)\}  = \bar{d} (u, v) \leq \abs{u - v} < \delta = \epsilon 
+    \end{equation*}
+\end{itemize}
+
+\textbf{3.} Box topology.
+\begin{itemize}
+\item The uniform topology is coarser than the box topology. $f$ is not continuous in the uniform topology, so it is also not continuous in the box topology.
+\item $g$ is not continuous in the box topology. Because \begin{equation*}
+g^{Pre}\left((-1, 1) \times \left(-\frac{1}{2}, \frac{1}{2}\right) \times \left(-\frac{1}{3}, \frac{1}{3}\right) \times \ldots \right) = \{0\}
+\end{equation*}
+is not open in $\bbr$.
+\item $h$ is not continuous in the box topology. Because \begin{equation*}
+h^{Pre}\left((-1, 1) \times \left(-\frac{1}{2^2}, \frac{1}{2^2}\right) \times \left(-\frac{1}{3^2}, \frac{1}{3^2}\right) \times \ldots \right) = \{0\}
+\end{equation*}
+is not open in $\bbr$.
+\end{itemize}
+\textbf{(b)}
+\textbf{1.} Product topology.
+\begin{itemize}
+\item $w_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+D(w_n, (0, 0, \ldots)) = \sup\left\{\frac{\bar{d}(n, 0)}{i} : i \geq n\right\} = \frac{1}{n} \cvgn 0
+\end{equation*}
+\item $x_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+    D(x_n, (0, 0, \ldots)) = \sup\left\{\frac{\bar{d}(\frac{1}{n}, 0)}{i} : i \geq n\right\} = \frac{1}{n^2} \cvgn 0
+    \end{equation*}
+
+\item $y_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+    D(y_n, (0, 0, \ldots)) = \sup\left\{\frac{\bar{d}(\frac{1}{n}, 0)}{i} : i \leq n\right\} = \frac{1}{n} \cvgn 0
+    \end{equation*}
+\item $z_n \cvgn (0, 0, \ldots)$,  since \begin{equation*}
+    D(z_n, (0, 0, \ldots)) = \sup\left\{\frac{\bar{d}(\frac{1}{n}, 0)}{i} : i \leq 2\right\} = \frac{1}{n} \cvgn 0
+\end{equation*}
+\end{itemize}
+
+\textbf{2.} Uniform topology.
+\begin{itemize}
+\item $w_n$ doesn't converge. Suppose that the sequence does: $w_n \cvgn a = (a_1, a_2, \ldots)$. Then for all $N$, we trivially have that \begin{equation*}
+\abs{a_{N+2} - N} \geq 1 \:\text{or}\: \abs{a_{N+2} - (N+2)} \geq 1
+\end{equation*}
+which implies \begin{equation*}
+\bar{\rho}(a, w_N) \geq 1 \:\text{or}\: \bar{\rho}(a, w_{N+2}) \geq 1
+\end{equation*}
+so $\bar{\rho}(a, w_n)$ does not go to 0 as $n \to \infty$.
+
+\item $x_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+\bar{\rho}(x_n, (0, 0, \ldots)) = \sup \left\{\bar{d}(\frac{1}{n}, 0): i\geq n\right\} = \frac{1}{n} \cvgn 0
+\end{equation*}
+
+\item $y_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+\bar{\rho}(y_n, (0, 0, \ldots)) = \sup \left\{\bar{d}(\frac{1}{n}, 0): i \leq n\right\} = \frac{1}{n} \cvgn 0
+\end{equation*}
+
+\item $y_n \cvgn (0, 0, \ldots)$, since \begin{equation*}
+    \bar{\rho}(z_n, (0, 0, \ldots)) = \sup \left\{\bar{d}(\frac{1}{n}, 0): i \leq 2\right\} = \frac{1}{n} \cvgn 0
+    \end{equation*}
+\end{itemize}
+
+\textbf{3.} Box topology.
+\begin{itemize}
+\item $w_n$ doesn't converge in the uniform topology, and the uniform topology is coarser than the box topology, so it doesn't converge in the box topology either.
+\item $x_n$ doesn't converge. Suppose it does to $a$. Then $a_1 = 0$, because otherwise, WLOG, $a_1 > 0$, the neighborhood $(a_1/2, 3a_1/2) \times \bbr \times \ldots$ only has 1 term, $x_1$. Similarly, $a_2 = a_3 = \ldots = 0$.
+
+But there exists neighborhood of $a$:
+\begin{equation*}
+\left(-\frac{1}{2}, \frac{1}{2}\right) \times\left(-\frac{1}{4}, \frac{1}{4}\right) \times \ldots \times \left(-\frac{1}{2n}, \frac{1}{2n}\right) \times \ldots
+\end{equation*}
+that does not contain any $x_n$.
+
+\item $y_n$ doesn't converge. Using the same reasoning as above, if $y_n$ does converge, then it must converge to $a = (0, 0, \ldots)$. However, the same neighborhood as above also does not contain any $y_n$.
+
+\item $z_n \cvgn (0, 0, \ldots)$. Convergence in coordinates after the 3rd is clear, while $1/n \cvgn 0$ takes care of the first 2.
+\end{itemize}
+\end{solution}
+
+\begin{problem} [21.3 \redtext{done}]
+    Let $X_n$ be a metric space with metric $d_n$ for $n \in \bbz_+$. 
+    \begin{enumerate}
+    \item Show that \begin{equation*}
+    \rho(x, y) = \max\{d_1(x_1, y_1), \ldots, d_n(x_n, y_n)\}
+    \end{equation*}
+    is a metric for the product space $X_1 \times \ldots \times X_n$.
+
+    \item Let $\bar{d_i} = \min\{d_i, 1\}$. Show that \begin{equation*}
+    D(x, y) = \sup\left\{\frac{\bar{d_i}(x_i, y_i)}{i}\right\}
+    \end{equation*}
+    is a metric for the product space $\prod X_i$
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} We check the conditions for it to be a metric:
+    \begin{enumerate} [(1)]
+        \item $\rho(x, y) = \max\{d_1(x_1, y_1), \ldots, d_n(x_n, y_n)\} \geq d_1(x_1, y_1) \geq 0$.
+        
+        And $0 = \rho(x, y) = \max\{d_1(x_1, y_1), \ldots, d_n(x_n, y_n)\} \implies 0 = d_1(x_1, y_1) = d_2(x_2, y_2) = \ldots = d_n(x_n, y_n) \implies x = y$.
+
+        \item $d_1, d_2, \ldots$ are symmetric so $\rho$ is symmetric.
+        \item $\rho(x, y) + \rho(y, z) \geq d_i(x_i, y_i) + d_i(y_i, z_i) \geq d_i (x_i, z_i) \forall i \implies \rho(x, y) + \rho(y, z) \geq \max\{d_i(x_i, y_i)\} = \rho(x, z)$
+    \end{enumerate}
+
+    \textbf{(b)} To show that $D$ induces the same topology as the product topology on $\prod X_i$, we show that it is both finer and coarser.
+
+    \textbf{1.} WTS the $D$-metric topology is finer than the product topology.
+
+    Take a typical basis element $B$ of the product topology: the Cartesian product of $X_i$ at all index $i$ except for $U_{i_1}, U_{i_2}, \ldots, U_{i_N}$ at indices $i_1, i_2, \ldots, i_N$; this basis element contains the point $(x_1, x_2, \ldots)$. It is therefore necessary for $x_{i_j} \in U_{i_j} \forall j \in [N]$.
+
+    Then we can take ball $B_{d_{i_j}}(x_{i_j}, \epsilon_{i_j}), \epsilon_{i_j} < 1 \forall j \in [N]$.
+
+    Select $\epsilon = \min\left\{\frac{\epsilon_{i_j} }{i_j} \in [N]\right\}$ then \begin{equation*}
+    y \in B_{D}(x, \epsilon) \implies \forall j \in [N], \frac{\bar{d}_{i_j}(x_{i_j}, y_{i_j})}{i_j} < \epsilon < \frac{\epsilon_{i_j}}{i_j} \implies \forall j \in [N], \bar{d}_{i_j}(x_{i_j}, y_{i_j}) < \epsilon_{i_j} < 1
+    \end{equation*}
+    which implies \begin{equation*}
+    d_{i_j}(x_{i_j}, y_{i_j}) < \epsilon_{i_j} \forall j \in [N] \implies y \in B
+    \end{equation*}
+
+    Therefore we can find $B_D(x, \epsilon) \subset B$.
+
+    \textbf{2.} WTS the product topology is finer than the $D$-metric topology.
+
+    Take any point $x$, and typical basis element $B_{D}(x, 2\epsilon)$ (we can always do in reverse order). Then there exists $N$ such that $(N+1)\epsilon > 1$.
+
+    Then we construct a basis element of the product topology that contains $x$, namely,\begin{equation*}
+    U = B_{d_1}(x_1, \epsilon) \times B_{d_2}(x_2, 2\epsilon) \times \ldots \times B_{d_N}(x_N, N\epsilon) \times X_{N+1} \times X_{N+2} \times \ldots
+    \end{equation*}
+    and WTS $U \subset B_{D}(x, \epsilon)$.
+
+    For any $y \in U$, we have that $\forall i \in [N], d_i(x_i, y_i) < i\epsilon \implies \frac{\bar{d}_i (x_i, y_i) }{i} < i\epsilon/i = \epsilon $.
+
+    Meanwhile, $\forall i \geq N, \frac{\bar{d}_i (x_i, y_i) }{i} < \frac{1}{i} \leq \frac{1}{N+1} < \epsilon$
+
+    It follows that \begin{equation*}
+    D(x, y)  = \sup \left\{\frac{\bar{d}_i(x_i, y_i)}{i}\right\} \leq \epsilon < 2\epsilon
+    \end{equation*}
+    and therefore $U \subset B_D(x, 2\epsilon)$.
+
+    \textbf{3.} From \textbf{1., 2.}, it follows that $D$ is a metric for the product space $\prod X_i$.
+\end{solution}
+
+\begin{problem} [26.8 \redtext{done}]
+    Let $f: X \to Y$, $Y$ is compact Hausdorff. Then $f$ is continuous if and only if the graph of f, \begin{equation*}
+    G_f = \{x \times f(x) \mid x \in X\}
+    \end{equation*}
+    is closed in $X \times Y$.
+
+    Hint: If $G_f$ is closed and $V$ is a neighborhood of $f(x_0)$, then the intersection of $G_f$ and $X \times (Y - V)$ is closed. Apply Exercise 7.
+\end{problem}
+\begin{solution}
+    \pffwd Suppose that $f$ is continuous. WTS $X \times Y - G_f$ is open.
+
+    Take $x \times y \in (X \times Y - G_f)$, i.e., $y \in Y$ such that $y \neq f(x)$. Since $Y$ is Hausdorff, there exists disjoint open $V_{fx} \ni f(x), U_y \ni y$. Since $f$ is continuous, $f^{Pre}(V_{fx}) = V_x$ is  open in $X$.
+
+    Then, $V_x \times U_y$ contains $x \times y$ and is a basis element of the topology on $X \times Y$. And $f(V_x) \cap U_y = V_{fx} \cap U_y = \emptyset$ so $V_x \times U_y \cap G_f = \emptyset$, i.e., $V_x \times U_y \subset (X \times Y - G_f)$. It follows that $G_f$ is closed.
+
+    \pfbwd  We use the following lemma
+    \begin{lemma} [Exercise 7]
+        If $Y$ is compact, then the projection $\pi_1: X \times Y \to X$ is a closed map.
+    \end{lemma}
+    \begin{proof}
+        Take $K \subset X \times Y$ closed. WTS $\pi_1(K)$ is closed in $X$, i.e., $X - \pi_1(K)$ is open in $X$.
+
+        Take any $x \in (X - \pi_1(K))$, i.e., there doesn't exist $y$ such that $x \times y \in K$. This means that $\{x\} \times Y \cap K = \emptyset$. Since $K$ is closed in $(X \times Y)$, it follows that $(X \times Y - K)$ is an open set containing the slice $\{x\} \times Y$. By the tube lemma, there exists open $W \ni x$ such that $W \times Y \subset (X \times Y - K)$, which means $W \cap \pi_1(K) = \emptyset \implies W \subset (X - \pi_1(K)$. It follows that $(X - \pi_1(K))$ is open as required.
+    \end{proof}
+
+    Now the main proof. Suppose that $G_f$ is closed in $X \times Y$. To show that $f$ is continuous, we want to show that $f^{Pre}(V)$ is open in $X$ for all $V$ open. Take $f(x_0) \in V$ open. It follows that $X \times V$ is open in $X \times Y$, and therefore $X \times (Y - V)$ is closed. Then $G_f \cap X \times (Y - V)$ is also closed. Using Lemma (since $Y$ is compact), then $\pi_1(G_f \cap X \times (Y - V))$ is also closed. Then $U \coloneqq X - \pi_1(G_f \cap X \times (Y - V)) $ is open.
+
+    But then $U = \pi_1(G_f) - \pi_1(G_f \cap X \times (Y - V)) = \pi_1(G_f \cap X \times V) = f^{Pre}(V)$. It is open.
+\end{solution}
+
+\begin{problem} [26.10 \redtext{done}]
+    \begin{enumerate}
+    \item []
+    \item Prove the following partial converse to the uniform limit theorem:
+    
+    Let $f_n: X \to \bbr$ be a sequence of continuous functions, with $f_n(x) \cvgn f(x)$ for each $x \in X$. If $f$ is continuous, and if the sequence $f_n$ is monotone increasing, and if $X$ is compact, then the convergence is uniform.
+
+    ($f_n$ is monotone increasing if $f_n(x) \leq f_{n+1}(x)$ for all $n$ and $x$.)
+    \item Give examples to show that this theorem fails if you delete the requirement that $X$ be compact, or if you delete the requirement that the sequence be monotone.
+    
+    Hint: Exercises of Chapter 21.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} To show that $f_n \cvgn f$ uniformly, WTS for all $\epsilon > 0$, there exists $N$ such that \begin{equation*}
+    \abs{f(x) - f_n(x)} < \epsilon
+    \end{equation*}
+
+    Fix $\epsilon > 0$. Then let $U_n \coloneqq \{x \in X : f(x) - f_n(x) < \epsilon\} = (f-f_n)^{Pre}(-\infty, \epsilon)$. Since $f, f_n$ are continuous, so is $(f-f_n)$ and $U_n$ is therefore open.
+
+    Also, for all $x \in X$, since $f_n(x) \cvgn f(x)$, there exists $N$ \begin{equation*}
+    \abs{f(x) - f_N(x)} < \epsilon \implies x \in U_N
+    \end{equation*}
+    It follows that $X = \bigcup_{n \in \bbn} U_n$. So $\{U_n\}_{n \in \bbn}$ is an open cover of $X$. $X$ is compact so there exists a finite subcover $\{U_{n_1}, \ldots, U_{n_m}\}$ for some $m$ finite.
+
+    Take $N = \max\{n_1, \ldots, n_m\}$. Since $f_n$ is monotone increasing, $f(x) = \sup \{f_n(x)\}_{n \in \bbn}$ for every $x$. This means $\abs{f(x) - f_n(x)} = f(x) - f_n(x)$, and for any $x, n_k, n \geq N$, since $N \geq n_k$, we have that $f(x) - f_n(x) \leq f(x) - f_N(x) \leq f(x) - f{n_k}(x)$.
+    
+    Then for any $x$, since $x \in U_{n_k}$ for some $k \in [m]$, we have that for all $n \geq N$,
+    \begin{equation*}
+    f(x) - f_n(x) \leq f(x) - f_N(x) \leq f(x) - f_{n_k}(x) < \epsilon
+    \end{equation*}
+
+    \textbf{(b)} If $X$ is not compact: Define on $X = (0, 1)$ not compact, \begin{equation*}
+        f_n(x) = x^n
+    \end{equation*}
+
+    then for all $x \in (0, 1)$, $f_n(x) \cvgn 0$ so $f \equiv 0$ on $(0, 1)$.
+
+    However, for any $n$, $f_n((1/2)^{1/n}) = 1/2 \not < \epsilon$, so convergence is not uniform.
+
+    If $f_n$ is not monotone: Define on $X = [0, 1]$ compact,
+    \begin{equation*} 
+    f_n(x) = \begin{cases}
+        2nx & \:\text{on}\: [0, \frac{1}{2n}] \\
+        2 - 2nx & \:\text{on}\: [\frac{1}{2n}, 1/n] \\
+        0 & \:\text{otherwise}\: 
+    \end{cases}
+    \end{equation*}
+    i.e. $f_n$ is a linear ``spike'', connecting $(0, 0), \left(\frac{1}{2n}, 1\right)$ and $\left(\frac{1}{n}, 0\right)$, then flat 0 on the rest.
+
+    Evidently, $f_2(\frac{1}{4}) = 1 > f_1(\frac{1}{4}) = \frac{1}{2}$  so $f_n$ is not monotone increasing.
+
+    But $f_n(x) \cvgn 0$ for all $x \in [0, 1]$, so $f \equiv 0$ on $[0, 1]$.
+
+    But convergence is not uniform, since for all $n$, $f_n(\frac{1}{2n}) - f(\frac{1}{2n}) = 1 - 0 = 1 \not < \epsilon$, so convergence is not uniform.
+\end{solution}
+
+\begin{problem} [27.2 \redtext{done}]
+    Let $X$ be a metric space with metric $d$; let $A \subset X$ be nonempty.
+\begin{enumerate}
+\item Show that $d(x, A) = 0$ if and only if $x \in \cl{A}$.
+\item Show that if $A$ is compact, $d(x, A) = d(x, a)$ for some $a \in A$.
+\item Define the $\epsilon$-neighborhood of $A$ in $X$ to be the set \begin{equation*}
+U(A, \epsilon) = \{x \mid d(x, A) < \epsilon\}
+\end{equation*}
+Show that $U(A, \epsilon)$ equals the union of the open balls $B_d(a, \epsilon)$ for $a \in A$.
+\item Assume that $A$ is compact; let $U$ be an open set containing $A$. Show that some $\epsilon$-neighborhood of $A$ is contained in $U$.
+\item Show the result in (d) need not hold if $A$ is closed but not compact.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} \pffwd Assume $d(x, A) = 0$. Take any basis $B_d(x, \epsilon) \ni x$. Since $0 = d(x, A) = \inf\{d(x, a) : a \in A\}$, there exists $a \in A$ such that $d(x, a) < \epsilon \implies a \in B_d(x, \epsilon)$. Since any basis element containing $x$ intersects $A$, any open neighborhood of $x$ also intersects $A$. So $x \in \cl{A}$.
+
+    \pfbwd Assume $x \in \cl{A}$. Take basis elements $B_d(x, \frac{1}{n})$ for all $n \in \bbn$. Then there exists $a_n \in A \cap B_d(x, \frac{1}{n})$, i.e., $d(x, a_n) < \frac{1}{n}$. It then follows that $0 \leq d(x, A) = \inf\{d(x, a) : a \in A\} \leq \inf\{d(x, a_n) : n \in \bbn\} = 0 \implies d(x, A) = 0 $. \qed
+
+    \textbf{(b)} For any $x$, we can define $d_x: A \to \bbr, d_x(a) = d(x, a) = d(a, x)$. Then $d_x$ is a continuous function. $A$ is compact, so $d_x$ achieves its minimum at some $a' \in A$. Therefore \begin{equation*}
+    d(x, A) = \inf\{d(x, a): a \in A\} = d(x, a')
+    \end{equation*}
+
+    \textbf{(c)} WTS $U(A, \epsilon) = \bigcup_{a \in A} B_d(a, \epsilon)$.
+
+    Take $x \in U(A, \epsilon)$. That means $d(x, A) < \epsilon$. Since $d(x, A) = \inf\{d(x, a): a \in A\}$, this means that there exists some $a' \in A$ such that $d(x, a') < \frac{d(x, A) + \epsilon}{2} < \epsilon \implies x \in B_d(a', \epsilon)$. It follows that $U(A, \epsilon) \subset \bigcup_{a \in A} B_d(a, \epsilon)$.
+
+    Take $x \in \bigcup_{a \in A} B_d(a, \epsilon)$, which means $d(x, a') < \epsilon$ for some $a' \in A$. Then this means $d(x, A) = \inf\{d(x, a) : a \in A\} \leq d(x, a') < \epsilon \implies x \in U(A, \epsilon)$. It then follows that  $U(A, \epsilon) \supset \bigcup_{a \in A} B_d(a, \epsilon)$.
+
+    Therefore $U(A, \epsilon) = \bigcup_{a \in A} B_d(a, \epsilon)$.
+
+    \textbf{(d)} For every $a \in A \subset U$, since $U$ is open, we can draw $a \in B(a, \epsilon_a) \subset U$. Then $\{B(a, \epsilon_a)\}$ is an open cover of $A$ compact. Using the Lebesgue covering lemma, then there exists $\delta$ such that for any $a$, $B(a, \delta)$ is contained in some element of the covering, and therefore contained in $U$ in particular. It follows that $\bigcup_{a \in A} B(a, \delta) \subset U$. From (c), $\bigcup_{a \in A} B(a, \delta) = U(A, \delta)$.
+
+    \textbf{(e)} Counter example: $X = [-1, 0) \cup (0, 1], A = U = (0, 1]$. $A$ and $U$ are clopen in the subspace topology. But any $\epsilon$-neighborhood of $A$, WLOG $\epsilon < 1$, would contain the point $-\epsilon/2$, for \begin{equation*}
+    d(-\epsilon/2, A) = \inf\{d(-\epsilon/2, a) : a \in A\} = \epsilon/2 < \epsilon
+    \end{equation*}
+    Clearly $-\epsilon/2 \not \in U$.
+\end{solution}
+
+\begin{problem} [27.5 \redtext{done}]
+    Let $X$ be a compact Hausdorff space, let $\{A_n\}$ be a countable collection of closed sets of $X$. Show that if each set $A_n$ has empty interior in $X$, then the union $\bigcup A_n$ has empty interior in in $X$.
+
+    Hint: Imitate the proof of Theorem 27.7. This is a special case of the Baire category theorem.
+\end{problem}
+\begin{solution}
+    \textit{(With Otto Reed)}
+
+    Suppose, for sake of contradiction, that $U_0 = \interior (\bigcup A_n) \neq \emptyset$ is open.
+
+    We claim that for any non-empty, open $U$ and any $A_n$, there exists non-empty $V$ such that $\cl{V} \subset U$ and $\cl{V} \cap A_n = \emptyset$. Take such $U$ and $A_n$. Since $\interior (A_n) = \emptyset$, $U$ is not a subset of $A_n$ (if $U \subset A_n$ then $U \subset \interior(A_n) \implies \interior(A_n) \neq \emptyset$), i.e., there exists some $a \in U$ such that $a \in U - A_n$. Then, take $K = A_n \cup (X - U)$; $K$ is closed since $A_n$ is closed and $U$ is open. $K$ is closed in compact $X$, so $K$ is compact. $a \in U - A_n \implies a \not \in K$. It follows from Lemma 26.4 ($K$ is compact, $x \not \in K$, $X$ is Hausdorff) that there exists disjoint open sets $V \ni a, W \supset K$. Then, since $V \cap W = \emptyset$, \begin{equation*}
+    V \subset (X - W)
+    \end{equation*}
+
+    It follows that $\cl{V} \subset \cl{X - W}$. But $X - W$ is closed, so $\cl{X - W} = X - W$. It follows that $\cl{V} \subset X - W$.
+
+    In turn, \begin{equation*}
+    X - W \subset X - K = X - A_n \cup (X - U) = (X - A_n) \cap U = U - A_n \subset U
+    \end{equation*}
+    so \begin{equation*}
+    \cl{V} \subset U
+    \end{equation*}
+    and recall that $a \in V$, so $V$ is non-empty. We have thus proven our claim.
+
+    Apply the claim onto $U_0$ and $A_1$, it follows that there exists non-empty $U_1$ such that $\cl{U_1} \subset U_0$ and $\cl{U_1} \cap A_1 = \emptyset$. Iteratively, apply the claim onto $U_k$ and $A_{k+1}$, it follows that there exists non-empty $U_{k+1}$ such that $\cl{U_{k+1}} \subset U_k$ and $\cl{U_{k+1}} \cap A_{k+1} = \emptyset$.
+
+    Each $\cl{U_k}$ is closed in compact $X$, so is compact. We therefore get a sequence of nested, non-empty compact $\cl{U_n}$:
+    \begin{equation*}
+    \cl{U_1} \supset \cl{U_2} \supset \ldots
+    \end{equation*}
+
+    It follows that there exists $p \in \bigcap_{k \in \bbn} \cl{U_k}$.
+
+    However, $\cl{U_k} \cap A_k = \emptyset$ for all $k \geq 1$. On top of that, $\cl{U_{k+1}} \subset U_k \subset \cl{U_k}$ so $\cl{U_j} \cap A_k = \emptyset$ for all $j \geq k \geq 1$ too. It follows that \begin{equation*}
+       \left( \bigcap_{k \in \bbn} \cl{U_k}\right) \cap \left(\bigcup_{k \in \bbn} A_k\right) = \emptyset
+    \end{equation*}
+    which implies $p \not \in \bigcup_{k \in \bbn} A_k$. 
+    
+    But $p \in \cl{V_1} \subset U = \interior \bigcup A_k \subset \bigcup A_k$, \contra.
+
+    By contradiction, it follows that $\interior \bigcup A_n = \emptyset$.
+\end{solution}
+\end{document}
