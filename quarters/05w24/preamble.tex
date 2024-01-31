@@ -361,6 +361,7 @@
 \declaretheorem[sibling=definition, style=thmtheorembox, name=Proposition]{proposition}
 \declaretheorem[sibling=definition, style=thmtheorembox, name=Corollary]{corollary}
 \declaretheorem[sibling=definition, style=thmtheorembox, name=Lemma]{lemma}
+\declaretheorem[numbered=no, style=thmblackbox, name=Lemma]{psetlemma}
 \declaretheorem[sibling=definition, style=thmtheorembox, name=Claim]{claim}
 \declaretheorem[numbered=no, style=thmblackbox, name=Example]{example}
 \declaretheorem[numbered=no, style=thmblackbox, name=Remark]{remark}
@@ -450,6 +451,7 @@
 \newcommand*{\cvgk}{\xrightarrow{k \to \infty}}
 \newcommand*{\unicvg}{\rightrightarrows}
 \newcommand*{\dx}{\mathrm{d} x}
+\newcommand*{\ddx}{\frac{\mathrm{d}}{\mathrm{d} x}}
 \newcommand*{\dy}{\mathrm{d} y}
 \newcommand*{\dz}{\mathrm{d} z}
 \newcommand*{\du}{\mathrm{d} u}
@@ -468,7 +470,7 @@
 \let\impliedby\Leftarrow
 \let\iff\Leftrightarrow
 \let\epsilon\varepsilon
-\renewcommand{\phi}{\varphi}
+% \renewcommand{\phi}{\varphi}
 \let\oldforall\forall
 \renewcommand{\forall}{\;\oldforall\; }
 \let\oldexist\exists
@@ -481,6 +483,7 @@
 \DeclareMathOperator*{\esssup}{ess\,sup}
 \DeclareMathOperator*{\Hom}{Hom}
 \DeclareMathOperator*{\im}{Im}
+\DeclareMathOperator*{\spann}{span}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\interior}{int}
@@ -491,7 +494,7 @@
 
 % 5.4. Formatting
 \newcommand*{\redtext}[1]{\textcolor{red}{#1}}
-
+\newcommand*{\todo}[1]{\colorbox{red}{#1}}
 % 6. Misc but important
 % No paragraph indenting, and changing margins especially for lecture headers
 \setlength\parindent{0pt}
