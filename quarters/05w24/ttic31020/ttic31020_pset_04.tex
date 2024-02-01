@@ -1,0 +1,124 @@
+\documentclass[a4paper, 12pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 4}
+\date{30 Jan 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{4}
+\begin{problem} [Problem 1]
+    \textbf{(a)} Choose \begin{multline*}
+    S = \{((1, k), +1), ((-1, k), -1): k \in [9]\} \cup \{((1000, -1), -1), ((-1000, -1), +1)\}
+    \end{multline*}
+    See picture below. 
+
+\begin{center}
+    \includegraphics[width=12cm]{./figures/4.1a.jpeg}
+\end{center}
+    
+    Then a predictor that minimizes $L_{S}^{01}$ is $h_{w = (1, 0)}(x) = \iprod{(1, 0)}{x} = x[1]$ (1-index), which has $L^{01}(h) = \frac{2}{20} \leq 0.1$. It thus follows that $\inf_{h \in \calh} L^{01}_S (h) \leq 0.1$. Meanwhile, $L^{hinge}(h) = \frac{1}{20} \times 2 \times [1 - (-1000)]_+ = \frac{2002}{20} = 100.1$.
+
+    Then, the predictor $\hat{h}_{hinge}$ is the one that corresponds to $w_{hinge} = (-1, 0)$, with $L^{01}(\hat{h}_{hinge}) = \frac{18}{20} = 0.9$, and $L^{hinge}(\hat{h}_{hinge}) = \frac{1}{20} \times 18 \times [1-(-1)]_+ = 1.8$
+
+    \textbf{(b)} No. $\inf_{h \in \calh} L_S^{01}(h) = 0$, for finite $S$, means that there exists $\hat{w}$ such that $L_S^{01}(h_{\hat{w}}) = 0$. Then there exists a hinge loss minimizer $\hat{h}_{hinge}$, which achieves a hinge loss of 0, namely the one that corresponds to $w = M\hat{w}$ where $M \in \bbr_+$ is sufficiently large, so that the hinge loss is assured to go to 0. This $\hat{h}_{hinge}$ has the same decision boundary as $h_{\hat{w}}$ and so has 0 zero-one loss.
+\end{problem}
+
+\begin{problem} [Problem 2]
+\textbf{(a)} Want to show that $\forall t, w_t \in S \coloneqq \spann\{\phi(x_1), \ldots, \phi(x_m)\}$.
+
+Base case: $t = 0$. $w_0 = 0 \in S$ trivially.
+
+Induction step: Assume that $w_t \in S$ for $t = k$. WTS $w_{k+1} \in S$. Indeed, $w_{k+1}$ only exists if there still exists a misclassification, say, for $\phi(x_j)$ and $y_j$. Then the update rule is:
+\begin{equation*}
+w_{t+1} = w_t + y_j \phi(x_j)
+\end{equation*}
+$w_t, y_j \phi(x_j) \in S \implies w_{t+1} \in S$.
+
+By mathematical induction, we therefore have that $w_t \in S$ for all $t$, i.e., \begin{equation*}
+w_t = \sum_{i=1}^{m} \alpha_t[i] \phi(x_i) = \Phi^T \alpha_t
+\end{equation*}
+
+\textbf{(b)} We reiterate the original Perceptron algorithm:
+\begin{algorithmic}[1]
+    \State{$w_0 \gets 0$}
+    \While{$\exists i\in [m] \:\text{such that}\: \sign{\iprod{w_t}{\phi(x_i)}} \neq y_i$}
+        $w_{t+1} \gets w_t + y_i \phi(x_i)$
+    \EndWhile
+\end{algorithmic}
+\end{problem}
+We have that $\alpha_0 = 0 \in \bbr^m$. Then, we have \begin{equation*}
+w_t \phi(x_i) = \sum_{j=1}^{m} \alpha_t[j] \phi(x_j) \phi(x_i) = \sum_{j=1}^{m} \alpha_t[j] K(x_i, x_j)
+\end{equation*}
+and
+\begin{equation*}
+w_{t+1} = w_t + y_i \phi(x_i) = \sum_{j=1}^{m} \alpha_t[j]\phi(x_j) + y_i \phi(x_i) = \sum_{j=1}^{m} (\alpha_t[j] + \delta_{ij} y_j) \phi(x_j)
+\end{equation*}
+so we have that $\alpha_{t+1}[j] = \alpha_t[j] + \delta_{ij} y_j$ where $\delta_{ij}$ is the Kronecker delta.
+
+Therefore, we can rewrite the Perceptron algorithm in terms of $\alpha_t$ and only with accesses to $K$:
+\begin{algorithmic}[1]
+    \State{$\alpha_0 \gets 0 \in \bbr^m$}
+    \While{$\exists i\in [m] \:\text{such that}\: \sign{\sum_{j=1}^{m} \alpha_t[j] K(x_i, x_j)} \neq y_i$}
+        $\alpha_{t+1}[i] \gets \alpha_t[j] + y_i$
+    \EndWhile
+\end{algorithmic}
+
+\textbf{(c)}
+Each iteration starts with checking if there remains some $i \in [m]$ such that 
+\[    
+    \sign{\sum_{j=1}^{m} \alpha_t[j] K(x_i, x_j) \neq y_i}
+\]
+which takes $O(m^2 \cdot TIME_K) = O(m^2)$. Each update to $\alpha_t$ then takes $O(1)$, so in total each iteration takes $O(m^2)$ which is independent from $d$.
+
+\textbf{(d)}
+From the Perceptron analysis, we know that \begin{equation*}
+T_{max} = \frac{\norm{w*}_2^2 \sup_{i \in [m]} \norm{\phi(x_i)}_2^2}{\gamma^2}
+\end{equation*}
+but $\norm{\phi(x_i)}_2^2 = K(x_i, x_i)$ so \begin{equation*}
+T_{max} =\frac{\norm{w*}_2^2 \max_{i \in [m]} K(x_i, x_i)}{\gamma^2}
+\end{equation*}
+
+It follows that the overall runtime bound is $O\left(m^2 \cdot TIME_K \cdot T_{max}\right)$.
+
+Overall memory requirement of Kernelized Perceptron is $O(m^2)$ (to store the Gram matrix $O(m^2)$ and the current weight $O(m)$, assuming that the kernel computation does not take up memory).
+
+\textbf{(e)} It must store the last weight $w_T$ and all training samples $\{x_i\}$. The prediction of the new point $x$ may be computed as:
+\begin{align*}
+    \iprod{w_T}{\phi(x)} &= \iprod{\sum_{j=1}^{m} \alpha_T[j] \phi(x_j)}{\phi(x)} \\
+    &= \sum_{j=1}^{m} \alpha_T[j] K(x, x_j) \\
+    \sign{ \iprod{w_T}{\phi(x)}} &= \sign{\sum_{j=1}^{m} \alpha_T[j] K(x, x_j)}
+\end{align*}
+Memory requirement: $O(md')$ where $d'$ is the dimension of the original feature space, i.e., $len(x_1)$, to be able to compute $K(x, x_j)$.
+Prediction runtime: $O(m \cdot TIME_K)$
+
+\begin{problem} [Problem 3]
+    \textbf{(a)} Remark that $G$ is symmetric, so $G^T = G$. We have:
+    \begin{align*}
+        L_{S, \lambda}(\alpha) &= L_{S, \lambda}(w(\alpha)) \\
+        &= \frac{1}{m} \norm{\Phi w - y}^2 + \frac{\lambda}{2} \norm{w}^2 \\
+        &= \frac{1}{m} \norm{\Phi \Phi^T \alpha - y}^2 + \frac{\lambda}{2} \norm{\Phi^T \alpha}^2 \\
+        &= \frac{1}{m} \norm{G \alpha - y}^2 + \frac{\lambda}{2} (\Phi^T \alpha)^T (\Phi^T \alpha) \\
+        &= \frac{1}{m} (G\alpha - y)^T (G\alpha - y) + \frac{\lambda}{2} \alpha^T \Phi \Phi^T \alpha \\
+        &= \frac{1}{m} \left(\alpha^T G^T G \alpha - 2\alpha^T G^Ty + y^T y \right) + \frac{\lambda}{2} \alpha^T G \alpha \\
+        &= \frac{1}{m} \left(\alpha^T G^2 \alpha - 2\alpha^T Gy + y^T y \right) + \frac{\lambda}{2} \alpha^T G \alpha
+        \end{align*}
+        
+    \textbf{(b)} $\hat{\alpha}_{\lambda} = \argmin L_{S, \lambda}(\alpha)$ has $\nabla_{\alpha}  L = 0$:
+    We do the calculation:
+    \begin{align*}
+        \nabla_\alpha L &= \frac{1}{m} (2G^2 \alpha - 2Gy) + \lambda G \alpha
+    \end{align*}
+    then for this to be zero, we have:
+    \begin{align*}
+        2G^2 \alpha - 2Gy + m \lambda G \alpha &= 0 \\
+        \implies (G^2 + \frac{m\lambda}{2} G)\alpha &= Gy\\
+        \implies \hat{\alpha}_\lambda &= (G + \frac{m\lambda}{2} I)^{-1}y
+    \end{align*}
+
+    \textbf{(c)} For any test point $x$, we have the prediction
+    \begin{align*}
+    \iprod{\hat{w}_{\lambda}}{\phi(x)} &= \sum_{i=1}^{m} \hat{\alpha}_{\lambda}[i] \iprod{\phi(x_i)}{ \phi(x)} \\
+    &= \sum_{i=1}^{m} \hat{\alpha}_{\lambda}[i] K(x_i, x)
+    \end{align*}
+\end{problem}
+\end{document}
