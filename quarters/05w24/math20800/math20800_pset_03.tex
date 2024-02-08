@@ -1,368 +1,429 @@
 \documentclass[a4paper, 12pt]{article}
 \input{../preamble.tex}
 \title{MATH 20800: Honors Analysis in Rn II \\ \large Problem Set 3}
-\date{26 Jan 2024}
+\date{06 Feb 2024}
 \author{Hung Le Tran}
 \begin{document}
 \maketitle
 \setcounter{section}{3}
-\textbf{Textbook: Pugh's Real Mathematical Analysis, Rudin's Principles of Mathematical Analysis}
+\textbf{Textbook:} Rudin, \textit{Principles of Mathematical Analysis} 
 
-\textit{Collaborators: Duc Nguyen, Hung Pham}
-\begin{problem} [Rudin 7.20 \redtext{done}]
-    If $f$ is continuous on $[0, 1]$, and $\int_{0}^{1} f(x) x^n \dx = 0$ for all $n \geq 0$, prove that $f(x) = 0$ on $[0, 1]$.
+\textbf{Collaborators:} Duc Nguyen, Hung Pham, Otto Reed
+\begin{problem} [8.11 \redtext{done}]
+    Suppose $f$ Riemann integrable on $[0, A]$ for all $A < \infty$, and $f(x) \cvgx 1$. Prove that \begin{equation*}
+    \lim_{t \to 0}t \int_{0}^{\infty} e^{-tx} f(x) \dx = 1 \quad (t > 0)
+    \end{equation*}
 \end{problem}
 \begin{solution}
-    Let $P(x) = \sum_{k=0}^{N} c_kx^k$ be any polynomial in $x$, then
+    Fix $\epsilon > 0$. Since $f(x) \cvgx 1$, there exists $N> 0$ such that $x \geq N \implies \abs{f(x) - 1} < \epsilon/2$.
+
+    $f$ is then Riemann integrable on $[0, N]$, therefore exists $M = \sup_{[0, N]} \abs{f(x)} < \infty$.
+
+    Denote $D_t(x) = te^{-tx}$ then $D_t(x) \geq 0$ and simple integration yields $\int_{0}^{\infty} D_t(x) = 1 \forall t > 0$, and $\int_{0}^{N} D_t(x) \dx = 1 - e^{-Nt}$
+
+    We can now bound: 
     \begin{align*}
-        \int_{0}^{1} f(x) P(x) &= \int_{0}^{1} f(x) \sum_{k=0}^{N} c_k x^k\\
-        &= \sum_{k=0}^{n} c_k \int_{0}^1 f(x) x^k = 0
+        \abs*{t \int_{0}^{\infty} e^{tx} f(x) \dx - 1} &= \abs*{\int_{0}^{\infty} D_t(x) f(x) \dx - 1}\\
+        &= \abs*{\int_{0}^{\infty}D_t (x) f(x) \dx - \int_{0}^{\infty} D_t(x) \dx } \\
+        &= \abs*{\int_{0}^{\infty} D_t(x) (f(x) - 1) \dx } \\
+        &= \int_{0}^{N} D_t(x) \abs{f(x) - 1} \dx  + \int_{N}^{\infty} D_t(x) \abs{f(x) - 1} \dx \\
+        &\leq \int_{0}^{N} D_t(x) (M + 1) \dx + 1 \times \epsilon/2 \\
+        &= (M+1) (1 - e^{-Nt}) + \epsilon/2 \xrightarrow{t \to 0} 0
     \end{align*}
-
-    From Weierstrass, we know that there exists $\{P_n\} \subset C_0([0, 1], \bbr)$ such that $P_n \unicvg f$, i.e., that \begin{equation*}
-    d_{sup}(f, P_n) \cvgn 0.
-    \end{equation*}
-    
-    From the above observation, it follows that: \begin{equation*}
-    \int_{0}^{1} f(x) P_n(x) \dx = 0.
-    \end{equation*}
-
-    Also, since $f$ is continuous on compact $[0, 1]$, there exists $M \geq 0$ satisfying $\abs{f} \leq M$ on $[0, 1]$.
-    
-    Therefore, \begin{align*}
-        \abs*{\int_{0}^{1} f(x)^2 \dx} &= \abs*{\int_{0}^{1} f(x)[f(x) - P_n(x)] \dx} \\
-        &\leq \abs*{\int_{0}^{1} \abs{f} \abs{f(x) - P_n(x)} \dx} \\
-        &\leq 1 \times M \times d_{sup}(f, P_n) = M d_{sup}(f, P_n)
-    \end{align*}
-    gets arbitrarily small. $\abs*{\int_{0}^{1} f(x)^2 \dx}  \geq 0$ so $\abs*{\int_{0}^{1} f(x)^2 \dx}  = 0$. $f^2$ is continuous and non-negative. It must therefore be concluded that $f^2 \equiv 0$ on $[0, 1]$ (otherwise, if $f^2(x_0) = c > 0$ for some $x_0$, then there is a neighborhood of size $\delta$, within which the infimum is $\geq c/2$, making the Riemann integral positive).
-
-    Therefore $f \equiv 0$.
+    since $e^{-Nt} \xrightarrow{t \to 0} 1$.
 \end{solution}
 
-\begin{problem} [Rudin 7.21 \redtext{done}]
-Let $K$ be the unit circle in the complex plane, i.e., $\{z \in \bbc : \abs{z} = 1\}$. Consider the algebra $\cala$ of all functions of the form \begin{equation*}
-f(e^{i\theta}) = \sum_{n=0}^{N}c_n e^{in\theta} \quad (\theta \in \bbr)
-\end{equation*}
-Show that $\cala$ separates points on $K$ and $\cala$ vanishes at no point of $K$, but nevertheless there are continuous functions on $K$ which are not in the uniform closure of $\cala$.
+\begin{problem} [8.12 \redtext{done}]
+    Suppose $0 < \delta < \pi, f(x) = 1$ if $\abs{x} < \delta, f(x) = 0$ if $\delta < \abs{x} \leq \pi$, and $f$ is $2\pi$-periodic. 
+    \begin{enumerate}
+    \item Compute Fourier coefficients of $f$.
+    \item Conclude that \begin{equation*}
+    \sum_{n=1}^{\infty} \frac{\sin (n\delta)}{n} = \frac{n - \delta}{2}
+    \end{equation*}
+    \item Deduce from Parseval's theorem that \begin{equation*}
+    \sum_{n=1}^{\infty} \frac{\sin^2(n\delta)}{n^2\delta} = \frac{n - \delta}{2}
+    \end{equation*}
+    \item Let $\delta > 0$ and prove that \begin{equation*}
+    \int_{0}^{\infty} \left(\frac{\sin x}{x}\right)^2 \dx = \frac{\pi}{2}
+    \end{equation*}
+    \item Put $\delta = \pi/2$ in (c), what do you get?
+    \end{enumerate}
 \end{problem}
 \begin{solution}
-    \textbf{1.} $\cala$ separates points on $K$: Given $e^{i\theta_1} \neq e^{i\theta_2}$, then we have $f = id, f(e^{i\theta}) = e^{i\theta}$ that trivially separates them.
-
-    \textbf{2.} $\cala$ vanishes at no point of $K$: Given any $e^{i\theta} \in K$, $f = id$ trivally does not vanish there.
-
-    \textbf{3.} WTS \begin{equation*}
-    \int_{0}^{2\pi} f(e^{i\theta}) e^{i\theta} d\theta = 0
+    \textbf{(a)} For $n = 0$: \begin{equation*}
+    \hat{f}(0) = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x) e^{-inx}\dx =\frac{1}{2\pi} \int_{-\delta}^{\delta} 1 \times 1 \dx = \delta/\pi
     \end{equation*}
-    for every $f \in \cala$ and for every $g$ in the uniform closure of $\cala$.
-
-    \textbf{3.1.} Take any $f(e^{i\theta}) = \sum_{n=0}^{N}c_n e^{in\theta} \in \cala$. Then \begin{align*}
-        \int_{0}^{2\pi} f(e^{i\theta}) e^{i\theta} d\theta &= \int_{0}^{2\pi} \sum_{n=0}^{N}c_n e^{in\theta} e^{i\theta} d\theta \\
-        &= \sum_{n=0}^{N} c_n \int_{0}^{2\pi} e^{i(n+1)\theta} d\theta\\
-        &= \sum_{n=0}^{N} c_n \left[\frac{e^{i(n+1)\theta}}{i(n+1)}\right]^{2\pi}_0 \\
-        &= 0
+    and for $n \neq 0$: \begin{align*}
+        \hat{f}(n) &= \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x) e^{-inx} \dx \\
+        &= \frac{1}{2\pi} \int_{-\delta}^{\delta} 1 e^{-inx} \dx\\
+        &= \frac{1}{2\pi} \left[\frac{e^{-inx}}{-in}\right]^{\delta}_{-\delta} \\
+        &= \frac{-1}{2\pi in} (e^{-in\delta} - e^{in\delta}) \\
+        &= \frac{\sin(n\delta)}{n\pi}
     \end{align*}
 
-    \textbf{3.2.} Then, take $g$ in the uniform closure of $\cala$, i.e., for every $\epsilon > 0$, there exists $f \in A$ such that $d_{sup}(f, g) < \epsilon$.
-
-    Accordingly, \begin{align*}
-        \abs*{\int_{0}^{2\pi} g(e^{i\theta}) e^{i\theta} d\theta} &= \abs*{\int_{0}^{2\pi}[g(e^{i\theta}) - f(e^{i\theta})] e^{i\theta} d\theta} \\
-        &\leq \int_{0}^{2\pi} \abs*{g(e^{i\theta}) - f(e^{i\theta})} \abs*{e^{i\theta}} d\theta \\
-        &\leq 2\pi \times 1 \times d_{sup}(f, g) = 2\pi d_{sup}(f, g)
-    \end{align*}
-    that gets arbitrariliy small. It follows that for any $g$ in the uniform closure of $\cala$, \begin{equation*}
-        \int_{0}^{2\pi} g(e^{i\theta}) e^{i\theta} d\theta = 0.
+    \textbf{(b)} $f$ is clearly locally Lipschitz at 0, since it is locally constant (on $(-\delta, +\delta)$ with Lipschitz constant 1). It follows that \begin{equation*}
+    \lim_{N \to \infty} s_N(f, 0) = f(0)
     \end{equation*}
-
-    However, \begin{equation*}
-    h(e^{i\theta}) = e^{-i\theta},
-    \end{equation*}
-    the complex conjugate function, which is trivially a continuous function on $K$, has \begin{equation*}
-        \int_{0}^{2\pi} h(e^{i\theta}) e^{i\theta} d\theta = \int_{0}^{2\pi} 1  = 2\pi \neq 0,
-    \end{equation*}
-    so $h$ is not in the uniform closure of $\cala$.
-\end{solution}
-
-\begin{problem} [Rudin 7.23 \redtext{done}]
-Let $P_0 = 0$ and define, for $n = 0, 1, 2, \ldots$, \begin{equation*}
-P_{n+1}(x) = P_n(x) + \frac{x^2 - P_n^2(x)}{2}
-\end{equation*}
-Prove that $\lim_{n \to \infty} P_n(x) = \abs{x}$ uniformly on $[-1, 1]$.
-\end{problem}
-
-\begin{solution}
-Observe that
-\begin{align*}
-    \abs{x} - P_{n+1}(x) &= \abs{x} - P_n(x) + \frac{P_n^2(x) - x^2}{2} \\
-    &= \left(\abs{x} - P_n(x)\right)\left(1 - \frac{\abs{x} + P_n(x)}{2}\right) \\
-\end{align*}
-We will now use induction to prove that $0 \leq P_n(x) \leq P_{n+1}(x) \leq \abs{x}$ for $\abs{x} \leq 1$.
-
-It is true for $n = 0$: $P_0(x) = 0 \leq \abs{x}, 0 \geq 0$. Suppose it is also true for $n = k$. Then
-\begin{align*}
-    \abs{x} - P_{k+1}(x) = \left(\abs{x} - P_k(x)\right)\left(1 - \frac{\abs{x} + P_k(x)}{2}\right)
-\end{align*}
-Then: 
-\begin{equation*}
-    1 - \frac{\abs{x} + P_k(x)}{2} \geq 1 - \frac{\abs{x} + \abs{x}}{2} = 1 - \abs{x} \geq 0,  \abs{x} - P_k(x) \geq 0
-\end{equation*}
-and
-\begin{equation*}
-    1 - \frac{\abs{x} + P_k(x)}{2}  \leq 1 - 0 = 1
-\end{equation*}
-so \begin{equation*}
-    \abs{x} - P_{k+1}(x) = \left(\abs{x} - P_k(x)\right)\left(1 - \frac{\abs{x} + P_k(x)}{2}\right) \leq \abs{x} - P_k(x), \geq 0.
-\end{equation*}
-so it follows that $0 \leq P_k(x) \leq P_{k+1}(x) \leq \abs{x}$. By induction, $0 \leq P_n(x) \leq P_{n+1}(x) \leq \abs{x}$ is true for all $n \in \bbn$ (on $[-1, 1]$).
-
-Then, we can apply \begin{align*}
-\abs{x} - P_{n+1}(x) &= \left(\abs{x} - P_n(x)\right)\left(1 - \frac{\abs{x} + P_n(x)}{2}\right) \\
-&\leq \left(\abs{x} - P_n(x)\right) \left(1 - \frac{\abs{x}}{2}\right)
-\end{align*}
-iteratively to get \begin{equation*}
-    0 \leq \abs{x} - P_{n}(x) \leq (\abs{x} - P_0(x)) \left(1 - \frac{\abs{x}}{2}\right)^n = \abs{x} \left(1 - \frac{\abs{x}}{2}\right)^n
-\end{equation*}
-Then, for all $\epsilon > 0$, for $\abs{x} < \epsilon$, we have that for all $n \in \bbn$ that $\abs{x} - P_{n}(x) \leq \abs{x} \times 1 < \epsilon$.
-
-For $\abs{x} \geq \epsilon$, then \begin{equation*}
-\abs{x} - P_n(x) \leq \abs{x}\left(1 - \epsilon/2\right)^n\leq \left(1 - \epsilon/2\right)^n
-\end{equation*}
-can get uniformly arbitrarily small, since $1 - \frac{\epsilon}{2} < 1$. 
-
-It follows that the convergence is uniform on $[-1, 1]$.
-\end{solution}
-
-\begin{problem} [Pugh 4.55 \redtext{done}]
-    Let $f$ be a real valued continuous function on the compact interval $[a, b]$. Given $\epsilon > 0$, show that there is a polynomial $p$ such that
+    We also realize that $\hat{f}(n) = \hat{f}(-n)$, since $\sin$ is odd.
+    It then follows that: 
     \begin{align*}
-        p(a) &= f(a), \\
-        p'(a) &= 0,\\
-        \abs{p(x) - f(x)} &< \epsilon
+        1 &= f(0) \\
+        &= \sum_{-\infty}^{\infty} \hat{f}(n) e^{0in} \\
+        &= \frac{\delta}{\pi} + 2\sum_{n=1}^{\infty} \hat{f}(n) \\
+        \implies \frac{\pi - \delta}{2\pi} &= \sum_{n=1}^{\infty} \hat{f}(n) \\
+        &= \sum_{n=1}^{\infty} \frac{\sin(n\delta)}{n\pi}\\
+        \implies \sum_{n=1}^{\infty} \frac{\sin(n\delta)}{n} &= \frac{\pi-\delta}{2} 
     \end{align*}
-    for all $x \in [a, b]$.
-\end{problem}
-\begin{solution}
-    WLOG, $[a, b] = [0, 1]$, $f(a = 0) = 0$ (can always scale and translate). Our goal is now to find polynomial $p$ such that $p(0) = p'(0) = 0, d_{sup}(p, f) < \epsilon$ ($d_{sup}$ on $[0, 1]$).
+    as required.
 
-    
-    Since $f \in C^0([0, 1], \bbr)$. Fix $\epsilon > 0$. By Weierstrass, we know that there exists polynomial $g = \sum_{k=0}^{N} a_k x^k$ such that $d_{sup}(f, g) < \epsilon/3$. In particular, $\epsilon / 3 > d_{sup}(f, g) \geq \abs{f(0) - g(0)} = \abs{a_0}$.
-    
-    From the previous problem, we know that there exists polynomials $P_n(x) \unicvg \abs{x}$ on $[-1, 1]$. Restrict this to $[0, 1]$, then $P_n(x) \unicvg x$ on $[0, 1]$; and notice that in the recursive definition of $P_n(x)$, its lowest degree of $x$ is 2.
-
-    Choose $M \in \bbn$ such that $d_{sup}(P_M, x) < \frac{\epsilon}{3\abs{a_1}}$. Let $P_M(x) = \sum_{k=1}^{L} b_k x^{k}$.
-     Then construct \begin{equation*}
-    p(x) = a_1P_M(x) + \sum_{k=2}^{N} a_k x^k = \sum_{k=2}^{\max\{N, L\}} c_k x^k
-    \end{equation*}
-    Then \begin{align*}
-        d_{sup}(p, f) &\leq d_{sup}(p, g) + d_{sup}(g, f) \\
-        & < \sup\{\abs*{a_0 - a_1 (P_M(x) - x)}\} + \epsilon/3 \\
-        & \leq \sup\{\abs{a_0}\} + \sup\{\abs{a_1 (P_m(x) - x)}\} + \epsilon / 3 \\
-        & < \epsilon/3 + \epsilon/3 + \epsilon/3 = \epsilon
-    \end{align*}
-    so this $p$ satisfies the third condition. How about the first 2?
+    \textbf{(c)} $f$ is discontinuous on a zero set ($\{-\delta, \delta\}$), hence it is Riemann integrable. Therefore we can apply Parseval's Theorem:
     \begin{align*}
-        p(0) &= \sum_{k=2}^{\max\{N, L\}} c_k 0^k = 0 \\
-        p'(0) &= \sum_{k=2}^{\max\{N, L\}} kc_k0^{k-1} = 0
+    \sum_{-\infty}^{\infty} \abs{\hat{f}(n)}^2 &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \abs{f(x)}^2 \dx \\
+    \left(\frac{\delta}{\pi}\right) ^2 + 2 \sum_{n=1}^{\infty} \left(\frac{\sin(n\delta)}{n\pi}\right)^2 &= \frac{1}{2\pi}  \int_{-\delta}^{\delta} 1 \dx = \frac{\delta}{\pi} \\
+    \implies \sum_{n=1}^{\infty} \frac{\sin^2 (n\delta)}{n^2} &= \frac{\pi \delta - \delta^2}{2} \\
+    \implies \sum_{n=1}^{\infty} \frac{\sin^2 (n\delta)}{n^2 \delta} &= \frac{\pi - \delta}{2}
     \end{align*}
-    And we are done.
-\end{solution}
+    as required.
 
-\begin{problem} [4.53 \redtext{done}]
-Let $f$ be a $C^2$ function on the real line. Assume that $f$ is bounded with bounded second derivative. Let $A = \sup_x \abs{f(x)}$ and $B = \sup_x \abs{f''(x)}$. Prove that \begin{equation*}
-\sup_x \abs{f'(x)} \leq 2\sqrt{AB}
-\end{equation*}
-\end{problem}
-\begin{solution}
-    Take any $x_0$. WLOG, $M = f'(x_0) > 0$. Therefore, for $t > 0$, $\abs{f'(x_0 + t) - f'(x_0) } = \abs{\int_{x_0}^{x_0+t} f''(s) ds} \leq tB$. It follows that \begin{align*}
-        f'(x_0 + t) \geq f'(x_0) - tB = M - tB
+    \textbf{(d)} Letting $\delta \to 0$, then
+    \begin{align*}
+        \sum_{n=1}^{\infty} \frac{\sin^2(n\delta)}{n^2\delta} &= \sum_{n=1}^{\infty} \left(\frac{\sin(n\delta)}{n\delta}\right)^2 \delta \\
+        &\xrightarrow{\delta \to 0} \int_{0}^{\infty} \left(\frac{\sin (x)}{x}\right)^2
     \end{align*}
+    since each $\sum_{n=1}^{\infty} \left(\frac{\sin(n\delta)}{n\delta}\right)^2 \delta$ is the Riemann sum of the integral.
 
-    Therefore, \begin{align*}
-        f(x_0 + M/B) - f(x_0) &= \int_{x_0}^{x_0 + M/B} f'(t) \dt \\
-                            &\geq \int_{0}^{M/B} (M-tB) \dt \\
-                            &= M^2/B - B(M/B)^2/2 = \frac{M^2}{2B}
-    \end{align*}
-    Therefore \begin{equation*}
-        \frac{M^2}{2B} \leq f(x_0 + M/B) - f(x_0) \leq \abs{f(x_0 + M/B) - f(x_0)} \leq 2A \implies M \leq 2\sqrt{AB}
+    Then $RHS \xrightarrow{\delta \to 0} \pi/2$, hence \begin{equation*}
+    \int_{0}^{\infty} \left(\frac{\sin x}{x}\right)^2 = \frac{\pi}{2}
     \end{equation*}
 
-    Since $f'(x_0) \leq 2\sqrt{AB}$ for all $x_0 \in \bbr$, it follows that $\sup f' \leq 2\sqrt{AB}$. 
+    \textbf{(e)} Putting $\delta = \pi/2$ in \textbf{(c)}. We have that $\sin(n\frac{\pi}{2})^2 = 1$ when $n$ odd, and $= 0$ when $n$ even, so
+     \begin{equation*}
+    \sum_{n \:\text{odd} \:} \frac{1}{n^2 \pi/2} = \frac{\pi}{4}
+    \end{equation*}
+    hence 
+    \begin{equation*}
+        \sum_{n \:\text{odd}\: } \frac{1}{n^2} = \frac{\pi^2}{8}
+    \end{equation*}
 \end{solution}
 
-\begin{problem} [4.54 \redtext{done}]
-Let $f$ be continuous on $\bbr$ and let \begin{equation*}
-f_n(x) = \frac{1}{n} \sum_{k=0}^{n-1}f\left(x + \frac{k}{n}\right)
-\end{equation*}
-Prove that $f_n(x)$ converges uniformly to a limit on every finite interval $[a, b]$.
+\begin{problem} [8.13 \redtext{done}]
+    Put $f(x) = x$ if $0 \leq x < 2\pi$, and apply Parseval's theorem to conclude that \begin{equation*}
+        \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
+    \end{equation*}
 \end{problem}
 \begin{solution}
-    Define $g(x) = \int_{0}^{1} f(x + t) \dt$. $f$ is continuous on $\bbr$ so $g$ is well-defined, and continuous. WTS for every $[a, b]$, $f_n \unicvg g$.
-
-    Fix $[a, b]$ and $\epsilon > 0$. $f$ is continuous on compact interval, so is uniformly continuous. Thus there exists $\delta > 0$ such that $\abs{u - v} < \delta \implies \abs{fu - fv} < \epsilon$.
-
-    Take $N$ large enough so that $N \delta > 1$. Then for any $n \geq N$ (and thus $1/ n \leq 1/N < \delta$), we have for any $x$, \begin{align*}
-    \abs{f_n(x) - g(x)} &= \abs*{\frac{1}{n} \sum_{k=0}^{n-1}f\left(x + \frac{k}{n}\right) - \int_{0}^{1} f(x + t) \dt} \\
-    &\leq \sum_{k=0}^{n-1} \abs*{\frac{1}{n} f\left( x + \frac{k}{n} \right) - \int_{k/n}^{(k+1)/n} f(x + t) \dt } \\
-    & \leq \sum_{k=0}^{n-1}  \abs*{\int_{k/n}^{(k+1)/n} \left(f\left( x + \frac{k}{n} \right) - f(x + t) \right) \dt} \\
-    &< \sum_{k=0}^{n-1} \epsilon/n = \epsilon
+    $f(x) = x$, hence \begin{align*}
+        \hat{f}(n) &= \frac{1}{2 \pi}\int_{0}^{2\pi} x e^{-inx} \dx \\
+        &= \frac{1}{2 \pi}\left[\frac{(inx + 1)e^{-inx}}{n^2}\right]^{2\pi}_{0} \\
+        &= \frac{1}{2 \pi}\frac{2\pi i}{n} = \frac{i}{n}
     \end{align*}
-    and therefore $f_n \unicvg g$ on $[a, b]$.
-\end{solution}
-
-\begin{problem} [Pugh 4.57 \redtext{done}]
-Let $f$ and $f_n$ be functions from $\bbr$ to $\bbr$. Assume that $f_n(x_n) \to f(x)$ as $n \to \infty$ whenever $x_n \cvgn x$. Prove that $f$ is continuous. (Note: the functions $f_n$ are not assumed to be continuous.)
-\end{problem}
-\begin{solution}
-    Suppose not. Then there exists $x_n \cvgn x$ such that $f(x_n) \not \to f(x)$, i.e., that there exists some $\epsilon > 0$ such that for all $N \in \bbn$, there exists some $m \geq N$ such that $\abs{f(x_m) - f(x)} \geq \epsilon$.
-
-    For each $x_n$, take the sequence $(y_k)_{k \in \bbn} \coloneqq (y_k = x_n)_{k \in \bbn}$. Trivially, $y_k \cvgk x_n$. Therefore $f_k(x_n) = f_k(y_k) \cvgk f(x_n)$. In short, we have pointwise convergence of $\{f_k\}$ on each $x_n$. This implies there exists $M_n$ such that $k \geq M_n \implies \abs{f_k(x_n) - f(x_n)} < \epsilon/2$. We iteratively choose $M_1, M_2, \ldots$ such that they are in strict increasing order (can always take $M_{n+1} > \max\{M_1, \ldots, M_n\}$).
-
-    Then, define a new sequence $(z_l)_{l \in \bbn}$ as follows: 
+    with the exception of $n = 0$:
     \begin{align*}
-        z_0 = \ldots = z_{M_1 - 1} &= 0 \\
-        z_{M_1} = z_{M_1 + 1} = \ldots = z_{M_2 - 1} &= x_1 \\
-        z_{M_2} = z_{M_2 + 1} = \ldots = z_{M_3 - 1} &= x_2 \\
-        \ldots
+        \hat{f}(0) &= \frac{1}{2\pi} \int_{0}^{2\pi} x \dx = \pi
     \end{align*}
-    where $z_l = x_j$ iff $M_j \leq l < M_{j+1}$.
-
-    From definition, notice that for $l \geq M_1$,  $\abs{f_l(z_l) - f(z_l)} < \epsilon / 2$, since their index, $l$, satisfies the pointwise condition above.
-
-    Furthermore, $z_l \to x$. So $f_l(z_l) \to f(x)$ by hypothesis, which means there exists some $L'$ such that $\forall l \geq L'$, $\abs{f_l(z_l) - f(x)} < \epsilon/2$. Choose $L = \max\{L', M_1\}$. Then $L \leq M_N$ for some $N$. Then, for all $m \geq N$ ($\implies M_m \geq M_N \geq L$), we can pick some $z_l$ such that $z_l = x_m$, which implies, $l \geq M_m \geq L$,
-    and can bound
+    Also notice that $\abs{\hat{f}(n)}^2 = \abs{\hat{f}(-n)}^2 = \frac{1}{n^2}$, so 
     \begin{align*}
-        \abs{f(x_m) - f(x)} & \leq \abs{f(z_l) - f_l(z_l)} + \abs{f_l(z_l) - f(x)} \\
-                    &<  \epsilon/2 \:\text{(by design of sequence, $l \geq M_1$)}\:  + \epsilon/2 \:\text{($l \geq L$)}\:  \\
-                    &= \epsilon
-    \end{align*}
-    We have therefore found $N$ that was supposed to be impossible to find from the start, \contra.
-
-    It follows that $f$ must be continuous.
-\end{solution}
-
-\begin{problem} [Pugh 4.58 \redtext{done}]
-Let $f(x), 0 \leq x \leq 1$, be a continuous real function with continuous derivative $f'(x)$. Let $M = \sup_{x \in [0, 1]} \abs{f'(x)}$. Prove, for $n = 1, 2, \ldots$, \begin{equation*}
-\abs*{\frac{1}{n}\sum_{k=0}^{n-1} f\left(\frac{k}{n}\right) - \int_{0}^{1} f(x) \dx} \leq \frac{M}{2n}
-\end{equation*}
-\end{problem}
-\begin{solution}
-    We have:
-    \begin{align*}
-        \abs*{\frac{1}{n}\sum_{k=0}^{n-1} f\left(\frac{k}{n}\right) - \int_{0}^{1} f(x) \dx} &= \abs*{\sum_{k=0}^{n-1} \frac{1}{n} f\left(\frac{k}{n}\right) - \sum_{k=0}^{n-1} \int_{k/n}^{(k+1)/n} f(x) \dx} \\
-        &\leq \sum_{k=0}^{n-1} \int_{k/n}^{(k+1)/n} \abs*{f(x) - f\left(\frac{k}{n}\right)} \dx\\
-        &\leq \sum_{k=0}^{n-1} \int_{k/n}^{(k+1)/n} M\left(x - \frac{k}{n}\right) \dx \\
-        &=\sum_{k=0}^{n-1} \int_{0}^{1/n} M t \dt \\
-        &= \sum_{k=0}^{n-1} \frac{M}{2n^2} = \frac{M}{2n}
+        \pi + 2\sum_{n=1}^{\infty} \frac{1}{n^2} &= \frac{1}{2\pi} \int_{0}^{2\pi} \abs{f(x)}^2 \dx \\
+        &= \frac{1}{2\pi} \int_{0}^{2\pi} x^2 \dx \\
+        &= \frac{4\pi^2}{3} \\
+        \implies \sum_{n=1}^{\infty} \frac{1}{n^2} &= \frac{\pi^2}{6}
     \end{align*}
     as required.
 \end{solution}
 
-\begin{problem} [Pugh 4.60 \redtext{done}]
-Let $f$ be a continuous real-valued function on $[0, \infty)$ such that \begin{equation*}
-\lim_{x \to \infty} \left(f(x) + \int_{0}^{x} f(t) \dt \right)
-\end{equation*}
-exists (and is finite). Prove that $\lim_{x \to \infty} f(x) = 0$.
-\end{problem}
-\begin{solution}
-    Notice that:
-    \begin{equation*}
-    f(x) + \int_{0}^{x} f(t) \dt = \frac{1}{e^x} \ddx  \left(e^x \int_{0}^{x} f(t) \dt \right) = \frac{\ddx  \left(e^x \int_{0}^{x} f(t) \dt \right)}{\ddx e^x}
-   \end{equation*}
-
-   Let $g = e^x \int_{0}^{x} f(t) \dt, h = e^x$ then we have that \begin{equation*}
-   \lim_{x \to \infty} \frac{g'}{h'} = \lim_{x \to \infty}  f(x) + \int_{0}^{x} f(t) \dt = L < \infty
-   \end{equation*}
-
-   We want to show that $\lim_{x \to \infty} \frac{g}{h} = L$ too. (Technically we're simply proving L'Hopital rule, but we have to be explicitly clear here, since it is not trivially clear that $g \xrightarrow{x \to \infty} \pm \infty$.)
-
-   Take any $\epsilon > 0$. Since $\lim_{x \to \infty} \frac{g'}{h'} = L$, there exists $X_1$ such that $x \geq X_1 \implies \abs*{\frac{g'}{h'} - L} < \frac{\epsilon}{2}$.
-
-%    Since $h(x) \xrightarrow{x \to \infty} +\infty$, there exists $X_2 > X_1$ and $X_3 > X_2$ such that $h(X_2) > 0$ and $x \geq X_3 \implies h(x) > h(X_2) > 0$.
-
-   By construction, it follows that for all $x \geq X_1$, \begin{equation*}
-   \abs*{\frac{g(x) - g(X_1)}{h(x) - h(X_1)} - L} = \abs*{\frac{g'(\theta)}{h'(\theta)} - L} < \epsilon/2
-   \end{equation*}
-   since $\theta \in (X_1, x) \implies \theta > X_1 \implies\abs*{\frac{g'(\theta)}{h'(\theta)} - L} < \epsilon/2$.
-   
-   Then we can estimate for all $x \geq X_1$:
-   \begin{align*}
-    \abs*{\frac{g(x)}{h(x)} - L} &= \abs*{\frac{g(x) - g(X_1)}{h(x) - h(X_1)} \frac{h(x) - h(X_1)}{h(x)} + \frac{g(X_1)}{h(x)} - L} \\
-    &\leq \abs*{\frac{g(x) - g(X_1)}{h(x) - h(X_1)} - L} + \abs*{\frac{g(x) - g(X_1)}{h(x) - h(X_1)}\frac{h(X_1)}{h(x)}} + \abs*{\frac{g(X_1)}{h(x)}} \\
-    &\leq \frac{\epsilon}{2} + \left(\abs{L} + \frac{\epsilon}{2}\right) \abs*{\frac{h(X_1)}{h(x)}} + \abs*{\frac{g(X_1)}{h(x)}}
-   \end{align*}
-
-   goes arbitrarily small as $h(X_1), g(X_1)$ are fixed, and $h(x) \xrightarrow{x \to \infty} +\infty$.
-
-   All in all, it follows that \begin{equation*}
-   \lim_{x \to \infty} \frac{g(x)}{h(x)} = L
-   \end{equation*}
-   Therefore \begin{align*}
-    L &= \lim_{x \to \infty} \int_{0}^{x} f(t) \dt \\
-    \implies \lim_{x \to \infty} f(x) &= \lim_{x \to \infty}(f(x) + \int_{0}^{x} f(t) \dt) - \lim_{x \to \infty} \int_{0}^{x} f(t) \dt \\
-    &= L - L = 0
-   \end{align*}
-   as required.
-\end{solution}
-
-\begin{problem} [Pugh 4.65 \redtext{done}]
-Let $f$ be a continuous, strictly increasing function from $[0, \infty)$ onto $[0, \infty)$ and let $g = f^{-1}$ (the inverse, not the reciprocal). Prove that \begin{equation*}
-\int_{0}^{a} f(x) \dx + \int_{0}^{b} g(y) \dy \geq ab
-\end{equation*}
-\end{problem}
-\begin{solution}
-    Fix any $c \geq 0$. Then $g$ is strictly increasing on $[0, c]$, so it is integrable on $[0, c]$. $\int_{0}^{b} g(y) \dy$ is then well-defined.
-
-    We use the following Lemma:
-    \begin{psetlemma}
-    For $a \geq 0$, \begin{equation*}
-    \int_{0}^{a} f(x) \dx + \int_{0}^{f(a)} g(y) \dy = af(a)
+\begin{problem} [8.14 \redtext{done}]
+    If $f(x) = (\pi - \abs{x})^2$ on $[-\pi, \pi]$, prove that \begin{equation*}
+    f(x) = \frac{\pi^2}{3} + \sum_{n=1}^{\infty} \frac{4}{n^2} \cos (nx)
     \end{equation*}
-    \end{psetlemma}
-
-    \begin{proof} [Lemma]
-        Take any partition $P = \{x_0 = 0, x_1, \ldots, x_n = a\}$ of $[0, a]$. Then, since $f$ is a bijection and strictly increasing, $Q_P \coloneqq \{f(x_0) = f(0) = 0, f(x_1), \ldots, f(x_n) = f(a)\}$ is a partition of $[0, f(a)]$. In fact, it is clear that $P \mapsto Q_P$ is a bijective map between the set of partitions on $[0, a]$ and $[0, f(a)]$.
-
-        Then, we have that:
-        \begin{align*}
-            L(f, P) + U(g, Q_P) &= \sum_{i=1}^{n} \inf_{t \in [x_{i-1}, x_i]} f(t) \Delta x_i + \sup_{s \in [f(x_{i-1}), f(x_i)]} g(s) \Delta f(x_i) \\
-            &= \sum_{i=1}^{n} f(x_{i-1}) (x_i - x_{i-1}) + x_i (f(x_i) - f(x_{i-1})) \\
-            &= \sum_{i=1}^{n} x_i f(x_i) - x_{i-1} f(x_{i-1}) \\
-            &= x_n f(x_n) - x_0 f(x_0) = a f(a)
-        \end{align*}
-        Similarly, \begin{equation*}
-            U(f, P) + L(g, Q_P) = a f(a)
-        \end{equation*}
-
-        It follows that \begin{equation*}
-            L(f, P) + U(g, Q_P) + U(f, P) + L(g, Q_P) = 2af(a)
-        \end{equation*}
-        The equality holds for all $P$ and corresponding $Q_P$. Fix some $\epsilon > 0$. Since $f, g$ are integrable, there exists some $P, Q$ such that
-        \begin{align*}
-             2\int_{0}^{a} f(x) \dx - \epsilon &\leq L(f, P) + U(f, P) &\leq 2\int_{0}^{a} f(x) \dx + \epsilon \\
-            2\int_{0}^{f(a)} g(y) \dy - \epsilon &\leq L(g, Q) + U(g, Q) &\leq 2\int_{0}^{f(a)} g(y) \dy + \epsilon
-        \end{align*}
-        Then we can define $P'$ as the refinement of $P$ and $f^{-1}(Q) = g(Q) = \{g(y_i) = f^{-1}(y_i) : y_i \in Q\}$ on $[0, a]$, then the bound remains the same, with $P$ replaced by $P'$ and $Q$ replaced by $Q_{P'}$. It then follows that \begin{equation*}
-            2 \left(\int_{0}^{a} f(x) \dx + \int_{0}^{f(a)} g(y) \dy\right) - 2\epsilon \leq 2a f(a) \leq  2 \left(\int_{0}^{a} f(x) \dx + \int_{0}^{f(a)} g(y) \dy\right) + 2\epsilon
-        \end{equation*}
-        And this holds for all $\epsilon$ so it must be the case that \begin{equation*}
-            \int_{0}^{a} f(x) \dx + \int_{0}^{f(a)} g(y) \dy = af(a)
-        \end{equation*}
-        as required.
-    \end{proof}
-
-    Now that the lemma is proven, we use it for our problem.
-
-    \textbf{Case 1:} $b \leq f(a)$. Let $a' = g(b) \leq a$. Then
+    and deduce that \begin{equation*}
+    \sum_{n=1}^{\infty}  \frac{1}{n^2} = \frac{\pi^2}{6} \qquad \sum_{n=1}^{\infty} \frac{1}{n^4} = \frac{\pi^4}{90}
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    $f(x) = (\pi - \abs{x})^2$ on $[-\pi, \pi]$. We have that
     \begin{align*}
-        \int_{0}^{a} f(x) \dx + \int_{0}^{b} g(y) \dy &= \int_{a'}^{a} f(x) \dx + \left(\int_{0}^{a'} f(x) \dx + \int_{0}^{f(a')} g(y) \dy\right) \\
-        &= \int_{a'}^{a} f(x) \dx + a'b \geq (a - a') f(a') + a'b = (a - a')b - a'b = ab
+    \abs{f(x+t) - f(x)} &= \abs{\abs{x+t} - \abs{x}} \abs{2\pi - \abs{x+t} - \abs{x}} \\
+    &\leq  \abs{t} 2\pi
     \end{align*}
+    so $f$ is locally Lipschitz at all points with $M = 2\pi$, since locally $x+t$ and $x$ have the same sign.
 
-    \textbf{Case 2:} $b \geq f(a)$. Similarly, let $a' = g(b) \geq a$. Then
+    Therefore, it follows that $s_N(f, x) \xrightarrow{N \to \infty} f(x)$ on $[-\pi, \pi]$.
+
+    We then calculate the Fourier coefficients:
     \begin{align*}
-        \int_{0}^{a} f(x) \dx + \int_{0}^{b} g(y) \dy &= \left(\int_{0}^{a} f(x) \dx + \int_{0}^{f(a)} g(y) \dy \right) + \int_{f(a)}^{b} g(y) \dy \\
-        &\geq af(a) + (b - f(a)) a = ab
+        \hat{f}(n) &= \frac{1}{2\pi} \int_{-\pi}^{\pi} (\pi - \abs{x})^2 e^{-inx} \dx \\
+        &= \frac{1}{2\pi}\left( \int_{-\pi}^{0} (\pi + x)^2 e^{-inx} \dx + \int_{0}^{\pi} (\pi - x)^2 e^{-inx}\dx \right) \\
+        &= \frac{2}{n^2} - \frac{2 \sin(\pi n)}{\pi n^3} = \frac{2}{n^2}
     \end{align*}
+    with the exception of $n = 0$:
+    \begin{equation*}
+        \hat{f}(0) = \frac{1}{2\pi} \int_{-\pi}^{\pi} (\pi - \abs{x})^2 \dx = \frac{\pi^2}{3}   
+    \end{equation*}
+    Therefore \begin{align*}
+    f(x) &= \sum_{-\infty}^{\infty} \hat{f}(n) e^{inx} \\
+    &=  \frac{\pi^2}{3} + \sum_{n=1}^{\infty}\left( \frac{2}{n^2} e^{inx} + \frac{2}{n^2} e^{-inx} \right)\\
+    &= \frac{\pi^2}{3} + \sum_{n=1}^{\infty} \frac{2}{n^2} 2 \cos(nx) \\
+    &= \frac{\pi^2}{3} + \sum_{n=1}^{\infty} \frac{4}{n^2} \cos (nx)
+    \end{align*}
+    as required.
 
-    From 2 cases, we are done.
+    In particular, when $x = 0$: \begin{align*}
+        f(0) &= (\pi - 0)^2 = \pi^2 \\
+        \implies \frac{\pi^2}{3} + \sum_{n=1}^{\infty} \frac{4}{n^2}     &= \pi^2 \\
+        \implies \sum_{n=1}^{\infty} \frac{1}{n^2} &= (\pi^2 - \pi^2/3)/4 = \frac{\pi^2}{6}
+    \end{align*}
+    as required.
+
+    $f$ is continuous, so it is Riemann integrable. We can therefore apply Parseval's: \begin{align*}
+        \sum_{-\infty}^{\infty} \abs{\hat{f}(n)}^2 &= \frac{\pi^4}{9} + 2 \sum_{n=1}^{\infty} \left(\frac{4}{n^4}\right) \\
+        \implies \frac{\pi^4}{9} + 2 \sum_{n=1}^{\infty} \left(\frac{4}{n^4}\right)  &= \frac{1}{2\pi} \int_{-\pi}^{\pi} (\pi - \abs{x})^4 \dx \\
+        &= \frac{\pi^4}{5}   \\
+        \implies \sum_{n=1}^{\infty} \frac{1}{n^4} &= (\pi^4/5 - \pi^4/9)/8 = \frac{\pi^4}{90}
+    \end{align*}
+    as required.
 \end{solution}
+
+\begin{problem} [8.15 \redtext{done}]
+    With $D_n(x) = \sum_{k=-n}^{n} e^{inx}$, put \begin{equation*}
+    K_N(x) = \frac{1}{N+1} \sum_{n=0}^{N} D_n(x)
+    \end{equation*}
+    Prove that \begin{equation*}
+    K_N(x) = \frac{1}{N+1} \frac{1 - \cos (N+1) x}{1 - \cos x}
+    \end{equation*}
+    and that
+    \begin{enumerate}
+    \item $K_N \geq 0$
+    \item $\frac{1}{2\pi} \int_{-\pi}^{\pi} K_N(x) \dx = 1$,
+    \item $K_N(x) \leq \frac{1}{N+1} \frac{2}{1 -\cos \delta}$ if $0 < \delta \leq \abs{x} \leq \pi$
+    \end{enumerate}
+
+    If $s_N$ is the $N$th partial sum of the Fourier series of $f$, consider the arithmetic means \begin{equation*}
+    \sigma_N = \frac{s_0 + \ldots + s_N}{N+1}
+    \end{equation*}
+    Prove that \begin{equation*}
+    \sigma_N(f; x) = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x-t) K_N(t) \dt
+    \end{equation*}
+    and hence prove Fejer's theorem: ``If $f$ is continuous, $2\pi$-periodic, then $\sigma_N(f; x) \to f(x)$ uniformly on $[-\pi, \pi]$.''
+\end{problem}
+\begin{solution}
+    We first rewrite 
+    \begin{equation*}
+        D_n(x) = \sum_{k=-n}^{n} e^{ikx} = \frac{e^{i(n+1)x} - e^{-inx}}{e^{ix} - 1}
+    \end{equation*}
+    therefore \begin{align*}
+        K_n(x) &= \frac{1}{N+1 } \sum_{n=0}^{N} \frac{e^{i(n+1)x} - e^{-inx}}{e^{ix} - 1} \\
+        &=\frac{1}{N+1 } \frac{1}{e^{ix} - 1} \left[\sum_{n=0}^{N} (e^{ix})^{(n+1)} - \sum_{n=0}^{N} (e^{-ix})^n\right] \\
+        &=\frac{1}{N+1 } \frac{1}{e^{ix} - 1} \left(\frac{e^{i(N+2)x} - e^{ix}}{e^{ix} - 1} - \frac{e^{-i(N+1)x} - 1}{e^{-ix} - 1}\right) \\
+        &=\frac{1}{N+1 } \frac{1}{e^{ix} - 1} \frac{1}{2 - 2\cos x} (e^{ix} - 1) (2 - e^{-i(N+1)x} - e^{i(N+1)x}) \\
+        &=\frac{1}{N+1 } \frac{2 - 2 \cos (N+1) x}{2 - 2 \cos x} \\
+        &=\frac{1}{N+1 } \frac{1 - \cos(N+1) x}{ 1 - \cos x}
+    \end{align*}
+    as required.
+
+    \textbf{(a)} $\cos(N+1) x, \cos x \leq 1 \implies K_n(x) \geq 0$.
+
+    \textbf{(b)} We know that $\frac{1}{2\pi}\int_{-\pi}^{\pi} D_n(x) \dx = 1$ hence \begin{equation*}
+    \frac{1}{2\pi} \int_{-\pi}^{\pi} K_N(x) \dx = \frac{1}{N+1} \sum_{n=0}^{N} \int_{-\pi}^{\pi} D_n(x) \dx = \frac{1}{N+1} (N+1) = 1
+    \end{equation*}
+
+    \textbf{(c)} If $0 < \delta \leq \abs{x} \leq \pi$ then \begin{align*}
+        K_N(x) = \frac{1}{N+1} \frac{1 - \cos(N+1)x}{1 - \cos x} \leq \frac{1}{N+1} \frac{1 - (-1)}{1 - \cos \delta} = \frac{1}{N+1} \frac{2}{1 - \cos \delta}
+    \end{align*}
+
+    We've therefore proven all properties of $K_N(x)$.
+
+    Now, \begin{align*}
+    \sigma_N(x) &= \frac{1}{N+1} \sum_{n=0}^{N}\\
+    &= \frac{1}{N+1} \sum_{n=0}^{N} \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x - t) D_n(t) \dt \\
+    &= \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x - t) \sum_{n=0}^{N} D_n(t) \dt \\
+    &=\frac{1}{2\pi} \int_{-\pi}^{\pi} f(x-t) K_N(t) \dt
+    \end{align*}
+    
+    We are now ready to prove Fejer's Theorem: Suppose that $f$ is continuous with period $2\pi$, then $\sigma_N(f, x) \cvgg{N \to \infty} f(x)$ uniformly on $[-\pi, \pi]$. 
+
+    $f$ is continuous on $[-\pi, \pi]$ and is $2\pi$-periodic, hence there exists $M \geq \norm{f}$.
+
+    For all $\epsilon > 0$, since $f$ is continuous on $[-\pi, \pi]$ and $2\pi$-periodic, it is uniformly continuous, hence there exists $\delta > 0$ such that \begin{equation*}
+    \abs{ u -v} < \delta \implies \abs{fu - fv} < \epsilon/2
+    \end{equation*}
+
+    Then, we have that \begin{align*}
+        \abs*{\sigma_N(f; x) - f(x)} &= \abs*{\frac{1}{2\pi} \int_{-\pi}^{\pi} f(x-t) K_N(t) \dt - f(x) \frac{1}{2\pi} \int_{-\pi}^{\pi} K_N(t) \dt} \\
+        &= \frac{1}{2\pi}   \abs*{\int_{-\pi}^{\pi} K_N(t) (f(x-t) - f(x)) \dt} \\
+        &\leq \frac{1}{2\pi} \abs*{\int_{\delta \leq \abs{t}} K_N(t) (f(x-t) - f(x)) \dt} \\
+        &+ \frac{1}{2\pi}\abs*{\int_{-\delta}^{\delta} K_N(t) (f(x-t) - f(x)) \dt} \\
+        & \leq \frac{1}{2\pi} 2M \int_{\delta \leq \abs{t}} {K_N(t)} \dt + \frac{1}{2\pi} \int_{-\delta}^{\delta} K_N(t) \epsilon/2 \dt \\
+        &\leq \frac{1}{2\pi} 2M \frac{1}{N+1} \frac{2}{1 - \cos \delta} + \epsilon/2
+    \end{align*}
+    There then exists $N_1$ big enough such that $\frac{1}{2\pi} 2M \frac{1}{N_1 + 1} \frac{2}{1 - \cos \delta} < \epsilon/2$, then for $N \geq N_1$, $\norm{\sigma_N - f} < \epsilon$, hence the convergence is uniform.
+\end{solution}
+
+\begin{problem} [8.16 \redtext{done}]
+    Prove a pointwise version of Fejer's theorem: If $f$ Riemann integrable and $f(x+), f(x-)$ exist for some $x$, then \begin{equation*}
+    \lim_{N \to \infty} \sigma_N(f; x) = \frac{1}{2} [f(x+) + f(x-)]
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    Note that $K_n(x) = \frac{1}{N+1} \frac{1 - \cos(N+1)x}{1 - \cos x}$ is even. Therefore $\int_{-\pi}^{0} K_N(t) \dt = \int_{0}^{\pi} K_N(t) \dt = \frac{1}{2}$.
+
+    Since there exists $f(x+), f(x-)$, there exists $\delta_1, \delta_2 > 0$ such that $0 < t < \delta_1 \implies \abs{f(x+t) - f(x+)} < \epsilon/2$  and $0 < t < \delta_2 \implies \abs{f(x-t) - f(x-)} < \epsilon/2$. Take $\delta = \min\{\delta_1, \delta_2\}$.
+
+    Then, \begin{align*}
+        &\abs*{\sigma_N(f; x) - \frac{1}{2} (f(x+) + f(x-))} \\
+        &= \frac{1}{2\pi} \abs*{\int_{-\pi}^{0}f(x-t) K_N(t) \dt - f(x+) \int_{-\pi}^{0} K_N(t) \dt + \int_{0}^{\pi} f(x-t) K_N(t) \dt - f(x-) \int_{0}^{\pi} K_N(t) \dt }\\
+        &= \frac{1}{2\pi} \abs*{\int_{-\pi}^{0} (f(x-t) - f(x+)) K_N(t) \dt + \int_{0}^{\pi} (f(x-t) - f(x-)) K_N(t) \dt} \\
+        &\leq \frac{1}{2\pi} \abs*{\int_{-\pi}^{-\delta} (f(x-t) - f(x+)) K_N(t) \dt} + \frac{1}{2\pi} \abs*{\int_{-\delta}^{0} (f(x-t) - f(x+)) K_N(t) \dt} \\
+        &+ \frac{1}{2\pi} \abs*{\int_{0}^{\delta} (f(x-t) - f(x+)) K_N(t) \dt} + \frac{1}{2\pi} \abs*{\int_{\delta}^{\pi} (f(x-t) - f(x+)) K_N(t) \dt} \\
+        &\leq \frac{1}{2\pi} \left(2M\pi \frac{1}{N+1} \frac{2}{1 - \cos \delta} + \pi \epsilon/2 + \pi \epsilon/2 + 2M \pi \frac{1}{N+1} \frac{2}{1 - \cos \delta}\right) < \epsilon
+    \end{align*}
+    for $N$ sufficiently large. The pointwise convergence is thus proven.
+\end{solution}
+
+\begin{problem} [8.17]
+    Assume $f$ is bounded and monotonic on $[-\pi, \pi)$, with Fourier coefficients $c_n$.
+    \begin{enumerate}
+    \item Use Exercise 6.17 to prove that $\{nc_n\}$ is bounded.
+    \item Combine (a) with Exercise 3.14(e) to conclude that \begin{equation*}
+    \lim_{N \to \infty} s_N(f; x) = \frac{1}{2} [f(x+) + f(x-)]
+    \end{equation*}
+    for every $x$.
+    \item Assume only that $f$ Riemann integrable on $[-\pi, \pi]$ and that $f$ is monotonic in some segment $(\alpha, \beta) \subset [-\pi, \pi]$. Prove that the conclusion of (b) holds for every $x \in (\alpha, \beta)$. (This is an application of the localization theorem.)
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Suppose $\norm{f} < M$. Then we have \begin{align*}
+        c_n &= \frac{1}{2\pi} \int_{-\pi}^{\pi} f(x) e^{-inx} \dx  \\
+        &= \frac{1}{2\pi} \left(e^{-i n \pi}/(-in) - e^{-in(-\pi)}/(-in) - \int_{-\pi}^{\pi} e^{-inx}/(-in) df\right) \\
+        &= \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{-inx}/(-in) df
+    \end{align*}
+    so \begin{align*}
+        \abs{nc_n} &= \frac{1}{2\pi} \abs*{\int_{-\pi}^{\pi} e^{-inx} df} = \frac{1}{2\pi} \abs*{f(\pi)e^{-in\pi} - f(-\pi)e^{in\pi}} \leq M/\pi
+    \end{align*}
+    is therefore bounded.
+
+    \textbf{(b)} The pointwise version of Fejer's Theorem implies that for all $x$ where the right and left limits exist,
+    
+    \begin{equation*}
+    \lim_{N \to \infty} \sigma_N(f; x) = \frac{1}{2} [f(x+) + f(x-)]
+    \end{equation*}
+
+    Using Exercise 3.14(a), since $\abs{nc_n}$ is bounded, it follows that $\lim_{N \to \infty} s_N(f; x) = \lim_{N \to \infty} \sigma_N(f; x) = \frac{1}{2} [f(x+) + f(x-)]$
+
+    \textbf{(c)} Define $g$ such that it agrees with $f$ on $(a, b)$: $g(x) = f(x)$ on $(\alpha, \beta)$, and $g(x) = f(\alpha)$ for $x \leq \alpha$ and $g(x) = f(\beta)$ for $x \geq \beta$. Then, $g$ is clearly monotonic in $[-\pi, \pi]$, so \begin{equation*}
+    \lim_{N \to \infty} S_N(g; x) = \frac{1}{2} [g(x+) + g(x-)]
+    \end{equation*}
+
+    But on $(\alpha, \beta)$, $g(x+) = f(x+), g(x-) = f(x-)$ so on $(\alpha, \beta)$:
+    
+    \begin{equation*}
+    \lim_{N \to \infty} S_N(g; x) = \frac{1}{2} [f(x+) + f(x-)]
+    \end{equation*}
+
+    $f$ and $g$ agree on $(\alpha, \beta)$, so by the localization theorem, it implies that \begin{equation*}
+    \lim_{N \to \infty} S_N(f; x) - S_N(g; x) = 0
+    \end{equation*}
+
+    Therefore on $(\alpha, \beta), \lim_{N \to \infty} S_N(f; x) = \frac{1}{2} [f(x+) + f(x-)]$.
+\end{solution}
+
+\begin{problem} [8.19 \redtext{done}]
+    Suppose that $f$ is a continuous, $2\pi$-periodic, real-valued function and some $\alpha$ such that $\alpha/\pi$ is irrational. Prove that \begin{equation*}
+    \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} f(x + n \alpha) = \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) \dt
+    \end{equation*}
+\end{problem}
+\begin{solution}
+We first prove that the proposition is true for $e^{ikx}$ for any $k \in \bbz$.
+
+If $k = 0$ then \begin{align*}
+    \rhs &= 1 \\
+    \lhs &= \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} 1 = 1
+\end{align*}
+else 
+\begin{align*}
+    \rhs &= \frac{1}{2\pi} \int_{-\pi}^{\pi} e^{ikx} \dx \\
+    &= \eval{\frac{e^{ikx}}{ik}}{\pi}{-\pi}  = 0
+\end{align*}
+and \begin{align*}
+    \lhs &= \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} e^{ik(x + n \alpha)} \\
+    &= e^{ikx + ik\alpha} \lim_{N \to \infty} \frac{e^{ikN\alpha} - 1}{N(e^{ik\alpha} - 1)} = 0
+\end{align*}
+Note that this computation does not into problem for all $k \in \bbz \backslash \{0\}$ (denominator being 0), since $\alpha / \pi $ is irrational so $e^{ik\alpha} \neq 1$ for all $k \in \bbz  \backslash \{0\}$.
+
+Thus, indeed the proposition is true for $e^{ikx}$ for all $k \in \bbz$. A trigonometric polynomial is a linear combination of $e^{ikx}$ terms, and the proposition is linear in $f$, so the proposition is true for all trigonometric polynomial too.
+
+Since $f$ is continuous and $2\pi$-periodic, given $\epsilon > 0$, by Stone-Weierstrass, there exists some trigonometric polynomial $P$ such that \begin{equation*}
+\norm{f - P}_{\infty} < \epsilon/2
+\end{equation*}
+Note that per our remarks above, \begin{equation*}
+    \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} P(x + n \alpha)= \frac{1}{2\pi} \int_{-\pi}^{\pi} P(t) \dt  
+\end{equation*}
+It then follows that \begin{multline*}
+    \abs*{\lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} f(x + n \alpha) - \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) \dt} \leq \\  \abs*{\lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} f(x + n \alpha) - \lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} P(x + n \alpha)} + \abs*{\frac{1}{2\pi} - \int_{-\pi}^{\pi} P(t) \dt   \frac{1}{2\pi} \int_{-\pi}^{\pi} f(t) \dt}
+\end{multline*}
+\begin{align*}
+    &\leq \left(\lim_{N \to \infty} \frac{1}{N} \sum_{n=1}^{N} \abs*{f(x + n\alpha) - P(x + n\alpha)}\right) + \frac{1}{2\pi} \int_{-\pi}^{\pi} \abs*{P(t) - f(t)} \dt \\
+    &< \left(\lim_{N \to \infty} \sum_{n=1}^{N} N\epsilon/2\right) + \frac{1}{2\pi} 2\pi \epsilon/2 \\
+    &= \epsilon
+\end{align*}
+This is true for all $\epsilon$, hence the proposition holds for any continuous, $2\pi$-periodic $f$.
+\end{solution}
+
+\begin{problem} [8.21 \redtext{done}]
+Let \begin{equation*}
+L_n = \frac{1}{2\pi} \abs{D_n(t)} \dt 
+\end{equation*}
+Prove that there exists $C > 0$ such that \begin{equation*}
+L_N > C \log n
+\end{equation*}
+or, more precisely, that the sequence \begin{equation*}
+\left\{L_n - \frac{4}{\pi^2} \log n \right\}
+\end{equation*}
+is bounded.
+\end{problem}
+\begin{solution}
+    We first show the lower bound:
+    \begin{align*}
+        L_n &= \frac{1}{2\pi} \int_{-\pi}^{\pi} \abs*{D_n(t)} \dt \\
+        &= \frac{1}{\pi} \int_{0}^{\pi} \abs*{\frac{\sin (n+\frac{1}{2}) t}{\sin t/2}}\dt\\
+        &= \frac{2}{\pi} \int_{0}^{\pi/2} \frac{\abs*{\sin (n + \frac{1}{2})(2t)}}{\sin t} \dt \\
+        &> \frac{2}{\pi} \int_{0}^{\pi/2} \frac{\abs*{\sin (n + \frac{1}{2})(2t)}}{t} \dt \\
+        &= \frac{2}{\pi} \int_{0}^{(n+ \frac{1}{2}) \pi} \frac{\abs*{\sin u}}{u} \du \\
+        &> \frac{2}{\pi} \int_{0}^{n\pi}\frac{\abs*{\sin u}}{u} \du \\
+        &> \frac{2}{\pi} \sum_{k=0}^{n-1} \int_{0}^{\pi} \frac{\sin u}{(k+1) \pi} \du \\
+        &= \frac{2}{\pi^2} \left(\sum_{k=1}^{n} \frac{1}{k}\right) \eval{-\cos u}{\pi}{0} \\
+        &= \frac{4}{\pi^2} \left(\sum_{k=1}^{n} \frac{1}{k}\right) \geq \frac{4}{\pi^2} \log n
+    \end{align*}
+    then the upper bound, where we first use a preliminary bound:
+    \begin{align*}
+        \abs*{\frac{\sin (2n+1) t}{\sin t}} &= \abs*{\frac{\sin (2nt) \cos t + \cos (2nt) \sin t}{\sin t}} \\
+        &= \abs*{\frac{\sin (2nt)}{\tan t} + \cos (2nt)} \\
+        &\leq \abs*{\frac{\sin(2nt)}{\tan t}} + 1
+    \end{align*}
+    so
+    \begin{align*}
+            L_n &= \frac{2}{\pi} \int_{0}^{\pi/2} \abs*{\frac{\sin (2n+1) t}{\sin t}} \dt \\
+            &\leq \frac{2}{\pi} \int_{0}^{\pi/2} \abs*{\frac{\sin(2nt)}{\tan t}} + 1 \dt \\
+            & = 1 + \frac{2}{\pi} \int_{0}^{\pi/2} \abs*{\frac{\sin(2nt)}{\tan t}} \dt \\
+            &= 1 + \frac{2}{\pi} \int_{0}^{n\pi}\frac{\abs*{\sin u}}{u} \du \\
+            &= 1 + \frac{2}{\pi} \int_{0}^{\pi} \sum_{k=0}^{n-1} \frac{\sin u}{u + k\pi} \du \\
+            &= 1 + \frac{2}{\pi} \int_{0}^{\pi} \frac{\sin u}{u} + \frac{2}{\pi} \int_{0}^{\pi} \sum_{k=1}^{n-1} \frac{\sin u}{u + k\pi} \du \\
+            &< C + \frac{2}{\pi}  \int_{0}^{\pi} \sum_{k=1}^{n-1} \frac{\sin u}{u + k\pi} \du \\
+            &= C + \frac{2}{\pi} \int_{0}^{\pi} \sum_{k=1}^{n-1} \frac{\sin u}{k\pi} \du \\
+            &= C + \frac{2}{\pi} \left(\sum_{k=1}^{n-1} \frac{1}{k}\right) \eval{-\cos u}{\pi}{0}  \\
+            &< C + \frac{4}{\pi} (\log n + \gamma) = C + \frac{4}{\pi} \log n
+    \end{align*}
+    It follows that $\{L_n - \frac{4}{\pi^2} \log n\}$ is bounded as required.
+\end{solution}
+
+% \newpage
+% It is true that \begin{multline*}
+% \bbp(X_1 = H, X_2 = H, \ldots, X_{999} = H, X_{1000} = T)\\ = \bbp(X_1 = H, \ldots, X_{500} = H, X_{501} = T, X_{502} = T, \ldots, X_{1000} = T) = \frac{1}{2^{1000}} 
+% \end{multline*}
+% but if $A = \:\text{number of heads in 1000 flips}\: = \sum_{n=1}^{1000} 1\{X_n = H\}$
+% where $1\{X_n = H\}$ just returns 1 when $X_n = H$ and 0 otherwise then
+% \begin{align*}
+% \bbp(A = 500) &= \binom{1000}{500} 2^{-1000}\\
+% \bbp(A = 999) &= \binom{1000}{999} 2^{-1000} \\
+% \implies \bbp(A = 500) &> \bbp (A = 999)
+% \end{align*}
 \end{document}
