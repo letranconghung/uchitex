@@ -1,0 +1,398 @@
+\documentclass[a4paper, 11pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 5}
+\date{02 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{5}
+\textbf{\Large{Gaussian Mixtures}}
+\begin{problem}
+
+\textbf{(a)} Let $S = \{(x_1, y_1), \ldots, (x_m, y_m)\}$. Denote the map $g(y) = \frac{y + 1}{2}$ which maps $-1$ to $0$ and $1$ to $1$, and $h(y) = 1 - g(y)$ which maps $-1$ to $1$ and $1$ to $0$. Then 
+\begin{multline*}
+    \bbp[(x_i, y_i); p_+, \mu_+, \mu-, \Sigma_-, \Sigma_+] \\= \left(p_+ \frac{1}{\sqrt{(2\pi)^d \abs{\Sigma_+}}}\exp\left({-\frac{1}{2} (x - \mu_+)^T \Sigma_+^{-1} (x - \mu_+)}\right)\right)^{g(y_i)} \\
+     \left((1 - p_+) \frac{1}{\sqrt{(2\pi)^d \abs{\Sigma_-}}}\exp\left(-\frac{1}{2} (x - \mu_-)^T \Sigma_-^{-1} (x - \mu_-)\right)\right)^{h(y_i)}  
+\end{multline*}
+so \begin{multline*}
+    \log \bbp[(x_i, y_i); p_+, \mu_+, \mu-, \Sigma_-, \Sigma_+] \\= g(y_i) \left(\log p_+ - \log \sqrt{(2\pi)^d} - \frac{1}{2} \log \abs{\Sigma_+} - \frac{1}{2} (x_i - \mu_+)^T \Sigma^{-1}_+ (x_i - \mu_+) \right) \\ 
+    +  h(y_i) \left(\log (1 - p_+) - \log \sqrt{(2\pi)^d} - \frac{1}{2} \log \abs{\Sigma_-} - \frac{1}{2} (x_i - \mu_-)^T \Sigma^{-1}_- (x_i - \mu_-) \right)
+\end{multline*}
+
+Abuse of notation: $\bbp((x_i, y_i)) = \bbp[(x_i, y_i); p_+, \mu_+, \mu-, \Sigma_-, \Sigma_+], P(S) =\bbp[S; p_+, \mu_+, \mu-, \Sigma_-, \Sigma_+] $.
+
+Since training samples are drawn i.i.d, \begin{equation*}
+\bbp (S) = \prod_{i=1}^{m} \bbp((x_i, y_i)) \implies \log \bbp(S) = \sum_{i=1}^{m} \log \bbp((x_i, y_i))
+\end{equation*}
+Let $m_1 = \sum_{i=1}^{m} \1\{y_i = 1\}, m_0 = m - m_1$. Then we can perform MLE:
+
+For $p_+$:
+\begin{align*}
+    0 &= \frac{\rmd}{\rmd p_+} \sum_{i=1}^{m} \log \bbp ((x_i, y_i)) \\
+    &=  \sum_{y_i = 1} \frac{1}{p_+} + \sum_{y_i = -1} \frac{-1}{1 - p_+} \\
+    &= \frac{m_1}{p_+} - \frac{m - m_1}{1 - p_+} \\
+    \implies p_+ &= \frac{m_1}{m}
+\end{align*}
+For $\mu_+$:
+\begin{align*}
+    0 &= \frac{\rmd}{\du} \sum_{i=1}^{m} \log \bbp((x_i, y_i)) \\
+    &= - \frac{1}{2} \sum_{y_i = 1} 2 \Sigma_+^{-1}(x_i - \mu) \\
+    \implies 0&= \sum_{y_i = 1} \Sigma_+^{-1}(x_i - \mu_+) \\
+    \implies \hat{\mu}_+ &= \frac{1}{m_1} \sum_{y_i = 1} x_i
+\end{align*}
+
+Similarly \begin{equation*}
+\hat{\mu}_- = \frac{1}{m_0} \sum_{y_i = -1} x_i
+\end{equation*}
+
+For $\Sigma_+$, note that $\Sigma_+$ is diagonal so its inverse is diagonal too. We have:
+\begin{align*}
+0 &= \frac{\rmd}{\rmd \Sigma_+^{-1}} \sum_{i=1}^{m} \log \bbp((x_i, y_i)) \\
+&= \frac{\rmd}{\rmd \Sigma_+^{-1}} \sum_{y_i = 1} \left[\frac{-1}{2} \log\left(\frac{1}{\abs{\Sigma_+^{-1}}}\right) - \frac{1}{2} (x_i - \mu_+)^T\Sigma_+^{-1}(x_i - \mu_+)\right] \\
+&= \frac{1}{2} \sum_{y_i = 1} \frac{\rmd}{\rmd \Sigma_+^{-1}} \left[\log(\abs{\Sigma_+^{-1}}) -  (x_i - \mu_+)^T \Sigma_+^{-1} (x_i - \mu_+)\right] \\
+&= \frac{1}{2} \sum_{y_i = 1} \left[\Sigma - (x_i - \mu_+) (x_i - \mu_+)^T \right]\\
+\implies \hat{\Sigma}_+ &= \frac{1}{m_1} \sum_{y_i = 1} (x_i - \hat{\mu}_+) (x_i - \hat{\mu}_+)^T
+\end{align*}
+Similarly, \begin{equation*}
+    \hat{\Sigma}_- = \frac{1}{m_0} \sum_{y_i = -1} (x_i - \hat{\mu}_-) (x_i - \hat{\mu}_-)^T
+\end{equation*}
+
+\textbf{(b)} Computing posterior:
+\begin{align*}
+    \eta(x) &= \bbp(Y = 1 \mid x) \\
+    &= \frac{\bbp(X = x \mid Y = 1) \bbp(Y = 1)}{\bbp(X = x \mid Y = 1) \bbp(Y=1) + \bbp(X = x \mid Y = -1) \bbp(Y = -1)} \\
+    &= \frac{p_+ \frac{1}{\sqrt{(2\pi)^d \abs{\Sigma_+}}}\exp\left({-\frac{1}{2} (x - \mu_+)^T \Sigma_+^{-1} (x - \mu_+)}\right)}{p_+ \frac{1}{\sqrt{(2\pi)^d \abs{\Sigma_+}}}\exp\left({-\frac{1}{2} (x - \mu_+)^T \Sigma_+^{-1} (x - \mu_+)}\right) + (1 - p_+) \frac{1}{\sqrt{(2\pi)^d \abs{\Sigma_-}}}\exp\left({-\frac{1}{2} (x - \mu_-)^T \Sigma_-^{-1} (x - \mu_-)}\right)}
+\end{align*}
+We know that \begin{align*}
+    \bbp(Y = 1 \mid x) &= \frac{\bbp(X = x \mid Y = 1) \bbp(Y = 1)}{\bbp(X = x \mid Y = 1) \bbp(Y=1) + \bbp(X = x \mid Y = -1) \bbp(Y = -1)}\\
+    &= \frac{1}{1 + \frac{\bbp(X = x\mid Y=-1) \bbp(Y = -1)}{\bbp(X = x \mid Y = +1)\bbp(Y = +1)}}
+\end{align*}
+so \begin{align*}
+    r(x) &= -\log \frac{\bbp(X = x\mid Y=-1) \bbp(Y = -1)}{\bbp(X = x \mid Y = +1)\bbp(Y = +1)} \\
+    &= \log(X = x \mid Y = +1) + \log \bbp(Y = +1)  - \log(X = x \mid Y = -1) - \log(Y = -1) \\
+    &= \left(\log p_+ - \log \sqrt{(2\pi)^d} - \frac{1}{2} \log \abs{\Sigma_+} - \frac{1}{2} (x - \mu_+)^T \Sigma^{-1}_+ (x - \mu_+) \right) \\
+    &-\left(\log (1 - p_+) - \log \sqrt{(2\pi)^d} - \frac{1}{2} \log \abs{\Sigma_-} - \frac{1}{2} (x - \mu_-)^T \Sigma^{-1}_- (x - \mu_-) \right) \\
+    &= \frac{1}{2} x^T (\Sigma_-^{-1}- \Sigma_+^{-1})x + x^T(\Sigma_+^{-1}\mu_+ - \Sigma_-^{-1}\mu_-)\\ 
+    &+ \left(\log \frac{p_+}{1 - p_+} - \frac{1}{2} \mu_+^T \Sigma_+^{-1} \mu_+ + \frac{1}{2} \mu_-^T \Sigma_-^T \mu_- - \frac{1}{2} \log \abs{2\pi\Sigma_+} + \frac{1}{2} \log \abs{2\pi\Sigma_-}\right)
+\end{align*}
+The Bayes predictor is then $h_{Bayes}(x) = \sign{r(x)}$
+
+\textbf{(c)} $r(x)$ has a leading quadratic term in $x$, but since both $\Sigma_+$ and $\Sigma_-$ are diagonal, we only have to be concerned with terms $x[i]^2, x[i], 1$, which total to $D = d + d + 1 = 2d + 1$. The mapping is therefore (1-index): \begin{equation*}
+\phi(x) = [x[1]^2  \cdots x[d]^2 \quad x[1] \cdots x[d] \quad 1]
+\end{equation*}
+then the corresponding $w$ would be \begin{equation*}
+    w[i] = \begin{cases}
+        (\Sigma_+^{-1} - \Sigma_-^{-1})[i, i] & \:\text{for}\: 1 \leq i \leq d \\
+        (\Sigma_+^{-1} \mu_+ - \Sigma_-^{-1}\mu_-)[i-n] &\:\text{for}\: d + 1 \leq i \leq 2d \\
+        \left(\log \frac{p_+}{1 - p_+} - \frac{1}{2} \mu_+^T \Sigma_+^{-1} \mu_+ + \frac{1}{2} \mu_-^T \Sigma_-^T \mu_- - \frac{1}{2} \log \abs{2\pi\Sigma_+} + \frac{1}{2} \log \abs{2\pi\Sigma_-}\right) & \:\text{for}\: i = 2d+1
+    \end{cases}
+\end{equation*}
+\textbf{(d)} Let $L = \max\{\abs{w[i]} + 1\}$ then we can choose $\Sigma_- = \frac{1}{L}I$ so that $\Sigma_-^{-1} = LI$, hence from the first $d$ equations, we have
+\begin{equation*}
+\Sigma_+^{-1} = diag(w + L) \implies \Sigma_+ = diag\left(\frac{1}{w + L}\right)
+\end{equation*}
+where arithmetic operations $w + L$ and $\frac{1}{w+L}$ are element-wise. This ensures that the covariance matrices are semi positive definite, since they are diagonal and all diagonal entries are positive (at least 1).
+
+Then, for $i \in [n]$, we have \begin{equation*}
+(w[i] + L)\mu_+[i] - L\mu_-[i] = w[i + n]
+\end{equation*}
+Choose $\mu_-[i] = 0 \forall i \in [n]$ then \begin{equation*}
+\mu_+[i] = \frac{w[i + n]}{w[i] + L}
+\end{equation*}
+well-defined, again, because $L > \abs{w[i]} \forall i \in [n]$.
+
+For the last equation, \begin{multline*}
+w[2d+1] = \log \frac{p_+}{1-p_+} - \frac{1}{2} \sum_{i=1}^{d} \left(\frac{w[i + n]}{w[i] + L}\right)^2(w[i] + L) \\
+- \frac{1}{2} 2\pi \sum_{i=1}^{d} \log\left(\frac{1}{w[i] + L}\right) - \frac{1}{2} + \frac{1}{2} 2\pi \sum_{i=1}^{d} \frac{1}{L}
+\end{multline*}
+and one can solve for $p_+$, as image of $\log\left(\frac{x}{1-x}\right)$ for $x \in [0, 1]$ is $\bbr$.
+
+\textbf{(e)} Geometrically it is a hyperplane in $D$-dimensional space/quadratic curve in $d$-dimensional space.
+\end{problem}
+
+
+\begin{problem}
+\redtext{Note:} In this problem onward, I've made the unfortunate mistake of letting $D$ be the dictionary and only realized that it might be confusing too late until the pset... Hope it's not too confusing, as I do not make explicit reference to the $D$ as in dimension of the feature space.
+
+\textbf{(a)} For now we have 2 topics, with, say $\caly = \{0, 1\}$ and $\bbp(Y = +1) = p_{topic}, \bbp(Y = 0) = 1 - p_{topic}$. Let $D$ be the dictionary and $t \in D$ be a typical word.
+Then \begin{align*}
+\bbp((x_i, y_i); p_{topic}, \{p_y\}) &= \left(p_{topic} \prod_{t \in D} p_1[t]^{m(t, x_i)}\right)^{y_i} \left((1 - p_{topic} )\prod_{t \in D} p_0[t]^{m(t, x_i)}\right)^{1 - y_i}
+\end{align*}
+where $m(t, x_i)$ counts the number of appearances of word $t$ in string $x_i$.
+
+Therefore \begin{multline*}
+    \log \bbp((x_i, y_i); p_{topic}, \{p_y\})  = y_i \left(\log p_{topic} + \sum_{t \in D} m(t, x_i) \log(p_1[t])\right) \\
+    + (1 -y_i) \left(\log (1 - p_{topic}) + \sum_{t \in D} m(t, x_i) \log(p_0[t])\right)
+\end{multline*}
+
+Since $S = \{(x_i, y_i) : i \in [m]\}$ are drawn i.i.d, we have that \begin{equation*}
+\log \bbp(S; p_{topic}, \{p_y\}) = \sum_{i=1}^{m} \log \bbp((x_i, y_i); p_{topic}, \{p_y\})
+\end{equation*}
+
+Let $m_1 = \sum_{i=1}^{m} \1 \{y_i = 1\}, m_0 = m - m_1 = \sum_{i=1}^{m} \1 \{y_i = 0\}$. Then for $p_{topic}$:
+\begin{align*}
+    0 &=\frac{\rmd}{\rmd p_{topic}} \log \bbp(S; p_{topic}, \{p_y\}) \\
+    &=\frac{m_1}{p_{topic}} -  \frac{m_0}{1-p_{topic}} \\
+    \implies \hat{p}_{topic} &= \frac{m_1}{m}
+\end{align*}
+
+For $p_1$, we have constraint: $\sum_{t \in D} p_1[t] = 1$, while having maximize $\log(S; p_{topic}, \{p_y\})$. Use Lagrange multiplier:
+\begin{align*}
+    0 &= \sum_{y_i = 1} \sum_{t \in D} \frac{m(t, x_i)}{p_1[t]} - \lambda \\
+    &= \frac{n_1[t]}{p_1[t]} - \lambda \\
+    \implies \hat{\lambda} &= \frac{n_1[t]}{\hat{p}_1[t]}
+\end{align*}
+where $n_1[t]$ is the number appearances of word $t$ in all positive-labeled training samples.
+
+It follows that for $t \in D$, \begin{equation*}
+    \hat{p}_1[t] = \frac{n_1[t]}{\sum_{t \in D} n_1[t]} = \frac{n_1[t]}{100m_1}
+\end{equation*}
+
+Similarly, \begin{equation*}
+\hat{p}_0[t] = \frac{n_0[t]}{100 m_0}
+\end{equation*}
+
+\textbf{(b)} 
+\begin{align*}
+    r(x) &= \log \left(\frac{\bbp(Y = +1)}{\bbp(Y = 0)}\right) + \log(\bbp(X = x \mid Y = 1)) - \log (\bbp(X = x \mid Y = 0)) \\
+    &= \log \left(\frac{p_{topic}}{1 - p_{topic}}\right) + \sum_{t \in D} m(t, x) \log (p_1[t]) - \sum_{t \in D} m(t, x) \log(p_0[t]) \\
+    &= \log \left(\frac{p_{topic}}{1 - p_{topic}}\right)  + \sum_{t \in D} m(t, x) \log \left(\frac{p_1[t]}{p_0[t]}\right)
+\end{align*}
+
+\textbf{(c)} The feature map is \begin{equation*}
+\phi(x) = [ m(t_1, x) \cdots m(t_{\abs{D}}, x) \quad 1]^T
+\end{equation*}
+where $D = \{t_1, \ldots, t_{\abs{D}}\}$, with the weight corresponding to $r(x)$ being: \begin{equation*}
+w = \left[ \log\left(\frac{p_1[t_1]}{p_0[t_1]}\right) \quad \cdots \quad \log\left(\frac{p_1[t_{\abs{D}}]}{p_0[t_{\abs{D}}]}\right) \quad \log \left(\frac{p_{topic}}{1 - p_{topic}}\right)\right]^T
+\end{equation*}
+Dimension is $\abs{D} + 1$.
+\end{problem}
+\textbf{(d)} Computing the weight that corresponds to MLE parameters:
+
+For $i \in [\abs{D}]$,
+\begin{align*}
+    w[i] &= \log\left(\frac{\hat{p}_1[t_i]}{\hat{p}_0[t_i]}\right) \\
+    &= \log\left(\frac{n_1[t_i]m_0}{n_0[t_i]m_1}\right)
+\end{align*}
+and \begin{align*}
+    w[\abs{D} + 1] &= \log \left(\frac{\hat{p}_{topic}}{1 - \hat{p}_{topic}}\right) \\
+    &= \log \frac{m_1}{m_0}
+\end{align*}
+
+\begin{problem}
+    \textbf{(a)} We have to maximize: $\bbp(p_{topic}, \{p_y\} \mid S) $. We also have
+    \begin{align*}
+        \argmax \bbp(p_{topic}, \{p_y\} \mid S) &= \argmax \frac{1}{C} \bbp(S \mid p_{topic}, \{p_y\}) \bbp(p_{topic}, \{p_y\}) \\
+        &= \argmax \bbp(S \mid p_{topic}, \{p_y\}) \bbp(p_{topic}, \{p_y\}) \\
+        &= \argmax \log \bbp(S \mid p_{topic}, \{p_y\}) \bbp(p_{topic}, \{p_y\}) 
+    \end{align*}
+
+    We know that $p_{topic} \sim Dir(1)$ so \begin{equation*}
+        \bbp(p_{topic} = p) = \frac{1}{Z(1)}
+    \end{equation*}
+    Then \begin{align*}
+        &\log \bbp(S \mid p_{topic}, \{p_y\}) \bbp(p_{topic}, \{p_y\})\\
+        = &\log \bbp(p_{topic}, \{p_y\})  + \sum_{i=1}^{m}\log \bbp((x_i, y_i) \mid p_{topic}, \{p_y\}) \\
+        = &\log \left(\frac{1}{Z(1)} \frac{1}{Z(\alpha)} \prod_{t \in D} p_1[t]^{\alpha - 1} \frac{1}{Z(\alpha)} \prod_{t \in D} p_0[t]^{\alpha-1}\right) + \sum_{y_i = 1} \left(\log p_{topic} + \sum_{t \in D} m(t, x_i) \log(p_1[t])\right) \\
+        &+ \sum_{y_i = 0} \left(\log (1 -p_{topic}) + \sum_{t \in D} m(t, x_i) \log(p_0[t])\right) \\
+        = & C + (\alpha-1)\sum_{t \in D }(\log(p_1[t]) + \log(p_0[t])) + m_1 \log p_{topic} \\
+        &+ n_1[t] \log(p_1[t]) + m_0 \log(1 - p_{topic}) + n_0[t] \log(p_0[t]) \\
+    \end{align*}
+    Now we can do MAP estimation:
+    For $p_{topic}$: \begin{align*}
+        0 &= \frac{m_1}{p_{topic}} - \frac{m_0}{1 - p_{topic}}  \\
+    \implies \hat{p}_{topic} &= \frac{m_1}{m}
+    \end{align*}
+
+    For $p_1[t]$, we can use Lagrange multipliers again:
+    \begin{align*}
+        0 &= \frac{\alpha - 1}{p_1[t]} + \frac{n_1[t]}{p_1[t]} - \lambda_1 \\
+        \implies \hat{\lambda}_1 &= \frac{\alpha - 1 + n_1[t]}{p_1[t]}
+    \end{align*}
+
+    It follows that \begin{equation*}
+    \hat{p}_1[t] = \frac{\alpha - 1 + n_1[t]}{\abs{D}(\alpha - 1) + 100m_1}
+    \end{equation*}
+    Similarly \begin{equation*}
+    \hat{p}_0[t] = \frac{\alpha - 1 + n_0[t]}{ \abs{D}(\alpha - 1) + 100m_0}
+    \end{equation*}
+
+    \textbf{(b)} We found from Problem 2 that 
+    \begin{equation*}
+        w = \left[ \log\left(\frac{p_1[t_1]}{p_0[t_1]}\right) \quad \cdots \quad \log\left(\frac{p_1[t_{\abs{D}}]}{p_0[t_{\abs{D}}]}\right) \quad \log \left(\frac{p_{topic}}{1 - p_{topic}}\right)\right]^T
+        \end{equation*}
+        So for $i \in [\abs{D}]$:
+        \begin{equation*}
+        w[i] = \log\left(\frac{(\alpha - 1 + n_1[t])(\abs{D}(\alpha - 1) + 100m_1)}{(\alpha - 1 + n_0[t])(\abs{D}(\alpha - 1) + 100m_0)}\right)
+        \end{equation*}
+        and \begin{equation*}
+        w[\abs{D} + 1] = \log\left(\frac{m_1}{m_0}\right)
+        \end{equation*}
+\end{problem}
+
+\begin{problem} 
+    \textbf{(a)} Bayes' rule gives us
+    \begin{align*}
+    \bbp(Y = y \mid x) &= \frac{\bbp(X = x \mid Y= y)\bbp(Y = y)}{\sum_{y \in \caly} \bbp(X = x \mid Y= y) \bbp(Y = y)} \\
+    \end{align*}
+
+    \textbf{(b)} We now have $p_{topic} \in \bbr^k$. Use $y \in \caly$ to index $p_{topic}$.
+
+    Then 
+    \begin{align*}
+    \bbp(Y = y \mid x) &= \frac{\bbp(X = x \mid Y= y)\bbp(Y = y)}{\sum_{y \in \caly} \bbp(X = x \mid Y= y) \bbp(Y = y)} \\
+    &= \frac{\left(\prod_{t \in D} p_y[t]^{m(t, x)} \right) p_{topic}[y]}{\sum_{y' \in \caly} \left(\prod_{t \in D} p_{y'}[t]^{m(t, x)} \right) p_{topic}[y']} \\
+    &= \frac{\exp\left(\log p_{topic}[y] + \sum_{t \in D} m(t, x)\log p_y[t]\right)}{\sum_{y' \in \caly} \exp\left(\log p_{topic}[y'] + \sum_{t \in D} m(t, x)\log p_{y'}[t]\right)}
+    \end{align*}
+    so we can define $r_y(x) = \log p_{topic}[y] + \sum_{t \in D} m(t, x)\log p_y[t]$ to get the desired form.
+
+    Then we can use feature map: \begin{equation*}
+    \phi(x) = [m(t_1, x) \quad \cdots \quad m(t_{\abs{D}}, x) \quad 1]^T
+    \end{equation*}
+    then the corresponding weight would be \begin{equation*}
+    w_y = [\log p_y[t_1] \quad \cdots \quad \log p_y[t_{\abs{D}}] \quad \log p_{topic}[y]]^T
+    \end{equation*}
+
+    MAP estimation: 
+    \begin{align*}
+    \argmax \bbp(p_{topic}, \{p_y\} \mid S) &= \argmax \bbp(S \mid p_{topic}, \{p_y\}) \bbp (p_{topic}, \{p_y\})  \\
+        &= \argmax \log \bbp(S \mid p_{topic}, \{p_y\}) \bbp (p_{topic}, \{p_y\})
+    \end{align*}
+    Let $m_{y} = \sum_{i=1}^{m} \1 \{y_i = y\}, n_y[t] = \sum_{y_i = y} m(t, x_i)$. Then
+    \begin{align*}
+    &\log \bbp(S \mid p_{topic}, \{p_y\}) \bbp(p_{topic}, \{p_y\}) \\
+    = & \log \bbp(p_{topic}, \{p_y\}) + \sum_{i=1}^{m} \log \{\bbp((x_i, y_i) \mid p_{topic}, \{p_y\})\} \\
+    = & \log \left(\frac{1}{Z(1)} \prod_{y' \in \caly} \left(\frac{1}{Z(\alpha)} \prod_{t \in D} p_{y'}[t]^{\alpha - 1}\right) \right) + \sum_{y' \in \caly} \sum_{y_i = y'} \left(\log p_{topic}[y'] + \sum_{t \in D} m(t, x_i)\log(p_{y'}[t])\right) \\
+    =& C + (\alpha - 1) \sum_{y' \in \caly} \sum_{t \in D} \log(p_{y'}[t]) + \sum_{y' \in \caly} m_{y'} \left( \log p_{topic}[y'] + n_{y'}[t] \log p_{y'}[t]\right)
+    \end{align*}
+    
+    Use Lagrange multipliers to solve for $p_{topic}[y]$:
+    \begin{align*}
+        0 &= \frac{m_{y}}{p_{topic}[y]} - \lambda_{topic} \\
+        \implies \hat{p}_{topic}[y] &= \frac{m_y}{m}
+    \end{align*}
+
+    And for each $p_{y}[t]$:
+    \begin{align*}
+        0 &= \frac{\alpha - 1}{p_{y}[t]} + \frac{n_{y}[t]}{p_{y}[t]} - \lambda_y = \frac{\alpha - 1 + n_{y}[t]}{p_y[t]} - \lambda_y
+    \end{align*}
+    hence \begin{equation*}
+    \hat{p}_y[t] = \frac{\alpha - 1 + n_y[t]}{\abs{D}(\alpha - 1) + 100m_y}
+    \end{equation*}
+
+    then \begin{align*}
+    \hat{w}_y &= [\log \left(p_{topic}[y] \right) \quad \log p_y[t_1] \quad \cdots \quad \log p_y[t_{\abs{D}}]]^T  \\
+    &= [\log \frac{m_y}{m} \quad \log \left(\frac{\alpha - 1 + n_y[t]}{\abs{D}(\alpha - 1) + 100m_y}\right) \quad \cdots]^T
+    \end{align*}
+
+    \textbf{(d)} \begin{align*}
+        &- \log \bbp(y_i \mid x_i, \{w_y\})\\
+         = &- \log \left(\frac{\exp (r_{y_i}(x))}{\sum_{y' \in \caly} \exp(r_{y'}(x))}\right) \\
+        = & - r_{y_i}(x) + \log\left(\sum_{y' \in \caly} \exp(r_{y'}(x))\right) \\
+        \implies &-\log \bbp(\{y_i\} \mid \{x_i\}, \{w_y\}) \\
+        = & \sum_{i=1}^{m} -\log \bbp(y_i \mid x_i, \{w_y\}) \\
+        = & \sum_{i=1}^{m} \left[- r_{y_i}(x) + \log\left(\sum_{y' \in \caly} \exp(r_{y'}(x))\right)\right]
+    \end{align*}
+
+    \textbf{(e)} The loss form is:
+    \begin{equation*}
+    l(y_i; r_1(x), \ldots, r_k(x)) = -r_{i}(x) + \log \left(\sum_{j=1}^{k} \exp(r_j(x))\right)  
+    \end{equation*}
+\end{problem}
+
+\begin{problem} 
+State explicitly that $p_{y, tran}[i, j] = \bbp (w[t+1] = i \mid w[t] = j)$.
+
+Let $N = 100$.
+
+Denote $RL(t, t', x_i)$ as the number of times the word $t$ appears to the immediate right of the word $t'$ in sentence $x_i$.
+
+Denote $S(t, x_i) = \1 \{x_i[1] = t\}$, i.e., if sentence $x_i$ starts with word $t$. 
+
+Then define the total counts $RLT(t, t', y) = \sum_{y_i = y} RL(t, t', x_i); ST(t, y) = \sum_{y_i = y} S(t, x_i)$.
+
+We also make $p_{topic}[k]$ synonymous with $p_{topic}[y]$ where $y$ is the $k$th label.
+
+$m_{y} = m_k = \sum_{i=1}^{m} \1 \{y_i = y\}$.
+
+\textbf{(a)} \begin{align*}
+\bbp((x_i, y_i); p_{topic}, \{p_{y, init}, p_{y, tran}\}) &= p_{topic}[y_i]p_{y_i, init}(x_i[1]) \prod_{l=2}^{N} p_{y_i, tran}(x_i[l],  x_i[l-1]) \\
+&= p_{topic}[y_i] \prod_{t \in D} (p_{y_i, init}(t))^{S(t, x_i)} \prod_{t, t' \in D} (p_{y_i, tran}(t, t'))^{RL(t, t', x_i)}\\
+\implies \log \bbp((x_i, y_i); p_{topic}, \{p_{y, init}, p_{y, tran}\}) &=\log(p_{topic}[y_i]) \\
+&+ \sum_{t \in D} S(t, x_i) \log (p_{y_i, init}(t)) + \sum_{t, t' \in D} RL(t, t', x_i) \log(p_{y_i, tran}(t, t'))
+\end{align*}
+therefore \begin{multline*}
+    \log \bbp(S; p_{topic},  \{p_{y, init}, p_{y, tran}\}) = \sum_{i=1}^{m} [\log (p_{topic}[y_i]) + \sum_{t \in D} S(t, x_i) \log(p_{y_i, init}(t)) \\
+    + \sum_{t, t' \in D} RL(t, t', x_i) \log(p_{y_i, tran}(t, t'))]
+\end{multline*}
+which evaluates to \begin{align*}
+    &=\sum_{j= 1}^{k} m_j \log(p_{topic}[j]) + \sum_{j=1}^{k} \sum_{t \in D} ST(t, y_j) \log(p_{y_j, init}(t)) + \sum_{j=1}^{k} \sum_{t, t' \in D} RLT(t, t', y_j) \log(p_{y_j, tran}(t, t')) \\
+    &=\sum_{j=1}^{k} \left[m_j \log(p_{topic}[j]) + \sum_{t \in D} ST(t, y_j)\log(p_{y_j, init}(t)) + \sum_{t, t' \in D} RLT(t, t', y_j) \log(p_{y_j, tran}(t, t'))\right]
+\end{align*}
+
+We can then do MLE:
+
+To find $\hat{p}_{topic}[j]$, subject to constraint: $\sum_{j=1}^{k} p_{topic}[j] = 1$, use Lagrange:
+\begin{align*}
+    0 &= \frac{m_j}{p_{topic}[j]} - \lambda_{topic} \\
+    \implies \hat{\lambda}_{topic} &= \frac{m_j}{\hat{p}_{topic}[j]} \\
+    \implies \hat{p}_{topic}[j] &= \frac{m_j}{m}
+\end{align*}
+
+Find $p_{y_j, init}(t)$, subject to constraint $\sum_{t \in D} p_{y_j, init}(t) = 1$, use Lagrange:
+\begin{align*}
+    0 &= \frac{ST(t, y_j)}{p_{y_j, init}(t)} - \lambda_{y_j, init} \\
+    \implies \hat{\lambda}_{y_j, init} &= \frac{ST(t, y_j)}{p_{y_j, init}(t)} \\
+    \implies \hat{p}_{y_j, init}(t) &= \frac{ST(t, y_j)}{\sum_{t'' \in D} ST(t'', y_j)}
+\end{align*}
+
+Find $p_{y_j, tran}(t, t')$, subject to constraint $\sum_{t'' \in D} p_{y_j, tran}(t'', t') = 1$, use Lagrange: \begin{align*}
+0 &= \frac{RLT(t, t', y_j)}{p_{y_j, tran}(t, t')} - \lambda_{y_j, tran, t'} \\
+\implies  \hat{\lambda}_{y_j, tran, t'} &= \frac{RLT(t, t', y_j)}{p_{y_j, tran}(t, t')} \\
+\implies \hat{p}_{y_j, tran}(t, t') &= \frac{RLT(t, t', y_j)}{\sum_{t'' \in D} RLT(t'', t', y_j)}
+\end{align*}
+
+\textbf{(b)} With prior, since $p_{topic} \sim Dir(1)$, the prior only contributes into a constant in the log probability. Meanwhile, the prior on $p_{y, init}$ contributes a constant and $ST(t, y_j) (\alpha - 1) \log(p_{y_j, init}(t))$ terms for $j \in [k]$. The prior on $p_{y, tran}$ contributes a constant and $RLT(t, t', y_j) (\alpha - 1) \log(p_{y_j, tran}(t, t', y_j))$.
+
+Hence, if we perform the Lagrange analysis again:
+\begin{align*}
+\hat{p}_{topic}[j] &= \frac{m_j}{m} \\
+\hat{p}_{y_j, init}(t) &= \frac{ST(t, y_j) + \alpha - 1}{\sum_{t'' \in D}(ST(t'', y_j) + \alpha - 1)} \\
+\hat{p}_{y_j, tran}(t, t') &= \frac{RLT(t, t', y_j) + \alpha -1 }{\sum_{t'' \in D} (RLT(t'', t', y_j) + \alpha -1) }
+\end{align*}
+
+\textbf{(c)} For $k = 2$, then $p_{topic}[1] = 1 - p_{topic}[0]$
+\begin{align*}
+    r(x) &= \log \left(\frac{\bbp(Y = 1)}{\bbp(Y = 0)}\right) + \log \bbp(X = x \mid Y = 1) - \log \bbp(X = x \mid Y = 0) \\
+    &= \log \left(\frac{p_{topic}[1]}{1 - p_{topic}[1]}\right) + \sum_{t \in D} S(t, x) \log (p_{1, init}(t)) + \sum_{t, t' \in D} RL(t, t', x) \log(p_{1, tran}(t, t'))\\
+    &- \sum_{t \in D} S(t, x) \log (p_{0, init}(t)) + \sum_{t, t' \in D} RL(t, t', x) \log(p_{0, tran}(t, t')) \\
+    &= \log \left(\frac{p_{topic}[1]}{1 - p_{topic}[1]}\right) + \sum_{t \in D} S(t, x) [\log(p_{1, init}(t) - p_{0, init}(t))] \\
+    &+ \sum_{t, t' \in D} RL(t, t', x) (\log (p_{1, tran}(t, t') ) - \log(p_{0, tran}(t, t')))
+\end{align*}
+Hence define the feature map
+\begin{equation*}
+    \phi(x)[i] =  
+    \begin{cases}
+        S(t_i, x) & \:\text{for}\: 1 \leq i \leq \abs{D} \\
+        R(t, t', x) \:\text{(all combinations of $(t, t')$)}\: & \:\text{for}\: \abs{D} + 1 \leq i \leq \abs{D} + \abs{D}^2 \\
+        1 & \:\text{for}\: i = \abs{D}^2 + \abs{D} + 1
+    \end{cases}
+\end{equation*}
+with corresponding weight:
+\begin{equation*}
+w[i] = \begin{cases}
+    \log(p_{1, init}(t_i) - p_{0, init}(t_i)) & \:\text{for}\:  1 \leq i \leq \abs{D} \\
+    \log (p_{1, tran}(t, t') ) - \log(p_{0, tran}(t, t')) & \:\text{for}\: \abs{D} + 1 \leq i \leq \abs{D} + \abs{D}^2 \\
+    \log \left(\frac{p_{topic}[1]}{1 - p_{topic}[1]}\right) & \:\text{for}\:  i  = \abs{D}^2 + \abs{D} + 1
+\end{cases}
+\end{equation*}
+
+\textbf{(e)} \begin{equation*}
+\hat{w}[i] = \begin{cases}
+    \log\left(\frac{ST(t_i, 1) + \alpha - 1}{\sum_{t'' \in D} (ST(t'', 1) + \alpha - 1)}\right) - \log\left(\frac{ST(t_i, 0) + \alpha - 1}{\sum_{t'' \in D} (ST(t'', 0) + \alpha - 1)}\right) &\:\text{for}\: i \in [1, \abs{D}] \\
+    \log\left(\frac{RLT(t, t', 1) + \alpha -1 }{\sum_{t'' \in D} (RLT(t'', t', 1) + \alpha -1) }\right)- \log\left(\frac{RLT(t, t', 0) + \alpha -1 }{\sum_{t'' \in D} (RLT(t'', t', 0) + \alpha -1) }\right) &\:\text{for}\: i \in [\abs{D} + 1, \abs{D} + \abs{D}^2] \\
+    \log\left(\frac{m_1}{m_0}\right) & \:\text{for}\: i = \abs{D} + \abs{D}^2 + 1
+\end{cases}
+\end{equation*}
+\end{problem}
+\end{document}
