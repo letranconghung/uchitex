@@ -110,11 +110,11 @@ and one can solve for $p_+$, as image of $\log\left(\frac{x}{1-x}\right)$ for $x
 \textbf{(e)} Geometrically it is a hyperplane in $D$-dimensional space/quadratic curve in $d$-dimensional space.
 \end{problem}
 
-
+\textbf{\Large{Modeling Text Documents}}
 \begin{problem}
 \redtext{Note:} In this problem onward, I've made the unfortunate mistake of letting $D$ be the dictionary and only realized that it might be confusing too late until the pset... Hope it's not too confusing, as I do not make explicit reference to the $D$ as in dimension of the feature space.
 
-\textbf{(a)} For now we have 2 topics, with, say $\caly = \{0, 1\}$ and $\bbp(Y = +1) = p_{topic}, \bbp(Y = 0) = 1 - p_{topic}$. Let $D$ be the dictionary and $t \in D$ be a typical word.
+\textbf{(a)} For now we have 2 topics, with, say $\caly = \{0, 1\}$ and $\bbp(Y = 1) = p_{topic}, \bbp(Y = 0) = 1 - p_{topic}$. Let $D$ be the dictionary and $t \in D$ be a typical word.
 Then \begin{align*}
 \bbp((x_i, y_i); p_{topic}, \{p_y\}) &= \left(p_{topic} \prod_{t \in D} p_1[t]^{m(t, x_i)}\right)^{y_i} \left((1 - p_{topic} )\prod_{t \in D} p_0[t]^{m(t, x_i)}\right)^{1 - y_i}
 \end{align*}
@@ -196,7 +196,7 @@ and \begin{align*}
         = &\log \left(\frac{1}{Z(1)} \frac{1}{Z(\alpha)} \prod_{t \in D} p_1[t]^{\alpha - 1} \frac{1}{Z(\alpha)} \prod_{t \in D} p_0[t]^{\alpha-1}\right) + \sum_{y_i = 1} \left(\log p_{topic} + \sum_{t \in D} m(t, x_i) \log(p_1[t])\right) \\
         &+ \sum_{y_i = 0} \left(\log (1 -p_{topic}) + \sum_{t \in D} m(t, x_i) \log(p_0[t])\right) \\
         = & C + (\alpha-1)\sum_{t \in D }(\log(p_1[t]) + \log(p_0[t])) + m_1 \log p_{topic} \\
-        &+ n_1[t] \log(p_1[t]) + m_0 \log(1 - p_{topic}) + n_0[t] \log(p_0[t]) \\
+        &+ \sum_{t \in D } (n_1[t] \log(p_1[t])) + m_0 \log(1 - p_{topic}) +  \sum_{t \in D} (n_0[t] \log(p_0[t])) \\
     \end{align*}
     Now we can do MAP estimation:
     For $p_{topic}$: \begin{align*}
