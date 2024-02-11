@@ -1,12 +1,165 @@
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper, 10pt]{article}
 \input{../preamble.tex}
 \title{MATH 26200: Point-Set Topology \\ \large Problem Set 4}
-\date{02 Feb 2024}
+\date{08 Feb 2024}
 \author{Hung Le Tran}
 \begin{document}
 \maketitle
-\setcounter{section}{4}
-\begin{problem} [Problem 1]
+\setcounter{section}{5}
+\textbf{Textbook:} Munkres, \textit{Topology}.
+\begin{problem} [30.2 \redtext{done}]
+    Show that if $X$ has countable basis $\{B_n\}$, then every basis $\calc$ for $X$ contains a countable basis for $X$. (Hint: For every pair of indices $n, m$ for which it is possible, choose $C_{n, m}$ such that $B_n \subset C_{n,m} \subset B_m$.)
+\end{problem}
+\begin{solution}
+    Let $D = \{C \in \calc : B_n \subset C \subset B_m, (n, m) \in \bbn^2\}$.
+
+    $D$ is countable, so it remains for us to show that indeed $D$ is a basis for $X$.
+
+    Take any $x \in U$, $U$ open in $X$, then since $\{B_n\}$ is a basis for $X$, there exists some $B_{m'}$ such that $x \in B_{m'} \subset U$.
+
+    Since $\calc$ is a basis for $X$ and $B_{m'}$ is open, there exists some $C_x$ such that \begin{equation*}
+    x \in C_x \subset B_{m'} \subset U
+    \end{equation*}
+
+    Since $\{B_n\}$ is a basis for $X$ and $C_x$ is open, there exists some $B_{n'}$ such that \begin{equation*}
+    x \in B_{n'}\subset C_x \subset B_{m'}
+    \end{equation*}
+    
+    Then $C_x \in D$, since $B_{n'} \subset C_x \subset B_{m'}$.
+
+    It follows that for all $U$ open, for all $x \in U$, there exists $C_x \in D$ such that $x \in C_x \subset U$. $D$ is therefore a basis for $X$.
+\end{solution}
+
+\begin{problem} [31.7 \redtext{done}]
+Let $p: X \to Y$ be a closed continuous surjective map such that $\inv{p}(\{y\})$ is compact for each $y \in Y$. (Such a map is called a \textit{perfect map}.)
+
+\begin{enumerate}
+\item Show that if $X$ is Hausdorff, then so is $Y$.
+\item Show that if $X$ is regular, then so is $Y$.
+\item Show that if $X$ is locally compact, then so is $Y$.
+\item Show that if $X$ is second-countable, then so is $Y$. (Hint: Let $\calb$ be a countable basis for $X$. For each finite subset $J$ of $\calb$, let $U_J$ be the union of all sets of the form $\inv{p}(W)$, for $W$ open in $Y$, that are contained in the union of the elements of $J$.)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+    We use the following lemmas:
+    \begin{psetlemma} [Lemma 1]
+    If $p: X \to Y$ is a perfect map, $B \subset Y$ and $U$ is an open set containing $\inv{p}(B)$ then there exists some open $B \subset W \subset Y$ such that $\inv{p}(W) \subset U$.
+    \end{psetlemma}
+
+    \begin{proof} [Lemma 1]
+            $\inv{p}(B) \subset U$. $p$ is closed, so $p(X - U)$ is closed in $Y$. Then consider $W = Y - p(X - U)$ is open. Since $\inv{p}(B) \subset U$, $y \in W$. By construction, we also have that $\inv{p}(W) \subset U$.
+    \end{proof}
+
+    \begin{psetlemma} [Lemma 2]
+        If $C$ and $K$ are compact subsets of Hausdorff $X$ such that $C \cap K = \emptyset$, then there exists open, disjoint $U \supset C, V \supset K$.
+    \end{psetlemma}
+
+    \begin{proof} [Lemma 2]
+        Take $c \in C$, then $c \not \in K$. From Lemma 26.4, we know that there exists open disjoint $U_c$ and $V_c$ such that $U_c \ni c, V_c \supset K$.
+
+        Since $C$ is compact, the open cover $\{U_c\}_{c \in C}$ reduces to a subcover $\{U_{c_1}, \ldots, U_{c_n}\}$. Then $U = \bigcup_{k = 1}^{n} U_{c_k}$ and $V = \bigcap_{k=1}^{n} V_{c_k}$ satisfies our requirements.
+    \end{proof}
+
+    \textbf{(a)} Suppose that $X$ is Hausdorff. Then $\inv{p}(\{y_1\})$ and $ \inv{p}(\{y_2\})$ are disjoint, compact subsets of Hausdorff $X$. Using Lemma 2, It follows that there exists open, disjoint $U_1, U_2 \subset X$ such that $U_1 \supset \inv{p}(\{y_1\}), U_2 \supset \inv{p}(\{y_2\})$. Using Lemma 1, it follows that there exists open $V_1, V_2 \subset Y$ such that $y_1 \in V_1, y_2 \in V_2$ and $\inv{p}(V_1) \subset U_1, \inv{p}(V_2) \subset U_2$. Since $U_1 \cap U_2 = \emptyset \implies V_1 \cap V_2 = \emptyset$. $Y$ is therefore Hausdorff.
+
+    \textbf{(b)} Perform the same proof, since $B$ in Lemma 1 is general and not restricted to $\{y_1\}$.
+
+    \textbf{(c)} Suppose $X$ is locally compact. WTS $Y$ is also locally compact, meaning for any $y \in Y$, there exists open neighborhood $V$ and compact $K$ such that $y \in V \subset K$.
+
+    For all $x \in p^{-1}(\{y\})$, since $X$ is locally compact, there exists open $U_x$ and compact $C_x$ such that $x \in U_x \subset C_x$. $\{U_x\}$ is then an open cover of compact $\inv{p}(y)$, hence reduces to finite subcover $\{U_{x_1}, \ldots, U_{x_n} \}$. Then let $U = \bigcup_{k =1}^n U_{x_k}, C =  \bigcup_{k =1}^n C_{x_k}$ then $\inv{p}(y) \subset U$ and $C$ is a finite union of compacts and is therefore compact.
+
+    Using Lemma 1, then there exists $V$ open in $Y$ such that $y \in V$ and $\inv{p}(V) \subset U \subset C \implies V \subset p(C)$. $p$ is continuous and $C$ is compact so $p(C)$ is also compact.
+
+    \textbf{(d)} Suppose $X$ is second-countable. Let $\calb = \{B_j\}_{j \in \bbn}$ be a countable basis for $X$. For each finite subset $J$ of $\calb$, let $U_J$ be the union of all sets $\inv{p}(W)$ for some $W$ open in $Y$ such that $\inv{p}(W) \subset \bigcup_{j \in J}B_j$. The number of finite subsets of a countable set is countable, so $\{U_J\}$ is countable, and also $\{p(U_J)\}$.
+
+    WTS $\{p(U_J)\}$ is a basis for $Y$. Take $W \subset Y$ open. Then $\inv{p}(W) = \bigcup_{y \in W} \inv{p}(\{y\})$ is a union of compacts. $p$ is continuous and $W$ is open, so $\inv{p}(W)$ is also open, and is therefore a union of basis elemenets, i.e., $\{B_j\}_{j \in J_W}$. Each $\inv{p}(y)$ is compact, and can therefore be covered by finitely many $\{B_j\}_{j \in J_y \subset J_W}$. Using Lemma 1, it then follows that there exists open $V_y \subset Y$ such that $y \in V_y, \inv{p}(V_y)\subset \bigcup_{j \in J_y} B_j$, so $\inv{p}(V_y) \subset U_{J_y} \subset \bigcup_{j \in J_W} \subset \inv{p}(W)$, which implies that $W = \bigcup_{y \in W} U_{J_y}$ as required.
+\end{solution}
+
+\begin{problem} [32.5 \redtext{done}]
+Is $\bbr^\omega$ normal in the product topology? In the uniform topology?
+\end{problem}
+\begin{solution}
+    $\bbr^\omega$ is metrizable in both topologies, and is therefore normal in both.
+\end{solution}
+
+\begin{problem} [32.6 \redtext{done}]
+    A space $X$ is said to be \textit{completely normal} if every subspace of $X$ is normal. Show that $X$ is completely normal iff for every pair $A, B$ of separated sets in $X$ (that is, sets such that $\cl{A} \cap B = \emptyset = A \cap \cl{B}$), there exist disjoint open sets containing them. (Hint: If $X$ is completely normal, consider $X - (\cl{A} \cap \cl{B})$).
+\end{problem}
+\begin{solution}
+    \pffwd Suppose $X$ is completely normal. Let $A, B$ be a pair of separated sets in $X$, meaning $\cl{A} \cap B = \emptyset = A \cap \cl{B}$.
+
+    Consider $M = X - (\cl{A} \cap \cl{B}) \subset X$, then $M$ is normal. $\cl{A} \cap \cl{B}$ is closed, so $M$ is open in $X$.
+
+    $M = (X - \cl{A}) \cup (X - \cl{B})$. Since $A \cap \cl{B} = \emptyset \implies A \subset X - \cl{B} \implies A \subset M$. Similarly, $B \subset M$.
+
+    The closure of $A$ in $M$ is then $cl_M(A) = \cl{A} \cap M = \cl{A} \cup (X - \cl{B}) = \cl{A} - \cl{B}$, and similarly closure of $B$ in $M$ is $cl_M(B) = \cl{B} \cap M = \cl{B} - \cl{A}$. They are disjoint closed sets in normal $M$ and therefore there are disjoint open sets $U, V \subset M$ such that $U \supset cl_{M}(A), V \supset cl_{M}(B)$. It then also follows that $U \supset A, V \supset B$. $U, V$ are open in $M$ open in $X$, so $U, V$ are open in $X$. \qed
+
+    \pfbwd WTS $X$ is completely normal. Take subspace $M$ of $X$ and disjoint closed subsets $A, B$ of $M$. Then $cl_M(A) = A, cl_M(B) = B$. Then since $A, B \subset M$,
+    \begin{equation*}
+        \cl{A} \cap B = (\cl{A} \cap M) \cap B = cl_{M}(A) \cap B = A \cap B = \emptyset
+    \end{equation*}
+    Similarly, $\cl{B} \cap A = \emptyset$. Hence $A, B$ are separated sets in $X$, so there exists disjoint open sets containing them. These open sets, when intersecting with $M$, are open in the subspace topology and of course still disjoint. $M$ is therefore normal, making $X$ completely normal.
+\end{solution}
+
+\begin{problem} [33.4 \redtext{done}]
+    Recall that $A$ is a $G_{\delta}$ set in $X$ if $A$ is the intersection of a countable collection of open sets in $X$.
+
+    Let $X$ be normal. Then there exists a continuous function $f: X \to [0, 1]$ such that $f(x) = 0$ for $x \in A$, and $f(x) > 0$ for $x \not \in A$ \textbf{if and only if} $A$ is a closed $G_{\delta}$ set in $X$.
+    
+    A function satisfying the requirements of this theorem is said to vanish precisely on $A$.
+\end{problem}
+\begin{solution}
+    \pffwd Suppose there exists continuous $f: X \to [0, 1]$ such that $f(x) = 0$ for $x \in A$, $f(x) > 0$ for $x \not \in A$.
+
+    It follows that \begin{equation*}
+    A = \inv{f}(\{0\}) = \bigcap_{n \in \bbn} \inv{f}\left([0, \frac{1}{n})\right)
+    \end{equation*}
+    Since $f$ is continuous and $[0, 1/n)$ is open in $[0, 1]$ for all $n \in \bbn$, $A$ is thus a $G_\delta$ set.
+
+    \pfbwd Suppose $A$ is a closed $G_\delta$ set in $X$.
+
+    \begin{equation*}
+    A = \bigcap_{n \in \bbn} U_n
+    \end{equation*}
+    where each $U_n$ is open in $X$. Then, for each $n$, $A \subset U_n \implies A \cap (X - U_n) = \emptyset$. Thus $A$ and $X - U_n$ are disjoint closed subsets of $X$, so by Urysohn's Lemma, there exists continuous $f_n: X \to [0, 1]$ such that $f_n(A) = \{0\}$ and $f_n(X - U_n) = \{1\}$.
+
+    Then define \begin{equation*}
+    s_n(x) = \sum_{k = 1}^{n} \frac{1}{2^k} f_k(x)
+    \end{equation*}
+    then $s_n$ is a finite linear combination of continuous functions and is therefore continuous for all $n \in \bbn$.
+
+    And define \begin{equation*}
+        f(x) = \lim_{n \to \infty} s_n(x)
+    \end{equation*}
+    as the pointwise convergence of $s_n$. The pointwise convergence exists because for fixed $x$, $s_n(x)$ is monotonically increasing and bounded above by 1.
+    
+    We want to show that this convergence is uniform. Indeed, \begin{align*}
+        \abs*{s_n(x) - f(x)} = \abs*{\sum_{k = n+1}^{\infty} \frac{1}{2^{k+1}} f_k(x)} \leq \abs*{\sum_{k= n+1}^{\infty} \frac{1}{2^{k+1}}} \cvgn 0 \:\text{uniformly}\: 
+    \end{align*}
+
+    $f$ is therefore the uniform limit of continuous functions, and is therefore continuous itself.
+
+    For any $x \in A$, $s_n(x) = 0 \implies f(x) = 0$. Then for $x \not \in A \implies x \in X - U_m$ for some $m$, then $f(x) \geq s_m(x) = \frac{1}{2^m} > 0$.
+\end{solution}
+
+\begin{problem} [34.1 \redtext{done}]
+    Give an example showing that a Hausdorff space with a countable basis need not be metrizable.
+\end{problem}
+\begin{solution}
+   $\bbr$ with $K$-topology, i.e., the open sets are the open sets in the usual topology, and sets of the form $(a, b) - K$ where $K = \{\frac{1}{n}\}_{n \in \bbn}$.
+
+   $\bbr_K$ is finer than $\bbr$ with its usual topology, so it is Hausdorff. It has a countable basis: $\calb = \{(a, b), (a, b) - K : a, b \in \bbq\}$.
+
+    But $\bbr_K$ is not regular, hence it can't be metrizable since metrizable implies normal implies regular.
+\end{solution}
+
+\begin{problem} [35.9]
+    Let $X_1 \subset X_2 \subset \cdots$ be a sequence of spaces, where $X_i$ is a closed subspace of $X_{i+1}$ for each $i$. Let $X$ be the union of the $X_i$; let us topologize $X$ by declaring a set $U$ to be open in $X$ if $U \cap X_i$ is open in $X$ for each $i$.
+    \begin{enumerate}
+    \item Show that this is a topology on $X$ and that each space $X_i$ is a subspace (in fact, a closed subspace) of $X$ in this topology. This topology is called the topology \textit{coherent} with the subspaces $X_i$.
+    \item Show that $f: X \to Y$ is continuous if $f|_{X_i}$ is continuous for each $i$.
+    \item Show that if each space $X_i$ is normal, then $X$ is normal. (Hint: Given disjoint closed sets $A$ and $B$ in $X$, set $f$ equal to 0 on $A$ and 1 on $B$, and extend $f$ successively to $A \cup B \cup X_i$ for $i = 1, 2, \ldots$)
+    \end{enumerate}
 \end{problem}
 \begin{solution}
 \end{solution}

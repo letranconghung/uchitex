@@ -12,3 +12,4 @@ references/
 **/*.auxlock
 *.aux
 .venv
+private/
