@@ -30,14 +30,14 @@ Afterwards, the command `texify` should be available in the terminal!
 All quarter commands are under `texify quarter`
 Function | Command
 --- | ---
-Create a new quarter in ROOT | `texify quarter -i 03s23`
+Create a new quarter in ROOT | `texify quarter -q 03s23`
 View all quarters | `texify quarter -a`
 Help | `texify quarter --help`
 
 CLI Parameter | Info
 --- | ---
 `-a, --all` | View flag
-`-i, --id` | Quarter ID
+`-q, --quarter` | Quarter ID
 `--help` | For help
 
 ## Course commands
@@ -45,16 +45,16 @@ All course commands are under `texify course`
 
 Function | Command
 --- | ---
-Create new course in quarter | `texify course -i math20250 -q 03s23`
+Create new course in quarter | `texify course -c math20250 -q 03s23`
 View all courses | `texify course -a`
-View all courses in quarter | `texify course -a -q 03s23`
-Only include recent lectures | `texify course -i math20250 -n 3`
+View all courses in quarter | `texify course -c -q 03s23`
+Only include recent lectures | `texify course -c math20250 -n 3`
 Help | `texify course --help`
 
 CLI Parameter | Info
 --- | ---
 `-a, --all` | View flag
-`-i, --id` | Course ID
+`-c, --course` | Course ID
 `-q, --quarter` | Quarter ID
 `-n, --n` | Number of most recent lectures to be compiled
 `--help` | For help

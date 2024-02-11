@@ -18,7 +18,7 @@ def cli():
 # Quarter
 
 
-@click.option('-i', '--id', 'q_id',
+@click.option('-q', '--quarter', 'q_id',
               help="Quarter ID to create, view all quarters in database")
 @click.option('-a', '--all', 'view',
               is_flag=True,
@@ -42,7 +42,7 @@ def quarter(q_id, view):
 # Course
 
 
-@click.option('-i', '--id', 'c_id',
+@click.option('-c', '--course', 'c_id',
               help="Course ID to create, view, render")
 @click.option('-q', '--quarter', 'q_id',
               help="Quarter ID to create, view courses in quarter")
