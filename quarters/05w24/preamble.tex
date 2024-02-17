@@ -21,6 +21,7 @@
 \usepackage{xifthen}
 \usepackage{algpseudocode}
 \usepackage{braket}
+\usepackage{thmtools}
 
 % 2. Custom package settings
 % Units:
@@ -52,31 +53,15 @@
 }
 \lstset{style=mystyle}
 
-% Tables: Just in case we need some tables
-\setlength{\tabcolsep}{5pt}
-\renewcommand\arraystretch{1.5}
-
 % Tikz: Some tikz things
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{tikz}
 \usepackage{tikz-cd}
 \usepackage{tikzsymbols}
 
-\usetikzlibrary{intersections, angles, quotes, calc, positioning}
-\usetikzlibrary{arrows.meta}
-
-\tikzset{
-    force/.style={thick, {Circle[length=2pt]}-stealth, shorten <=-1pt}
-}
-
 % Pgfplots: Essential with tikz for plotting things
 \usepackage{pgfplots}
 \pgfplotsset{width=10cm, compat=newest}
-
-% Titling: Center title page
-\usepackage{titling}
-\renewcommand\maketitlehooka{\null\mbox{}\vfill}
-\renewcommand\maketitlehookd{\vfill\null}
 
 % Hyperref: Link colors
 \hypersetup{
@@ -166,27 +151,6 @@
         \end{center}
     \end{mdframed}
 }
-% 3.2. Import figures
-
-\usepackage{import}
-\pdfminorversion=7
-
-% EXAMPLE:
-% 1. \incfig{limit-graph}
-% 2. \incfig[0.4]{limit-graph}
-% Parameters:
-% 1. The figure name. It should be located in figures/NAME.tex_pdf.
-% 2. (Optional) The width of the figure. Example: 0.5, 0.35.
-\newcommand\incfig[2][1]{%
-    \def\svgwidth{#1\columnwidth}
-    \import{./figures/}{#2.pdf_tex}
-}
-
-\begingroup\expandafter\expandafter\expandafter\endgroup
-\expandafter\ifx\csname pdfsuppresswarningpagegroup\endcsname\relax
-\else
-    \pdfsuppresswarningpagegroup=1\relax
-\fi
 
 % 3.3. Fancy headers=
 \usepackage{fancyhdr}
@@ -260,18 +224,12 @@
     \fancyhead[L]{\footnotesize \@author}
     % In the bottom center, add the page.
     \fancyfoot[C]{\thepage}
-    % Add a nice gray background in the middle of all the upcoming pages.
-    % \definegraybackground
 }
 
 \makeatother
 
 % 4. Environments
-\usepackage{varwidth}
-\usepackage{thmtools}
-\usepackage[most,many,breakable]{tcolorbox}
-\tcbuselibrary{theorems,skins,hooks}
-\usetikzlibrary{arrows,calc,shadows.blur}
+
 
 % 4.1. Colors
 \definecolor{myred}{HTML}{c74540}
@@ -283,32 +241,12 @@
 \definecolor{codemagenta}{HTML}{ff00ff}
 \definecolor{codebg}{HTML}{f2f2f2}
 
-% 4.2. Define meta-commands /createnewtheoremstyle and /createnewcoloredtheoremstyle
 % EXAMPLE:
-% 1. \createnewtheoremstyle{thmdefinitionbox}{}{}
-% 2. \createnewtheoremstyle{thmtheorembox}{}{}
-% 3. \createnewtheoremstyle{thmproofbox}{qed=\qedsymbol}{
-%       rightline=false, topline=false, bottomline=false
-%    }
-% Parameters:
-% 1. Theorem name.
-% 2. Any extra parameters to pass directly to declaretheoremstyle.
-% 3. Any extra parameters to pass directly to mdframed.
-\newcommand\createnewtheoremstyle[3]{
-    \declaretheoremstyle[
-        headfont=\bfseries\sffamily, bodyfont=\normalfont, #2,
-        mdframed={
-                #3,
-            },
-    ]{#1}
-}
-
-% EXAMPLE:
-% 1. \createnewcoloredtheoremstyle{thmdefinitionbox}{definition}{}{}
-% 2. \createnewcoloredtheoremstyle{thmexamplebox}{example}{}{
+% 1. \createthmstyle{thmdefinitionbox}{definition}{}{}
+% 2. \createthmstyle{thmexamplebox}{example}{}{
 %       rightline=true, leftline=true, topline=true, bottomline=true
 %     }
-% 3. \createnewcoloredtheoremstyle{thmproofbox}{proof}{qed=\qedsymbol}{backgroundcolor=white}
+% 3. \createthmstyle{thmproofbox}{proof}{qed=\qedsymbol}{backgroundcolor=white}
 % Parameters:
 % 1. Theorem name.
 % 2. Color of theorem.
@@ -316,7 +254,7 @@
 % 4. Any extra parameters to pass directly to mdframed.
 
 % change backgroundcolor to #2!5 if user wants a colored backdrop to theorem environments. It's a cool color theme, but there's too much going on in the page.
-\newcommand\createnewcoloredtheoremstyle[4]{
+\newcommand\createthmstyle[4]{
     \declaretheoremstyle[
         headfont=\bfseries\sffamily\color{#2},
         bodyfont=\normalfont,
@@ -349,11 +287,11 @@
 % 4.3. Create environment styles using above meta-commands
 \makeatletter
 % Environments with color.
-\createnewcoloredtheoremstyle{thmdefinitionbox}{myred}{}{}
-\createnewcoloredtheoremstyle{thmtheorembox}{myblue}{}{}
-\createnewcoloredtheoremstyle{thmblackbox}{black}{}{}
-\createnewcoloredtheoremstyle{thmproofbox}{black}{qed=\qedsymbol}{}
-\createnewcoloredtheoremstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
+\createthmstyle{thmdefinitionbox}{myred}{}{}
+\createthmstyle{thmtheorembox}{myblue}{}{}
+\createthmstyle{thmblackbox}{black}{}{}
+\createthmstyle{thmproofbox}{black}{qed=\qedsymbol}{}
+\createthmstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
 \makeatother
 
 % 4.4. Create environments based on environment styles
@@ -439,8 +377,8 @@
 \newcommand*{\rme}{\mathrm{e}}
 \newcommand*{\rmd}{\mathrm{d}}
 \newcommand*{\rmosc}{\mathrm{osc}}
-\newcommand*{\lhs}{\mathrm{LHS}}
-\newcommand*{\rhs}{\mathrm{RHS}}
+\newcommand*{\lhs}{\ensuremath{\mathrm{LHS}}}
+\newcommand*{\rhs}{\ensuremath{\mathrm{RHS}}}
 
 \newcommand*{\frake}{\mathfrak{e}}
 % Proof Writing
@@ -503,6 +441,7 @@
 
 % 5.4. Formatting
 \newcommand*{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand*{\done}{\redtext{done}}
 \newcommand*{\todo}[1]{\colorbox{red}{#1}}
 % 6. Misc but important
 % No paragraph indenting, and changing margins especially for lecture headers

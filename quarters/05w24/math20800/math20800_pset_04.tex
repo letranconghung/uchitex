@@ -1,0 +1,297 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+
+\title{MATH 20800: Honors Analysis in Rn II \\ \large Problem Set 4}
+\date{14 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{4}
+\begin{problem} [\done]
+    \begin{enumerate}
+        \item[]
+        \item (H\"{o}lder's inequality) Suppose that $n \in \bbn$, and let $a_k, b_k \in \bbn, 1 \leq k \leq n$. Prove that if $1 < p < \infty$ and $1/p + 1/q = 1$ then \begin{equation*}
+            \sum_{k=1}^{n} \abs{a_k b_k} \leq \left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p} \left[\sum_{k=1}^{n} \abs{b_k}^q\right]^{1/q}
+        \end{equation*}
+
+        Hint: Prove that if $A, B > 0$ and $t \in (0, 1)$ then $A^t B^{1-t} \leq tA + (1-t) B$ by showing the function \begin{equation*}
+        f(x) \coloneqq tx + (1-t)B - x^t B^{1-t}, \quad x > 0
+        \end{equation*}
+        has a minimum at $x = B$.
+
+        \item (Minkowski's inequality) Suppose that $n \in \bbn$, and let $a_k, b_k \in \bbr, 1 \leq k \leq n.$ Prove that if $1 \leq p \leq \infty$ then \begin{equation*}
+        \left[\sum_{k=1}^{n} \abs{a_k + b_k}^{p}\right]^{1/p} \leq \left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p} + \left[\sum_{k=1}^{n} \abs{b_k}^p\right]^{1/p}
+        \end{equation*}
+        
+        Hint: By the triangle inequality \begin{equation*}
+        \sum_{k=1}^{n} \abs{a_k + b_k}^p \leq \sum_{k=1}^{n} \abs{a_k} \abs{a_k + b_k}^{p-1} + \sum_{k=1}^{n} \abs{b_k} \abs{a_k + b_k}^{p-1}
+        \end{equation*}
+
+        Now apply H\"{o}lder's inequality.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} We first prove that for $A, B > 0$ and $t \in (0, 1)$, we have
+    \begin{equation*}
+        A^t B^{1-t} \leq tA + (1-t) B
+        \end{equation*}
+        Indeed, if we define $f(x) \coloneqq tx + (1-t) B - x^t B^{1-t}$ on $(0, \infty)$ then we find the critical point $x_0$:
+        \begin{align*}
+            f'(x_0) &=t - tx_0^{t-1}B^{1-t} \\
+            \implies x_0 &= B
+        \end{align*}
+        and it is a minimum point since
+        \begin{equation*}
+        f''(x_0) = -t(t-1)B^{t-2}B^{1-t} > 0
+        \end{equation*}
+
+        Therefore for any $A > 0$, we have that $f(A) \geq f(B) = 0 \implies A^t B^{1-t} \leq tA + (1-t) B$.
+
+        To prove Holder's inequality, take divide both sides by the \rhs, then we have:
+        \begin{align*}
+            \sum_{k=1}^{n} \left[\frac{\abs{a_k}^p}{\sum_{k=1}^{n} \abs{a_k}^p}\right]^{1/p}\left[\frac{\abs{b_k}^q}{\sum_{k=1}^{n} \abs{b_k}^q}\right]^{1/q} & \leq \sum_{k=1}^{n} \frac{1}{p} \left[\frac{\abs{a_k}^p}{\sum_{k=1}^{n} \abs{a_k}^p}\right] + \frac{1}{q} \left[\frac{\abs{b_k}^q}{\sum_{k=1}^{n} \abs{b_k}^q}\right] \\
+            &= \frac{1}{p} \sum_{k=1}^{n} \left[\frac{\abs{a_k}^p}{\sum_{k=1}^{n} \abs{a_k}^p}\right] + \frac{1}{q} \sum_{k=1}^{n} \left[\frac{\abs{b_k}^q}{\sum_{k=1}^{n} \abs{b_k}^q}\right] \\
+            &= 1
+        \end{align*}
+        hence $\lhs \leq \rhs$ as required.
+
+        \textbf{(b)} Set $q = \frac{p}{p-1}$ then $1/p + 1/q = 1$.
+
+        We have, first by triangle inequality then Holder's on $\frac{1}{p} + \frac{1}{q} = 1$ then
+        \begin{align*}
+            \sum_{k=1}^{n} \abs{a_k + b_k}^p &\leq \sum_{k=1}^{n} \abs{a_k} \abs{a_k + b_k}^{p-1} + \sum_{k=1}^{n} \abs{b_k} \abs{a_k + b_k}^{p-1} \\
+            &\leq \left(\left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p} + \left[\sum_{k=1}^{n} \abs{b_k}^p\right]^{1/p}\right) \left[\sum_{k=1}^{n} \abs{a_k + b_k}^{(p-1)q}\right]^{1/q} \\
+            &\leq \left(\left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p} + \left[\sum_{k=1}^{n} \abs{b_k}^p\right]^{1/p}\right) \left[\sum_{k=1}^{n} \abs{a_k + b_k}^p\right]^{1 - 1/p} \\
+            \implies \left[\sum_{k=1}^{n} \abs{a_k + b_k}^p\right]^{1/p} &\leq \left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p} + \left[\sum_{k=1}^{n} \abs{b_k}^p\right]^{1/p}
+        \end{align*}
+        as required.
+\end{solution}
+
+\begin{problem} [\done]
+    Prove that if $1 \leq p < \infty$, then $\ell^p$ is a Banach space (you must show it is a normed space and it is complete)
+\end{problem}
+\begin{solution}
+    Let us first have the definition of the $\ell^p$ space: \begin{equation*}
+    \ell^p = \left\{a = (a_1, a_2, \ldots) \mid a_k \in \bbc, \left(\sum_{k=1}^{\infty} \abs{a_k}^p\right)^{1/p} < \infty\right\}
+    \end{equation*}
+
+    Define the norm $\norm{a} = \norm{a}_p = \left(\sum_{k=1}^{\infty} \abs{a_k}^p\right)^{1/p}$.
+    
+    To show that $\ell^p$ is a normed space, we have to show that it is first a vector space (over $\bbc$), and the norm $\norm{\cdot}$ as above is indeed a norm. 
+    \begin{itemize}
+        \item On this space, define addition and scalar multiplication as pointwise addition and pointwise scalar multiplication. Then $(0) = (0, \cdots) \in \ell^p$ is trivially the identity.
+        \item If $a, b \in \ell^p; \lambda \in \bbc$ then $a + \lambda b = (a_1 + \lambda b_1, \cdots)$ has:
+        \begin{equation*}
+            \left[\sum_{k=1}^{\infty}\abs{a_k + \lambda b_k}^p\right]^{1/p} \leq \left[\sum_{k=1}^{\infty} \abs{a_k}^p \right]^{1/p} + \left[\sum_{k=1}^{\infty} \abs{\lambda b_k}^p\right]^{1/p} < \infty
+        \end{equation*}
+        by Minkowski's (apply for $n$, then $n \to \infty$ implies LHS converges  and is thus well-defined) hence $a + \lambda b \in \ell^p$ too.
+        \item $\abs{a_k} \geq 0 \forall k \implies \norm{a} \geq 0 \forall a$
+        \item $\norm{a} = 0 \implies \sum_{k=1}^{\infty} \abs{a_k}^p = 0 \implies a_k = 0 \forall k \implies a = 0$
+        \item Triangle inequality: Minkowski's tells us that \begin{equation*}
+        \left[\sum_{k=1}^{n} \abs{a_k + b_k}^p\right]^{1/p} \leq \left[\sum_{k=1}^{n} \abs{a_k}^p\right]^{1/p}  + \left[\sum_{k=1}^{n} \abs{b_k}^p\right]^{1/p} \leq \left[\sum_{k=1}^{\infty} \abs{a_k}^p\right]^{1/p}  + \left[\sum_{k=1}^{\infty} \abs{b_k}^p\right]^{1/p} = \norm{a} + \norm{b} < \infty
+        \end{equation*}
+        The series on the LHS then is monotonic increasing in $n$ and bounded above and so converges, so $\norm{a + b}$. When taken to the limit, the inequality still holds, so $\norm{a + b} \leq \norm{a} + \norm{b}$. 
+    \end{itemize}
+    It remains to show that that $\ell^p$ is complete (with respect to norm $\norm{\cdot}$).
+
+    Take a Cauchy sequence $\{a^{(i)}\}_{i \in \bbn} \subset \ell^p$. Fix $\epsilon > 0$, then there exists $N = N_\epsilon \in \bbn$ such that $i, j \geq N$ implies \begin{equation*}
+    \norm{a^{(i)} - a^{(j)}} < \epsilon
+    \end{equation*}
+
+    Write out $a^{(i)} - a^{(j)} = (a^{(i)}_1 - a^{(j)}_1, a^{(i)}_2 - a^{(j)}_2, \ldots)$ then it follows that for all $i, j \geq N; k \in \bbn$, we have \begin{equation*}
+        \abs{a^{(i)}_k - a^{(j)}_k} \leq \norm{a^{(i)} - a^{(j)}} < \epsilon
+    \end{equation*}
+    so for each $k \in \bbn$, the sequence $\{a^{(i)}_k\}_{i \in \bbn} \subset \bbc$ is Cauchy. $\bbc$ is complete, so $a^{(i)}_k \cvgg{i \to \infty} b_k \in \bbc$. Define $b = (b_k)_{k \in \bbn}$. Then WTS $b \in \ell^p$ and $a^{(i)} \cvgg{i \to \infty} b$.
+
+    We first show that $\norm{a^{(i)} - b}_p \cvgg{i \to \infty} 0$. A priori, this ``norm'' might not exist, but by showing that it gets arbitrarily small, we in the process also show that it is well-defined.
+
+    We know that $\{a^{(i)}\}_{i \in \bbn}$ in Cauchy wrt $\norm{}_p$, so for any $n \in \bbn$, we have that for all $i, j \geq N$,
+    \begin{equation*}
+    \sum_{k=1}^{n} \abs{a^{(i)}_k - a^{(j)}_k}^p < \epsilon^p
+    \end{equation*}
+
+    Let $j \to \infty$, then \begin{equation*}
+    \sum_{k=1}^{n} \abs{a^{(i)}_k - b_k}^p \leq \epsilon^p
+    \end{equation*}
+
+    This holds for all $n \in \bbn$, so it follows that \begin{equation*}
+    \sum_{k=1}^{\infty} \abs{a^{(i)}_k - b_k}^p \leq \epsilon^p
+    \end{equation*}
+    since the sequence of partial sums is increasing and bounded. It follows that for all $i \geq N$, \begin{equation*}
+    \norm{a^{(i)} - b}_p \cvgg{i \to \infty} 0
+    \end{equation*}
+
+    It remains to show that $b \in \ell^p$. The triangle inequality then implies that \begin{equation*}
+    \norm{b}_p \leq \norm{a^{(i)}}_p +  \norm{a^{(i)} - b}_p < \infty
+    \end{equation*}
+    for $i$ sufficiently large ($\geq N$), so $b \in \ell^p$.
+
+    Hence $a^{(i)} \cvgg{i \to \infty} b \in \ell^p$, so $\ell^p$ is indeed a complete normed vector space, i.e., a Banach space.
+\end{solution}
+
+\begin{problem} [\done]
+    The set of all bounded sequences, $\ell^{\infty}$, can be identified with $C_{\infty}(\bbn)$, the set of all bounded continuous functions on the metric space $(\bbn, d_{disc})$    where $d_{disc}$    is the discrete metric. Thus, $\ell^{\infty}$ is a Banach space. Prove that \begin{equation*}
+    c_0 \coloneqq \{\{a_k\}_{k} \in \ell^{\infty} \mid \lim_{k \to \infty} a_k =0\} 
+    \end{equation*}
+    is a closed subspace of $\ell^{\infty}$ (and is thus, a Banach space).
+\end{problem}
+\begin{solution}
+    Take sequence $\{a^{(i)} \}_{i \in \bbn} \subset c_0$ such that $a^{(i)} \cvgg{i \to \infty} b \in \ell^{\infty}$. WTS $b \in c_0$.
+
+    To show that $b \in c_0$, we show that 
+    \begin{equation*}
+    \lim_{k \to \infty} b_k = 0
+    \end{equation*}
+
+    Fix $\epsilon > 0$. Since $a^{(i)} \cvgg{i \to \infty} b$, there exists $N = N_\epsilon \in \bbn$ such that $i \geq N$ implies \begin{equation*}
+    \norm{a^{(i)} - b}_\infty < \epsilon/2
+    \end{equation*}
+    In particular, we have that \begin{equation*}
+        \norm{a^{(N)} - b}_\infty < \epsilon/2
+    \end{equation*}
+    Since $a^{(N)} \in c_0$, there exists $K = K_{N, \epsilon} = K_\epsilon$ such that \begin{equation*}
+    k \geq K \implies \abs{a^{(N)}_k} < \epsilon/2
+    \end{equation*}
+
+    It then follows that for $k \geq K$, we have \begin{equation*}
+    \abs{b_k} \leq \abs{b_k - a^{(N)}_k} + \abs{a^{(N)}_k} \leq \norm{a^{(N)} - b}_\infty + \abs{a^{(N)}_k} < \epsilon
+    \end{equation*}
+    hence $\lim_{ k \to \infty} b_k = 0$ as required.
+
+    It follows that $c_0$ is closed.
+\end{solution}
+
+\begin{problem} [\done]
+    Let $1 \leq p \leq \infty$ and \begin{equation*}
+    S \coloneqq \{a = \{a_k\}_{k} \in \ell^p \mid \norm{a}_p = 1    \}
+    \end{equation*}
+
+    \begin{enumerate}
+    \item Prove that $S$ is a closed subset of $\ell^p$.
+    \item Prove that $S$ is not compact. Hint: Let $e_n \coloneqq \{\delta_{kn}\}_k \in S$ where $\delta_{kn}$ is the Kronecker delta. Show that $\{e_n\}_n$ does not have a convergent subsequence in $S$.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Note that the norm as a function from a normed vector space to $\bbr$  is always continuous, since it is 1-Lipschitz.
+
+    In this case, $\norm{\cdot}_p: \ell^p \to \bbr$ is therefore continuous. It follows that \begin{equation*}
+    S = \norm{\cdot}_p^{-1}(\{1\})
+    \end{equation*}
+    is closed in $\ell^p$ since $\{1\}$ is closed in $\bbr$.
+
+    \textbf{(b)} To show that $S$ is not compact, we demonstrate a sequence in $S$ that has does not have a convergent subsequence in $S$.
+
+    For each $n \in \bbn$, let $e_n = \{\delta_{kn}\}_{k \in \bbn}$, i.e., $e_n$ is the sequence of all zeros except for 1 at its $n$th index. Clearly, $e_n \in S \forall n \in \bbn$.
+
+     Suppose that $\{e_n\}_{n \in \bbn}$ has a convergent subsequence $\{e_{n_j}\}_{j \in \bbn}$ that converges to some $a = \{a_k\}_{k \in \bbn} \in S$.
+    
+    For $p = \infty$, then the limit is the pointwise limit, so, $a_k = \lim_{j \to \infty} e_{n_j}[k] = 0$. But then $\norm{a} = 0 \neq 1, \contra$.
+
+    We then now consider only $1 \leq p < \infty$. Then for $\epsilon = 0.1$, there exists some $N$ such that $j \geq J$ implies \begin{equation*}
+     \norm{e_{n_j} - a}_p < \epsilon
+    \end{equation*}
+    Then for all $j \geq J$,
+    \begin{align*}
+        \epsilon^p > \lhs^p &= \sum_{k=1}^{\infty} \abs{a_k - \delta_{kn_j}}^p \\
+        &= \norm{a}_p^p + (\abs{a_{n_j} - 1}^p - \abs{a_{n_j}}^p) \\
+        &= 1 + \abs{a_{n_j} - 1}^p - \abs{a_{n_j}}^p \\
+    \end{align*}
+
+    It follows that \begin{equation*}
+        \abs{a_{n_j}}^p -  \abs{a_{n_j} - 1}^p > 1 - \epsilon^p > 0 \implies \abs{a_{n_j}} > \abs{a_{n_j} - 1} \geq 1 - \abs{a_{n_j}}
+    \end{equation*}
+    therefore \begin{equation*}
+    \abs{a_{n_j}} \geq 1/2
+    \end{equation*}
+    This is true for all $j \geq J$, so \begin{equation*}
+    1 = \norm{a}_p^p \geq \sum_{j = J}^{J + \ceil{3^p}} \abs{a_{n_j}}^p \geq 3^p \frac{1}{2^p} > 1, \contra
+    \end{equation*}
+
+    Therefore, for both cases of $p = \infty$ and $1 \leq p < \infty$, there exists a sequence in $S$ that does not have a convergent subsequence. So $S$ is not compact.
+\end{solution}
+
+\begin{problem} [\done]
+    Let $1 \leq p < \infty$ and $1/p + 1/q = 1$. \begin{enumerate}
+    \item Prove that if $a = \{a_k\}_{k} \in \ell^p$ and $b = \{b_k\}_k \in \ell^q$ then \begin{equation*}
+    \sum_{k=1}^{\infty} \abs{a_k b_k} \leq \norm{a}_p \norm{b}_q
+    \end{equation*}
+    \item Let $b \in \ell^q$. Prove that $F_b: \ell^p \to \bbc$ defined via
+    \begin{equation*}
+    F_b(a) \coloneqq \sum_{k=1}^{\infty} a_k b_k, \quad a\in \ell^p,
+    \end{equation*}
+    is an element of $(\ell^p)^*$, the dual space of $\ell^p$, and $\norm{F_b} = \norm{b}_{\ell^q}$.
+    \item Prove that $F: \ell^q \to {(\ell^p)}^*, b \mapsto F_b$ is a bijective bounded linear operator.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} From Holder's, we know that \begin{equation*}
+        \sum_{k=1}^{n} \abs{a_k b_k} \leq \left[\sum_{k=1}^{n} \abs{a_k}^p \right]^{1/p}\left[\sum_{k=1}^{n} \abs{b_k}^q \right]^{1/q} \leq \norm{a}_p \norm{b}_q
+    \end{equation*}
+    The partial sums are monotonically increasing and bounded above, so they converge and the limit is bounded by the same upper bound, hence\begin{equation*}
+        \sum_{k=1}^{\infty} \abs{a_k b_k} \leq \norm{a}_p \norm{b}_q
+        \end{equation*}
+        as required. \qed
+
+    \textbf{(b)} We have $F_b: \ell^p \to \bbc$ with definition
+    \begin{equation*}
+        F_b(a) \coloneqq \sum_{k=1}^{\infty} a_k b_k
+        \end{equation*}
+    To show that $F_b \in (\ell^p)^*$, we have to show that it is a bounded linear functional on $\ell^p$.
+
+    To show linearity, take any $\alpha, \beta \in \ell^p, \lambda \in \bbc$ then
+    \begin{align*}
+        F_b(\alpha + \lambda \beta) &= \sum_{k=1}^{\infty} ((\alpha + \lambda \beta)_k b_k) \\
+        &= \sum_{k=1}^{\infty} (\alpha_k + \lambda \beta_k) b_k \\
+        &= F_b(\alpha) + \lambda F_b(\beta)
+    \end{align*}
+    so it is indeed linear. It is also bounded, since \begin{align*}
+        \abs{F_b(a)} \leq \sum_{k=1}^{\infty} \abs{a_k b_k} \leq \norm{a}_p \norm{b}_q
+    \end{align*}
+    so $\norm{F_b} \leq \norm{b}_q < \infty$. It follows that $F_b \in (\ell^p)^*$.
+
+    We've shown that $\norm{F_b} \leq \norm{b}_q$. To show equality, we exhibit a particular $a$ such that $\abs{F_b(a)} = \norm{a}_p \norm{b}_q$.
+
+    The crux lies in that we construct $a$ such that the equality in Holder's inequality holds:
+    \begin{equation*}
+        \forall k \in \bbn, \frac{\abs{a_k}^p}{\norm{a}_p^p} = \frac{\abs{b_k}^q}{\norm{b}_q^q}
+    \end{equation*}
+    so that \begin{equation*}
+        \sum_{k=1}^{\infty} \abs{a_k b_k} = \norm{a}_p \norm{b}_q
+    \end{equation*}
+
+    We also want $\abs{F_b(a)} = \abs{\sum_{k=1}^{\infty} a_k b_k} = \sum_{k=1}^{\infty} \abs{a_k b_k}$, so we choose $a_k = c_k \overline{b_k}$ where $\overline{b_k}$ is the complex conjugate of $b_k$, and $c_k$ real, nonnegative. It would then follow that 
+\begin{equation*}
+    \abs{F_b(a)} = \abs*{\sum_{k=1}^{\infty} c_k \abs{b_k}^2} = \sum_{k=1}^{\infty} c_k \abs{b_k}^2 = \sum_{k=1}^{\infty} \abs{a_k b_k}
+\end{equation*}
+so that $\abs{F_b(a)} = \norm{a}_p \norm{b}_q$, forcing $\norm{F_b} = \norm{b}_q$.
+
+It remains for us to show a choice of $\{c_k\}$ so that $a \in \ell^p$ and satisfies the equal conditions of Holder's inequality so that all statements (especially those regarding convergence) are valid. Indeed, if \begin{equation*}
+c_k \coloneqq \abs{b_k}^{(q-p)/p} \geq 0
+\end{equation*}
+then \begin{align*}
+\norm{a}_p^p &= \sum_{k=1}^{\infty} \left(\abs{b_k}^{(q-p)} \abs{\overline{b_k}}^p\right) \\
+&= \sum_{k=1}^{\infty} \abs{b_k}^q = \norm{b}_q^q
+\end{align*}
+so $a \in \ell^p$ and for all $k \in \bbn$:\begin{equation*}
+    \frac{\abs{a_k}^p}{\norm{a}_p^p} = \frac{\abs{b_k}^{q-p} \abs{\overline{b_k}}^p}{\norm{b}_q^q} = \frac{\abs{b_k}^q}{\norm{b}_q^q}
+\end{equation*}
+as required, and we're done. \qed
+
+
+    \textbf{(c)} Consider $F: \ell^q \to (\ell^p)^*, b \mapsto F(b) = F_b$.
+
+    We proved from above that $F_b \in (\ell^p)^*$ for all $b$. So this is clearly a bijection.
+
+    It is linear, since for all $\alpha, \beta \in \ell^q; \lambda \in \bbc$ and $a \in \ell^p$, we have
+    \begin{align*}
+    F (\alpha + \lambda \beta) (a) &= \sum_{k=1}^{\infty} a_k (\alpha + \lambda \beta)_k \\
+    &= \sum_{k=1}^{\infty} a_k \alpha_k + \sum_{k=1}^{\infty} \lambda a_k \beta_k \\
+    &= F(\alpha)(a) + \lambda F(\beta)(a)
+    \end{align*}
+    so $F(\alpha + \lambda \beta) = F(\alpha) + \lambda F(\beta)$ (expanding series of sum as sum of series makes sense, since we know a priori that each component series converges).
+
+    It remains to show that $F$ is bounded.
+
+    From (b), we saw that $\norm{F_b} = \norm{b}_q$, i.e., $\norm{F(b)} = \norm{b}$. Theefore, $\norm{F} \leq 1$, so it is a bounded linear operator as required.
+\end{solution}
+\end{document}
