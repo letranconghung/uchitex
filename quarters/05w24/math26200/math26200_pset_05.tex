@@ -1,0 +1,204 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Problem Set 5}
+\date{16 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{5}
+\begin{problem} [Problem 1 \done]
+    Let $X$ be a set. Let $\calc$ be a nonempty family of subsets of $X$ with the finite intersection property. Prove that $\calc$ is contained in some filter, and (using Zorn's lemma) that every filter is contained in some maximal filter. Finally, prove that a filter is maximal if and only if it is an ultrafilter. (Please write out full proofs of these facts, just from the definitions of filter and ultrafilter).
+\end{problem}
+\begin{solution}
+    \textbf{1.} WTS $\calc$ is in some filter.
+    $\calc$ is nonempty family of subsets of $X$ with fip. We use $\calc$ to generate a filter as follows:
+    \begin{equation*}
+    \calf = \{B \subset X \mid \exists C_1, \ldots, C_n \:\text{such that}\: \bigcap_{k \in [n]} C_k \subset B\}
+    \end{equation*}
+
+    Clearly, $\calf$ is a family of subsets of $X$. It remains to show that $\calf$ satifies the conditions of a filter.
+
+    \begin{itemize}
+    \item $\emptyset \not \in \calf$, since $\calc$ has fip, so $\bigcap_{k \in [n]} C_k \neq \emptyset \implies \not \subset \emptyset$.
+    \item $X \in \calf$, since $C_1 \subset X$.
+    \item If $B_1, B_2 \in \calf$, i.e., $B_1 \supset \bigcap_{k \in [n]} C^{(1)}_k,  B_2 \supset \bigcap_{j \in [m]} C^{(2)}_j$ then \begin{equation*}
+    B_1 \cap B_2 \supset \bigcap_{k \in [n]} C^{(1)}_k \cap \bigcap_{j \in [m]} C^{(2)}_j
+    \end{equation*}
+    so $B_1 \cap B_2 \in \calf$ too.
+    \item If $B \in \calf$ and $B \subset A$ then there exists \begin{equation*}
+    \bigcap_{k \in [n]} C_k \subset B \subset A \implies A \in \calf
+    \end{equation*}
+    \end{itemize}
+    Therefore $\calf$ is indeed a filter.
+
+    \textbf{2.} WTS every filter is contained in some maximal filter.
+
+    Zorn's lemma states that a partially ordered set such that every of its totally ordered subsets has an upper bound then it has at least one maximal element.
+
+    Take some filter $\calf_0$. Then let's look at set $P = \{\:\text{filter}\: \calf' \mid \calf_0 \subset \calf'\}$, with the order that $\calf_1 < \calf_2$ if $\calf_1 \subset \calf_2$.
+
+    Then any totally ordered subset of $P$, i.e., any chain in $P$, $Q = \{\calf_{\alpha}\}_{\alpha \in A}$, has an upper bound in $P$, namely, \begin{equation*}
+    \calf = \bigcup_{\alpha \in A} \calf_{\alpha}
+    \end{equation*}.
+
+    Since $Q$ is totally ordered, let $A$ reflect its ordering and be a totally ordered index set, i.e., $\calf_\alpha < \calf_\beta \Leftrightarrow \alpha < \beta$.
+
+    WTS $\calf$ is a filter in $P$. \begin{itemize}
+    \item Clearly, $\calf_0 \subset \calf, \emptyset \not \in \calf, X \in \calf$. 
+    \item  Take $B_1, B_2 \in \calf$. Then $B_1 \in \calf_{\alpha_1}, B_2 \in \calf_{\alpha_2}$. WLOG, $\alpha_1 < \alpha_2$ so $\calf_{\alpha_1} \subset \calf_{\alpha_2} \implies B_1 \in \calf_{\alpha_2}$. It follows that $B_1 \cap B_2 \in \calf_{\alpha_2} \subset \calf$.
+    \item Take $B \in \calf$ and $B \subset A$. Then $ B \in \calf_{\alpha} \implies A \in \calf_\alpha \subset \calf$.
+    \end{itemize}
+    
+    So $\calf$ is indeed a filter in $P$. And $\calf_\alpha < \calf \forall \alpha \in A$ so $\calf$ is indeed an upper bound for the chain.
+
+    Using Zorn's Lemma, then there exists a maximal element in $P$. The partial order that we imposed on $P$ is precisely the requirement for a maximal filter, so we've found our maximal filter.
+
+    \textbf{3.} WTS a filter is maximal if and only if it is an ultrafilter.
+    
+    \pffwd Let $\calf$ is a maximal filter, that is, for all filter $\calf'$ we have $\calf' \subset \calf$.
+
+    Suppose that $\calf$ is not an ultrafilter, i.e., there exists $A \subset X$ such that either $A, A^C \not \in \calf$ or $A, A^C \in \calf$.
+
+    Case 1: If $A, A^C \not \in \calf$ then let us investigate $\calg = \calf \cup \{A\}$. Since $A^C \not \in \calf$, for every $B \in \calf, B \not \subset A^C \implies B \cap A \neq \emptyset$. Since $\calf$ already satisfies the fip, so does $\calf'$ too. $\calg$ is then a collection of subsets of $X$ satisfying the fip, and so as shown previously, can be extended to a filter $\calf'$. But $\calf' \not \subset \calf$ so $\calf$ is not a maximal filter, \contra
+
+    Case 2: If $A, A^C \in \calf \implies \emptyset \in \calf, \contra$.
+
+    Therefore $\calf$ is indeed an ultrafilter.
+
+    \pfbwd Let $\calf$ be an ultrafilter. Suppose $\calf$ is not maximal, i.e., there exists $\calf'$ such that it strictly extends $\calf$. Then take $A = \calf' - \calf$. $A \not \in \calf \implies A^C \in \calf \subset \calf' \implies A^C \in \calf'$. But then $A, A^C \in \calf' \implies \emptyset \in \calf', \contra$
+\end{solution}
+
+\begin{problem} [Problem 2]
+    Recall from class the following construction: Let $X$ be a set (which can be topologized as a discrete space). Let $UX$ be the set of ultrafilters on $X$. For every subset $A$ of $X$ let $[A]$ denote the set of ultrafilters on $X$ that contain $A$ (thus $[A]$ is a subset of $UX$).
+    \begin{enumerate}
+    \item Show that the sets of the form $[A]$ form a basis for a topology on $UX$.
+    \item Show that the map $X \to UX$ that takes each point $x$ in $X$ to the principal ultrafilter $F_x$ in $UX$ is injective, and the image of $X$ under this map is discrete in the subspace topology on $UX$.
+    \item Show that $UX$ is compact and Hausdorff.
+    \item (Bonus) Show that UX is the Stone-Cech compactification of $X$ (Hint: if $f:X \to K$ is a continuous map to a compact Hausdorff space, and $F$ is an ultrafilter on $X$, then $f_*F$ is an ultrafilter on $K$, which necessarily converges to some unique point $y$. Show that the map $g: UX \to K$ sending each $F$ to $y$ in this way is a continuous extension of $f$ to $UX$.)
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} $UX$ is the set of ultrafilters on $X$. WTS $\{[A] : A \subset X\}$ forms a basis for a topology on $UX$.
+
+    \begin{itemize}
+        \item For each $\calf \in UX$, take any $U \subset X$, then either $U \in \calf$ or $U^C \in \calf$. WLOG $U \in \calf \implies \calf \in [U]$.
+        \item Take $\calf \in [A_1] \cap [A_2]$ then it's clear that $\calf \in [A_1 \cap A_2]$
+    \end{itemize}
+    So $\{[A] : A \subset X\}$ satisfies the conditions of a basis.
+
+    \textbf{(b)} Take $x \neq y \in X$. Let the map be $F: x \mapsto \calf_x$. Then the principal filters $\calf_x, \calf_y$ are ultra filters, since for any $A \subset X$, either $x \in A$ or $x \in A^C$; similar with $y$. And $\calf_x \neq \calf_y$ since $\{x\} \in \calf_x, \{x\} \not \in \calf_y$. The map is therefore injective.
+
+    Then consider $\calf_x \in F(X)$. Want to show that $\{\calf_x\}$ is open in $F(X)$ in the subspace topology on $UX$.
+
+    Denote $V = [\{x\}]$ is a basis element of the topology of $UX$ and is therefore open in $UX$. Then clearly $\calf_x \in V$ since it is an ultrafilter and it is a super set of $\{x\}$.
+
+    Furthermore, there doesn't exist any other $\calf_y$ with $y \neq x$ that is in $V$, since $\{x \} \not \subset \calf_y$. It follows that \begin{equation*}
+    \{\calf_x\} = V \cap f(X)
+    \end{equation*}
+    and is therefore open in $f(X)$ in the subspace topology of $UX$.
+
+    \textbf{(c) 1.} WTS $UX$ is compact. We want to show that every family of closed subsets having the finite intersection property has non-empty intersection. Every closed set of $UX$ has the form:
+    \begin{align*}
+        UX - \bigcup_i [A_i] &= [\bigcap_i A_i^C] = [B]
+    \end{align*}
+
+    Therefore, let our family of closed subsets be $\{[B_i]\}_{i \in I}$ with the finite intersection property. Then we have for all $i_1, \ldots, i_n$, \begin{equation*}
+    \emptyset \neq \bigcap_{k \in [n]} [B_{i_k}] = [\bigcap_{k \in [n]} B_{i_k}]
+    \end{equation*}
+    so $\bigcap_{k \in [n]} B_{i_k} \neq \emptyset$. It follows that $\{B_i\}$ has the finite intersection property, and can therefore be extended to a filter, and then to an ultrafilter $\calu$, so that $B_i \in \calu \forall i \in I$. It then follows that \begin{equation*}
+    \calu \in [B_i] \forall i \in I \implies \calu \in \bigcap_{i \in I} [B_i]
+    \end{equation*}
+    so $\bigcap_{i \in I} [B_i] \neq \emptyset$ as required.
+
+    \textbf{2.} WTS $UX$ is Hausdorff. Take $\calf_1 \neq \calf_2 \in UX$. Since $\calf_1 \neq \calf_2$ and they are both ultrafilters so neither one can be contained in the other, there exists some $A \subset X$ such that $A \in \calf_1 - \calf_2$. $\calf_2$ is an ultrafilter, so $A^c \in \calf_2$. Then $[A]$ and $[A^C]$ are open neighborhoods of $\calf_1$ and $\calf_2$, and they are clearly disjoint. It follows that $UX$ is Hausdorff.
+\end{solution}
+\begin{problem} [Problem 3]
+    For each positive integer $n$ give an example of a topological space that has at least $n$ different compactifications. (Bonus: Give an example of a topological space that has infinitely many different compactifications.)
+\end{problem}
+\begin{solution}
+    Fix $n$. Then take $X = \bigcup_{k = 1}^{n} (2k-2, 2k-1)$ in the usual topology in $\bbr$. For example, for $n = 2, X = (0, 1) \cup (2, 3)$, i.e., in $X$, we have $n$ translated copies of the open unit interval $(0, 1)$.
+
+    Then we can compactify $X$ into the box $[-4n, 4n]^2 \subset \bbr^2$ (overly big box), which is compact Hausdorff, by specify the embedding for each of the translated copies. For each translated copy, we can either use the 2-point compactification to map $(2k-2, 2k-1)$ to $[(2k-2, 0), (2k-1, 0)]$, or to use the 1-point compactification to map $(2k-2, 2k-1)$ to the circle $B((2k-2, 0), 1)$.
+
+    We therefore have $2^n$ different compactifications for $X$.
+\end{solution}
+
+\begin{problem} [38.2]
+    Show that the bounded continuous function $g: (0, 1) \to \bbr$ defined by $g(x) = \cos(\frac{1}{x})$ cannot be extended to the compactification of Example 3. Define an embedding $h: (0, 1) \to [0, 1]^3$ such that the functions $x, \sin(\frac{1}{x}), \cos(\frac{1}{x})$ are all extendable to the compactification induced by $h$.
+\end{problem}
+\begin{solution}
+    \textbf{1.} The compactification of Example 3 is the compactification induced by \begin{align*}
+    h: (0, 1) &\to [-1, 1]^2 \\
+    x &\mapsto x \times \sin(1/x)
+    \end{align*}
+
+    $X = (0, 1), Z = [-1, 1]^2$.
+
+    Let $Y$ be the compactification of $X$, and $H$ be the extension of $h$.
+
+    Suppose for sake of contradiction, that $g$ can be extended to a continuous map $G$ on $Y$.
+    
+    Consider the sequence of points $\{h(\frac{1}{n\pi})\}_{n \in \bbn} \subset Z$.
+
+    Since $G$ is continuous and $H$ is an embedding, on the one hand,
+     \begin{equation*}
+    GH^{-1}(h(\frac{1}{n \pi})) = G(\frac{1}{n\pi}) \cvgn G(0)
+    \end{equation*}
+    but on the other hand,
+    \begin{equation}
+    GH^{-1}(h(\frac{1}{n \pi})) = g(\frac{1}{n\pi}) = (-1)^n
+    \end{equation}
+    which does not converge.
+
+    \textbf{2.} Define \begin{equation*}
+    h: (0, 1) \to [0, 1]^3, x \mapsto x \times \sin(1/x) \times \cos(1/x)
+    \end{equation*} 
+\end{solution}  
+
+\begin{problem} [38.4]
+    Let $Y$ be an arbitrary compactification of $X$, let $\beta(X)$ be the Stone-Cech compactification. Show there is a continuous surjective closed map $g: \beta(X) \to Y$ that equals the identity on $X$.
+
+    (This exercise makes prices what we mean by saying that $\beta(X)$ is the ``maximal'' compactification of $X$. It shows that every compactification of $X$ is equivalent to a quotient space of $\beta(X)$.)
+\end{problem}
+\begin{solution}
+    $Y$ is a compactification of $X$, so view $X$ as a subspace of $Y$ with $\cl{X} = Y$ and we can inspect the continuous inclusion map \begin{equation*}
+        \iota: X \to Y
+    \end{equation*}
+
+    The universal property of the Stone Cech compactification then implies that there exists a unique extension of $\iota$ to continuous $g: \beta(X) \to Y$.
+
+    Note that $\beta(X)$ is compact, a closed subset of $\beta(X)$ is compact, so its image through $g$ is compact, and is therefore closed in Hausdorff $Y$. It follows that $g$ is a closed map.
+
+    It is a surjective map, since $\cl{i(X)} = Y \implies \cl{g(\beta X)} = Y$, but $\beta(X)$ is compact so $g(\beta X)$ is compact in Hausdorff $Y$, so $g(\beta X)$ is closed in $Y$, hence $Y = \cl{(g(\beta X))} = g(\beta X)$.
+
+    It is clear that it is exactly the identity on $X$, since $g$ is an extension of $\iota$.
+\end{solution}
+
+\begin{problem} [38.6]
+    Let $X$ be completely regular. Show that $X$ is connected if and only if $\beta(X)$ is connected. [Hint: If $X = A \cup B$ is a separation of $X$, let $f(x) = 0$ for $x \in A$ and $f(x) = 1$ for $x \in B$]
+\end{problem}
+\begin{solution}
+    \pffwd By hypothesis, $X$ is connected. Suppose for sake of contradiction that $\beta(X)$ is not connected, i.e., there exists separation $\beta(X) = A \sqcup B$ where $A, B$ are disjoint and clopen in $\beta(X)$. 
+
+    Then consider $X \cap A, X \cap B$.
+
+    Since $A, B$ are disjoint, they are also disjoint.
+
+    Also, $X \cap A$ is also open in $X$, since the conditions of the compactification is that the subspace topology of $Y$ on $X$ aligns with its topology. Same with $X \cap B$.
+
+    They are also nonempty, since $\cl{X} = \beta(X)$.
+    
+    It then follows that $X = (X \cap A) \sqcup (X \cap B)$ is a separation of connected $X, \contra$
+
+    Therefore $\beta(X)$ is connected.
+
+    \pfbwd By hypothesis, $\beta X$ is connected. Suppose for sake of contradiction that $X$ is not connected, i.e., there exists separation $X = A \sqcup B$ where $A, B$ are disjoint and clopen in $X$. 
+    Then define $f: X \to \{0, 1\}, f(x) = \begin{cases}
+    1 & \:\text{for}\: x \in A \\
+    0 & \:\text{for}\: x \in B
+    \end{cases}$
+    then $\inv{f}(\{1\}) = A, \inv{f}(\{0\}) = B$ are both open, so $f$ is continuous.
+
+    It follows that there is a continuous extension of $f$, called $g: \beta(X) \to \{0, 1\}$. But then we can write $\beta(X) = \inv{g}(\{1\}) \sqcup \inv{g}(\{0\})$ which are disjoint (clearly), and open, since $g$ is continuous. This is then a separation for connected $\beta(X), \contra$. It follows that $X$ is connected.
+\end{solution}
+\end{document}
