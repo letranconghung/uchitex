@@ -1,0 +1,214 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 7}
+\date{20 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{7}
+\begin{problem} [Problem 1]
+    \textbf{(a)} \begin{equation*}
+    y = \frac{3}{\sqrt{10}} x_{100} + \frac{1}{\sqrt{10}} x_1
+    \end{equation*}
+    where $x \sim N(0, \Sigma)$  with \begin{equation*}
+    \Sigma = \begin{bmatrix}
+    1 & 0 & 0 & \cdots & 0 \\
+    0 & 1 & 0.9 & \cdots & 0 \\
+    0 & 0.9 & 1 & \cdots & 0 \\
+    &&\vdots &&\\
+    0 & 0.9 & 0.9 & \cdots & 1
+    \end{bmatrix} \in \bbr^{100 \times 100}
+    \end{equation*}
+
+    \textbf{1.} Optimal Feature Selection
+
+    Recall that \begin{equation*}
+    w_k = \argmin_{\norm{w}_0 \leq k} L_S(w)
+    \end{equation*}
+
+    Then we'll have $I_1 = \{100\}$, $I_2 = \{1, 100\}$. There's no particular ``order'' as to which values are inserted into $I_k$, since for each $k$ we search from scratch. $w_2$ already achieves \begin{equation*}
+    L_S(w_2) = L_\cald(w_2) = 0 \leq 0.01   
+    \end{equation*}
+
+    \textbf{2.} Greedy Feature Selection
+    \begin{equation*}
+        I_{k + 1} = \argmin_{I} \min_{\supp(w) \subseteq I} L_S(w) \:\text{such that}\:  I_k \subset I, \abs{I} = k+1
+    \end{equation*}
+
+    Then $I_0 = \emptyset, I_1  = \{100\}, I_2 = \{100, 1\}$ with 100 getting added in the first iteration and 1 getting added in the second iteration. $w_2$ here also achieves 0 error.
+
+    \textbf{3.} $\ell_1$-norm relaxation.
+
+    Choose $B_1 = \frac{3}{\sqrt{10}}$ then $w_{B_1} = (0, 0, \ldots, 0, \frac{3}{\sqrt{10}})$ and $I_1 = \{100\}$.
+
+    Choose $B_2 = 1$ then $w_{B_2} = (\frac{1}{\sqrt{10}}, 0, \ldots, 0, \frac{3}{\sqrt{10}})$ and $I_2 = \{1, 100\}$. Fit $w_2$, then $w_2 = w_{B_2}$ and achieves 0 error.
+
+    \textbf{4.} Filter-by-correlation.
+
+    We have that \begin{equation*}
+    \bbe[y] = 0, Var(y) = \frac{9}{10} 1 + \frac{1}{10} 1 + 0 = 1
+    \end{equation*}
+    Therefore all the variables concerned ($x_1 \to x_{100}, y$) have mean 0 and variance 1. We can calculate the correlation coefficients:
+    \begin{align*}
+    \rho_{100} &= \frac{\cov(x_{100}, y)}{1} = \cov(x_{100}, \frac{3}{\sqrt{10}}x_{100} + \frac{1}{\sqrt{10}} x_1) = \frac{3}{\sqrt{10}} \\
+    \rho_1 &= \frac{1}{\sqrt{10}}
+    \end{align*}
+    then for $i$ with $2 \leq i \leq 99$, then \begin{align*}
+    \rho_{i} &= \cov(x_i, \frac{3}{\sqrt{10}}x_{100} + \frac{1}{\sqrt{10}} x_1) \\ 
+    &= \frac{3}{\sqrt{10}} \cov(x_i, x_{100}) + \frac{1}{\sqrt{10}} \cov(x_i, x_1) \\
+    &= \frac{3}{\sqrt{10}} 0.9 + 0 = \frac{2.7}{\sqrt{10}}
+    \end{align*}
+
+    Therefore $I_1 = \{100\}$, and $I_k$ for $k \in [2, 99]$ would include 100 and $(k-1)$ numbers in range $[2, 99]$ with arbitrary tie breaking. $I_{100} = [100]$ trivially.
+
+    But then for $I_k$, as $k$ increases, the inclusion of new features does not add any information to predict $y$. WLOG, we limit the prediction to \begin{equation*}
+    h_w(x) = w_{100} x_{100} + w_j x_j
+    \end{equation*}
+    for some $j \in [2, 99]$ for $k \leq 99$. Then \begin{align*}
+    L_S(w) &= \bbe[w_{100} x_{100} + w_j x_j - \frac{3}{\sqrt{10}} x_{100} - \frac{1}{\sqrt{10}} x_1] \\
+    &= \ldots \\
+    &= \left(w_{100} - \frac{3}{\sqrt{10}}\right)^2 + w_j^2 + 0.9 \left(w_{100} - \frac{3}{\sqrt{10}}\right)w_j + \frac{1}{10}
+    \end{align*}
+    hence the optimal weight would then be when \begin{equation*}
+    0 = \frac{\partial L}{\partial w_{100}} = \frac{\partial L}{\partial w_j}
+    \end{equation*}
+    which gives $w_{100} = \frac{3}{\sqrt{10}}, w_j = 0$, i.e., not using $x_j$ at all. This makes sense. Then the error would be \begin{equation*}
+    L_S(w) = 1/10
+    \end{equation*}
+    so we can't get any lower using $k \leq 99$. Hence the smallest $k$ such that $L_{\cald}(w_k) \leq 0.01$ would be 100.
+
+    \textbf{5.} Conclusion: method 2 and 3 work as well as the optimal method.
+
+    \textbf{(b)} \begin{equation*}
+    x_1 = z_1, y = z_2, x_2 = z_1 + 0.0001 z_2, x_i = z_i + 0.0001z_2
+    \end{equation*}
+    for $i \in \{3, 4, \ldots, 100\}$, where $z \sim N(0, I)$.
+
+    \textbf{1.} Optimal Feature Selection.
+
+    $I_1$ is the singleton of any number in $[2, 100]$ with arbitrary tie breaking. WLOG, $I_1 = \{2\}$. Then $w = (w_2)$, and 
+    \begin{align*}
+    L_S(w) &= \bbe[(w_2(z_1 + 0.0001z_2) - z_2)^2] \\
+    &= w_2^2 + (0.0001w_2 - 1)^2
+    \end{align*}
+    which has minimum of $\approx 0.9999$ at $w_2 = \frac{0.0002}{2 + 2 \times 10^{-8}} \approx 0.0001$. Our loss $0.9999 > 0.01$. Continue:
+
+    $I_2 = \{1, j\}$ for any $j \in [2, 100]$ with arbitrary tie breaking. WLOG, $j = 2$. Then $I_2 = \{1, 2\}$ with optimal weight $w = (-10^4, 10^4)$ achieving zero loss.
+
+    \textbf{2.} Greedy Feature Selection
+
+    Greedy selection selects $I_1 = \{j\}$ with arbitrary tie breaking for some $j \in [2, 100]$. This is because the best loss for $j \in [2, 100]$ would be $\approx 0.9999$, while if $I_1 = \{1\}$ then \begin{equation*}
+    \exp[w_1 x_1 - y] = \exp[w_1 z_1 - z_2] = w_1^2 + 1 \geq 1 > 0.9999
+    \end{equation*}
+
+    Then, $I_2 = \{j, 1\}$, with 1 added as the next feature, and the optimal weight is the aforementioned optimal weight. This weight achieves 0 loss.
+
+    \textbf{3.} $\ell_1$-norm relaxation.
+
+    Choose $B_1 =  \frac{0.0002}{2 + 2 \times 10^{-8}} \approx 0.0001$, then $w_{B_1}$ is the 1-sparse tuple containing $\frac{0.0002}{2 + 2 \times 10^{-8}} \approx 0.0001$ at some index $j \in [2, 100]$. WLOG $j = 2$. Then $I_1 = \{2\}$. This weight, as aforementioned, achieves $\approx 0.9999$ loss.
+
+    Choose $B_2 = 2 \times 10^4$, then $w_{B_2}$ is 2-sparse with $10^{-4}$ at its first index and $10^4$ at some index $j \in [2, 100]$. WLOG $j = 2$, then $I_2 = \{1, 2\}$. This weight achieves 0 loss.
+
+    \textbf{4.} Filter-by-correlation.
+
+    We have trivially that $\rho_1 = 0$, while for $j \in [2, 100]$, say, $j = 2$, we have \begin{equation*}
+    \rho_2 = \frac{0.0001}{\sqrt{(1^2 + 0.0001^2) (1)}}  \approx 9.9 \times 10^{-5}
+    \end{equation*}
+
+    Therefore, filter by correlation, for $k \in [99]$, would select $k$ numbers from $[2, 100]$ with arbitrary tie breaking, since $\rho_j \approx 9.9 \times 10^{-5} > 0 = \rho_1 \forall j \in [99]$.
+
+    However, $w_k$ would only be able to achieve $\approx 0.9999$ loss at best, therefore the smallest $k$ such that $L < 0.01$ would be 100, when $I_{100} = [100]$ trivially.
+
+    \textbf{5.} Conclusion: method 2 and 3 work as well as optimal feature selection.
+\end{problem}
+
+\begin{problem}
+    \textbf{(a)} WTS $L_{D^{(t+1)}}(h_t) = 0.5$.
+
+    We state the update rule for $D$:\begin{equation*}
+    D_i^{(t+1)} = \frac{D_i^{(t)} \exp(-\alpha_t y_i h_t(x_i))}{\sum_{j=1}^{m} D_j^{(t)}\exp(-\alpha_t y_j h_t(x_j))}
+    \end{equation*}
+
+    Let $E = \{i : h_t(x_i) \neq y_i\}$. Then for $i \in E$, we have
+    \begin{align*}
+        D_i^{(t)} \exp(-\alpha_t y_t h_t(x_i)) &= D_i^{(t)} \exp(\alpha_t) \\
+        &= D_i^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{1/2}
+    \end{align*}
+    and similarly if $i \not \in E$ then \begin{equation*}
+        D_i^{(t)}  \exp(-\alpha_t y_t h_t(x_i)) = D_i^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{-1/2}
+    \end{equation*}
+    It then follows that
+    \begin{align*}
+    L_{D^{(t+1)}}(h_t) &= \sum D_{i}^{(t+1)} \1 \{h_t(x_i) \neq y_i\} \\
+    &= \sum_{i \in E} D_{i}^{(t+1)} \\
+    &= \sum_{i \in E} \frac{D_i^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{1/2}}{\sum_{j \in E} D_j^{(t)} \exp(-\alpha_t y_i h_t(x_i))} \\
+    &= \frac{\sum_{j \in E} D_j^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{1/2}}{\sum_{j \in E} D_j^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{1/2} + \sum_{j \not \in E} D_j^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)^{-1/2}}  \\
+    &= \frac{\sum_{j \in E} D_j^{(t)} \left(\frac{1}{\epsilon_t} - 1\right)}{\sum_{j \in E} D_j^{(t)} \left(\frac{1}{\epsilon_t} - 1\right) + \sum_{j \not \in E} D_j^{(t)}}  \\
+    \end{align*}
+    Recall that \begin{equation*}
+    \epsilon_t = \sum_{j \in E} D_j^{(t)}
+    \end{equation*}
+    and \begin{equation*}
+    \sum_{j \not \in E} D_j^{(t)} = 1 - \sum_{j \in E} D_j^{(t)}
+    \end{equation*}
+    so \begin{align*}
+        L_{D^{(t+1)}}(h_t) &= \frac{\sum_{j \in E} D_j^{(t)} (\sum_{j \in E} D_j^{(t)} - 1)}{\sum_{j \in E}D_j(t)(\sum_{j \in E} D_j^{(t)} - 1) - (1 - \sum_{j \in E} D_j^{(t)})(\sum_{j \in E} D_j^{(t)})} \\
+        &= \frac{a(a-1)}{a(a-1) - (1-a)a} = \frac{1}{2}
+    \end{align*}
+    as required.
+
+    \textbf{(b)} We rewrite what we want to prove, using $T$ instead of $t$ to avoid confusion. WTS \begin{equation*}
+    \frac{\partial L_S^{\exp} (h_{w^{(T)}})}{\partial w[h]} \propto L^{01}_{D^{(T)}}(h) - \frac{1}{2}
+    \end{equation*}
+
+    We have that\begin{equation*}
+        h_{w^{(T)}} (x) = \sum_{h} w^{(T)}[h] \phi(x)[h] = \sum_{h} w^{(T)}[h] h(x)
+    \end{equation*}
+    which implies \begin{align}
+    L_S^{\exp}(h_{w^{(T)}}) &= \frac{1}{m} \sum_{i = 1}^{m} e^{-y_i h_{w^{(T)}}(x_i)} \nonumber\\
+    &= \frac{1}{m} \sum_{i = 1}^{m} e^{-y_i \sum_{h} w^{(T)}[h]h(x_i)}\nonumber \\
+    \implies \frac{\partial L_S^{\exp} (h_{w^{(T)}})}{\partial w[h]} &= \frac{-1}{m} \sum_{i=1}^{m} \left[y_i h(x_i) e^{-y_i \sum_{h} w^{(T)}[h] h(x_i)}\right] \nonumber\\
+    &= \frac{-1}{m} \sum_{i=1}^{m} \left[y_i h(x_i) e^{-y_i h_{w^{(T)}}(x_i)}\right] \label{eqn1}
+    \end{align}
+
+    We now want to show that \begin{equation*}
+    \forall i \in [m], D_i^{(T)} = C_T \exp(-y_i h_{w^{(T)}}(x_i))
+    \end{equation*}
+    for some constant $C_T$ that only depends on $T$.
+
+    We will prove by induction on $T$.
+
+    For $T = 0$, for all $i \in [m]$, we have
+    \begin{equation*}   
+        D_i^{(0)} = \frac{1}{m}, \quad \exp(y_i h_{w^{(0)}(x_i)}) = e^0 = 1
+    \end{equation*}
+    so we have $C_0 = \frac{1}{m}$.
+
+    Suppose that the proposition holds for $T = T$, we now want to show that it is also true for $T = T+1$. Indeed, for all $i \in [m]$, we have
+    \begin{align*}
+        D^{(T+1)}_i &= \frac{D^{(T)}_i \exp(-\alpha_{T} y_i h_{T}(x_i))}{\sum_{j} D^{(T)}_j \exp(-\alpha_{T} y_j h_{T}(x_j))} \\
+        &= \frac{C_T}{C_T} \frac{\exp(-y_i h_{w^{(T)}}(x_i) - \alpha_T y_i h_T(x_i))}{\sum_{j} \exp(-y_j h_{w^{(T)}}(x_j) - \alpha_T y_j h_T(x_j))} \\
+        &= \frac{\exp(-y_i h_{w^{(T+1)}}(x_i))}{\sum_{j} \exp(-y_j h_{w^{(T+1)}}(x_j))} \\
+        &= C_{T+1} \exp(-y_i h_{w^{(T+1)}}(x_i))
+    \end{align*}
+    where \begin{equation*}
+    C_{T+1} \coloneqq \frac{1}{\sum_{j} \exp(-y_j h_{w^{(T+1)}}(x_j))}
+    \end{equation*}
+    is only dependent on $T$.
+
+    By induction, we have that \begin{equation*}
+    D_i^{(T)} = C_T \exp(-y_i h_{w^{(T)}}(x_i))
+    \end{equation*}
+    holds for all $T$.
+
+    We now return to \eqref{eqn1}, recall that $E = \{i : h(x_i) \neq y_i\}$, and substitute $\exp(-y_i h_{w^{(T)}}(x_i)) = \frac{1}{C_T} D_i^{(T)}$, to have
+    \begin{align*}
+    \frac{\partial L_S^{\exp}(h_{w^{(T)}})}{\partial w[h]} &= \frac{-1}{mC_T} \sum_{i=1}^{m} \left[y_i h(x_i) D_i^{(T)}\right] \\
+    &= \frac{1}{mC_T} \left[\sum_{i \in E} D_i^{(T)} - \sum_{i \not \in E} D_i^{(T)}\right] \\
+    &= \frac{1}{C_T} \left[L^{01}_{D^{(T)}}(h) - (1 - L^{01}_{D^{(T)}}(h))\right] \\
+    &= \frac{2}{C_T} \left[L^{01}_{D^{(T)}}(h) - \frac{1}{2}\right] \propto \left[L^{01}_{D^{(T)}}(h) - \frac{1}{2}\right] 
+    \end{align*}
+    as required.
+\end{problem}
+
+\end{document}
