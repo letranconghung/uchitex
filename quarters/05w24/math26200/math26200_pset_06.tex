@@ -1,0 +1,193 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Problem Set 6}
+\date{22 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{6}
+\textbf{Textbook:} Munkres, \textit{Topology}
+\begin{problem} [28.1 \done]
+    Give $[0, 1]^{\omega}$ the uniform topology. Find an infinite subset of this space that has no limit point.
+\end{problem}
+\begin{solution}
+    Let \begin{equation*}
+    x^{(n)} \coloneqq (0, \ldots, 0, 1, 0, \ldots) \in [0, 1]^\omega
+    \end{equation*}
+    where $1$ is at the $n$-th index.
+
+    Consider set $A = \{x^{(n)} : n \in \bbn\}$. Since $[0, 1]^\omega$ is endowed with the uniform metric, if $A$ has some limit point $x \in [0, 1]^\omega$ then there must necessarily be a sequence $\{x^{(n_j)}\}_{j \in \bbn}$ such that $x_{n_j} \cvgj x$ (note that $n_j$ here is not required to be increasing in $j$).
+
+    This implies for all $\epsilon > 0$, there exists $J \in \bbn$ such that for all $j \geq J$, \begin{equation*}
+    \bar{\rho}(x^{(n_j)}, x) < \epsilon
+    \end{equation*}
+    Pick $\epsilon = 1/2$. Then for $J$, we have that \begin{equation*}
+        \epsilon > \bar{\rho}(x^{(n_J)}, x) \geq \bar{d}(1, x_{n_J}) = \abs{x_{n_J} - 1}
+    \end{equation*}
+    hence $x_{n_J}> 1 - \epsilon$. It then follows that
+    \begin{equation*}
+    \bar{\rho}(x^{(n_{J+1})}, x) \geq \bar{d}(x^{(n_{J+1})}_{n_{J}}, x_{n_J}) = 1 - \epsilon = \epsilon, \contra
+    \end{equation*}
+
+    It follows that $A$ has no limit point.
+\end{solution}
+
+\begin{problem} [43.4 \done]
+    Show that the metric space $(X, d)$ is complete if and only if for every nested sequence $A_1 \supset A_2 \supset \cdots$ of nonempty closed set of $X$ such that $\diam A_n \to 0$, the intersection of the sets $A_n$ is nonempty.
+\end{problem}
+\begin{solution}
+\pffwd By hypothesis, $(X, d)$ is complete.
+
+Take sequence $A_1 \supset A_2 \supset \cdots$ of nonempty closed set of $X$ such that $\diam A_n \to 0$, and let $A = \bigcap_{n \in \bbn} A_n$. WTS $A \neq \emptyset$.
+
+For every $n \in \bbn$, since $A_n \neq \emptyset$, take $x_n \in A_n$. Consider the sequence $(x_n)_{n \in \bbn}$. Since $A_n \subset A_{n-1} \subset \cdots \subset A_1$, it follows that for all $n$, $x_n \in A_m$ for all $m \leq n$. It then follows that $d(x_n, x_m) \leq \diam A_m$. Take $m \leq n$ to $\infty$, since $\diam A_m \cvgg{m \to \infty} 0$, it follows that $(x_n)_{n \in \bbn}$ is Cauchy.
+
+Since $X$ is complete, it follows that $x_n \cvgn x \in X$. WTS $x \in \bigcap_{n \in \bbn} A_n$.
+
+Indeed, for each $A_m$, since it is closed in complete $X$, it is also complete. Then consider the cutoff-ed sequence $(y_n = x_{n + m})_{n \in \bbn}$. It is a sequence in $A_m$, and is Cauchy as we noted. It follows that $y_n \cvgn x' \in A_m$. But then $(y_n)$ is just a subsequence of the original $(x_n)$, hence $x' = x$. It then follows that $x \in A_m \forall m \in \bbn \implies x \in \bigcap_{m \in \bbn} A_m \implies A \neq \emptyset$ as required. \qed
+
+\pfbwd Take Cauchy sequence $(x_n)_{n \in \bbn}$ in $X$. WTS $x_n \cvgn x \in X$.
+
+Let $A_n = \{x_k : k \geq n \} = \{x_n, x_{n+1}, \ldots\}$. Then since $(x_n)$ is Cauchy, it follows that $\diam A_n \cvgn 0$. Consider $\diam \cl{A_n}$: then every point in the closure is well approximated by points in $A_n$, therefore \begin{equation*}
+\diam \cl{A_n} \cvgn 0
+\end{equation*}
+
+By construction, we have that $A_1 \supset A_2 \supset \ldots \implies \cl{A_1} \supset \cl{A_2} \supset \ldots$, with $\diam \cl{A_n} \cvgn 0$. By hypothesis, therefore, $\bigcap_{n \in \bbn} \cl{A_n} \neq \emptyset$. Take $x \in \bigcap_{n \in \bbn} \cl{A_n} \implies \forall n \in \bbn, x \in \cl{A_n}$. But $x_n \in \cl{A_n}$ and $\diam \cl{A_n} \cvgn 0 \implies x_n \cvgn x$. $x \in X$, so $X$ is complete.
+\end{solution}
+
+\begin{problem} [43.8 \done]
+    If $X$ and $Y$ are spaces, define \begin{equation*}
+    e: X \times \calc(X, Y) \to Y
+    \end{equation*}
+    by the equation $e(x, f) = f(x)$; the map $e$ is called the \textbf{evaluation map}. Show that if $d$ is a metric for $Y$ and $\calc(X, Y)$ has the corresponding uniform topology, then $e$ is continuous.
+\end{problem}
+\begin{solution}
+    Recall that the uniform topology on $\calc(X, Y)$ is the topology induced by the metric $\bar{\rho}$, where for $f, g \in \calc(X, Y)$,
+    \begin{equation*}
+    \bar{\rho}(f, g) = \sup \{\bar{d}(f( \alpha), g(\alpha)) : \alpha \in X\}
+    \end{equation*}
+
+    Take typical basis element $B(y, \epsilon)$ of $Y$. WTS $e^{-1}(B(y, \epsilon))$ is open in $X \times \calc(X, Y)$. Take any $x \times f \in e^{-1}(B(y, \epsilon))$. WTS there exists an open neighborhood of $x \times f$ that is contained in $e^{-1}(B(y, \epsilon))$. Indeed, consider \begin{equation*}
+    U \coloneqq f^{-1}(fx, \epsilon/2) \times B(f, \epsilon / 2)
+    \end{equation*}
+    It is clear that $x \times f \in U$. Then, take any $x', f' \in U$. Then \begin{equation*}
+    d(f'x', y) \leq d(f'x', fx') + d(fx', fx) < \epsilon/2 + \epsilon/2 = \epsilon
+    \end{equation*}
+    so it follows that $x \times f \in U \subset e^{-1}(B(y, \epsilon))$ as required.
+\end{solution}
+
+\begin{problem} [45.7 \done]
+    Let $(X, d)$ be a metric space. If $A \subset X$ and $\epsilon > 0$, let $U(A, \epsilon)$ be the $\epsilon$-neighborhood of $A$. Let $\calh$ be the collection of all (nonempty) closed, bounded, subsets of $X$. If $A, B \in \calh$, define \begin{equation*}
+    D(A, B) = \inf \{\epsilon \mid A \subset U(B, \epsilon) \:\text{and}\: B \subset U(A, \epsilon)\}
+    \end{equation*}
+    \begin{enumerate}
+    \item Show that $D$ is a metric on $\calh$, it is called the \textbf{Hausdorff metric}.
+    \item Show that if $(X, d)$ is complete, so is $(\calh, D)$. [Hint: Let $A_n$ be a Cauchy sequence in $\calh$, by passing to a subsequence, assume $D(A_n, A_{n+1}) < \frac{1}{2^n}$. Define $A$ to be the set of all points $x$ that are the limits of sequences $x_1, x_2, \ldots$ such that $x_i \in A_i$ for each $i$, and $d(x_i, x_{i+1}) < \frac{1}{2^i}$. Show $A_n \to \cl{A}$.]   
+    \item Show that if $(X, d)$ is totally bounded, so is $(\calh, D)$. [Hint: Given $\epsilon$, choose $\delta < \epsilon$ and let $S$ be a finite subset of $X$ such that the collection $\{B_d(x, \delta) \mid x \in S\}$ covers $X$. Let $\cala$ be the collection of all nonempty subsets of $S$; show that $\{B_D(A, \epsilon) \mid A \in \cala\}$ covers $\calh$.]
+    \item Theorem: If $X$ is compact in the metric $d$, then the space $\calh$ is compact in the Hausdorff metric $D$.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} WTS $D$ is a metric.
+
+    \begin{itemize}
+    \item $D(A, B) \geq 0$ since it is infimum of set of positive numbers.
+    \item If $D(A, B) = 0$ then for all $\epsilon> 0$, $A \subset U(B, \epsilon), B \subset U(A, \epsilon)$. $A \subset U(B, \epsilon)$ means that for every point $a \in A, a \in U(B, \epsilon)$, i.e., $B(a, \epsilon) \cap B \neq \emptyset$. So every point $a \in A$ is in the closure of $B$. $B$ is closed so $\cl{B} = B$. Therefore $A \subset B$. Similarly, $B \subset A$. Hence $A = B$ as required.
+    \item By definition, $D(A, B) = D(B, A)$ trivially.
+    \item WTS $D(A, B) + D(B, C) \geq D(A, C)$. Take $\epsilon_{AB}, \epsilon_{BC}$ such that $A \subset U(B, \epsilon_{AB}), B \subset U(A, \epsilon{AB})$ and $B \subset U(C, \epsilon_{BC}), C \subset U(B, \epsilon_{BC})$. From $A \subset U(B, \epsilon_{AB})$ and $B \subset U(C, \epsilon_{BC})$ it follows that $A \subset U(C, \epsilon_{AB} + \epsilon_{BC})$ by triangle inequality. Vice versa, $C \subset U(A, \epsilon_{AB} + \epsilon_{BC})$. Taking infs, it then follows that $D(A, B) + D(B, C) \geq D(A, C)$.
+    \end{itemize}
+    Hence $D$ is indeed a metric. \qed
+
+    \textbf{(b)} $(X, d)$ is complete.
+
+    Take $(A_n)_{n \in \bbn}$  be a Cauchy sequence in $(\calh, D)$. WTS $A_n$ converges to some set in $\calh$.
+
+    Since $(A_n)$ is Cauchy, it follows that for all $\epsilon > 0$, there exists $N_{\epsilon}$ such that for all $n, m \geq N_\epsilon$, we have \begin{equation*}
+    D(A_n, A_m) < \epsilon
+    \end{equation*}
+
+    Then, for all $j$, set $\epsilon = \frac{1}{2^j}$. Then there exists some $N_j$ such that for all $n, m \geq N_j$, we have $D(A_n, A_m) < \frac{1}{2^j}$. WLOG, set the $N_j$ be increasing $j$. 
+
+    Define a new sequence (as a subsequence of $A_n$) $B_j \coloneqq A_{N_j}$, then since $N_j$ is increasing in $j$, it follows that \begin{equation*}
+    D(B_n, B_{n+1}) < \frac{1}{2^n}
+    \end{equation*}
+
+    Define $A$ to be the set of all points $x$ that are the limits of sequences $(x_1, x_2, \ldots)$ such that for all $i$, $x_i \in B_i$ and $d(x_i, x_{i+1}) < \frac{1}{2^i}$. We want to show that $B_n \cvgn \cl{A}$.
+
+    \textbf{0.} We first show that $A$ is non-empty. Take any $x_1 \in B_1$. Then since $B_1 \subset U(B_2, \frac{1}{2})$, it follows that there exists some $x_2 \in B_2$ such that $d(x_1, x_2) < \frac{1}{2}$. Perform this inductively, then we have a sequence $(x_n)$ with $x_n \in B_n$ such that $d(x_n, x_{n+1}) < \frac{1}{2^n}$. So $(x_n)$ is Cauchy (the sum $\sum_{k = n}^{m} \frac{1}{2^k} \cvgn 0$, so by triangle inequality, it is Cauchy) in complete $X$, so $x_n \cvgn x \in X$. So $A$ is nonempty, so $\cl{A}$ is nonempty. We pay special attention to how a ``valid'' sequence can be ``generated'' from a point.
+    
+    \textbf{1.} It is trivial that if $A_n$ is bounded then $\cl{A}$ is also bounded.
+
+    \textbf{2.} Fix $N$. We now want to show $B_N \subset U(\cl{A}, \frac{1}{2^{N-1}})$.
+    
+    Take some $b_N \in B_N$. Then by the aforementioned construction, we can form sequence $(b_n)_{n \geq N}$ such that $d(b_n, b_{n+1}) < \frac{1}{2^n}$, which is Cauchy, and since $X$ is complete, converges to some $b \in X$. Since $B_{n+1} \subset U(B_n, \frac{1}{2^n})$, we can also pad in front of this $(b_n)_{n \geq N}$ to form $(b_n)_{n \in \bbn}$ such that $d(b_n, b_{n+1}) < \frac{1}{2^n}$ still, while the limit point stays the same. It then follows that in fact $b \in A$.
+
+    Then \begin{equation*}
+    d(b_N, b) \leq d(b_N, b_{N_\epsilon}) + \epsilon \leq \sum_{k = N}^{\infty} \frac{1}{2^k} + \epsilon \leq \frac{1}{2^{N-1}} + \epsilon
+    \end{equation*}
+    for all $\epsilon$, hence $d(b_N, b) \leq \frac{1}{2^{N-1}}$. Therefore $B_N \subset U(A, \frac{1}{2^{N-1}}) \implies B_N \subset U(\cl{A}, \frac{1}{2^{N-1}})$.
+
+    \textbf{3.} We now want to show $\cl{A} \subset U(B_N, \frac{1}{2^{N-1}})$.
+
+    Take $a \in \cl{A}$. Then for all $\epsilon > 0$, there exists some $a_\epsilon \in A$ such that $d(a, a_\epsilon) < \epsilon$. Since $a_\epsilon \in A$, there exists some sequence $(b_{n, \epsilon})$ such that $b_{n, \epsilon} \in B_n$ and $d(b_{n, \epsilon}, b_{n+1, \epsilon}) < \frac{1}{2^n}$ for all $n$. Similar to above, we have that \begin{equation*}
+    d(a_\epsilon, b_{n, \epsilon}) \leq \frac{1}{2^{n-1}} 
+    \end{equation*}
+    It then follows that there for every $n, \epsilon$, there exists $b_{n, \epsilon}$ such that \begin{equation*}
+    d(a, b_{n, \epsilon}) \leq d(a, a_{\epsilon}) + d(a_\epsilon, b_{n, \epsilon}) < \frac{1}{2^{n-1}} + \epsilon
+    \end{equation*}
+    hence $d(a, b_{n, \epsilon}) \leq \frac{1}{2^{n-1}}$. It then follows that $\cl{A} \subset U(B_n, \frac{1}{2^{n-1}})$ for all $n$.
+
+    \textbf{4.} From all the above, it then follows $\cl{A} \in \calh$ and so it is well-defined to conclude $D(\cl{A}, B_n) < \frac{1}{2^{n-1}}$ for all $n$. Hence $B_n \cvgn \cl{A}$. \qed
+
+    \textbf{(c)} $(X, d)$ is totally bounded. We want to show that for all $\epsilon > 0$, we can cover $\calh$ by finitely many $\epsilon$-balls. Select $\delta = \epsilon/2$. Then since $X$ is totally bounded, there exists a finite cover of $X$ using $\delta$-balls, namely, $\{B(x_i, \delta) : x_i \in X\}_{i \leq N}$.
+
+    Let $S = \{x_i : i \leq N\}$ and take $\cala \subset 2^S$ to be the collection of nonempty subsets of $S$. Since $\abs{S} \leq N \implies \abs{\cala} \leq \abs{2^S} \leq 2^N$.
+    
+    We therefore WTS $\{B_D(A, \epsilon) \mid A \in \cala\}$ covers $\calh$ to demonstrate a finite $\epsilon$-balls cover of $\calh$, i.e., that for any $C \in \calh$, then there exists some $A \in \cala$ such that $C \in B_D(A, \epsilon)$.
+
+    Now, $C$ is a nonempty, closed, bounded subset of $X$. Define $A \coloneqq \{x_i : i \leq N, B(x_i, \delta) \cap C \neq \emptyset\} \in \cala$. Then WTS $C \in B_D(A, \epsilon) \Leftrightarrow C \subset U(A, \epsilon), A \subset U(C, \epsilon)$.
+
+    Since $\{B(x_i, \delta) : i \leq N\}$ cover $X$, and $B(x_i, \delta) \cap C = \emptyset$ if $x_i \not \in A$, it then follows that $\{B(x_i, \delta) : x_i \in A\}$ covers $C$. But then since $\delta < \epsilon$, it then follows that $C \subset U(A, \epsilon)$.
+    
+    Furthermore, since for all $x_i \in A$, $B(x_i, \delta) \cap C \neq \emptyset$ and $\delta < \epsilon$, it then follows $A \subset U(C, \epsilon)$.
+
+    From the 2 paragraphs above, we can therefore conclude that $C \in B_D(A, \epsilon)$ as required. \qed
+
+    \textbf{(d)} $(X, d)$ compact implies $(X, d)$ complete and totally bounded implies $(\calh, D)$ complete and totally bounded implies $(\calh, D)$ compact.
+
+\end{solution}
+
+\begin{problem} [46.6 \done]
+    Show that in the compact-open topology, $\calc(X, Y)$ is Hausdorff if $Y$ is Hausdorff, and regular if $Y$ is regular. [Hint: If $\cl{U} \subset V$ then $\cl{S(C, U)} \subset S(C, V)$]
+\end{problem}
+\begin{solution}
+    \textbf{1.} $Y$ is Hausdorff.
+
+    Take $f \neq g \in \calc(X, Y)$. Since $f \neq g$, it implies that there exists $a \in X$ such that $f(a) \neq g(a)$. Since $Y$ is Hausdorff, there exists $U_f, U_g$ disjoint and open in $Y$ such that $f(a) \in U_f, g(a) \in U_g$. Then $S(\{a\}, U_f) \ni f, S(\{a\}, U_g) \ni g$ and they are disjoint, hence $\calc(X, Y)$ is also Hausdorff.
+
+    \textbf{2.} $Y$ is regular.
+
+    Recall regularity is equivalent to saying that given an open neighborhood of a point, one can always find a smaller neighborhood around that point whose closure is contained in the first open neighborhood.
+
+    To prove this, we shall only do this for the subbasis that generates the compact-open topology, since closure of the intersection is a subset of the intersection of closures.
+
+    Take $f \in S(C, U)$ where $f \in \calc(X, Y)$, $C \subset X$ is compact and $U \subset Y$ open. Since $f \in S(C, U)$, it follows that $f(C) \subset U$.
+
+    Since $C$ is compact and $f$ is continuous, $f(C)$ is compact. For each $y \in f(C) \subset U$, then, since $Y$ is regular, there exists some $V_y$ open such that $y \in V_y \subset \cl{V_y} \subset U$. Then $\{V_y : y \in f(C)\}$ is an open cover of $f(C)$ and hence reduces to some finite subcover $\{V_{y_i}\}_{i \leq N}$. Let $V = \cup_{i \leq N} V_{y_i}$, then $V$ is open and finiteness gives us $\cl{V} = \cup_{i \leq N} \cl{V_{y_i}} \subset Y$, and also that $f(C) \subset V$, i.e., $f \in S(C, V)$.
+
+    WTS $\cl{S(C, V)} \subset S(C, U)$ by showing that $\cl{S(C, V)} \subset \{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\}$. Suppose $f \in \calc(X, Y) \backslash \{f \in \calc (X, Y) \mid f(C) \subset \cl{V}\}$. This implies there exists some $x_0 \in C$ such that $f(x_0) \not \in \cl{V}$. Then there exists some $W \ni f(x_0)$ open such that $W \cap \cl{V} = \emptyset$. It then follows that $f \in S(\{x_0\}, W)$ and $S(\{x_0\}, W) \cap \{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\} = \emptyset$. It follows that $\{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\}$ is closed.
+
+    By definition, $S(C, V) \subset \{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\} \implies \cl{S(C, V)} \subset \cl{\{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\}} = \{f \in \calc(X, Y) \mid f(C) \subset \cl{V}\} \subset S(C, U)$ as required.
+\end{solution}
+
+\begin{problem} [47.5]
+    Let $(Y, d)$ be a metric space; let $f_n: X \to Y$ be a sequence of continuous functions; let $f: X \to Y$ be a function (not necessarily continuous). Suppose $f_n$ converges to $f$ is the topology of pointwise convergence. Show that if $\{f_n\}$ is equicontinuous, then $f$ is continuous and $f_n$ converges to $f$ in the topology of compact convergence.
+\end{problem}
+\begin{solution}
+    Consider $\calf = \{f_n : n \in \bbn\}$ is a family of functions in $\calc(X, Y)$. WTS $\calf_a \coloneqq \{f_n(a) : n \in \bbn\}$ has compact closure for each $a \in X$.
+
+    Since $f_n \cvgn f$ in the topology of pointwise convergence, $f_n(a) \cvgn f(a)$. It then follows that $\cl{\calf_a}$ is sequentially compact. It is sequentially compact in the metric space $(Y, d)$, so it is compact.
+
+    Apply Ascoli's Theorem, it then follows that $\cl{\calf}$ is compact in $\calc(X, Y)$ in the topology of compact convergence, which implies that $f_n \cvgn f$ in this topology. $\calf$ is compact in Hausdorff $\calc(X, Y)$, hence is closed, so $f \in C(X, Y)$ as required.
+\end{solution}
+\end{document}

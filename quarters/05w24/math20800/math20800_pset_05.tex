@@ -1,0 +1,494 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{MATH 20800: Honors Analysis in Rn II \\ \large Problem Set 5}
+\date{25 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{5}
+\begin{notation}
+    Let $V, W$ be normed vector spaces. Then $\calb(V, W) = \call(V, W)$ is the space of bounded (hence continuous) linear operators from $V$ to $W$.
+\end{notation}
+\begin{problem} [Typed Problem 1 \done]
+    Let $B$ be a Banach space. \begin{enumerate}
+    \item Prove that if $T \in \calb(B, B)$ and $\norm{I - T} < 1$ where $I$ is the identity operator, then $T$ is invertible and in fact $\sum_{n=0}^{\infty} (I - T)^n$ converges in $\calb(B, B)$ to $\inv{T}$.
+    \item Prove that the set of invertible operators is open in $\calb(B, B)$.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Write the operator \begin{equation*}
+    Q \coloneqq \sum_{n=0}^{\infty} (I-T)^n : B \to B
+    \end{equation*}
+
+    A priori, $Q$ might not be well-defined pointwise at all, not even considering if $Q \in \calb(B, B)$. We intend to show at once that $Q \in \calb(B, B)$.
+
+    First, we use the fact that if $T \in \calb(B, B)$ then $\norm{T^n} \leq \norm{T}^n$ for any $n \in \bbn$. This is true by the submultiplicativity of operator norms. It follows that 
+     \begin{equation*}
+        \norm{Q} \leq \sum_{n= 0}^{\infty} \norm{(I-T)^n} \leq \sum_{n= 0}^{\infty} \norm{I-T}^n < \infty
+    \end{equation*}
+    since $\norm{I-T} < 1$. Therefore $Q \in \calb(B, B)$.
+
+    We now want to show that in fact $T^{-1} = Q$, by showing that $T \circ Q = Q \circ T = I$. Apply linearity:
+    \begin{align*}
+        T \circ Q &= \left((I - (I-T)) \circ \sum_{n=0}^{\infty} (I-T)^n\right) \\
+        &= \sum_{n=0}^{\infty} (I-T)^n - \sum_{n=1}^{\infty}(I-T)^n = I
+    \end{align*}
+    and similarly
+    \begin{align*}
+        Q \circ T &= \left(\sum_{n=0}^{\infty} (I-T)^n \circ (I - (I-T))\right) \\
+        &= \sum_{n=0}^{\infty} (I-T)^n - \sum_{n=1}^{\infty}(I-T)^n = I
+    \end{align*}
+    It follows that $T$ is invertible; its inverse is $Q \in \calb(B, B)$.
+
+    \textbf{(b)} Let $S$ be the set of invertible operators in $\calb(B, B)$, take $T \in S$.
+
+    Consider $\norm{\inv{T}}$. If $\norm{\inv{T}} = 0 \implies \inv{T} = 0 \implies \inv{T}T \neq I, \contra$. So $\norm{\inv{T}} > 0$. 
+    
+    Then for all operator $Q \in B(T, 1/\norm{\inv{T}})$ we have that
+    \begin{equation*}
+    \norm{T - Q} < 1/\norm{\inv{T}} \implies \norm{\inv{T}(T - Q)} < 1 \implies \norm{I - \inv{T}Q} < 1
+    \end{equation*}
+    which implies $\inv{T}Q$ is invertible. Composition of invertible maps is invertible. So $Q = T \circ \inv{T}Q$ is invertible.
+
+    So we've found ball $B(T, 1/\norm{\inv{T}})$ around $T$ that is inside $S$, so $S$ is open as required.
+\end{solution}
+
+\begin{problem} [Typed Problem 2 \done]
+    Let $V$ be a normed vector space and $W \subset V$ a proper closed subspace.
+    \begin{enumerate}
+    \item Prove that $\norm{v + W} \coloneqq \inf_{w \in W} \norm{v + w}$ is a norm on $V / W$.
+    \item Prove that for any $\epsilon > 0$ there exists $v \in V$ such that $\norm{v} = 1$ and $\norm{v + W} \geq 1 - \epsilon$.
+    
+    Hint: Let $u \in V\backslash W$. Then $\norm{u + W} > 0$ and there exists $w \in W$ such that $\norm{u + W} \leq \norm{u + w}$ and \begin{equation*}
+    \norm{u + w} \leq \norm{u + W} + \epsilon \norm{u + W}.
+    \end{equation*}
+
+    Now consider $\frac{u + w}{\norm{u + w}}$.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} We first have to check that this is a well-defined function, i.e., that for $\norm{v + W} = \inf_{w \in W} \norm{v + w}$, it does not matter which representative $v$ we pick on the RHS. Indeed, for any $v_1, v_2 \in v + W \implies v_1 = v_2 + w'$ for some $w' \in W$. It then follows that \begin{equation*}
+    \inf_{w \in W} \norm{v_1 + w} = \inf_{w \in W} \norm{v_2 + w' + w} = \inf_{w' + w \in W} \norm{v_2 + w' + w}
+    \end{equation*}
+    since $W$ is a subspace of $V$. So indeed it does not matter which representative we pick.
+
+
+    We check through requirements of a norm:
+    \begin{itemize}
+        \item $\norm{v + W}$ is infimum of non negative things, so it is nonnegative
+        \item If $\norm{v + W} = 0$, fix representative $v \in v + W$, then for all $\epsilon > 0$, there exists $w \in W$ such that $\epsilon > \norm{v + w} = \norm{v - (-w)}$. Since $(-w) \in W$, it follows that $v \in \cl{W}$. $\cl{W} = W$ is $W$ is closed, so $v \in W$.
+        \item $\norm{\lambda v + W} = \inf_{w \in W} \norm{\lambda v + w} = \inf_{w \in W} \norm{\lambda(v + w/\lambda)} = \abs{\lambda} \inf_{w/\lambda \in W} \norm{v + w/\lambda} = \abs{\lambda} \norm{v + W}$.
+        \item For any $v_1, v_2 \in V; w \in W$, we have that  $\norm{v_1 + v_2+ w} \leq \norm{v_1 + w/2} + \norm{v_2 + w/2} \implies \norm{v_1 + v_2 + W} \leq \norm{v_1 + W} + \norm{v_2 + W}$.
+    \end{itemize}
+    Thus $\norm{v + W}$ is a norm.
+
+    \textbf{(b)} Fix $\epsilon > 0$. Let $u \in V \backslash W$. Then $u + W \neq 0 \implies \norm{u + W} > 0$.
+
+    Since $\norm{u + W} = \inf_{w \in W} \norm{u + w}$, there exists $w \in W$ such that $\norm{u + W} \leq \norm{u + w} \leq \norm{u + W} + \epsilon \norm{u + W} = (1 + \epsilon) \norm{u + W}$. It then follows that if we define $v = \frac{u+w}{\norm{u+w}}$ then clearly $\norm{v} = 1$ and \begin{equation*}
+    \norm{v + W} = \norm*{\frac{u + w}{\norm{u + w}} + W} = \frac{1}{\norm{u + w}}\norm{u + W} \geq \frac{1}{1 + \epsilon} > \frac{1-\epsilon^2}{1 + \epsilon} = 1 - \epsilon
+    \end{equation*}
+    as required.
+\end{solution}
+
+\begin{problem} [Typed Problem 3 \done]
+    Let $V$ be a Banach space and $W \subset V$ a proper closed subspace. Prove that $V / W$ with the norm defined in problem 2 is a Banach space.
+
+    Hint: Suppose that the series $\sum_{n} (v_n + W)$ is absolutely summable, i.e., $\sum_n \norm{v_n + W}$ converges. We wish to prove that $\sum_{n} (v_n + W)$ converges in $V / W$. For each $n \in \bbn$, there exists $w_n \in W$ such that \begin{equation*}
+    \norm{v_n + w_n} \leq \norm{v_n + W} + 2^{-n}
+    \end{equation*}
+    Then $\sum_{n} (v_n + w_n)$ is absolutely summable, and since $V$ is a Banach space, there exists $v \in V$ such that $v = \sum_{n} (v_n + w_n)$. Prove that $v + W = \sum_{n} (v_n + W)$, i.e., \begin{equation*}
+    \lim_{N \to \infty} v + W - \sum_{n=1}^{N} (v_n + W) = 0
+    \end{equation*}
+\end{problem}
+\begin{solution}
+    To show that $V/W$ is Banach, we show that every absolutely summable series is summable, i.e., suppose $\sum_{n = 1}^\infty \norm{v_n + W}$ converges, WTS $\sum_{n=1}^{\infty} (v_n + W)$ converges in $V / W$.
+
+    Indeed, by definition of $\norm{v_n + W}$, there exists some $w_n$ such that \begin{equation*}
+    \norm{v_n + W} \leq \norm{v_n + w_n} \leq \norm{v_n + W} + 2^{-n} 
+    \end{equation*}
+
+    It then follows that \begin{equation*}
+    \sum_{n =1}^{\infty} \norm{v_n + w_n} \leq \sum_{n=1}^{\infty} \norm{v_n + W} + \sum_{n=1}^{\infty} 2^{-n}  = \sum_{n=1}^{\infty} \norm{v_n + W} + 1
+    \end{equation*}
+    so $\sum_{n} \norm{v_n + w_n}$ is absolutely summable. They are points in Banach $V$, so $\sum_{n} (v_n + w_n)$ is summable in $V$. Set $v \coloneqq \sum_{n=1}^{\infty} (v_n + w_n) \in V$.
+
+    We now WTS the partial sum $\sum_{n=1}^{N} (v_n + W) \cvgg{N \to \infty} v + w$ in $V / W$. Indeed, \begin{align*}
+    \norm*{v + W - \sum_{n=1}^{N} (v_n + W)} &= \norm*{v - \sum_{n=1}^{N} (v_n + w_n)} \\
+    &= \norm*{\sum_{n = N}^{\infty} (v_n + w_n)} \leq \sum_{n=N}^{\infty} \norm*{v_n + w_n} \cvgg{N \to \infty} 0
+    \end{align*}
+    since $\sum_{n} \norm{v_n + w_n}$ is absolutely summable.
+
+    Therefore, it follows that $\sum_{n = 1}^{\infty} (v_n + W)$ is summable, its limit is $v + W$, so $V/W$ is Banach.
+\end{solution}
+
+\begin{problem} [Typed Problem 4 \done]
+    Suppose $V$ and $W$ are Banach spaces, $T \in \calb(V, W)$ and recall the following subspaces \begin{equation*}
+    \ker(T) = \{v \in V : Tv = 0\}, \quad \range(T) = \{Tv \in W : v \in V\}.
+    \end{equation*}
+    \begin{enumerate}
+    \item Prove that $\ker(T)$ is a closed subspace of $V$.
+    \item If $V_1$ and $V_2$ are normed linear spaces, we say a bijective linear operator $S: V_1 \to V_2$ is an isomorphism if $S \in \calb(V_1, V_2)$ and $\inv{S} \in \calb(V_2, V_1)$. We say $V_1$ and $V_2$ are \textit{isomorphic} if there exists an isomorphism $S: V_1 \to V_2$.
+    
+    Prove that $V/\ker(T)$ is isomorphic to $\range(T)$ if and only if $\range(T)$ is closed.
+
+    Hint: Consider the map $S: V/\ker(T) \to \range(T)$ given by \begin{equation*}
+    S(v + \ker(T)) = Tv,
+    \end{equation*}
+    and first show that $S$ is a well-defined, bijective bounded linear operator.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} $T \in \calb(V, W)$ so $\norm{T} < \infty$. Take sequence $(v_n)_{n \in \bbn}$ in $\ker(T)$ such that $v_n \cvgn v \in V$. WTS $v \in \ker(T)$.
+
+    Indeed, \begin{align*}
+        \norm{Tv} &=\norm{Tv - Tv_n} \\
+        &= \norm{T (v - v_n)} \\
+        &\leq \norm{T} \norm{v - v_n} \cvgn 0
+    \end{align*}
+    so $\norm{Tv} = 0 \implies Tv = 0 \implies v \in \ker(T)$. \qed
+
+    \textbf{(b)} 
+
+    \pffwd Suppose that $V/\ker(T)$ is isomorphic to $\range(T)$, then there exists some isomorphism $S: V/\ker(T) \to \range(T)$. Then take sequence of points $(Tv_n)_{n \in \bbn}$ in $\range(T)$ such that $Tv_n \cvgn w \in W$. WTS $w \in \range(T)$.
+
+    Denote $w_n = Tv_n \in W$. So $(w_n)$ is Cauchy, which implies $(\inv{S}w_n)$ is Cauchy since $\norm{\inv{S}} < \infty$. $(\inv{S}w_n)$ is Cauchy in Banach $V /\ker(T)$, so converges to some $v' + \ker(T) \in V/\ker(T)$. But $S$ is also continuous, so $S(\inv{S}w_n) = w_n \cvgn S(v' + \ker(T)) \in \range(T)$. So $w = S(v' + \ker(T)) \in \range(T)$, so $\range(T)$ is closed. \qed
+
+    \pfbwd Suppose that $\range(T)$ is closed. $\range(T)$ is closed in Banach $W$ so it is Banach. Consider the mapping \begin{align*}
+    S : V / \ker(T) & \to \range(T) \\
+    v + \ker(T) &\mapsto Tv
+    \end{align*}
+    \begin{enumerate} [1.]
+    
+    \item WTS this mapping is an isomorphism between $V /\ker(T)$ and $\range(T)$.
+
+    First, it is well-defined, in the sense that it does not matter which representative of $v + \ker(T)$ we choose. Indeed, if $v_1, v_2 \in v + \ker(T)$, which means $v_1 = v_2 + u$ for some $u$ such that $Tu = 0$, then $Tv_1 = T(v_2 + u) = Tv_2 + Tu = Tv_2$.
+
+    \item WTS $S$ is linear. Linearity of $S$ is clear from linearity of $T$.
+
+    WTS it is bounded. For any $v$ such that $\norm{v + \ker(T)} = 1$, there exists some $u \in \ker(T)$ such that $\norm{v + u} < 1 + 1 = 2$. Hence
+    \begin{equation*}
+        \norm{Tv} = \norm{Tv + Tu} \leq \norm{T} \norm{v + u}  < 2 \norm{T}
+    \end{equation*}
+
+    It follows that $\norm{S} = \sup_{\norm{v + \ker(T)} = 1} \norm{Tv} \leq 2 \norm{T} < \infty$ so it is indeed a bounded map.
+
+   \item WTS it is injective. Indeed, if $v_1 + \ker(T) \neq v_2 + \ker(T)$ then $S(v_1 + \ker(T)) - S(v_2 + \ker(T)) = T(v_1 - v_2) \neq 0$.
+   \item WTS it is surjective. Take any $Tv \in \range(T)$. Then $Tv = S(v + \ker(T))$.
+   \item From all above, it can be concluded that $S$ is a bijective, bounded linear operator from Banach $V/\ker(T)$ to Banach $\range(T)$. Applying Open Mapping Theorem, it can be concluded that $S$ is an isomorphism between $V/\ker(T)$ and $\range(T)$. Thus they are isomorphic as required.
+\end{enumerate}
+\end{solution}
+
+\begin{problem} [Typed Problem 5 \done]
+    The following exercise shows we cannot drop certain hypotheses in the closed graph theorem and open mapping theorem. Let \begin{equation*}
+    W = \left\{a = \{a_k\}_k : \sum_{k} k \abs{a_k} < \infty\right\},
+    \end{equation*}
+    equipped with the $\ell^1$ norm.
+    \begin{enumerate}
+    \item Prove that $W$ is a proper, dense subspace of $\ell^1$ (hence, $W$ is not complete).
+
+    Hint: Show that if $b = \{b_k\}_{k} \in \ell^1$ and $\epsilon > 0$, then there exists $N \in \bbn$ such that if \begin{equation*}
+    a\coloneqq \{b_1, b_2, \ldots, b_N, 0, 0, \ldots\}   \in W.
+    \end{equation*}
+    then $\norm{a - b}_1 < \epsilon$.
+    \item Define $T: W \to \ell^1$ by $(Ta)_k = ka_k$. Prove that the graph of $T$ is closed but $T$ is not bounded.
+    \item Let $S = \inv{T} : \ell^1 \to W$. Prove that $S$ is bounded and surjective but is not an open mapping.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Take $a = \{a_k\}_k$ where $a_k = \frac{1}{k^2}$ then $\norm{a}_1 = \frac{\pi^2}{6}$ so $a \in \ell^1$, but then $\sum_{k} k \norm{a_k} = \sum_{k} \frac{1}{k} = \infty$ so $a \not \in W$. So $W$ is a proper subset of $\ell^1$.
+
+    To show that it is dense, pick any $b = \{b_k\}_k \in\ell^1$ and $\epsilon > 0$. WTS there exists some $a \in W$ such that $\norm{a - b}_1 < \epsilon$.
+
+    Since $\norm{b}_1 < \infty$, there exists $N \in \bbn$ such that $\sum_{k = N}^{\infty} \abs{b_k} < \epsilon$. Hence if we define $a \coloneqq \{b_1, b_2, \ldots, b_N, 0, 0, \ldots\}$ then \begin{equation*}
+    \sum_{k} k \abs{a_k} < \infty
+    \end{equation*}
+     trivially so $a \in W$, while \begin{equation*}
+     \norm{a - b}_1 = \sum_{k=N}^{\infty} \abs{b_k} < \epsilon
+    \end{equation*}
+    
+    It follows that $W$ is indeed dense in $\ell^1$.
+
+    It also follows that $W$ is not complete; for if it was complete then since every point of $\ell^1$ is a limit point of $W$, it would also be in $W$, making $W$ not proper.
+
+    \textbf{(b)} Take $(a^{(n)}, Ta^{(n)}) \cvgn (u, z) \in W \times \ell^1$, which means $a^{(n)} \cvgn u, Ta^{(n)} \cvgn z$, both with respect to $\ell^1$ norm.
+    
+    WTS $z = Tu$, i.e., $z_k = ku_k$.
+
+    Fix $k \in \bbn$. Then for any $\epsilon > 0$, there exists some $N \in \bbn$ such that \begin{equation*}
+    \epsilon/(2k) > \norm{a^{(N)} - u}, \quad \epsilon/2 > \norm{Ta^{(N)} - z}
+    \end{equation*}
+    It then follows that \begin{align*}
+        \abs{z_k - ku_k} &\leq \abs{z_k - ka^{(N)}_k} + \abs{ka^{(N)}_k - ku_k} \\
+        &\leq \norm{Ta^{(N)} - z} + k \norm{a^{(N)} - u} \\
+        &< \epsilon/2 + k\epsilon/(2k) = \epsilon
+    \end{align*}
+    This is true for all $\epsilon$, so $z_k = ku_k$. It follows that $z = Tu$ and $\Gamma(T)$ is closed.
+
+    However, $T$ is not bounded. Given any $M > 0$, construct $a = \{a_k\}_{k \in\bbn}$ where $a_k = 1$ if $k = \ceil{M}$ and $0$ otherwise. Then $\norm{a}_1 = 1$ but $\norm{Ta} = \ceil{M} \geq M$.
+
+    (Therefore closed graph theorem doesn't work if one of the spaces is not Banach.)
+
+    \textbf{(c)} We write out the explicit definition for $S$: 
+    \begin{align*}
+    S: \ell^1 &\to W \\
+    b = \{b_k\} & \mapsto a = \left\{a_k = \frac{b_k}{k}\right\}
+    \end{align*}
+
+    \begin{enumerate} [1.]
+    \item WTS it is well-defined. If $b \in \ell^1$ then \begin{equation*}
+    \sum_{k} \abs{a_k} = \sum_{k} \abs{b_k/k} \leq \sum_k \abs{b_k} < \infty
+    \end{equation*}
+    so indeed $a \in W$.
+    \item WTS it is bounded. If $\norm{b}_1 = 1$ then \begin{equation*}
+    \norm{S(b)}_1 = \sum_{k} \abs*{\frac{b_k}{k}} \leq \sum_{k} \abs{b_k} = 1
+    \end{equation*}
+    so $\norm{S} \leq 1 < \infty$.
+
+    \item WTS it is surjective. Take $a \in W$. Then define $b$ such that $b_k = ka_k$. Then $\sum_{k} \abs{b_k} = \sum_{k} \abs{ka_k} < \infty$ since $a \in W$, so $b \in \ell^1$, and clearly $S(b) = a$. 
+    \item WTS it is not an open mapping. Consider $U = B_{\ell^1}(0, 1)$. WTS $S(U)$ not open by demonstrating that we can't draw a ball (wrt $\ell^1$) around $f(0) = 0$. Suppose, for sake of contradiction, that we can draw a ball $B_{\ell^1}(0, 2r) \cap W$ that is open in $W$. Then define $M = \ceil*{\frac{1}{r}}$, and define $a$ such that $a_k = r$ when $k = M$ and $0$ otherwise. Clearly, $a \in B_{\ell^1}(0, 2r) \cap W$.
+    
+    However if there exists some $b \in U$ such that $S(b) = a$ then that means $b_M = rM > 1 \implies \norm{b}_1 > 1 \implies b \not \in U, \contra$.
+
+    It follows that one can't draw a ball around $S(0)$, thus $S(U)$ is not open.
+\end{enumerate}
+\end{solution}
+
+\begin{problem} [Written Problem 1, Brezis 1.3 \done]
+    Let $E = \{u \in C([0, 1], \bbr) : u(0) = 0\}$ with the norm 
+    \begin{equation*}    
+        \norm{u} = \max_{t \in [0, 1]} \abs{u(t)}. 
+    \end{equation*}
+    Consider the linear functional \begin{equation*}
+    f: u \in E \mapsto f(u) = \int_{0}^{1} u(t) \dt
+    \end{equation*}
+    \begin{enumerate}
+    \item Show that $f \in E^*$ and compute $\norm{f}_{E^*}$.
+    \item Can one find some $u \in E$ such that $\norm{u} = 1$ and $f(u) = \norm{f}_{E^*}$?
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} To show that $f \in E^*$, WTS it is linear and bounded.
+    \begin{itemize}
+        \item Linearity of $f$ is clear from linearity of integrals.
+        \item It is also bounded:
+        \begin{equation*}
+            \norm{f} = \sup_{\norm{u} = 1} \abs{f(u)} = \abs*{\int_{0}^{1} u(t) \dt} \leq \norm{u} = 1 < \infty
+        \end{equation*}
+    \end{itemize}
+
+    Therefore $f \in E^*$.
+
+    We then compute $\norm{f}_{E^*} = \sup_{\norm{u} = 1} \abs{f(u)}$. We know that $\norm{f} \leq 1$. WTS $\norm{f} = 1$, i.e., for any $ 1 \gg \epsilon > 0$ there exists some $\norm{u} = 1$ such that $\abs{f(u)} = 1 - \epsilon$. Indeed, for fixed $\epsilon > 0$, construct $u$ that linearly interpolates $(0, 0) \to (2\epsilon, 1) \to (1, 1)$. Then $\abs{f(u)} = 1 - \epsilon$ as required, while $\norm{u} = 1$ clearly. It follows that $\norm{f}_{E^*} = 1$.
+
+    \textbf{(b)} Take any $u \in E$ such that $\norm{u} = 1$. Fix $\epsilon = 1/2$. Since $u$ continuous at $0$, there exists $\delta > 0$ such that $t < \delta \implies \abs{u(t) - u(0)} < \frac{1}{2}$, that is, $\abs{u(t)} < \frac{1}{2}$. Let $\delta' = \min\{\delta, 1\}$, then
+    \begin{align*}
+    \int_{0}^{1} u(t) \dt &\leq \int_{0}^{\delta'} u(t) \dt + (1 - \delta') \norm{u} \\
+    &\leq \frac{1}{2} \delta' + (1 - \delta') < 1 = \norm{f}_{E^*}
+    \end{align*}
+
+    So there doesn't exist any $u$ with such conditions.
+\end{solution}
+
+\begin{problem} [Written Problem 2, Brezis 1.4 \done]
+    Consider the space $E = c_0$ with its usual norm $\ell^\infty$ norm. For every element $u = (u_1, u_2, u_3, \ldots)$ in $E$ define \begin{equation*}
+    f(u) = \sum_{n=1}^{\infty} \frac{1}{2^n} u_n.
+    \end{equation*}
+    \begin{enumerate}
+    \item Check that $f$ is a continuous linear functional on $E$ and compute $\norm{f}_{E^*}$.
+    \item Can one find some $u \in E$ such that $\norm{u} = 1$ and $f(u) = \norm{f}_{E^*}$?
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Recall that \begin{equation*}
+    c_0 = \left\{u = (u_i)_{i \in \bbn} : u_i \cvgi 0\right\}
+    \end{equation*}
+    endowed with $\norm{u}_{\infty} = \sup_{i \in \bbn} \abs{u_i}$.
+
+    We first check that $f(u)$ is well-defined for each $u \in E$.
+    
+    Indeed, for all $\epsilon > 0$, since $u_i \cvgi 0$, there exists some $N \in \bbn$ such that $i \geq N \implies \abs{u_i} < \epsilon$. Then, for all $m, n \geq N$, we have 
+    \begin{align*}
+    \abs*{\sum_{i=n+1}^{m} \frac{1}{2^i}u_i} &\leq \sum_{i=n+1}^{m} \frac{1}{2^i}\epsilon\\
+    \leq \frac{1}{2^N} \epsilon \leq \epsilon
+    \end{align*}
+    so the partial sums are Cauchy in complete $\bbc$, so the series $\sum_{i=1}^{\infty} \frac{1}{2^i} u_i$ indeed converges. $f(u)$ is thus well-defined.
+
+    Now WTS $f$ is linear and bounded.
+    \begin{itemize}
+        \item It is linear:
+        \begin{equation*}
+            f(u + \lambda v) = \sum_{i=1}^{\infty} \frac{1}{2^i} (u_i + \lambda v_i) = f(u) + \lambda f(v)
+        \end{equation*}
+        \item It is bounded:
+        \begin{align*}
+        \norm{f} &= \sup_{\norm{u} = 1} \abs{f(u)} \\
+        &= \sup_{\norm{u} = 1} \abs*{\sum_{i=1}^{\infty} \frac{1}{2^i} u_i} \\
+        &\leq \sup_{\norm{u} = 1} \sum_{i=1}^{\infty} \frac{1}{2^i} \norm{u_i} \\
+        &\leq \sup_{\norm{u} = 1} \norm{u} = 1  < \infty
+        \end{align*}
+    \end{itemize}
+    
+    So $f \in E^*$. We know that $\norm{f} \leq 1$, WTS for any $\epsilon > 0$, there exists some $u$ such that $f(u) \geq 1 - \epsilon$. Let $N \in \bbn$ large such that $\frac{1}{2^N} < \epsilon$. Then consider the sequence $u \in c_0$ defined by \begin{equation*}
+    u_i = \begin{cases}
+        1 & \:\text{for}\: i \leq N+1 \\
+        0 & \:\text{for}\:  i > N+1
+    \end{cases}
+    \end{equation*}
+
+    Then it follows that \begin{equation*}
+    f(u) = \sum_{i=1}^{\infty} \frac{u_i}{2^i} = \sum_{i=1}^{N+1} \frac{1}{2^i} = 1 - \frac{1}{2^{N}} \geq 1 - \epsilon
+    \end{equation*}
+    while $u_i \cvgi 0$ clearly. Therefore $\norm{f}_{E^*} = 1$.
+
+    \textbf{(b)} Take any $u \in c_0$ such that $\norm{u}_{\infty} = 1$. Then there exists $N$ such that $i \geq N \implies \abs{u_i} < 1/3$. It follows that \begin{align*}
+        f(u) &= \sum_{i=1}^{\infty} \frac{u_i}{2^i} \\
+        &= \sum_{i=1}^{N-1} \frac{u_i}{2^i} + \sum_{i=N}^{\infty} \frac{u_i}{2^i} \\
+        &\leq 1 - 2^{-N} + \frac{1}{3} \frac{1}{2^{N-1}} < 1 =\norm{f}
+    \end{align*}
+
+    So there doesn't exist any $u$ with such conditions.
+\end{solution}
+
+\begin{problem} [Written Problem 3, Brezis 1.8 \done]
+    Let $E$ be a normed vector space with norm $\norm{\cdot}$. Let $C \subset E$ be an open convex set such that $0 \in C$. Let $p$ denote the gauge of $C$.
+    \begin{enumerate}
+    \item Assume $C$ is symmetric (i.e., $-C = C$) and $C$ is bounded, prove that $p$ is a norm which is equivalent to $\norm{\cdot}$.
+    \item Let $E = C([0, 1], \bbr)$ with its usual norm \begin{equation*}
+    \norm{u} = \max_{t \in [0, 1]} \abs{u(t)}.
+    \end{equation*}
+    Let \begin{equation*}
+    C = \left\{u \in E, \int_{0}^{1} \abs{u(t)}^2 \dt < 1\right\}
+    \end{equation*}
+    Check that $C$ is convex and symmetric and that $0 \in C$. Is $C$ bounded in $E$? Compute the gauge $p$ of $C$ and show that $p$ is a norm on $E$. Is $p$ equivalent to $\norm{\cdot}$?
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Recall that the gauge of $C$ is \begin{equation*}
+    p(x) = \inf \{\alpha > 0 : \inv{\alpha} x  \in C\}
+    \end{equation*}
+    \textbf{1.} We first show that it is indeed a norm.
+    \begin{itemize}
+    \item $p$ is the infimum of positive numbers so it is nonnegative.
+    \item When $\lambda \geq 0, p(\lambda x) = \inf \{\alpha > 0 : \inv{\alpha}(\lambda x) \in C\} = \lambda \inf \{\alpha > 0 : \inv{\alpha} (x) \in C\} = \lambda p(x) = \abs{\lambda} p(x)$.
+    \item When $\lambda < 0, p(\lambda x) = \inf\{\alpha > 0 : \inv{\alpha} (\lambda x) \in C\} = \inf \{\alpha > 0 : \abs{\lambda}\inv{\alpha}(-x) \in C\}  = \abs{\lambda} \inf \{\alpha > 0 : \abs{\lambda}\inv{\alpha}(x) \in C\} = \abs{\lambda} p(x)$, since $C = -C$.
+    \item Therefore $p(\lambda x) = \abs{\lambda} p(x) \forall \lambda \in \bbr$.
+    \item We've proven triangle inequality for $p$ in Brezis.
+    \item It remains to show that if $p(x) = 0$ then $x = 0$. Suppose we have that $p(a) = 0$ and $a \neq 0 \implies \norm{a} > 0$. Then since $C$ is bounded, there exists some $M$ such that $C \subset B(0, M)$. Since $0 = p(a) = \inf\{\alpha > 0 : \inv{\alpha} a \in C\}$, there exists some $\alpha < \frac{\norm{a}}{M}$ such that $\inv{\alpha}a \in C$. But then \begin{equation*}
+    \norm{\inv{\alpha} a} > \norm*{\frac{M}{\norm{a}}a} = M \implies \inv{\alpha}a \not \in C
+    \end{equation*}
+    It follows that $a = 0$ necessarily.
+    \end{itemize}
+    
+    So $p$ is a norm. 
+    
+    \textbf{2.} We now need to show that it is comparable to $\norm{\cdot}$. 
+    
+    Since $0 \in C$ and $C$ is open, there exists $r > 0$ such that $B(0, r) \subset C$. It then follows that $p(x) \leq \frac{1}{r} \norm{x}$.
+
+    Since $C$ is bounded, there exists $M > 0$ such that $C \subset B(0, M)$. Then \begin{equation*}
+    p(x) = \inf \{\alpha > 0 : \inv{\alpha}x \in C\} \geq \inf \{\alpha > 0 : \inv{\alpha} x \in B(0, M)\} = \frac{1}{M} \norm{x}   
+    \end{equation*}
+
+    Hence $p$ and $\norm{\cdot}$ are comparable.
+
+    \textbf{(b)} \textbf{1.} WTS $C$ is convex, symmetric and $0 \in C$.
+
+    \begin{itemize}
+        \item $0 \in C$ trivially.
+        \item Take $u, v \in C$ and some $\lambda \in [0, 1]$. Then
+        \begin{align*}
+        \int_{0}^{1} \abs{\lambda u(t) + (1-\lambda)v(t)}^2 \dt &= \lambda^2 \int_{0}^{1} \abs{u(t)}^2 \dt + (1-\lambda)^2 \int_{0}^{1} \abs{v(t)}^2 \dt + 2\lambda(1-\lambda)\int_{0}^{1} u(t) v(t) \dt \\
+        &< \lambda^2 + (1 - \lambda)^2 + 2\lambda (1 - \lambda)\left(\int_{0}^{1} \abs{u(t)}^2 \dt\right)\left(\int_{0}^{1} \abs{v(t)}^2 \dt\right) \\
+        &< \lambda^2 + (1 - \lambda)^2 + 2\lambda (1 - \lambda) = 1 \\
+        \implies \lambda u + (1 - \lambda)v \in C
+        \end{align*}
+
+        So $C$ is convex.
+
+        \item If $u \in C$ then $-u \in C$ since $\abs{u(t)} = \abs((-u)(t))$. So $C$ is symmetric.
+    \end{itemize}
+
+    \textbf{2.} WTS $C$ is NOT bounded in $E$.
+
+    For any $M > 0$, construct $u_M(t) = \begin{cases}
+    \sqrt{M - M^2t} & \:\text{if}\: t \in [0, \frac{1}{M}] \\
+    0 & \:\text{if}\: t \in [\frac{1}{M}, 1]
+    \end{cases}$,
+    which is the square root of the function that linearly interpolates $(0, M) \to (\frac{1}{M}, 0) \to (1, 0)$. Then $\int_{0}^{1} \abs{u_M(t)}^2 \dt = \frac{1}{2} < 1 $ so $u_M \in C$. But $\norm{u_M} = M$ is unbounded. Hence $C$ is unbounded in $E$.
+
+    \textbf{3.} We now compute the gauge $p$ of $C$. WTS it is also a norm on $E$, but this norm is not equivalent to $\norm{\cdot}$.
+
+    Recall that \begin{equation*}
+    p(u) = \inf \{\alpha > 0 : \inv{\alpha} u \in C\} = \inf \{\alpha > 0 : \inv{\alpha}\int_{0}^{1}\abs{u(t)}^2 \dt < 1\}
+    \end{equation*}
+
+    Then it's clear that $p(u) = \int_{0}^{1} \abs{u(t)}^2 \dt = \norm{u}_{L^2([0, 1])}$. It is the $L^2([0, 1])$ norm so it is a norm.
+
+    This norm is not equivalent to $\norm{\cdot}$, since suppose not, that there exists some $M$ such that \begin{equation*}
+    \norm{u} \leq M \norm{u}_{L^2([0, 1])} \forall u \in C([0, 1], \bbr)
+    \end{equation*}
+    Then one can construct function \begin{equation*}
+    u_M \equiv \frac{1}{2M}
+    \end{equation*}
+    Then $\norm{u} = \frac{1}{2M}$ and $M\norm{u}_{L^2([0, 1])} = \frac{M}{4M^2} = \frac{1}{4M}$. So $\norm{u} > M \norm{u}_{L^2([0, 1])}, \contra$
+
+    Hence they are not equivalent.
+\end{solution}
+
+\begin{problem} [Written Problem 4, Brezis 2.3 \done]
+    Let $E, F$ be Banach spaces and $(T_n)_{n \in \bbn}$ a sequence in $\call(E, F)$. Assume that for every $x \in E$, $T_n x$ converges as $n \to \infty$ to a limit denoted by $Tx$. Show that if $x_n \cvgn x$ in $E$, then $T_n x_n \cvgn Tx$ in $F$.
+\end{problem}
+\begin{solution}
+    From Banach-Steinhaus and its Corollary 2.3, we find that there exists some $C$ such that $\norm{T_n} \leq C \forall n$ and $T \in \call(E, F)$.
+
+    By hypothesis, $x_n \cvgn x$ in $E$.
+
+    Fix $\epsilon > 0$. Since $x_n \cvgn x$, there exists some $N_1$ such that $n \geq N_1 \implies \norm{x_n - x} < \epsilon/(2C)$.
+
+    Furthermore, since $T_n x \cvgn Tx$, there exists some $N_2$ such that $n \geq N_2 \implies \norm{T_nx - Tx} < \epsilon/2$.
+
+    It then follows that for $n \geq N_1 + N_2$, we have \begin{equation*}
+    \norm{Tx - T_n x_n} \leq \norm{Tx - T_nx} + \norm{T_n x - T_n x_n} < \epsilon/2 + C \epsilon/(2C) = \epsilon
+    \end{equation*}
+    Hence $T_n x_n \cvgn Tx$.
+\end{solution}
+
+\begin{problem} [Written Problem 5, Brezis 2.17 \done]
+    Let $E = C([0, 1])$ with its usual norm. Consider the operator $A: D(A) \subset E \to E$ defined by \begin{equation*}
+    D(A) = C^1([0, 1]) \quad \:\text{and}\: \quad Au = u' = \frac{\du}{\dt}
+    \end{equation*}
+    \begin{enumerate}
+    \item Check that $\cl{D(A)} = E$.
+    \item Is $A$ closed?
+    \item Consider the operator $B: D(B) \subset E \to E$ defined by
+    \begin{equation*}
+        D(B) = C^2([0, 1]) \quad \:\text{and}\: \quad  Bu = u' = \frac{\du}{\dt}
+    \end{equation*}
+    Is $B$ closed?
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Clearly, $D(A) \subset E$. It remains for us to show that every $u \in E$ is the limit of some sequence in $D(A) = C^1([0, 1])$.
+    
+    Fix $u \in E = C([0, 1])$. Then the standard mollification gives that $u$ is the (uniform) limit of $\{u * \eta_{1/n}\}_{n \in \bbn}$. Each $u * \eta_{1/n} \in C^\infty \subset C^1([0, 1])$, so indeed $u$ is a limit point of $C^1([0, 1])$. 
+
+    Hence $\cl{D(A)} = E$ as required.
+
+    \textbf{(b)} $A$ is closed iff it maps closed sets to closed sets.
+
+    Consider $K = \{u_n(t) \in E\}_{n \in \bbn}$ where $u_n(t) = n + \frac{t}{n}$. Then clearly $K \subset D(A)$, with $u_n' \equiv \frac{1}{n}$.
+
+    We show that $K$ is closed by showing that it is not Cauchy in any rearrangement, hence does not have a limit point. Indeed, take any $m \neq n$, WLOG, $m > n$, then \begin{equation*}
+        \norm{u_m - u_n} = \sup_{t \in [0, 1]} \abs{(m-n) + t\left(\frac{1}{m} - \frac{1}{n}\right)} \geq \abs{(m-n)} \geq 1
+    \end{equation*}
+
+    So $K$ is closed.
+
+    But it is clear that $u'_n \equiv \frac{1}{n} \cvgn u'_0 \equiv 0$ (uniformly), but $u'_0 \not \in A(K)$. So $A(K)$ is not closed.
+
+    Hence $A$ is not a closed map.
+
+    \textbf{(c)} The same example demonstrates the same point. So $B$ is not closed.
+
+\end{solution}
+\end{document}

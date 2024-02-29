@@ -287,8 +287,8 @@
 % 4.3. Create environment styles using above meta-commands
 \makeatletter
 % Environments with color.
-\createthmstyle{thmdefinitionbox}{myred}{}{}
-\createthmstyle{thmtheorembox}{myblue}{}{}
+\createthmstyle{thmdefinitionbox}{myred}{}{nobreak=true}
+\createthmstyle{thmtheorembox}{myblue}{}{nobreak=true}
 \createthmstyle{thmblackbox}{black}{}{}
 \createthmstyle{thmproofbox}{black}{qed=\qedsymbol}{}
 \createthmstyle{thmsolutionbox}{mygreen}{qed=\qedsymbol}{}
@@ -359,6 +359,7 @@
 \newcommand*{\bfu}{\mathbf{u}}
 \newcommand*{\bfSigma}{\mathbf{\Sigma}}
 
+
 \newcommand*{\cala}{\mathcal{A}}
 \newcommand*{\calb}{\mathcal{B}}
 \newcommand*{\calc}{\mathcal{C}}
@@ -389,9 +390,10 @@
 \newcommand*{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
 
 % Shorthands
-\newcommand*{\cvgn}{\xrightarrow{n \to \infty}}
+\newcommand*{\cvgi}{\xrightarrow{j \to \infty}}
 \newcommand*{\cvgj}{\xrightarrow{j \to \infty}}
 \newcommand*{\cvgk}{\xrightarrow{k \to \infty}}
+\newcommand*{\cvgn}{\xrightarrow{n \to \infty}}
 \newcommand*{\cvgx}{\xrightarrow{x\to \infty}}
 \newcommand*{\cvgg}[1]{\xrightarrow{#1}}
 \newcommand*{\eval}[3]{\left[#1\right]^{#2}_{#3}}
@@ -438,6 +440,8 @@
 \DeclareMathOperator*{\supp}{supp}
 \DeclareMathOperator*{\var}{Var}
 \DeclareMathOperator*{\cov}{Cov}
+\DeclareMathOperator*{\diam}{diam}
+\DeclareMathOperator*{\range}{range}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
