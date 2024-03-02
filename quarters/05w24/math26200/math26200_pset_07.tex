@@ -1,0 +1,124 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Problem Set 7}
+\date{29 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{7}
+\begin{problem} [\done]
+    Construct an explicit homeomorphism from $\{0, 1\}^\bbn$ to $\{0, 1, 2\}^{\bbn}$. Here, $\{0, 1\}$ and $\{0, 1, 2\}$ denote the 2 and 3-element sets with the discrete topology.
+\end{problem}
+\begin{solution} [With Otto Reed's help]
+    Construct the map $f: \{0, 1, 2\}^\bbn \to \{0, 1\}^\bbn$ as follows. Consider $g: \{0, 1, 2\} \to \{(0), (1, 0), (1, 1)\}$ such that
+    \begin{equation*}
+    g(0) = (0), g(1) = (1, 0), g(2) = (1, 1)
+    \end{equation*}
+    then map $f(x) = (\text{concat}_{n = 1}^{\infty} (g(x_n)))$.
+
+    It is easy to check that $f$ is both injective and surjective, so it is bijective.
+
+    To show continuity, each basic open set in $\{0, 1\}^\bbn$ is some $\prod U_i$ such that $U_i = \{0, 1\}$ for all but finitely many $\{i_1 < \ldots < i_K\}$. 
+
+    Its preimage is then some 
+    \begin{equation*}
+        \bigcup_j (\prod_{k \in \bbn} U^{(j)}_k)
+    \end{equation*}
+    where for all $j$, $U^{(j)}_k = X_k$ for all $k \geq i_K$ (a very rough bound) and each $U^{(j)}$ is the ``preimage'' of the sequences truncated at $i_K$ (or $i_K + 1$ if $U_{i_K} = \{1\}$) that are contained in $\prod U_i$, is open, since $\{0, 1, 2\}$ has the discrete topology. Therefore $\prod_{k \in \bbn} U^{(j)}_k$ is a basic open set in $\{0, 1, 2\}^\bbn$, so the preimage of a basic open set in $\{0, 1\}^\bbn$ is open, so $f$ is continuous.
+
+    The same proof applies to show that $\inv{f}$ is continuous, with the bound $k \geq 2 i_K$, since $g$ requires twice the number of indices in $\{0, 1\}^\bbn$ than in $\{0, 1, 2\}^\bbn$ to ``accommodate'' restrictions from the image set.
+
+    Hence $f$ is a homeomorphism.
+\end{solution}
+
+\begin{problem} [\done]
+    Suppose $X$ is a compact metric space, $Y$ is Hausdorff, and $f: X \to Y$ is continuous and surjective. Show that $Y$ is a compact metrizable space.
+\end{problem}
+\begin{solution}
+    \textbf{1.} WTS $Y$ is compact. $f$ is surjective so $Y = f(X)$ is the continuous image of a compact set, so $Y$ is compact.
+
+    \textbf{2.} WTS $X$ is 2nd countable. $X$ is a compact metric space. For each $x \in X$, construct and $n \in \bbn$, let $\calu_n = \{B(x, \frac{1}{n}) : x \in X\}$ then $\calu_n$ is an open cover of $X$, so it reduces to some finite subcover $\calv_n$.
+
+    Then consider $\calv \coloneqq \bigcup_{n \in \bbn} \calv_n$ is a countable set. It is basis for $X$, since every element of $\calv$ is open, and if we take any $x \in U \subset X$ such that $U$ is open in $X$, since $x \in U$, there exists some (WLOG) $B(x, r) \subset U \subset X$. Then there exists some $N$ such that $\frac{1}{N} < \frac{r}{2}$. Consider the finite subcover $\calv_N$, then there has to exist some $B(x', \frac{1}{N}) \ni x$. But $\frac{1}{N} < \frac{r}{2}$ so in fact $B(x', \frac{1}{N}) \subset B(x, r) \subset U$, and $B(x', \frac{1}{N}) \in \calv_n \subset \calv$. So it follows that indeed $\calv$ is a basis for $X$. So $X$ is second countable.
+
+    \textbf{3.} This $f$ is also a perfect map, since if $K \subset X$ is closed then it is compact, so $f(K)$ is compact in Hausdorff $Y$ so $f(K)$ is also closed. Also, $\inv{f}(\{y\})$ for any $y \in Y$ is the continuous inverse of a closed set so is closed, it is in compact $X$ so it is also compact.
+
+    Hence $f$ is a perfect map, so second countability of $X$ implies second countability of $Y$ (per previous HW).
+    
+\end{solution}
+
+\begin{problem} [\done]
+    Fix a prime number $p$ and for each integer $n$, let $\bbz/p^n \bbz$ be the abelian group consisting of integers mod $p^n$.
+    \begin{enumerate}
+    \item Show that there is a directed system of surjective homomorphisms $\bbz / p^n \bbz \to \bbz / p^{n-1} \bbz$ given by ``reduction mod $p^{n-1}$''.
+    \item Let $\bbz_p$ denote the inverse limit of this system, with the inverse limit topology (where each $\bbz/p^n \bbz$ has the discrete topology). Show that $\bbz_p$ is homeomorphic to a Cantor set.
+    \item Show that $\bbz_p$ admits the natural structure of an abelian group (compatible with the group structures on all the $\bbz / p^n \bbz$), and with respect to this group structure, the operations of addition and inverse are continuous.
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \textbf{(a)} Take any $n \in \bbn$. Then we can construct
+    \begin{align*}
+        f_n: \bbz/p^n \bbz &\to \bbz/p^{n-1} \bbz \\    
+            a &\mapsto a \bmod p^{n-1}
+    \end{align*}
+    It is surjective, since for any $b \in \bbz /p^{n-1} \bbz$, we have that $f(b) = b$. It is also a homomorphism, since $f_n(0) = 0, f_n(a_1 + a_2) = (a_1 + a_2) \bmod p^{n-1} = a_1 \bmod p^{n-1} + a_2 \bmod p^{n-1} = f_n(a_1) + f_n(a_2)$. \qed
+
+    \textbf{(b)} We have \begin{equation*}
+    \bbz_p = \varprojlim \bbz/p^n \bbz
+    \end{equation*}
+
+    Each $\bbz/p^{n} \bbz$ is a finite, discrete space, so $\bbz_p = \varprojlim \bbz/p^n \bbz$ is a compact and totally disconnected space. So $\bbz_p$ is homeomorphic to a Cantor set. \qed
+
+    \textbf{(c)} Take $x = (x_n), y = (y_n) \in \bbz_p$. Then $inv(x) = (-x_n) \in \bbz_p$ and $x + y \coloneqq (x_n + y_n) \in \bbz_p$, and this is well-defined since each $f_n$ is a group homomorphism. The coordinate wise group operation is exactly the group operation on all the $\bbz/p^n \bbz$.
+
+    Consider the addition and inverse operations:
+    \begin{equation*}
+    +: \bbz_p \times \bbz_p \to \bbz_p, \quad inv: \bbz_p \to \bbz_p
+    \end{equation*}
+
+    To see this, we know that for the inverse operation, on each $\bbz/p^n \bbz$, $inv_n: \bbz/p^n \bbz \to \bbz/p^n \bbz$ is continuous (domain has discrete topology). View another directed system of $\bbz /p^n \bbz$ with inverse limit $\bbz_p$, with the same $f_n$, then from claim in class, there must uniquely exist some $\phi: \bbz_p \to \bbz_p$ such that for all $n$, \begin{equation*}
+    \pi_n \phi = inv_n \pi_n
+    \end{equation*}
+    where $\pi_n: \bbz_p \to \bbz/p^n \bbz$ projects onto the $\bbz /p^n \bbz$ coordinate.
+    It then follows that $\phi(x)_n = -x_n \implies \phi = inv$. $\phi$ is continuous so $inv$ is continuous.
+
+    For the addition operation, consider $+(x, y) = x+y$. Then take a basic open set containing $x+y$, namely, $\prod U_n$ for some $U_n \subset \bbz/p^n \bbz$ open such that  $U_n = \bbz/p^n \bbz$ for all but finitely many $\{n_1, \ldots, n_J\}$. Then $x_{n_j} + y_{n_j} \in U_{n_j} \forall j \in [J]$. But then on $\bbz / p^{n_j} \bbz$, $+$ is continuous, so it follows that $\inv{+}(U_{n_j})$ is open in $\bbz / p^{n_j} \bbz \times \bbz / p^n \bbz$. It is a finite set, so it is the finite union of basic open sets \begin{equation*}
+    \inv{+}(U_{n_j}) = \bigcup_{\alpha = 1}^{M_j} V_{\alpha, j} \times W_{\alpha, j}
+    \end{equation*}
+    So $\inv{+}(x + y) = \bigcup_{j \in J} \bigcup_{\alpha = 1}^{M_j} V_{\alpha, j} \times W_{\alpha, j}$ is a union of basic open sets in $\prod \bbz /p^n \bbz$, so is also open in the subspace topology, i.e., open in $\bbz_p$, that contains $x \times y$. It follows that $+$ is indeed continuous.
+
+\end{solution}
+
+\begin{problem}  [\done]
+    A space $X$ is \textit{zero-dimensional} if for every point $x$ and any open neighborhood $U$ of $x$, there is a clopen set $V$ with $x$ in $V$ and $V$ in $U$.
+    \begin{enumerate}
+    \item Show that any zero dimensional Hausdorff space is totally disconnected.
+    \item Suppose $X$ is Hausdorff, locally compact and totally disconnected. Show that it is zero dimensional.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} Let $X$ be a zero dimensional Hausdorff space. Suppose $X$ is not totally disconnected, i.e., there exists some $K \subset X$ connected with more than 1 point, say, $a \neq b \in K$. Since $X$ is Hausdorff, there exists some open $U_a \ni a, U_b \ni b$ such that $U_a \cap U_b = \emptyset$. Since $X$ is zero dimensional, there exists some clopen $V_a$ such that $a \in V_a \subset U_a$. Consequently, $b \not \in V_a$.
+    
+    Then $V_a \cap K$ is a proper clopen subset of $K$, so $K$ is not connected. \contra \qed
+
+    \textbf{(b)} Let $X$ be Hausdorff, locally compact and totally disconnected. WTS it is zero-dimensional. 
+
+    $X$ is Hausdorff and locally compact, so it is regular. So there exists some open $V$ such that $x \in \cl{V} \subset U$. $\cl{V}$ is closed in Hausdorff $X$, so it is compact. Let us inspect $\cl{V} \ni x$. Since $X$ is totally disconnected, $\cl{V}$ is also disconnected (with the subspace topology). $\cl{V}$ is therefore a compact and Hausdorff space. Following a Corollary from class, we have that $\{x\}$ is a component and $\{x\} \subset U$, so there exists some $W$ clopen such that $x \in W \subset U$.  We've thus found $W$.
+\end{solution}
+
+
+\begin{problem} [\done]
+    Let $\calf$ be an equicontinuous family of functions from $[0, 1]$ to $[0, 1]$. Show that there is a continuous function $g: [0, 1] \times [0, 1] \to [0, 1]$ so that for every $f$ in $\calf$ there is some $t \in [0, 1]$ so that $g$ restricted to the horizontal interval $[0, 1] \times t$ agrees with $f$. (Hint: using Ascoli, show $\calf$ is contained in some compact subset $G$ of the space of continuous functions from $[0, 1]$ to $[0, 1]$ with some suitable topology. Show this compact space is metrizable. Deduce that there is a surjective map from the Cantor set to $G$. Use this surjective map to construct the function $g$.)
+\end{problem}
+\begin{solution}
+    For any $a \in [0, 1]$, consider $\calf_a = \{f(a) : f \in \calf\}$, then its closure is closed in compact $[0, 1]$, so is compact. Thus, using Ascoli's Theorem, we have that $\calf$ is contained in a compact subspace $G$ of $\calc([0, 1], [0, 1])$ in the topology of compact convergence.
+
+    Since $[0, 1]$ is compact and $[0, 1]$ is metric, the sets $\{B([0, 1], f, \epsilon)\} = \{f' \in Y^X \mid \sup_{x \in [0, 1]} \{d(fx, f'x) < \epsilon\}\}$ forms the basis for $\calc{([0, 1], [0, 1])}$. But this is exactly the uniform topology induced by the uniform metric. So it is metrizable!
+
+    Therefore $G$ is a compact metric space. So there is a continuous surjective map $h: \calc \to G$, from the middle thirds Cantor set into $G$. Then for any $f \in \calf \subset G$, there exists some $\alpha \in \calc \subset [0, 1]$ such that $h(\alpha) = f$. Then define $g\mid_{[0, 1] \times \alpha} = h(\alpha) = f$.
+
+    So we've define $g$ on $[0, 1] \times \calc \to [0, 1]$, it is clearly continuous since $f$ is continuous. Also, $\calc$ is compact, so $[0, 1] \times \calc$ is compact in Hausdorff $[0, 1] \times [0, 1]$ so it's closed. Using Tietze extension theorem, we can extend $g$ to $[0, 1] \times [0, 1] \to [0, 1]$. And we've found our $g$. 
+\end{solution}
+
+\end{document}
