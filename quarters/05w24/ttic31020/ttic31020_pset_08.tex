@@ -1,0 +1,153 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{TTIC 31020: Introduction to Machine Learning \\ \large Problem Set 8}
+\date{28 Feb 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{8}
+\begin{problem} [Back Propagation]
+\textbf{(a)} 
+\textbf{1.} Sigmoid case. Denote $\sigma = \sigmoid$. Then we have that \begin{equation*}
+\sigma'(z) = \frac{e^{-z}}{(1 + e^{-z})^2}
+\end{equation*}
+Then we fix some $v$ whose activation function was $\sigma = \sigmoid$. Then
+\begin{equation*}
+a[v] = \sum_{(u, v) \in E} w(u, v) o[u],
+\end{equation*}
+which is the weighted output of the signals from the parent nodes of $v$ then
+\begin{equation*}
+o[v] = \sigma\left(\sum_{(u, v) \in E} w(u, v) o[u]\right)
+\end{equation*}
+We can first break down \begin{equation*}
+\frac{\partial \hat{y}}{\partial w(u, v)} = \frac{\partial \hat{y}}{\partial a[v]} \frac{\partial a[v]}{\partial w(u, v)} = \frac{\partial \hat{y}}{\partial a[v]} o[u]
+\end{equation*}
+So it remains for us to calculate $\frac{\partial \hat{y}}{\partial a[v]}$. Denote this $\delta[v]$.
+
+We suppose that we have calculated $\delta[v_{out}]$, and that our concerned $v \neq v_{out}$. Then since its $a[v]$ contributes to $\hat{y}$ via its children nodes, we get:
+\begin{align*}
+\delta[v] = \frac{\partial \hat{y}}{a[v]} &= \sum_{(v, w) \in E} \frac{\partial \hat{y}}{\partial a[w]} \frac{\partial a[w]}{\partial o[v]} \frac{\partial o[v]}{\partial a[v]}   \\
+&= \sum_{(v, w) \in E} \delta[w] w(v, w) \sigma'(a[v])
+\end{align*}
+
+So \begin{equation*}
+\frac{\partial \hat{y}}{w(u, v)} =\delta[v] o[u] = \left(\sum_{(v, w) \in E} \delta[w] \sigma'(a[v])\right) o[u]
+\end{equation*}
+\end{problem}
+
+\textbf{2.} Softmax case. Our activation is now \begin{equation*}
+a[v] = \left(\sum_{u \in Parent(v)}w(1, u, v) o[u], \ldots, \sum_{u \in Parent(v)} w(k, u, v) o[u]\right)^T \in \bbr^k, \quad o[v] = \softmax (a[v])
+\end{equation*}
+In particular for an index $i \in [k]$, we write out explicitly
+\begin{equation*}
+a[v]_i = \sum_{u \in Parent(v)} w(i, u, v) o[u]
+\end{equation*}
+
+Since $\softmax(z_1, \ldots, z_n) = \frac{\sum_{j} z_j e^{z_j}}{\sum_{j} e^{z_j}}$, we get \begin{align*}
+    \frac{\partial \softmax(z_1, \ldots, z_n)}{\partial z_i} &=  \frac{(\sum_j e^{z_j}) (z_i e^{z_i} + e^{z_i}) - (\sum_j z_j e^{z_j})(e^{z_i})}{(\sum_j e^{z_j})^2} \\
+    &= \frac{e^{z_i}(1 + z_i - \softmax(z_1, \ldots, z_n))}{\sum_j e^{z_j}}
+\end{align*}
+
+For sake of conciseness, call this $\softmax_i(z_1, \ldots, z_n)$ where we keep in mind that the sub-$i$ is not an index, but rather a partial.
+
+
+Fix $i, u, v$. Then, we have \begin{equation*}
+\frac{\partial \hat{y}}{\partial w(i, u, v)} = \frac{\partial \hat{y}}{\partial a[v]_i} \frac{\partial a[v]_i}{\partial w(i, u, v)} = \frac{\partial \hat{y}}{\partial a[v]_i} o[u]
+\end{equation*} 
+
+Vectorize this, then
+\begin{equation*}
+\left(\frac{\partial \hat{y}}{\partial w (i, u, v)}\right)_{u \in Parent(v)} = \frac{\partial \hat{y}}{a[v]} o[u]
+\end{equation*}
+So we try to calculate the stimulus
+\begin{equation*}
+\delta[v] = \frac{\partial \hat{y}}{\partial a[v]} \in \bbr^k
+\end{equation*}
+
+Then, with $k(w) = \{v': (v', w) \in E\}$, we have 
+\begin{align*}
+\delta[v]_i &= \frac{\partial \hat{y}}{\partial a[v]_i} \\
+&= \sum_{(v, w) \in E} \sum_{j = 1}^{k(w)} \frac{\partial \hat{y}}{\partial a[w]_j} \frac{\partial a[w]_j}{\partial o[v]} \frac{\partial o[v]}{ \partial a[v]_i} \\
+&= \sum_{(v, w) \in E} \sum_{j = 1}^{k(w)} \delta[w]_j w(j, v, w) \softmax_i(a[v])
+\end{align*}
+because $o[v]$ contributes to all indices $j$ of the activation $a[w]$ for each $w$ with weight $w(j, v, w)$. We thus established the recurrence relationship.
+
+\textbf{3.} For both procedures, we have not filled in the gap of the calculation of $\delta[v_{out}]$. If $v_{out}$ uses a sigmoid activation function, then
+\begin{align*}
+    \delta[v_{out}] &= \frac{\partial \hat{y}}{a[v_{out}]}  \\
+    &= \frac{\partial o[v_{out}]}{\partial a[v_{out}]} = \sigma'(a[v_{out}])
+    \end{align*}
+
+Otherwise, if $v_{out}$ uses a softmax activation function, then
+\begin{align*}
+    \delta[v_{out}] &= \frac{\partial \softmax(a[v_{out}])}{a[v_{out}]} \\
+    &= [\softmax_1(a[v_{out}]), \softmax_2(a[v_{out}]), \ldots, \softmax_{k(v_{out})}(a[v_{out}])]^T \\
+    &= \nabla \softmax(a[v_{out}])
+\end{align*}
+is the standard derivative of the $\softmax$. We've thus tied up all loose ends.
+\newpage
+
+\textbf{(b)} First we perform the forward propagation:
+\begin{align*}
+    x &= o[0] \in \bbr^d \\
+    a[1] &= W^{(1)} o[0] \in \bbr^k \\
+    o[1] &= \sigmoid(a[1]) \in \bbr^k \\
+    a[2] &= W^{(2)} o[1] \in \bbr^k \\
+    \hat{y} = o[2] &= \softmax(a[2]) \in \bbr
+\end{align*}
+
+We have that \begin{equation*}
+\frac{\partial \ell^{sq}(\hat{y}(x), y)}{\partial \hat{y}} = (\hat{y} - y)
+\end{equation*}
+Thus we are now only concerned with \begin{equation*}
+\nabla_{W^{(2)}} \hat{y} \:\text{and}\: \nabla_{W^{(1)}} \hat{y}
+\end{equation*}
+ 
+\textbf{1.} For $W^{(2)}$. Consider $W^{(2)}_{i, j}$ with $i, j \leq k$. Then 
+\begin{align*}
+    \frac{\partial \hat{y}}{\partial W^{(2)}_{i, j}}  &= \frac{\partial \hat{y}}{\partial a[2]_i} \frac{\partial a[2]_i}{\partial W^{(2)}_{i, j}} \\
+    &= \softmax_i(a[2]) o[1]_j
+\end{align*}
+so in matrix form, it is the outer product of $\nabla \softmax (a[2])$ and $o[1]$:
+\begin{equation*}
+\nabla_{W^{(2)}}\hat{y} = \left(\nabla \softmax(a[2])\right) o[1]^T
+\end{equation*}
+So \begin{equation*}
+\nabla_{W^{(2)}} \ell^{sq}(\hat, y) = (\hat{y} - y) \left(\nabla \softmax(a[2])\right) o[1]^T
+\end{equation*}
+
+\textbf{2.} For $W^{(1)}$.
+
+We know that \begin{equation*}
+\delta^{(2)} = \frac{\partial \hat{y}}{\partial a[2]} = \nabla \softmax(a[2]) \in \bbr^k
+\end{equation*}
+
+From above analysis, we have \begin{equation*}
+\delta^{(1)} = \frac{\partial \hat{y}}{\partial a[1]} = \sigmoid'(a^{(1)}) \odot W^{(2)^T} \delta^{(2)} \in \bbr^k
+\end{equation*}
+
+So
+\begin{align*}
+    \frac{\partial \hat{y}}{\partial W^{(1)}_{i, j}} &= \delta^{(1)}_i \frac{\partial a[1]_i}{\partial W^{(1)}_{i, j}} = \delta^{(1)}_i o[0]_j \\
+    \implies \nabla_{W^{(1)} } \hat{y} &= \delta^{(1)} o[0]^T \\
+    \implies \nabla_{W^{(1)}} \ell^{sq}(\hat{y}, y) &= (\hat{y} - y)  \delta^{(1)} o[0]^T
+\end{align*}
+
+
+
+\begin{problem} [Expressive Power of Neural Networks]
+
+    Take some $h_I(x) \in PARITIES_d$, where $I = \{i_1, \ldots, i_K\}$ for some $I \subseteq [d]$. Obviously $K \leq d$. Let $p_I(x) = \:\text{number of 1's of}\: x$. Then clearly $h_I(x) = p_I(x) \bmod 2$.
+
+    Let us describe the architecture: 
+    \begin{align*}
+        x &= (x_1, \ldots, x_d) \in \{0, 1\}^d \\
+        a[1]_i &= \iprod{w_i}{x} + b_i \\
+        o[1] &= ReLU(a[1]) \:\text{(element-wise)}\: \\
+        a[2] &= \sign{\sum_{i=1}^{2d} a_i o[1]_i}
+    \end{align*}
+
+    
+    Then set $(w_i)_{i_k} = 1$ for all $k \in [K]$ and $0$ otherwise. It then follows that $\iprod{w_i}{x} = p_I(x)$. 
+\end{problem}
+\end{document}
