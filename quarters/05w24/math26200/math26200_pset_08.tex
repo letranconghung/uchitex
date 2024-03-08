@@ -1,0 +1,131 @@
+\documentclass[a4paper, 10pt]{article}
+\input{../preamble.tex}
+\title{MATH 26200: Point-Set Topology \\ \large Take-home Final}
+\date{03 Mar 2024}
+\author{Hung Le Tran}
+\begin{document}
+\maketitle
+\setcounter{section}{8}
+\textbf{Textbook:} Munkres, \textit{Topology}.
+\begin{problem} [\done]
+    Give examples (and justification) for each of the following:
+    \begin{enumerate}
+    \item A topological space $X$ with a subspace $A$ that is compact but not closed.
+    \item A connected space that is not path connected.
+    \item A compact Hausdorff space that is not second countable. (Hint: first find a locally compact Hausdorff space that is not second countable)
+    \item A connected space that is not locally connected.
+    \item A Hausdorff space that is not regular.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \textbf{(a)} $X = \{1, 2\}$ with topology $\calt = \{\emptyset, \{1\}, \{1, 2\}\}.$ Then $\{1\}$ is clearly compact, but it is not closed.
+
+    \textbf{(b)} (The topologist's sine curve) Let $X = \{(x, \sin\left(\frac{1}{x}\right)) : x \in (0, 1]\} \subset \bbr^2$. It has closure $\cl{X} = X \cup \{0\} \times [-1, 1]$. Since $X$ is a continuous image of a connected set, namely $(0, 1]$, it is connected. So $\cl{X}$ is also connected. However, it is not path connected. Suppose there exists some $f: [0, 1] \to \cl{S}$ such that $f(0) = (0, 0)$ and $f(1) = (1, \sin(1))$. We have that $\{t : f(t) \in \{0\} \times [-1, 1]\} \subset [0, 1]$ is preimage of a closed set so it is closed, so it has a max $t_0$. For $f$ to be continuous, then $f(t_0) = (0, 0)$. Then consider $f: [t_0, 1] \to \cl{S}$, then $\forall t > t_0, f(t) \in X$. WLOG, $t_0 = 0$. 
+
+    But then for all $n$, choose $u_n \in (0, f_1(\frac{1}{n}))$ such that $\sin(1/u_n) = (-1)^n$. By Intermediate Value Theorem, $f_1$ is continuous so there exists some $0 < t_n < 1/n$ such that $f_1(t_n) = u_n$. Then it follows that $f_1(t_n) = (-1)^n$. It's clear that $t_n \cvgn 0 \implies f_2(t_n) \cvgn 0$. But $f_2(t_n) = (-1)^n$ which doesn't converge. \contra
+
+    \textbf{(c)} Take $\bbr$. It is Hausdorff, locally compact and not second countable. So its one-point compactification ($S^1$) is then compact, Hausdorff and not second countable.
+
+    \textbf{(d)} $\cl{X}$ from $(b)$. It is connected as previously shown. However, at $(0, 0)$, it is not locally connected, since for every $U \subset \bbr^2$ open, one can exhibit the separation $U \cap \{0\} \times [1, 1] \sqcup U - (U \cap \{0\} \times [1, 1])$.
+
+    \textbf{(e)} Consider $\bbr_K$. Then there doesn't exist any open, disjoint $U, V$ such that $0 \in U, K \subset V$. Suppose there does exist. Then $U$ contains some basis element that contains $0$. It can't be of the form $(a, b)$ since all $(a, b)$ around 0 intersect $K$. So it has to be some $(a, b) - K$. But there exists some $\frac{1}{n} \in (a, b)$ still. $V$ also contains some basis element that contains $\frac{1}{n}$, which has to be of the form $(c, d)$. Then $(a, b) \cap  (c,d) \neq \emptyset$ trivially, so $U \cap V \neq \emptyset$.
+\end{solution}
+
+\begin{problem} [\done]
+    Show that if $X$ is a compact metric space, then the metric topology is second countable (i.e., it has a countable basis).
+\end{problem}
+\begin{solution}
+    Fix $n \in \bbn$. Then $\calu_n = \{B(x, \frac{1}{n}) : x \in X\}$ is an open cover for $X$, so it reduces to some finite subcover $\calv_n$. Take $\calv = \bigcup_{n \in \bbn} \calv_n$, which is countable. WTS $\calv$ is a basis for the metric topology on $X$.
+
+    $\calv$ is a collection of open sets in $X$, so it remains to show that for every $x \in U \subset X$ open, there exists some $V \in \calv$ such that $x \in V \subset U$.
+
+    Take $x \in U \subset X$ open. Since $U$ is open, there exists some $B(x, r) \subset U \subset X$ (WLOG, ball centered at $x$). Then there exists some $N$ such that $\frac{1}{N} < \frac{r}{2}$. Consider the finite subcover $\calv_N$, then there has to exist some $B(x', \frac{1}{N}) \ni x \implies d(x, x') < \frac{1}{N}< \frac{r}{2}$. But $\frac{1}{N} < \frac{r}{2}$ so in fact $B(x', \frac{1}{N}) \subset B(x, r) \subset U$, and $B(x', \frac{1}{N}) \subset \calv_n \subset \calv$.
+
+    Using Lemma 26.4, it follows that $\calv$ is a basis for $X$. So $X$ is 2nd countable.
+\end{solution}
+
+\begin{problem} [25.7 \done]
+    Consider the ``infinite broom'' $X$ pictured in Figure 25.1. Show that $X$ is not locally connected at $p$, but is weakly locally connected at $p$. [Hint: Any connected neighborhood of $p$ must contain all the points $a_i$.]
+    
+    (You may use 25.6 without proving it)
+\end{problem}
+\begin{solution}
+    We view the ``infinite broom'' as a subspace of $\bbr^2$.
+
+    \textbf{1.} WTS $X$ is not locally connected at $p$. WTS for any $V \ni p$ to be connected, it has to contain all points $(0, a_i)$.
+    
+    If $V$ doesn't contain all the points $a_i$, then consider $I = \{i : (0, a_i) \in V\} \neq \emptyset$ has some minimum element $n > 1$, which implies $(0, a_{n}) \in V$ but $(0, a_{n-1}) \not \in V$. $V \subset \bbr^2$ open so $V \cap 0 \times \bbr$ is open, so there exists some $b$ such that $a_n < b < a_{n-1}$ and $(0, b) \in V$. $(0, b) \in V$ implies that there exists some $B((0, b), r) \subset V$, and we know from construction of the infinite broom that there exists some broom segment from $a_{n-1}$ that intersects this $B((0, b), r)$, hence intersecting $V$. One can then exhibit a separation of $V$ with this intersection and its complement in $V$.
+
+    So $V$ has to contain all $(0, a_i)$.
+
+    But then if one take a small enough open neighborhood $U$ around $p$ such that it doesn't contain all $(0, a_i)$, then there can't exist $p \in V \subset U$ that is connected.  So $X$ is not locally connected at $p$.
+
+    \textbf{2.} WTS $X$ is weakly locally connected at $p$.
+
+    Take any open $U \ni p$, then there exists some open ball $p \in B(p, r) \subset U$. Since the broom segments decrease in height ($y$-coordinate) as $n$ increases, there exists some $N$ such that for all $n \geq N$, all of the broom segments originating from $a_n$ is contained in $B(p, r)$. Then consider $V$ to be the union of $[p, a_N]$ and all broom segments of $a_n$ of $n \geq N$. Then $V \subset B(p, r) \subset U$. Furthermore, this $V$ contains a smaller neighborhood $B(p, \frac{h}{2})$ where $h$ is the $y$-coordinate of the tallest broom segment from $a_N$.
+\end{solution}
+
+\begin{problem} [33.9 \done]
+    Show that $\bbr^J$ in the box topology is completely regular. [Hint: Show that it suffices to consider the case where the box neighborhood $(-1, 1)^J$ is disjoint from $A$ and the point is the origin. Then use the fact that a function is continuous in the uniform topology is also continuous in the box topology.]
+\end{problem}
+\begin{solution}
+    It suffices to show that given closed set $A \subset \bbr^J$ that does not contain $0$, there is a continuous $f: \bbr^J \to [0, 1]$ such that $f(0) = 1 $ and $f(A) = \{0\}$. If the point of concern is not 0, translate it there.
+
+    Since $A$ is closed, there exists $\prod_{\alpha \in J}(-r_\alpha, r_\alpha) \cap A = \emptyset$.
+
+    We first show that one can separate $0$ and $\bbr^J - (-1, 1)^J$ by a continuous function. $(-1, 1)^J$ is exactly $B(0, 1)$ of $\bbr^J$ in the uniform topology. So $\bbr^J  - (-1, 1)^J$ is closed. $\bbr^J$ with the uniform topology is metrizable, so it is definitely completely regular, so there exists some continuous $f: \bbr^J \to [0, 1]$ such that $f(0) = 1$ and $f(\bbr^J - (-1, 1)^J) = \{0\}$. However, the uniform topology is coarser than the box topology, so this $f$ is continuous in the box topology too.
+
+    Then let us look at $h: \bbr^J \to \bbr^J, (x_\alpha)_{\alpha \in J} \mapsto (x_\alpha/r_\alpha)_{\alpha \in J}$. It is continuous in the box topology (both domain and codomain), since the preimage of a basic open set $\prod_{\alpha \in J}(v_\alpha - \epsilon_\alpha, v_\alpha + \epsilon_\alpha)$ is $\prod_{\alpha \in J}(rv_\alpha - r\epsilon_\alpha, rv_\alpha + r\epsilon_\alpha)$ is open.
+
+    Finally, consider $g= f \circ h : \bbr^J \to [0, 1]$ is continuous. $g(0) =f(h(0)) = 1$, and $h(A) \subset \bbr^J - (-1, 1)^J$ so $g(A) \subset f(\bbr^J - (-1, 1)^J) = \{0\}$, as required.
+
+    Hence $\bbr^J$ in the box topology is completely regular.
+\end{solution}
+
+\begin{problem} [38.3 \done ]
+    Under what conditions does a metrizable space have a metrizable compactification?
+\end{problem}
+\begin{solution}
+    A compact metric space is second countable, so for the compactification of $X$ to be metrizable, it is \textit{necessary} for $X$ to be second countable.
+
+    It remains for us to show that this is the sufficient condition. Suppose $X$ is second countable. Then from the proof of the Urysohn Metrization Theorem, we already constructed an embedding $F: X \to \bbr^\omega$ with $\bbr^\omega$ in the product topology, which we know is metrizable with metric $D$. Then $\cl{F(X)}$ in $\bbr^\omega$ is a metrizable compactification of $X$.
+\end{solution}
+
+\begin{problem} [46.5 \done]
+    Consider the sequence of functions $f_n: (-1, 1) \to \bbr$, defined by \begin{equation*}
+    f_n(x) = \sum_{k=1}^{n} k x^k
+    \end{equation*}
+    \begin{enumerate}
+    \item Show that $(f_n)$ converges in the topology of compact convergence; conclude that the limit function is continuous. (This is a standard fact about power series.)
+    \item Show that $(f_n)$ does not converge in the uniform topology.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+\textbf{(a)} Denote $\calf = \{f_n\}$. Take any $K \subset (-1, 1)$ compact, then it must be closed and bounded, say $x \in K \implies \abs{x} \leq M$. Clearly, $M < 1$.
+
+Let $f(x) = \sum_{k=1}^{\infty} kx^k$ on $(-1, 1)$. It is well-defined, since the series actually converges to $\frac{x}{(1- x)^2}$, in fact, absolutely:
+\begin{equation*}
+\sum_{k=1}^{\infty} k \abs{x}^k = \frac{\abs{x}}{(1 - \abs{x})^2}
+\end{equation*}
+Then
+\begin{align*}
+\sup_{x \in K} (f_n - f) &= \sup_{x \in K} \sum_{k=n+1}^{\infty} kx^k \\
+&\leq \sum_{k=n+1}^{\infty} k M^k \\
+&= \frac{1}{(1-M)^2} M^{n+1}[n(1-M) + 1] \cvgn 0
+\end{align*}
+since $M^{n+1}$ is exponential so it diminishes quicker than $n(1-M)$ grows.
+
+It follows that $f_n$ converges to $f$ in the topology of compact convergence.
+
+Now $(-1, 1)$ is locally compact, so it is compactly generated, so $\calc((-1, 1), \bbr)$ is closed in $Y^X$ in the topology of compact convergence. $f_n \cvgn f \implies f \in \calc((-1, 1), \bbr)$, so $f$ is continuous.
+
+\textbf{(b)} We have for all $1 \gg \epsilon > 0$, for any $n > 2$, choose $a_n = 1 - \frac{1}{n^2} \in (-1, 1)$, then
+\begin{align*}
+d(f_n, f) &\geq \abs{f_n(a_n) - f(a_n)} \\
+&= n^4 \left(1 - \frac{1}{n^2}\right)^{n+1} \left(\frac{n}{n^2} + 1\right) \\
+&\geq n^4 \left(1 - \frac{n+1}{n^2}\right) \:\text{(Bernoulli's inequality)}\: \\
+&= n^4 - n^3 - n^2 \not < \epsilon
+\end{align*}
+so the convergence is not uniform.
+\end{solution}
+\end{document}
