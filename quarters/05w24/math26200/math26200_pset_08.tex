@@ -20,7 +20,7 @@
 \begin{solution}
     \textbf{(a)} $X = \{1, 2\}$ with topology $\calt = \{\emptyset, \{1\}, \{1, 2\}\}.$ Then $\{1\}$ is clearly compact, but it is not closed.
 
-    \textbf{(b)} (The topologist's sine curve) Let $X = \{(x, \sin\left(\frac{1}{x}\right)) : x \in (0, 1]\} \subset \bbr^2$. It has closure $\cl{X} = X \cup \{0\} \times [-1, 1]$. Since $X$ is a continuous image of a connected set, namely $(0, 1]$, it is connected. So $\cl{X}$ is also connected. However, it is not path connected. Suppose there exists some $f: [0, 1] \to \cl{S}$ such that $f(0) = (0, 0)$ and $f(1) = (1, \sin(1))$. We have that $\{t : f(t) \in \{0\} \times [-1, 1]\} \subset [0, 1]$ is preimage of a closed set so it is closed, so it has a max $t_0$. For $f$ to be continuous, then $f(t_0) = (0, 0)$. Then consider $f: [t_0, 1] \to \cl{S}$, then $\forall t > t_0, f(t) \in X$. WLOG, $t_0 = 0$. 
+    \textbf{(b)} (The topologist's sine curve) Let $X = \{(x, \sin\left(\frac{1}{x}\right)) : x \in (0, 1]\} \subset \bbr^2$. It has closure $\cl{X} = X \cup \{0\} \times [-1, 1]$. Since $X$ is a continuous image of a connected set, namely $(0, 1]$, it is connected. So $\cl{X}$ is also connected. However, it is not path connected. Suppose there exists some $f: [0, 1] \to \cl{S}$ such that $f(0) = (0, 0)$ and $f(1) = (1, \sin(1))$. We have that $\{t : f(t) \in \{0\} \times [-1, 1]\} \subset [0, 1]$ is preimage of a closed set so it is closed, so it has a max $t_0$. For $f$ to be continuous, then $f(t_0) = (0, 0)$. Then consider $f: [t_0, 1] \to \cl{X}$, then $\forall t > t_0, f(t) \in X$. WLOG, $t_0 = 0$. 
 
     But then for all $n$, choose $u_n \in (0, f_1(\frac{1}{n}))$ such that $\sin(1/u_n) = (-1)^n$. By Intermediate Value Theorem, $f_1$ is continuous so there exists some $0 < t_n < 1/n$ such that $f_1(t_n) = u_n$. Then it follows that $f_1(t_n) = (-1)^n$. It's clear that $t_n \cvgn 0 \implies f_2(t_n) \cvgn 0$. But $f_2(t_n) = (-1)^n$ which doesn't converge. \contra
 
@@ -28,7 +28,7 @@
 
     \textbf{(d)} $\cl{X}$ from $(b)$. It is connected as previously shown. However, at $(0, 0)$, it is not locally connected, since for every $U \subset \bbr^2$ open, one can exhibit the separation $U \cap \{0\} \times [1, 1] \sqcup U - (U \cap \{0\} \times [1, 1])$.
 
-    \textbf{(e)} Consider $\bbr_K$. Then there doesn't exist any open, disjoint $U, V$ such that $0 \in U, K \subset V$. Suppose there does exist. Then $U$ contains some basis element that contains $0$. It can't be of the form $(a, b)$ since all $(a, b)$ around 0 intersect $K$. So it has to be some $(a, b) - K$. But there exists some $\frac{1}{n} \in (a, b)$ still. $V$ also contains some basis element that contains $\frac{1}{n}$, which has to be of the form $(c, d)$. Then $(a, b) \cap  (c,d) \neq \emptyset$ trivially, so $U \cap V \neq \emptyset$.
+    \textbf{(e)} Consider $\bbr_K$. Then WTS there doesn't exist any open, disjoint $U, V$ such that $0 \in U, K \subset V$. Suppose there does exist. Then $U$ contains some basis element that contains $0$. It can't be of the form $(a, b)$ since all $(a, b)$ around 0 intersect $K$. So it has to be some $(a, b) - K$. But there exists some $\frac{1}{n} \in (a, b)$ still. $V$ also contains some basis element that contains $\frac{1}{n}$, which has to be of the form $(c, d)$. Then $((a, b) - K) \cap  (c,d) \neq \emptyset$, so $U \cap V \neq \emptyset$.
 \end{solution}
 
 \begin{problem} [\done]
@@ -101,19 +101,13 @@
     \end{enumerate}
 \end{problem}
 \begin{solution}
-\textbf{(a)} Denote $\calf = \{f_n\}$. Take any $K \subset (-1, 1)$ compact, then it must be closed and bounded, say $x \in K \implies \abs{x} \leq M$. Clearly, $M < 1$.
+\textbf{(a)} Denote $\calf = \{f_n\}$. Take any $K \subset (-1, 1)$ compact, then it must be closed and bounded, say $x \in K \implies \abs{x} \leq B$. Clearly, $B < 1$.
 
-Let $f(x) = \sum_{k=1}^{\infty} kx^k$ on $(-1, 1)$. It is well-defined, since the series actually converges to $\frac{x}{(1- x)^2}$, in fact, absolutely:
+Let $f(x) = \sum_{k=1}^{\infty} kx^k$ on $(-1, 1)$. It is well-defined --- in fact, the series converges absolutely, by the M-test:
 \begin{equation*}
-\sum_{k=1}^{\infty} k \abs{x}^k = \frac{\abs{x}}{(1 - \abs{x})^2}
+k \abs{x}^k \leq k B^k, \sum_{k=1}^{\infty} kB^k = \frac{B}{(1-B)^2}
 \end{equation*}
-Then
-\begin{align*}
-\sup_{x \in K} (f_n - f) &= \sup_{x \in K} \sum_{k=n+1}^{\infty} kx^k \\
-&\leq \sum_{k=n+1}^{\infty} k M^k \\
-&= \frac{1}{(1-M)^2} M^{n+1}[n(1-M) + 1] \cvgn 0
-\end{align*}
-since $M^{n+1}$ is exponential so it diminishes quicker than $n(1-M)$ grows.
+So by the M-test, the convergence is automatically uniform (on $K$).
 
 It follows that $f_n$ converges to $f$ in the topology of compact convergence.
 
@@ -122,6 +116,7 @@ Now $(-1, 1)$ is locally compact, so it is compactly generated, so $\calc((-1, 1
 \textbf{(b)} We have for all $1 \gg \epsilon > 0$, for any $n > 2$, choose $a_n = 1 - \frac{1}{n^2} \in (-1, 1)$, then
 \begin{align*}
 d(f_n, f) &\geq \abs{f_n(a_n) - f(a_n)} \\
+&= \frac{1}{(1-a_n)^2}a_n^{n+1} (n (1-a_n) + 1) \\
 &= n^4 \left(1 - \frac{1}{n^2}\right)^{n+1} \left(\frac{n}{n^2} + 1\right) \\
 &\geq n^4 \left(1 - \frac{n+1}{n^2}\right) \:\text{(Bernoulli's inequality)}\: \\
 &= n^4 - n^3 - n^2 \not < \epsilon
