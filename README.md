@@ -87,4 +87,9 @@ CLI Parameter | Info
 `-c, --course` | Course ID
 `--help` | For help
 
+# New quarter/course workflow
+- Update `scripts/templates/preamble.tex`
+- Create new quarter
+- Create new courses
+- Update information in `.yaml` files
 

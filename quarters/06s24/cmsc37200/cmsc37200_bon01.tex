@@ -1,0 +1,202 @@
+\documentclass{amsart}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+\setlength{\parindent}{0pt}
+
+\input{../shorthands.tex}
+\pagestyle{fancy}
+
+\rhead{Hung Le Tran}   %% <-- your name here
+\chead{}
+\cfoot{\thepage}
+\rfoot{\today}  
+
+
+%% your macros -->
+
+\begin{document}
+\Large
+\noindent
+Assignment {\bf BON 1}   %% <-- Gradescope assignment title here ***
+
+\medskip\noindent
+\hrule
+
+
+\medskip\noindent
+Solutions by {\bf Hung Le Tran} \qquad   %% <-- your name here ***
+  {\tt conghunglt(at)u.e.}      %% <-- your uchicago email address here ***
+
+\vspace{0.5cm}
+
+\noindent
+This document contains my solutions to
+the Gradescope assignment named on the top of this page.
+Specifically, my solutions to the following problems
+are included:
+
+\vspace{0.4cm}
+\begin{itemize}  %% *** update this list
+\item 01.104 (pages 2-3)
+\item 01.159 (page 4)
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent
+I did not forget 
+\begin{itemize}
+  \item to REFRESH my browser for the latest information
+   about each problem
+  \item \underline{to link problems to pages}.\\
+  This page is linked to the problems I did not solve.
+\item to update the items marked *** in the template
+  (my name, email, the Gradescope title of the assignment,
+  the list of problems solved, the \verb>\lhead> statements
+  (left page headers: list of (sub)problems solved on each page)
+\item to make sure no subproblem solution spills over to the next page
+  (except when this is unavoidable, i.e., when the solution to a
+  subproblem does not fit on a page)
+\item if a problem takes more than one page, I linked
+  each of those pages to the problem
+\item I took care not to defeat the mechanisms provided by this template.
+\end{itemize}
+  With each problem, {\bf I stated my sources and collaborations}.\\
+  By submitting this solution \emph{I certify} that\\
+  \emph{my statement of sources and collaborations is accurate and complete}.\\
+  I understand that without this certification, my solutions will
+  not be accepted.
+  
+\vspace{1cm}
+
+\newpage
+\Large
+\lhead{Problem 01.104}
+
+\noindent
+(\done) 01.104 Question. \\
+Let $p_n$ be the $n$-th prime number. Consider the statement:
+\begin{equation*}
+p_n \sim n \ln n
+\end{equation*}
+
+Prove that this statement is equivalent to the Prime Number Theorem.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None
+
+\medskip\noindent
+\emph{Proof.}\\
+Let us restate the Prime Number Theorem (PNT).
+
+\textbf{Theorem.} Let $\pi(x)$ be the numbers of prime numbers $\leq x$. Then \begin{equation*}
+\pi(x) \sim \frac{x}{\ln x}
+\end{equation*}
+
+\pffwd We first show that $p_n \sim n \ln n$ implies PNT.
+
+Let $0 < \epsilon \ll 1$ be arbitrary. Take $\delta = \epsilon/2$.
+
+Since $p_n \sim n \ln n$, there exists some $N = N_\delta = N_\epsilon \in \bbn$ such that $n \geq N \implies (1-\delta) n \ln n \leq p_n \leq (1+\delta) n \ln n$.
+
+Take $X = p_N = X_\epsilon$. For all $x \geq X$, let $m = \pi(x) \geq \pi(X) = N$ then we have
+\begin{align*}
+    p_{m} \leq x \leq p_{m + 1}
+\end{align*}
+but $m \geq N$ so \begin{equation*}
+(1-\delta)m \ln m \leq x \leq (1 + \delta) (m+1) \ln (m+1)
+\end{equation*}
+$\ln$ is monotonic, so:
+\begin{equation*}
+\ln(1-\delta) + \ln m  + \ln\ln m \leq \ln x \leq \ln(1 + \delta) + \ln (m+1) \ln\ln (m+1)
+\end{equation*}
+It then follows that for all $x \geq X$,
+\begin{multline*}
+    \frac{(1-\delta) m \ln m}{m[\ln(1+\delta) + \ln (m+1) + \ln \ln (m+1)]} \leq \frac{x}{\pi(x)\ln x} \\
+    \leq \frac{(1+\delta) (m+1) \ln (m+1)}{m [\ln(1-\delta) + \ln m + \ln \ln m]}
+\end{multline*}
+
+Investigating the limit as $m \to \infty$, we have:
+\begin{align*}
+    \lim_{m \to \infty} \lhs &= \lim_{m \to \infty}(1 - \delta) \frac{\ln m}{\ln (1 + \delta) + \ln (m+1) + \ln \ln (m+1)} \\
+    &= 1 - \delta,
+\end{align*}
+using the $\ln$ asymptotic result in 01.87(b) to get $\ln (m+1) \sim \ln m$, and that $\ln m$ grows exponentially faster than $\ln \ln (m+1)$.
+
+Similarly, $\lim_{m \to \infty} \rhs = 1 + \delta$.
+
+What the 2 limits above imply is that there exists some $M = M_\epsilon$ such that $\pi(x) \geq M_\epsilon \implies \abs{\lhs - (1 - \delta)}, \abs{\rhs - (1 + \delta)} < \frac{\epsilon}{2}$, implying $\abs{\lhs - 1}, \abs{\rhs - 1} < \epsilon$, so \begin{equation*}
+\abs*{\frac{\pi(x) \ln x}{x} - 1} < \epsilon
+\end{equation*}
+
+Therefore, for all $x \geq p_{\ceil{M_\epsilon}}$, the above inequality is achieved.
+
+$\epsilon$ was arbitrary, so $\lim_{x \to \infty} \frac{\pi(x) \ln x}{x} = 1$, so $\pi(x) \sim \frac{x}{\ln x}$ as required. \qed
+
+\pfbwd WTS PNT implies $p_n \sim n \ln n$.
+
+Let $0 < \epsilon \ll 1$ be arbitrary. Since $\pi(x) \sim \frac{x}{\ln x}$, there exists some $X_\epsilon$ such that \begin{equation} \label{eq1}
+x \geq X_\epsilon \implies (1-\epsilon) x \leq \pi(x) \ln x \leq (1 + \epsilon)x
+\end{equation}
+
+Take $N = N_\epsilon = \pi(X_\epsilon) + 1$, then for all $n \geq N$, we have that $p_n \geq p_{N + 1} \geq X_\epsilon$ so \eqref{eq1} holds:
+\begin{equation*}
+(1-\epsilon) p_n \leq n \ln n \leq (1 + \epsilon) p_n
+\end{equation*}
+which implies
+\begin{equation*}
+1 - \epsilon \leq \frac{n \ln n}{p_n} \leq 1 + \epsilon
+\end{equation*}
+
+$\epsilon$ was arbitrary, so $\lim_{n \to \infty} \frac{n \ln n}{p_n} = 1 \implies p_n \sim n \ln n$ as required. \qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.159}
+
+\noindent
+(\done) 01.159 Question. \\
+Let $\Omega$ be a set of $n$ elements. Let $C_1, \ldots, C_m$ be an Oddtown system in $\Omega$ and let $\bfv_1, \ldots, \bfv_m$ be the corresponding incidence vectors. Prove that the $\bfv_i$ are linearly independent over $\bbq$. (Note that the Oddtown Theorem follows from this)
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+WTS Oddtown incidence vectors $\bfv_1, \ldots, \bfv_m \in \bbq^n$ are linearly independent.
+
+Suppose there exists $(p_i/q_i)_{i \in [m]} \in \bbq$ such that \begin{equation*}
+\sum_{i=1}^{m}   \alpha_i \bfv_i = \mathbf{0}
+\end{equation*}
+Let $a_i = (p_i/q_i) \lcm(q_1, \ldots, q_m) \in \bbz$ then
+\begin{equation} \label{eq2}
+\sum_{i=1}^{m} a_i \bfv_i = \mathbf{0}
+\end{equation}
+WLOG, $\gcd(a_1, \ldots, a_m) = 1$ (If not, divide them all by $\gcd(a_1, \ldots, a_m)$).
+
+Define the symmetric bilinear function $\iprod{\cdot}{\cdot}: \bbq^n \times \bbq^n \to \bbz, \bfu \times \bfv \mapsto \sum_{i=1}^{m} \bfu^{(i)} \bfv^{(i)}$ where $\bfu^{(i)}$ denotes the $i$-th index of $\bfu$. Then the Oddtown conditions mean that $\iprod{\bfv_i}{\bfv_j}$ is even if $i \neq j$ and odd if $i = j$.
+
+For any $i \in [m]$, from \eqref{eq2}, we get $\iprod{\lhs}{\bfv_i} = \iprod{\rhs}{\bfv_i}$ which implies:
+\begin{equation*}
+a_i \cdot (odd) + \sum (even) = 0
+\end{equation*}
+where $(odd), (even)$ denote some odd and even integers respectively. It then follows that $a_i$ is even.
+
+This holds for all $i \in [m]$, so $(a_i)_{i \in [m]}$ have 2 as a common divisor, \contra
+\qed
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+
+
+
+\end{document}

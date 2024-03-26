@@ -1,0 +1,128 @@
+\usepackage{amsmath,mathtools,amssymb}
+\usepackage{xcolor}
+% 5. Math shorthands
+% 5.1. Fonts
+\newcommand*{\bbf}{\mathbb{F}}
+\newcommand*{\bbn}{\mathbb{N}}
+\newcommand*{\bbq}{\mathbb{Q}}
+\newcommand*{\bbr}{\mathbb{R}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\Rn}{\mathbb{R}^n}
+\newcommand*{\bbz}{\mathbb{Z}}
+\newcommand*{\bbc}{\mathbb{C}}
+\newcommand*{\bbk}{\mathbb{K}}
+\newcommand*{\bbm}{\mathbb{M}}
+\newcommand*{\bbp}{\mathbb{P}}
+\newcommand*{\bbe}{\mathbb{E}}
+\newcommand*{\1}{\mathds{1}}
+
+\newcommand*{\bfw}{\mathbf{w}}
+\newcommand*{\bfx}{\mathbf{x}}
+\newcommand*{\bfX}{\mathbf{X}}
+\newcommand*{\bfU}{\mathbf{U}}
+\newcommand*{\bfP}{\mathbf{P}}   
+\newcommand*{\bfy}{\mathbf{y}}
+\newcommand*{\bfyhat}{\mathbf{\hat{y}}}
+\newcommand*{\bfv}{\mathbf{v}}
+\newcommand*{\bfV}{\mathbf{V}}
+\newcommand*{\bfu}{\mathbf{u}}
+\newcommand*{\bfSigma}{\mathbf{\Sigma}}
+
+
+\newcommand*{\cala}{\mathcal{A}}
+\newcommand*{\calb}{\mathcal{B}}
+\newcommand*{\calc}{\mathcal{C}}
+\newcommand*{\cald}{\mathcal{D}}
+\newcommand*{\calf}{\mathcal{F}}
+\newcommand*{\calg}{\mathcal{G}}
+\newcommand*{\calh}{\mathcal{H}}
+\newcommand*{\call}{\mathcal{L}}
+\newcommand*{\calm}{\mathcal{M}}
+\newcommand*{\calp}{\mathcal{P}}
+\newcommand*{\calr}{\mathcal{R}}
+\newcommand*{\cals}{\mathcal{S}}
+\newcommand*{\calt}{\mathcal{T}}
+\newcommand*{\calu}{\mathcal{U}}
+\newcommand*{\calv}{\mathcal{V}}
+\newcommand*{\calw}{\mathcal{W}}
+\newcommand*{\calx}{\mathcal{X}}
+\newcommand*{\caly}{\mathcal{Y}}
+
+\newcommand*{\rme}{\mathrm{e}}
+\newcommand*{\rmd}{\mathrm{d}}
+\newcommand*{\rmosc}{\mathrm{osc}}
+\newcommand*{\lhs}{\ensuremath{\mathrm{LHS}}}
+\newcommand*{\rhs}{\ensuremath{\mathrm{RHS}}}
+
+\newcommand*{\frake}{\mathfrak{e}}
+% Proof Writing
+\newcommand*{\st}{\hspace*{2pt}\text{s.t.}\hspace*{2pt}}
+\newcommand*{\pffwd}{\hspace*{2pt}\fbox{\(\Rightarrow\)}\hspace*{10pt}}
+\newcommand*{\pfbwd}{\hspace*{2pt}\fbox{\(\Leftarrow\)}\hspace*{10pt}}
+\newcommand*{\contra}{\ensuremath{\Rightarrow\Leftarrow}}
+
+% Shorthands
+\newcommand*{\cvgi}{\xrightarrow{j \to \infty}}
+\newcommand*{\cvgj}{\xrightarrow{j \to \infty}}
+\newcommand*{\cvgk}{\xrightarrow{k \to \infty}}
+\newcommand*{\cvgn}{\xrightarrow{n \to \infty}}
+\newcommand*{\cvgx}{\xrightarrow{x\to \infty}}
+\newcommand*{\cvgg}[1]{\xrightarrow{#1}}
+\newcommand*{\eval}[3]{\left[#1\right]^{#2}_{#3}}
+\newcommand*{\inv}[1]{{#1}^{-1}}
+
+\newcommand*{\unicvg}{\rightrightarrows}
+\newcommand*{\dx}{\mathrm{d} x}
+\newcommand*{\ddx}{\frac{\mathrm{d}}{\mathrm{d} x}}
+\newcommand*{\dy}{\mathrm{d} y}
+\newcommand*{\dz}{\mathrm{d} z}
+\newcommand*{\du}{\mathrm{d} u}
+\newcommand*{\dv}{\mathrm{d} v}
+\newcommand*{\dt}{\mathrm{d} t}
+\newcommand*{\sigmoid}{\mathrm{sigmoid}}
+\newcommand*{\softmax}{\mathrm{softmax}}
+\newcommand*{\rk}{\mathrm{rank}}
+\newcommand*{\iprod}[2]{\langle #1, #2 \rangle}
+\newcommand*{\conj}[1]{\overline{#1}}
+\newcommand*{\sign}[1]{\mathrm{sign}\left(#1\right)}
+\newcommand*{\cl}[1]{\overline{#1}}
+
+% 5.2. Symbols maneuvering
+% https://tex.stackexchange.com/questions/438612/space-between-exists-and-forall
+% https://tex.stackexchange.com/questions/22798/nice-looking-empty-set
+\let\implies\Rightarrow
+\let\impliedby\Leftarrow
+\let\iff\Leftrightarrow
+\let\epsilon\varepsilon
+% \renewcommand{\phi}{\varphi}
+\let\oldforall\forall
+\renewcommand{\forall}{\;\oldforall\; }
+\let\oldexist\exists
+\renewcommand{\exists}{\;\oldexist\; }
+\newcommand\existu{\;\oldexist!\: }
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+% 5.3. New math operators
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\Hom}{Hom}
+\DeclareMathOperator*{\im}{Im}
+\DeclareMathOperator*{\spann}{span}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\interior}{int}
+\DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator*{\var}{Var}
+\DeclareMathOperator*{\cov}{Cov}
+\DeclareMathOperator*{\diam}{diam}
+\DeclareMathOperator*{\range}{range}
+\DeclareMathOperator*{\lcm}{lcm}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+% 5.4. Formatting
+\newcommand*{\redtext}[1]{\textcolor{red}{#1}}
+\newcommand*{\done}{\redtext{done}}
+\newcommand*{\todo}[1]{\colorbox{red}{#1}}

@@ -1,0 +1,498 @@
+\documentclass{amsart}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+\setlength{\parindent}{0pt}
+
+\input{../shorthands.tex}
+\pagestyle{fancy}
+
+\rhead{Hung Le Tran}   %% <-- your name here
+\chead{}
+\cfoot{\thepage}
+\rfoot{\today}  
+
+
+%% your macros -->
+
+\begin{document}
+\Large
+\noindent
+Assignment {\bf ORD 1}   %% <-- Gradescope assignment title here ***
+
+\medskip\noindent
+\hrule
+
+
+\medskip\noindent
+Solutions by {\bf Hung Le Tran} \qquad   %% <-- your name here ***
+  {\tt conghunglt(at)u.e.}      %% <-- your uchicago email address here ***
+
+\vspace{0.5cm}
+
+\noindent
+This document contains my solutions to
+the Gradescope assignment named on the top of this page.
+Specifically, my solutions to the following problems
+are included:
+
+\vspace{0.4cm}
+\begin{itemize}  %% *** update this list
+\item 01.31 (page 3)
+\item 01.35 (page 4)
+\item 01.45 (page 5)
+\item 01.54 (page 6)
+\item 01.62 (page 7)
+\item 01.68 (page 8)
+\item 01.71 (page 9)
+\item 01.77 (page 10)
+\item 01.87(a)(b) (pages 11-12)
+\item 01.92 (page 13)
+\item 01.101 (page 14)
+\item 01.151 (page 15)
+\item 01.164 (page 16)
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent
+I did not forget 
+\begin{itemize}
+  \item to REFRESH my browser for the latest information
+   about each problem
+  \item \underline{to link problems to pages}.\\
+  This page is linked to the problems I did not solve.
+\item to update the items marked *** in the template
+  (my name, email, the Gradescope title of the assignment,
+  the list of problems solved, the \verb>\lhead> statements
+  (left page headers: list of (sub)problems solved on each page)
+\item to make sure no subproblem solution spills over to the next page
+  (except when this is unavoidable, i.e., when the solution to a
+  subproblem does not fit on a page)
+\item if a problem takes more than one page, I linked
+  each of those pages to the problem
+\item I took care not to defeat the mechanisms provided by this template.
+\end{itemize}
+  With each problem, {\bf I stated my sources and collaborations}.\\
+  By submitting this solution \emph{I certify} that\\
+  \emph{my statement of sources and collaborations is accurate and complete}.\\
+  I understand that without this certification, my solutions will
+  not be accepted.
+  
+\vspace{1cm}
+
+% ******** START OF CONTENT ******* %
+\newpage
+\Large
+\lhead{Problem 01.31}
+
+\noindent
+(\done) 01.31 Question. \\
+Give a simple sentence in plain English expressing the negation of the statement that ``the sequence $S$ is eventually nonzero.'' Do not use the word ``not'' and avoid mathematical usage such as ``there exist(s)''. You may use the word ``zero'' and variants of the word ``infinity''.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None
+
+\medskip\noindent
+\emph{Proof.}\\
+Sequence $S$ has an infinite number of zeros. \qed
+
+\newpage
+\Large
+\lhead{Problem 01.35}
+
+\noindent
+(\done) 01.35 Question.\\
+Denote the Fibonacci numbers: $F_0 = 0, F_1 = 1, F_{n+2} = F_{n+1} + F_n$. Let $m \in \bbn$. Prove that the sequence $(F_n \bmod m)$ is periodic with period $\leq m^2 -1$.\\
+Example: The $(F_n \bmod 3)$ sequence is periodic with period 8; the repeating part is $0, 1, 1, 2, 0, 2, 2, 1$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip
+\emph{Proof.} Fix $m \in \bbn$. Define a new sequence $G_n \coloneqq F_n \bmod m$. WTS $(G_n)$ is periodic with period $\leq m^2 - 1$. It trivially follows that $0 \leq G_n \leq m-1$.
+
+Investigate the tuples $\{(G_i, G_{i+1}) : 0 \leq i \leq m^2 - 1\}$.
+
+If there exists some $i$ such that $G_i = G_{i+1} = 0$ then we are done, since the $G_n$ sequence would be identically zero and thus have period 1. 
+
+If there doesn't, then there remains $m^2 - 1$ possible 2-tuples of numbers from $0$ to $m-1$, but there are $m^2$ such tuples, so by the Pigeonhole Principle, it follows that there exists some $0 \leq i < j \leq m^2-1$ such that $G_i = G_j, G_{i+1} = G_{j+1}$.
+
+Let $d = j - i \leq m^2 - 1$. WTS $G_n$ is periodic with period $d$, i.e., $\forall n \in \bbn_0, G_{n + d} = G_n$. We shall use the following Lemma to continue.
+
+\noindent \textbf{Lemma 1.}\\
+If $G_k = G_{k + d}, G_{k+1} = G_{k+1+d}$ then $G_{k-1} = G_{k-1+d}$ and $G_{k+2} = G_{k+2+d}$.
+
+\noindent \emph{Proof of Lemma 1.}\\
+We have $G_{k-1} = F_{k - 1} \bmod m = F_{k+1} \bmod m - F_{k} \bmod m = G_{k+1} - G_k = G_{k+1+d} - G_{k+d} = F_{k+1+d} \bmod m - F_{k + d} \bmod m = F_{k-1+d} \bmod m = G_{k-1+d}$
+and $G_{k+2} = F_{k+2} \bmod m = F_{k} \bmod m + F_{k+1} \bmod m = G_k + G_{k+1} = G_{k + d} + G_{k+1+d} = G_{k+2+d}$ as required. \qed
+
+\noindent\emph{Back to main proof.}\\
+Use Lemma 1 to perform mathematical induction from $i$ downwards, so that $G_n = G_{n+d}$ for all $n \leq i$, then perform mathematical induction from $i$ upwards, so that $G_n = G_{n+d}$ for all $n \geq i$. It then follows that $G_n = G_{n+d}$ for all $n \in \bbn_0$. Hence $(G_n)$ has period $d \leq m^2-1$. \qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.45}
+
+\noindent
+(\done) 01.45 Question. \\
+Find the quotients of all Fibonacci-type geometric progressions. \textit{Hint.} There are two such ratios; one of them is the golden ratio.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+Let $(a_n = aq^n)_{n \in \bbn_0}$ be a geometric progression for some $a \in \bbr$. If it is Fibonacci-type then for all $n \in \bbn_0$ we have \begin{equation*}
+a_{n + 2} = a_n + a_{n+1}
+\end{equation*}
+This implies \begin{equation*}
+aq^{n+2} = aq^n + aq^{n+1}
+\end{equation*}
+The trivial sequence of all zeros would admit any number as a quotient. Let us, then, only consider non-trivial sequences, hence with $a, q \neq 0$. Then the above equation implies \begin{equation*}
+q^2 - q - 1 = 0
+\end{equation*}
+which has roots $\frac{1 + \sqrt{5}}{2}$ (golden ratio) and $\frac{1 - \sqrt{5}}{2}$.
+
+In conclusion, the valid quotients are $\frac{1 + \sqrt{5}}{2}$ and $\frac{1 - \sqrt{5}}{2}$. \qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.54}
+
+\noindent
+(\done) 01.54 Question. \\
+Find two bounded sequences, $(a_n)$ and $(b_n)$ such that $\limsup (a_n + b_n) < \limsup a_n + \limsup b_n$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+Consider $(a_n) = (1, 0, 1, 0, \ldots)$ the $\{0, 1\}$-alternating sequence that starts with 1, and $(b_n) = (0, 1, 0, 1, \ldots)$ the $\{0, 1\}$-alternating sequence that starts with 0. Then $\limsup a_n = \limsup b_n = 1$ and $\limsup a_n + b_n = 1$.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problm 01.62}
+
+\noindent
+(\done) 01.62 Question. \\
+Prove that there exist real numbers $a, b$ such that $\binom{n}{5} \sim a \cdot n^b$. Find $a, b$. Make your proof elegant.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+\begin{equation*}
+    \binom{n}{5} = \frac{n(n-1)(n-2)(n-3)(n-4)}{5!}
+\end{equation*}
+is a degree 5 polynomial in $n$ with leading term $\frac{n^5}{5!} = \frac{n^5}{120}$ so it is asymptotically equal to $a \cdot n^b$ where $a = \frac{1}{120}$ and $b = 5$.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+
+\newpage
+\Large
+\lhead{Problem 01.68}
+
+\noindent
+(\done) 01.68 Question. \\
+Prove $\sqrt{n^2 + 1} -n \sim 1/(2n)$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+We have 
+\begin{align*}
+    \sqrt{n^2 + 1} - n &= \frac{n^2 + 1 - n^2}{\sqrt{n^2 + 1} + n} \\
+    &= \frac{1}{\sqrt{n^2 + 1} + n}
+\end{align*}
+and
+\begin{equation*}
+\lim_{n \to \infty} \frac{1/(\sqrt{n^2 + 1} + n)}{1/(2n)} = \lim_{n \to \infty} \frac{2n}{\sqrt{n^2 + 1} + n} = 1
+\end{equation*}
+so $\sqrt{n^2 + 1} - n \sim 1/(2n)$ as required.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.71}
+\noindent
+(\done) 01.71 Question. \\
+If $f$ is a function, differentiable at zero, $f(0) = 0$, and $f'(0) \neq 0$, then $f(1/n) \sim f'(0)/n$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+$f$ is differentiable at 0 so we can expand:
+\begin{equation*}
+f(x) = f(0) + f'(0)x + o(\abs{x}) = f'(0)x + R(x)
+\end{equation*}
+where $\lim_{x \to 0} \frac{R(x)}{\abs{x}} = 0$.
+
+It then follows that \begin{equation*}
+\lim_{n \to \infty} \frac{f(1/n)}{f'(0)/n} = \lim_{n \to \infty} \frac{f'(0)/n + R(1/n)}{f'(0)/n} = 1 + \lim_{n \to \infty} \frac{R(1/n)}{f'(0)/n} = 1
+\end{equation*}
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.77}
+
+\noindent
+(\done) 01.77 Question. \\
+Prove that there exist numbers $a, b, c$ such that $\binom{2n}{n} \sim an^bc^n$. Find $a, b, c$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None
+
+\medskip\noindent
+\emph{Proof.}\\
+Using Stirling's Formula, we have
+\begin{align*}
+    \binom{2n}{n} &= \frac{(2n)!}{n!n!} \\
+    &\sim \sqrt{2\pi(2n)} \left(\frac{2n}{e}\right)^{2n} \left(\sqrt{2\pi n}\left(\frac{n}{e}\right)^n\right)^{-2} \\
+    &= \frac{1}{\sqrt{n}}n^{-1/2}4^{n}
+\end{align*}
+so $a = \frac{1}{\sqrt{\pi}}, b = -1/2, c = 4$.
+\hfill $\Box$
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+
+
+
+
+\newpage
+\Large
+\lhead{Problem 01.87 (a)}
+
+\noindent
+(\done) 01.87(a) Question. \\
+Assume $a_n, b_n > 1$. Consider the following statements:\\
+(A) $a_n \sim b_n$\\
+(B) $\ln a_n \sim \ln b_n$\\
+Prove (A) does not imply (B).
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+Consider $(a_n = e^{2/n})$ and $(b_n = e^{1/n})$ then we have \begin{equation*}
+\lim_{n \to \infty} \frac{a_n}{b_n} = \lim_{n \to \infty} \frac{e^{2/n}}{e^{1/n}} = \lim_{n \to \infty} e^{1/n} = 1
+\end{equation*}
+so $a_n \sim b_n$ but \begin{equation*}
+\lim_{n \to \infty} \frac{\ln a_n}{\ln b_n} = \lim_{n \to \infty} \frac{2/n}{1/n} = 2
+\end{equation*}
+so $\ln a_n \not \sim \ln b_n$.
+
+It then follows that (A) does not imply (B).
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.87(b)}
+
+
+
+\noindent
+(\done) 01.87(b) Question. \\
+Prove (A) does imply (B) under the stronger assumption that $a_n \geq 1.01$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+We have $a_n \geq 1.01 \implies \ln a_n \geq \ln 1.01 \eqqcolon C > 0$.
+
+Let us investigate if the following limit exists:
+\begin{equation*}
+\lim_{n \to \infty} \frac{\ln(b_n/a_n)}{\ln a_n}
+\end{equation*}
+
+Indeed,
+\begin{equation*}
+    \abs*{\frac{\ln(b_n / a_n)}{\ln(a_n)}} = \frac{\abs{\ln(b_n / a_n)}}{\ln a_n} \leq \frac{\abs{\ln(b_n/a_n)}}{C} \cvgn 0 
+\end{equation*}
+since $\lim_{n \to \infty} \frac{b_n}{a_n} = 1$.
+
+It then follows by Squeeze Theorem that \begin{equation*}
+\lim_{n \to \infty} \frac{\ln(b_n / a_n)}{\ln a_n} = 0
+\end{equation*}
+so
+\begin{equation*}
+    \lim_{n \to \infty} \frac{\ln b_n}{\ln a_n} = \lim_{n \to \infty} \frac{\ln a_n + \ln (b_n /a_n)}{\ln a_n} = 1 + \lim_{n \to \infty} \frac{\ln(b_n /a_n)}{\ln a_n} = 1
+    \end{equation*}
+hence $\ln b_n \sim \ln a_n$ as required.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.92}
+
+\noindent
+(\done) 01.92 Question. \\
+Prove that for all $n \geq 1$, we have $n! > \left(\frac{n}{e}\right)^n$. Use the power series expansion of $e^x$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+We have for $x \geq 1$, \begin{equation*}
+e^x = \sum_{n = 0}^{\infty} \frac{1}{n!}x^n >\frac{x^n}{n!}
+\end{equation*}
+In particular, this holds for $x = n$, which implies \begin{equation*}
+e^n > \frac{n^n}{n!} \implies n! > \left(\frac{n}{e}\right)^n
+\end{equation*}
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+
+\newpage
+\Large
+\lhead{Problem 01.101}
+
+\noindent
+(\done) 01.101 Question. \\
+Prove $\ln (n!) \sim n \ln n$ without using Stirling's formula, using ASY 6.8 instead.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+Using ASY 6.8, we have
+\begin{equation*}
+n^n > n! > \left(\frac{n}{e}\right)^n
+\end{equation*}
+which implies
+\begin{equation*}
+n \ln n > \ln n! > n (\ln n - 1)
+\end{equation*}
+which implies
+\begin{equation*}
+1 + \frac{n}{\ln n!} > \frac{n \ln n}{\ln n!} > 1
+\end{equation*}
+
+For $n$ large we have $1 + \frac{n}{ \ln n!} = 1 + \frac{1}{\ln (n-1)!}$ so it converges to 1 as $n$ tends to $\infty$. By Squeeze Theorem, it follows that $\lim_{n \to \infty} \frac{n \ln n}{\ln n!} = 1$ so $n \ln n \sim \ln n!$ as required.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.151}
+
+\noindent
+(\done) 01.151 Question. \\
+Prove that the bound in the Eventown Theorem is tight, i.e., $m = 2^{\floor{n/2}}$ is achievable for all $n$.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+Denote the members as $\Omega = \{0, \ldots, n-1\}$. Let us pair up members $(2i, 2i+1)$ for $0 \leq i \leq \floor{n/2} -1$ so we have $\floor{n/2}$ pairs.
+
+We claim that the system that consist of all subsets of the set of pairs (which contains $2^{\floor{n/2}}$ clubs) is an Eventown system.
+
+Indeed, the intersection between each pair of clubs is even since they intersect at some whole number of pairs, which pack an even number of members.
+
+Hence $m = 2^{\floor{n/2}}$ is achievable for all $n$.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+\newpage
+\Large
+\lhead{Problem 01.164}
+
+\noindent
+(\done) 01.164 Question. \\
+For every $n \in \bbn$ determine the minimum number of clubs in a maximal Oddtown system.
+
+\medskip\noindent
+\emph{Sources and collaborations.}\\
+None.
+
+\medskip\noindent
+\emph{Proof.}\\
+If $n$ is odd, then the system that only has 1 club, namely the club that contains everyone, is a maximal system. Because if any other club is added, it would intersect with this club in its entirety, i.e., with an odd number of members, so not even.
+
+If $n$ is even, then the system that has 2 clubs, club 1 consisting of everyone except for person $1$ and club 2 consisting only of person $1$, is a maximal system. Because if a new club wants to be added, then if it contains person 1, its intersection with club 2 would be odd, hence invalid. It then has to exclude person 1 and is therefore contained in club 1 and we run into the same problem as above.
+
+So the answer is 1 for odd $n$ and 2 for even $n$.
+\qed
+
+\bigskip\hrule
+
+\vspace{0.5cm}
+
+
+
+
+
+\end{document}
